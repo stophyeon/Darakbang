@@ -1,16 +1,27 @@
 package org.example.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.dto.MemberDto;
+import org.example.dto.ResponseCustom;
+import org.example.service.MemberService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Controller
 @RequestMapping("/member")
 public class MemberController {
-    @GetMapping("/")
-    public String home(){
-        return "home";
+    private final MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<ResponseCustom> signup(@RequestBody MemberDto memberDto){
+        return ResponseEntity.ok(memberService.join(memberDto));
+    }
+    @PostMapping("/follow")
+    public String follow(@RequestBody MemberDto memberDto){
+
+        return "로그인";
     }
 }
