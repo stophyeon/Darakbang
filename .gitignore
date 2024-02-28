@@ -31,7 +31,9 @@ yarn-error.log*
 # vercel
 .vercel
 
-Desktop/mylocal
+# Ignore package.json and package-lock.json
+package.json
+package-lock.json
 
 # typescript
 *.tsbuildinfo

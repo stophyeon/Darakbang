@@ -4,37 +4,7 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 300px;
-  margin: 0 auto;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-  font-size: 14px;
-`;
-
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
-
-
-const SignupForm = () => {
+export default function SignupForm() {
   const [isClient, setIsClient] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -120,7 +90,7 @@ const SignupForm = () => {
 
     if (response.ok) {
       // 회원가입 성공 시 메인 페이지로 리다이렉션
-      window.location.href = "/";
+      window.location.href = "/login";
     } else {
       throw new Error(data.message || "Something went wrong!");
     }
@@ -184,4 +154,33 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+  margin-top: 50px;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+`;
+
+const Button = styled.button`
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
