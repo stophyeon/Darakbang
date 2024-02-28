@@ -19,7 +19,7 @@ public class Oauth2Controller {
     }
 
     @GetMapping("/info")
-    public String MemberInfo() throws ParseException {
+    public String MemberInfo() throws ParseException, JsonProcessingException {
         return kakaoService.getInfo().getNickName();
     }
 }
