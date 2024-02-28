@@ -4,13 +4,13 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function SignupForm() {
+export default function SignupForm(){
   const [isClient, setIsClient] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [birthday, setselectedDate] = useState(null);
-  const [phone_number, setPhoneNumber] = useState("");
+  const [birth, setselectedDate] = useState(null);
+  const [phone_num, setPhoneNumber] = useState("");
   const [name, setName] = useState("");
   const [nick_name, setNickname] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -77,8 +77,8 @@ export default function SignupForm() {
       body: JSON.stringify({
         email,
         password,
-        birthday,
-        phone_number,
+        birth,
+        phone_num,
         name,
         nick_name,
       }),
@@ -128,7 +128,7 @@ export default function SignupForm() {
           />
           {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
           <DatePicker
-            selected={birthday}
+            selected={birth}
             onChange={(date) => setselectedDate(date)}
             dateFormat="yyyy년 MM월 dd일"
             scrollableYearDropdown
@@ -136,7 +136,7 @@ export default function SignupForm() {
           />
           <Input
             type="string"
-            value={phone_number}
+            value={phone_num}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="전화번호"
           />
