@@ -69,7 +69,7 @@ export default function SignupForm(){
     }
 
     // 회원가입 API 요청 보내기
-    const response = await fetch("http://localhost:8080/member/signup", {
+    const response = await fetch('http://localhost:8080/member/signup', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,6 @@ export default function SignupForm(){
         nick_name,
       }),
     });
-
    
     const data = await response.json();
     console.log(data); 

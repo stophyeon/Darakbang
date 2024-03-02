@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import styled from "styled-components";
@@ -7,12 +7,14 @@ import styled from "styled-components";
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [memberInfo, setMemberInfo] = useState(null);
     const router = useRouter();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch("http://localhost:8080/members/login", {
+
+            const response = await fetch('http://localhost:8080/members/login', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -36,6 +38,27 @@ export default function LoginForm() {
     const handleSignup = () => {
         router.push("/signup"); // 회원가입 페이지로 이동
     };
+
+    const handleKakaoLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/kakao';
+      };
+      
+      const handleNaverLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/naver';
+      };
+      const saveTokenToLocalStorage = (accessToken) => {
+        localStorage.setItem("accessToken", accessToken);
+      };
+
+      useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const accessToken = urlParams.get("accessToken");
+      
+        if (accessToken) {
+          saveTokenToLocalStorage(accessToken);
+          router.push("/");
+        }
+      }, []);
 
     return (
         <FormContainer onSubmit={handleSubmit}>
@@ -62,6 +85,12 @@ export default function LoginForm() {
             <SignupButton type="button" onClick={handleSignup}>
                 회원가입
             </SignupButton>
+            <Button type="button" onClick={handleKakaoLogin}>
+                카카오톡 계정으로 로그인하기
+            </Button>
+            <Button type="button" onClick={handleNaverLogin}>
+                네이버 계정으로 로그인하기
+            </Button>
         </FormContainer>
     );
 }

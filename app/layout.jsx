@@ -1,5 +1,6 @@
 import StyledComponentsRegistry from "../lib/registry";
-import StyledMainHeader from "@/components/layout/Header";
+import StyledMainHeader from "../components/layout/Header";
+import Providers from "./providers";
 
 
 export const metadata = {
@@ -11,10 +12,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Providers>
         <StyledComponentsRegistry>
           <StyledMainHeader />
           {children}
         </StyledComponentsRegistry>
+        </Providers>
       </body>
     </html>
   );
