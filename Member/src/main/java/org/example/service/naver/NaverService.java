@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NaverService {
     private final NaverFeign naverFeign;
+    private final NaverApi naverApi;
     private final String client_id="3OGCudku4yOAQaRE_ou3";
     private final String redirect_uri="http%3a%2f%2flocalhost%3a8080%2foauth2%2fnaver";
     //url 인코딩 값
@@ -28,5 +29,11 @@ public class NaverService {
         log.info(naverToken.getAccessToken());
         return naverToken.toString();
     }
+    public String deleteToken(){
+        return naverFeign.delToken(client_id,client_secret,"delete", naverToken.getAccessToken());
+    }
+    public String getUserInfo() throws JsonProcessingException {
 
+        return naverApi.UserInfo("Bearer "+naverToken.getAccessToken());
+    }
 }

@@ -3,6 +3,7 @@ package org.example.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.parser.ParseException;
+import org.example.service.kakao.KakaoFeign;
 import org.example.service.kakao.KakaoService;
 import org.example.service.naver.NaverService;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class Oauth2Controller {
     private final KakaoService kakaoService;
     private final NaverService naverService;
+    private final KakaoFeign kakaoFeign;
     @GetMapping("/oauth2/kakao")
     public String kakaoToken(@RequestParam("code") String code) throws JsonProcessingException {
         return kakaoService.getToken(code);
@@ -19,7 +21,7 @@ public class Oauth2Controller {
 
     @GetMapping("/kakao/info")
     public String KakaoMemberInfo() throws ParseException, JsonProcessingException {
-        return kakaoService.getInfo().getNickName();
+        return kakaoService.getInfo();
     }
     @GetMapping("oauth2/naver")
     public String naverToken(@RequestParam("code") String code) throws JsonProcessingException {
@@ -27,6 +29,11 @@ public class Oauth2Controller {
     }
     @GetMapping("/naver/info")
     public String NaverMemberInfo() throws ParseException, JsonProcessingException {
-        return kakaoService.getInfo().getNickName();
+        return naverService.getUserInfo();
     }
+    @GetMapping("/naver/logout")
+    public String NaberLogout(){
+        return naverService.deleteToken();
+    }
+
 }

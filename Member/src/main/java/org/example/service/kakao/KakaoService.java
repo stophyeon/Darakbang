@@ -4,11 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import org.example.dto.MemberDto;
-import org.example.entity.Member;
 import org.example.jwt.KakaoToken;
 import org.example.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -34,22 +30,11 @@ public class KakaoService {
         kakaoToken=objectMapper.readValue(kakaoFeign.getAccessToken(Content_type,grant_type,client_id,login_redirect,code), KakaoToken.class);
         return kakaoToken.toString();
     }
-    public Member getInfo() throws ParseException, JsonProcessingException {
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(kakaoApi.getUSerInfo("Bearer "+kakaoToken.getAccessToken()));
-        JSONObject properties = (JSONObject) jsonObject.get("properties");
-        log.info(jsonObject.toString());
-        log.info(properties.toString());
-        JSONObject account = (JSONObject) jsonObject.get("kakao_account");
-        log.info(account.toString());
-        MemberDto memberDto = MemberDto.builder()
-                .email(account.get("email").toString())
-                .nickName(properties.get("nickname").toString())
-                .build();
-        Member member=Member.builder()
-                .memberDto(memberDto)
-                .build();
-        if (memberRepository.findByEmail(member.getEmail()).isEmpty()){memberRepository.save(member);}
-        return member;
+    public String getInfo() throws ParseException, JsonProcessingException {
+
+        return kakaoApi.getUSerInfo("Bearer "+kakaoToken.getAccessToken());
+    }
+    public String kakaoLogout(){
+        return kakaoFeign.logOut(client_id,logout_redirect);
     }
 }
