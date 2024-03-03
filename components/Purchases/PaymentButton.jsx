@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as PortOne from "../../node_modules/@portone/browser-sdk/dist/v2";
 
 export default function PaymentButton() {
@@ -31,7 +31,7 @@ export default function PaymentButton() {
       body: JSON.stringify({
         paymentId: response.paymentId,
         totalAmount: totalAmount,
-        useremail:'test1@example.com',
+        useremail:'test1@example.com', // useremail or nickname으로 변경 필요
         pointname: orderName,
       }),
     });
@@ -39,10 +39,6 @@ export default function PaymentButton() {
     const validationData = await validation.json();
 
   };
-
-  useEffect(() => {
-    // 여기에 원하는 동작을 추가
-  }, []);
 
   return (
     <>

@@ -39,7 +39,7 @@ export default function MainNavigation() {
                     )}
                     {accessToken && (
                         <NavItem>
-                            <Link href="/profile" passHref>
+                            <Link href="/" passHref>
                                 <NavLink>프로필</NavLink>
                             </Link>
                         </NavItem>
