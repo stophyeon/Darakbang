@@ -1,10 +1,9 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.example.dto.MemberDto;
 import org.example.dto.ResponseCustom;
 import org.example.jwt.JwtDto;
-import org.example.service.KakaoService;
+import org.example.service.kakao.KakaoService;
 import org.example.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
