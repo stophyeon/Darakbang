@@ -1,10 +1,22 @@
 "use client";
+import { useRouter } from "next/navigation";
+
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function SignupForm(){
+import { useMutation } from "@tanstack/react-query";
+import { createNewEvent } from "../util/http";
+
+
+export default function SignupForm() {
+  const router = useRouter();
+  // 회원가입 API 요청 보내기
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: createNewEvent,
+  });
+
   const [isClient, setIsClient] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +47,7 @@ export default function SignupForm(){
       setNameError("이름을 입력해주세요.");
       return;
     } else {
-      setNameError(""); 
+      setNameError("");
     }
 
     if (email === "") {
@@ -49,10 +61,10 @@ export default function SignupForm(){
       setnicknameError("닉네임을 입력해주세요.");
       return;
     } else {
-      setnicknameError(""); 
+      setnicknameError("");
     }
 
-    
+
     if (!validatePassword(password)) {
       setPasswordError(
         "비밀번호는 영문, 숫자, 특수 기호를 각각 하나 이상 포함해야 합니다."
@@ -62,37 +74,22 @@ export default function SignupForm(){
       setPasswordError("");
     }
 
-    
+
     if (password !== confirmPassword) {
       setPasswordError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    // 회원가입 API 요청 보내기
-    const response = await fetch('http://localhost:8080/member/signup', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        birth,
-        phone_num,
-        name,
-        nick_name,
-      }),
-    });
-   
-    const data = await response.json();
-    console.log(data); 
-
-    if (response.ok) {
-      // 회원가입 성공 시 메인 페이지로 리다이렉션
-      window.location.href = "/login";
-    } else {
-      throw new Error(data.message || "Something went wrong!");
-    }
+    const formData = {
+      birth,
+      email,
+      name,
+      nick_name,
+      password,
+      phone_num,
+    };
+    console.log('456456 formdata: ', formData);
+    mutate(formData);
   };
 
   return (
@@ -146,7 +143,10 @@ export default function SignupForm(){
             placeholder="닉네임"
           />
           {nicknameError && <ErrorMessage>{nicknameError}</ErrorMessage>}
-          <Button type="submit">회원가입</Button>
+          <Button type="submit">
+             회원가입
+          </Button>
+
         </Form>
       )}
     </>
