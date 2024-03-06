@@ -93,7 +93,11 @@ public class JwtProvider {
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
+        log.info(authorities.toString());
+        if (authorities.isEmpty()){
+            log.info("권한이 null");
 
+        }
         // UserDetails 객체를 만들어서 Authentication 리턴
         MemberDetails principal = memberDetailService.loadUserByUsername(claims.getSubject());
 

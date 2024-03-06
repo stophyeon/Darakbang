@@ -3,6 +3,7 @@ package org.example.config;
 import org.example.jwt.JwtAuthenticationFilter;
 import org.example.jwt.JwtProvider;
 import org.example.service.MemberDetailService;
+import org.example.service.OAuth2Service;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -26,10 +27,11 @@ import java.util.List;
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final MemberDetailService memberDetailService;
-
-    public SecurityConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService) {
+    private final OAuth2Service oAuth2Service;
+    public SecurityConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, OAuth2Service oAuth2Service) {
         this.jwtProvider = jwtProvider;
         this.memberDetailService = memberDetailService;
+        this.oAuth2Service = oAuth2Service;
     }
 
     @Bean

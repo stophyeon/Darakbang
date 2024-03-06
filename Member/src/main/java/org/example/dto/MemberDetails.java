@@ -6,18 +6,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+
+
 @Data
 public class MemberDetails implements UserDetails {
     private String email;
     private String password;
+    private List<GrantedAuthority> authorities;
     @Builder
-    public MemberDetails(String email,String password){
+    public MemberDetails(String email,String password,List<GrantedAuthority> authorities){
         this.email=email;
         this.password=password;
+        this.authorities=authorities;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
     }
 
     @Override
