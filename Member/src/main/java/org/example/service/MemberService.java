@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -53,16 +54,19 @@ public class MemberService {
         Authentication auth = authenticationProvider.authenticate(token);
         return jwtProvider.createToken(auth);
     }
-    public List<Member> getOne(){
-        return memberRepository.findAll();
-    }
-    public int getPoint(String email, int point){
-
-        if (memberRepository.findByEmail(email).isPresent()){
-            Member member=memberRepository.findByEmail(email).get();
-            return member.getPoint()+point;
+    public Member Myprofile(String email){
+        try {
+            return memberRepository.findByEmail(email).get();
+        }catch (NullPointerException e){
+            return new Member();
         }
-        return 0;
+    }
+
+    public void getPoint(String email, int point){
+        Optional<Member> member = memberRepository.findByEmail(email);
+        memberRepository.changepoint(member.get(),point);
+
+
     }
 
 

@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.dto.MemberDto;
+import org.example.dto.PointRequest;
 import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
@@ -34,13 +35,14 @@ public class MemberController {
         return ResponseEntity.ok(jwtDto);
     }
     @GetMapping("/info")
-    public List<String> info(){
-        return memberService.getOne().stream().map(Member::getEmail).collect(Collectors.toList());
+    public Member info(){
+        return memberService.Myprofile(SecurityContextHolder.getContext().getAuthentication().getName());
 
     }
     @PostMapping("/point")
-    public int changePoint(@RequestBody int point, @RequestBody String email){
-        return memberService.getPoint(email,point);
+    public String changePoint(@RequestBody PointRequest point){
+        memberService.getPoint(point.getEmail(), point.getPoint());
+        return point.getPoint()+" 충전 완료됐습니다.";
     }
     //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=b9759cba8e0cdd5bcdb9d601f5a10ac1&redirect_uri=http://localhost:8080/oauth2/kakao
 }
