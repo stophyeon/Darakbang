@@ -25,14 +25,14 @@ public class KakaoService {
     private final String login_redirect ="http://localhost:8080/oauth2/kakao";
     private final String logout_redirect ="http://localhost:8080";
     private KakaoToken kakaoToken;
-    public String getToken(String code) throws JsonProcessingException {
+    public KakaoToken getToken(String code) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         kakaoToken=objectMapper.readValue(kakaoFeign.getAccessToken(Content_type,grant_type,client_id,login_redirect,code), KakaoToken.class);
-        return kakaoToken.toString();
+        log.info(kakaoToken.toString());
+        return kakaoToken;
     }
-    public String getInfo() throws ParseException, JsonProcessingException {
-
-        return kakaoApi.getUSerInfo("Bearer "+kakaoToken.getAccessToken());
+    public String getKakaoInfo(String code) throws ParseException, JsonProcessingException {
+        return kakaoApi.getUSerInfo("Bearer "+getToken(code).getAccessToken());
     }
     public String kakaoLogout(){
         return kakaoFeign.logOut(client_id,logout_redirect);

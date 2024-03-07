@@ -23,8 +23,7 @@ public class MemberDto {
 
     @JsonProperty("phone_num")
     private String phoneNumber;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    private Date birth;
+    private String image;
 
     @JsonProperty("nick_name")
     private String nickName;

@@ -23,17 +23,17 @@ public class NaverService {
     //3) 삭제: 'delete'
     private final String state="1234";
     private NaverToken naverToken;
-    public String getAccessToken(String code) throws JsonProcessingException {
+    public NaverToken getAccessToken(String code) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         naverToken=objectMapper.readValue(naverFeign.getToken(client_id,client_secret,grant_type,code), NaverToken.class);
         log.info(naverToken.getAccessToken());
-        return naverToken.toString();
+        return naverToken;
     }
     public String deleteToken(){
         return naverFeign.delToken(client_id,client_secret,"delete", naverToken.getAccessToken());
     }
-    public String getUserInfo() throws JsonProcessingException {
+    public String getNaverInfo(String code) throws JsonProcessingException {
 
-        return naverApi.UserInfo("Bearer "+naverToken.getAccessToken());
+        return naverApi.UserInfo("Bearer "+getAccessToken(code).getAccessToken());
     }
 }

@@ -35,8 +35,8 @@ public class MemberController {
         return ResponseEntity.ok(jwtDto);
     }
     @GetMapping("/info")
-    public Member info(){
-        return memberService.Myprofile(SecurityContextHolder.getContext().getAuthentication().getName());
+    public String info(){
+        return memberService.Myprofile(SecurityContextHolder.getContext().getAuthentication().getName()).getEmail();
 
     }
     @PostMapping("/point")

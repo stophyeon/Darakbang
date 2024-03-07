@@ -6,34 +6,27 @@ import net.minidev.json.parser.ParseException;
 import org.example.service.kakao.KakaoFeign;
 import org.example.service.kakao.KakaoService;
 import org.example.service.naver.NaverService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/oauth/authorization")
 public class Oauth2Controller {
     private final KakaoService kakaoService;
     private final NaverService naverService;
     private final KakaoFeign kakaoFeign;
-    @GetMapping("/oauth2/kakao")
-    public String kakaoToken(@RequestParam("code") String code) throws JsonProcessingException {
-        return kakaoService.getToken(code);
-    }
+    //@GetMapping("/kakao")
+//    public ResponseEntity<String> kakaoToken(@RequestParam("code") String code) throws JsonProcessingException, ParseException {
+//        return ResponseEntity.ok(kakaoService.getKakaoInfo(code));
+//    }
 
-    @GetMapping("/kakao/info")
-    public String KakaoMemberInfo() throws ParseException, JsonProcessingException {
-        return kakaoService.getInfo();
-    }
-    @GetMapping("oauth2/naver")
-    public String naverToken(@RequestParam("code") String code) throws JsonProcessingException {
-        return naverService.getAccessToken(code);
-    }
-    @GetMapping("/naver/info")
-    public String NaverMemberInfo() throws ParseException, JsonProcessingException {
-        return naverService.getUserInfo();
-    }
-    @GetMapping("/naver/logout")
-    public String NaberLogout(){
-        return naverService.deleteToken();
-    }
+
+    //@GetMapping("/naver")
+    //public ResponseEntity<String> naverToken(@RequestParam("code") String code) throws JsonProcessingException {
+    //    return ResponseEntity.ok(naverService.getNaverInfo(code));
+   // }
+
+
 
 }

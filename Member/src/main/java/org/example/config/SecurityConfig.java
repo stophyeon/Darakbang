@@ -58,6 +58,9 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                    .oauth2Login(oauth-> oauth
+                            .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                    .userService(oAuth2Service)))
                 .build();
     }
     @Bean
