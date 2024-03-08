@@ -17,7 +17,7 @@ spring:
           naver:
             client-id: 3OGCudku4yOAQaRE_ou3   # REST API 키
             client-secret: gVeTyZ76l7
-            redirect-uri: "http%3a%2f%2flocalhost%3a8080%2flogin%2foauth2%2fcode%2fnaver"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/naver"
             authorization-grant-type: authorization_code
             scope: name, email, profile_image, phone_number  # 동의 항목
             client-name: Naver

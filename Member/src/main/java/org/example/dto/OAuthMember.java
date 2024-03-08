@@ -8,5 +8,7 @@ public class OAuthMember {
     private String email;
     private String provider;
     private String nickname;
+    private String profile_image;
+    private String phone_number;
 
 }

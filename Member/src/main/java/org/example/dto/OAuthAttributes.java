@@ -11,6 +11,8 @@ public enum OAuthAttributes {
         OAuthMember memberProfile = new OAuthMember();
         memberProfile.setName((String) response.get("name"));
         memberProfile.setEmail(((String) response.get("email")));
+        memberProfile.setProfile_image((String)response.get("profile_image"));
+        memberProfile.setPhone_number((String)response.get("mobile"));
         return memberProfile;
     }),
 
@@ -23,6 +25,7 @@ public enum OAuthAttributes {
         OAuthMember memberProfile = new OAuthMember();
         memberProfile.setName((String) kakaoProfile.get("nickname"));
         memberProfile.setEmail((String) kakaoAccount.get("email"));
+        memberProfile.setProfile_image((String) kakaoProfile.get("profile_image_url"));
         return memberProfile;
     });
     private final String registrationId;

@@ -30,7 +30,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest,OAuth2
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-        //Request에서 사용자 정보를 추출
+
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
         log.info(oAuth2User.getName());
@@ -39,21 +39,20 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest,OAuth2
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-
         Map<String, Object> attrs = oAuth2User.getAttributes();
 
-        log.info(attrs.get("properties").toString());
         OAuthMember oAuthMember = OAuthAttributes.extract(registrationId, attrs);
+
         oAuthMember.setProvider(registrationId);
 
-        Member member = saveOrUpdate(attrs);
         Map<String, Object> customAttribute = customAttribute(attrs, userNameAttributeName, oAuthMember, registrationId);
+        log.info(customAttribute.toString());
+
+        Member member = saveOrUpdate(customAttribute);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 customAttribute,
                 userNameAttributeName);
-
-
     }
     private Map<String, Object> customAttribute(Map<String, Object> attributes, String userNameAttributeName, OAuthMember oAuthMember, String registrationId) {
         Map<String, Object> customAttribute = new LinkedHashMap<>();
@@ -61,36 +60,21 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest,OAuth2
         customAttribute.put("provider", registrationId);
         customAttribute.put("name", oAuthMember.getName());
         customAttribute.put("email", oAuthMember.getEmail());
+        customAttribute.put("image",oAuthMember.getProfile_image());
         return customAttribute;
 
     }
-    private Member saveOrUpdate(Map<String,Object> attrs){
-        KakaoUser kakaoUser = extractInfo(attrs);
-        Optional<Member> m = memberRepository.findByEmail(kakaoUser.getEmail());
+    private Member saveOrUpdate(Map<String, Object> customAttribute){
+        Optional<Member> m = memberRepository.findByEmail(customAttribute.get("email").toString());
         MemberDto memberDto = new MemberDto();
-        if(m.isEmpty()){
-            memberDto.setEmail(kakaoUser.getEmail());
+        if(m.isEmpty()) {
+            memberDto.setEmail(customAttribute.get("email").toString());
         }
-        memberDto.setNickName(kakaoUser.getNickName());
-        memberDto.setImage(kakaoUser.getImage());
+        memberDto.setNickName(customAttribute.get("name").toString());
+        memberDto.setImage(customAttribute.get("image").toString());
         Member member = Member.builder()
                 .memberDto(memberDto)
                 .build();
         return memberRepository.save(member);
-
     }
-    public KakaoUser extractInfo(Map<String,Object> attrs){
-        KakaoUser kakaoUser = new KakaoUser();
-        Object properties = attrs.get("properties");
-        Object account = attrs.get("kakao_account");
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String,Object> eProperties=objectMapper.convertValue(properties, Map.class);
-        Map<String,Object> eAccount=objectMapper.convertValue(account, Map.class);
-        kakaoUser.setNickName(eProperties.get("nickname").toString());
-        kakaoUser.setImage(eProperties.get("profile_image").toString());
-        kakaoUser.setEmail(eAccount.get("email").toString());
-        return kakaoUser;
-    }
-
-
 }
