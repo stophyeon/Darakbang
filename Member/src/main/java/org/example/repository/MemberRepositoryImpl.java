@@ -37,4 +37,15 @@ public class MemberRepositoryImpl implements MemberQueryRepository{
 
 
     }
+
+    @Override
+    @Transactional
+    public void updateInfo(Member member) {
+        QMember qMember = QMember.member;
+        query.update(qMember)
+                .set(qMember.name, member.getName())
+                .set(qMember.image, member.getImage())
+                .where(qMember.email.eq(member.getEmail())).execute();
+    }
+
 }

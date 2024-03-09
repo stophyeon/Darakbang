@@ -1,10 +1,8 @@
 package org.example.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.KakaoUser;
 import org.example.dto.MemberDto;
 import org.example.dto.OAuthAttributes;
 import org.example.dto.OAuthMember;
@@ -48,7 +46,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest,OAuth2
         Map<String, Object> customAttribute = customAttribute(attrs, userNameAttributeName, oAuthMember, registrationId);
         log.info(customAttribute.toString());
 
-        Member member = saveOrUpdate(customAttribute);
+
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 customAttribute,
@@ -64,17 +62,16 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest,OAuth2
         return customAttribute;
 
     }
-    private Member saveOrUpdate(Map<String, Object> customAttribute){
+    private void saveOrUpdate(Map<String, Object> customAttribute){
         Optional<Member> m = memberRepository.findByEmail(customAttribute.get("email").toString());
         MemberDto memberDto = new MemberDto();
-        if(m.isEmpty()) {
-            memberDto.setEmail(customAttribute.get("email").toString());
-        }
+        memberDto.setEmail(customAttribute.get("email").toString());
         memberDto.setNickName(customAttribute.get("name").toString());
         memberDto.setImage(customAttribute.get("image").toString());
         Member member = Member.builder()
                 .memberDto(memberDto)
                 .build();
-        return memberRepository.save(member);
+        if(m.isEmpty()) {memberRepository.save(member);}
+        memberRepository.updateInfo(member);
     }
 }

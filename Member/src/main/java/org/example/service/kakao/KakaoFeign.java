@@ -16,7 +16,8 @@ public interface KakaoFeign {
                                  @RequestParam("grant_type") String grant,
                                  @RequestParam("client_id") String client,
                                  @RequestParam("redirect_uri") String redirect,
-                                 @RequestParam("code") String code);
+                                 @RequestParam("code") String code,
+                                 @RequestParam("client_secret") String secret);
     //https://kapi.kakao.com/v1/user/logout
     //  -H "Content-Type: application/x-www-form-urlencoded" \
     //  -H "Authorization: Bearer ${ACCESS_TOKEN}"

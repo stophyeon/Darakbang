@@ -8,4 +8,5 @@ public interface MemberQueryRepository {
     List<Member> findFollower(Long user_id);
     List<Member> findFollowing(Long user_id);
     void changepoint(Member members,int point);
+    void updateInfo(Member member);
 }

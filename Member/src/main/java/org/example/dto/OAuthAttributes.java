@@ -1,11 +1,14 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
 public enum OAuthAttributes {
     NAVER("naver", (attributes) -> {
+
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
         System.out.println(response);
         OAuthMember memberProfile = new OAuthMember();

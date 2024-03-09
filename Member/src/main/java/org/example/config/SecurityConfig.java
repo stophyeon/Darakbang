@@ -4,6 +4,7 @@ import org.example.jwt.JwtAuthenticationFilter;
 import org.example.jwt.JwtProvider;
 import org.example.service.MemberDetailService;
 import org.example.service.OAuth2Service;
+import org.example.service.OAuth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,10 +29,12 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final MemberDetailService memberDetailService;
     private final OAuth2Service oAuth2Service;
-    public SecurityConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, OAuth2Service oAuth2Service) {
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    public SecurityConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, OAuth2Service oAuth2Service, OAuth2SuccessHandler oAuth2SuccessHandler) {
         this.jwtProvider = jwtProvider;
         this.memberDetailService = memberDetailService;
         this.oAuth2Service = oAuth2Service;
+        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
     }
 
     @Bean
@@ -58,9 +61,10 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                    .oauth2Login(oauth-> oauth
-                            .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                                    .userService(oAuth2Service)))
+                    //.oauth2Login(oauth-> oauth
+                            //.successHandler(oAuth2SuccessHandler)
+                      //      .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                        //            .userService(oAuth2Service)))
                 .build();
     }
     @Bean
