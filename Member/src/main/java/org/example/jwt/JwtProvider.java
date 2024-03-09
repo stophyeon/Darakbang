@@ -45,7 +45,7 @@ public class JwtProvider {
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())       // payload "sub": "name"
-                .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "MEMBER"
+                .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
                 .setExpiration(accessTokenExpiresIn)        // payload "exp": 만료기간
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"-사용한 암호화 알고리즘
                 .compact();
@@ -93,7 +93,11 @@ public class JwtProvider {
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
+        log.info(authorities.toString());
+        if (authorities.isEmpty()){
+            log.info("권한이 null");
 
+        }
         // UserDetails 객체를 만들어서 Authentication 리턴
         MemberDetails principal = memberDetailService.loadUserByUsername(claims.getSubject());
 

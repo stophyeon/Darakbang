@@ -25,16 +25,18 @@ public class Member {
     private String name;
     private String password;
     private String phoneNumber;
-    private Date birth;
     private String nickName;
+    private int point;
+    private String image;
+    private final String role="ROLE_USER";
     @Builder
     public Member(MemberDto memberDto){
-        this.birth=memberDto.getBirth();
         this.email=memberDto.getEmail();
         this.password= memberDto.getPassword();
         this.nickName= memberDto.getNickName();
         this.phoneNumber= memberDto.getPhoneNumber();
         this.name= memberDto.getName();
+        this.image=memberDto.getImage();
     }
 
 

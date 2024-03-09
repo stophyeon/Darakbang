@@ -23,15 +23,18 @@ public class MemberDto {
 
     @JsonProperty("phone_num")
     private String phoneNumber;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    private Date birth;
+    private String image;
 
     @JsonProperty("nick_name")
     private String nickName;
     @Builder
-    public MemberDto(String email, String nickName){
+    public MemberDto(String email, String nickName,String image, String name,String password,String phoneNumber){
         this.email=email;
         this.nickName=nickName;
+        this.image = image;
+        this.name=name;
+        this.password=password;
+        this.phoneNumber=phoneNumber;
     }
 
 }

@@ -3,37 +3,39 @@ package org.example.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.parser.ParseException;
+import org.example.jwt.JwtDto;
+import org.example.service.MemberService;
 import org.example.service.kakao.KakaoFeign;
 import org.example.service.kakao.KakaoService;
 import org.example.service.naver.NaverService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+
 public class Oauth2Controller {
     private final KakaoService kakaoService;
     private final NaverService naverService;
-    private final KakaoFeign kakaoFeign;
+    private final MemberService memberService;
     @GetMapping("/oauth2/kakao")
-    public String kakaoToken(@RequestParam("code") String code) throws JsonProcessingException {
-        return kakaoService.getToken(code);
+    public JwtDto kakaoToken(@RequestParam("code") String code) throws IOException, ParseException, org.json.simple.parser.ParseException {
+        return kakaoService.GenerateToken(code);
     }
 
-    @GetMapping("/kakao/info")
-    public String KakaoMemberInfo() throws ParseException, JsonProcessingException {
-        return kakaoService.getInfo();
-    }
+
     @GetMapping("oauth2/naver")
-    public String naverToken(@RequestParam("code") String code) throws JsonProcessingException {
-        return naverService.getAccessToken(code);
+    public JwtDto naverToken(@RequestParam("code") String code) throws IOException, ParseException, org.json.simple.parser.ParseException {
+        return naverService.GenerateToken(code);
     }
-    @GetMapping("/naver/info")
-    public String NaverMemberInfo() throws ParseException, JsonProcessingException {
-        return naverService.getUserInfo();
-    }
-    @GetMapping("/naver/logout")
-    public String NaberLogout(){
-        return naverService.deleteToken();
-    }
+
+
+
+
+
+
+
 
 }

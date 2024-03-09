@@ -16,7 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -52,6 +53,20 @@ public class MemberService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberDto.getEmail(),memberDto.getPassword());
         Authentication auth = authenticationProvider.authenticate(token);
         return jwtProvider.createToken(auth);
+    }
+    public Member Myprofile(String email){
+        try {
+            return memberRepository.findByEmail(email).get();
+        }catch (NullPointerException e){
+            return new Member();
+        }
+    }
+
+    public void getPoint(String email, int point){
+        Optional<Member> member = memberRepository.findByEmail(email);
+        memberRepository.changepoint(member.get(),point);
+
+
     }
 
 
