@@ -1,13 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import * as PortOne from "../../node_modules/@portone/browser-sdk/dist/v2";
+import * as PortOne from "@portone/browser-sdk/v2";
 
 export default function PaymentButton() {
   const [totalAmount, setTotalAmount] = useState("");
-  const [userEmail, setUserEmail] = useState("");
   const [orderName, setOrderName] = useState("");
 
   const requestPayment = async () => {
+
+    const token = localStorage.getItem("Authorization");
+    if (!token) {
+      alert("로그인이 필요합니다. 로그인 창으로 이동합니다.");
+      window.location.href = "/login";
+      return;
+    }
+
+    console.log('789789 tokendata:', token);
+
     const response = await PortOne.requestPayment({
       storeId: "store-8c143d19-2e6c-41e0-899d-8c3d02118d41",
       channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",
@@ -31,7 +40,7 @@ export default function PaymentButton() {
       body: JSON.stringify({
         paymentId: response.paymentId,
         totalAmount: totalAmount,
-        useremail:'test1@example.com', // useremail or nickname으로 변경 필요
+        jwt: token,
         pointname: orderName,
       }),
     });

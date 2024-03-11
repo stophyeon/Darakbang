@@ -1,11 +1,9 @@
-import { config } from 'dotenv';
-
-config();
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  compiler: {
-    styledComponents: true,
-  },
-};
-
-export default nextConfig;
+    compiler: {
+      styledComponents: true,
+    },
+  };
+  
+  export default nextConfig;
+  

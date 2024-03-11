@@ -1,4 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
+import InfiniteScroll from 'react-infinite-scroller';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { Species } from "./Species";
 
 export const queryClient = new QueryClient();
 

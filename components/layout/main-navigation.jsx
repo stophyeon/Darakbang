@@ -6,12 +6,12 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 export default function MainNavigation() {
-    const [accessToken, setAccessToken] = useState("");
+    const [Authorization, setAccessToken] = useState("");
     const router = useRouter();
 
     // 토큰이 있는지 확인하고 토큰 값 가져오기
     useEffect(() => {
-        const storedAccessToken = localStorage.getItem('accessToken');
+        const storedAccessToken = localStorage.getItem('Authorization');
         if (storedAccessToken) {
             setAccessToken(storedAccessToken);
         }
@@ -19,8 +19,8 @@ export default function MainNavigation() {
 
     // 로그아웃 시 토큰 값 빈 값으로 변경 후 메인페이지로 이동
     function logoutHandler() {
-        setAccessToken("");
-        router.replace("/");
+        localStorage.removeItem('Authorization');
+        window.location.href = "http://localhost:3000"
     }
 
     return (
@@ -30,21 +30,28 @@ export default function MainNavigation() {
             </Link>
             <Nav>
                 <NavList>
-                    {!accessToken && (
+                    {!Authorization && (
                         <NavItem>
                             <Link href="/login" passHref>
                                 <NavLink>로그인</NavLink>
                             </Link>
                         </NavItem>
                     )}
-                    {accessToken && (
+                    {Authorization && (
                         <NavItem>
-                            <Link href="/" passHref>
+                            <Link href="/profile" passHref>
                                 <NavLink>프로필</NavLink>
                             </Link>
                         </NavItem>
                     )}
-                    {accessToken &&  (
+                    {Authorization && (
+                        <NavItem>
+                            <Link href="/getpoint" passHref>
+                                <NavLink>포인트 구매</NavLink>
+                            </Link>
+                        </NavItem>
+                    )}
+                    {Authorization &&  (
                         <NavItem>
                             <Button onClick={logoutHandler}>로그아웃</Button>
                         </NavItem>

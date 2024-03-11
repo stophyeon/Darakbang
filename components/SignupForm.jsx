@@ -1,28 +1,46 @@
 "use client";
-import { useRouter } from "next/navigation";
-
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { useMutation } from "@tanstack/react-query";
-import { createNewEvent } from "../util/http";
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+`;
+
+const Button = styled.button`
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
 
 
-export default function SignupForm() {
-  const router = useRouter();
-  // 회원가입 API 요청 보내기
-  const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: createNewEvent,
-  });
 
+const SignupForm = () => {
   const [isClient, setIsClient] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [birth, setselectedDate] = useState(null);
-  const [phone_num, setPhoneNumber] = useState("");
+  const [birthday, setselectedDate] = useState(null);
+  const [phone_number, setPhoneNumber] = useState("");
   const [name, setName] = useState("");
   const [nick_name, setNickname] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -47,7 +65,7 @@ export default function SignupForm() {
       setNameError("이름을 입력해주세요.");
       return;
     } else {
-      setNameError("");
+      setNameError(""); 
     }
 
     if (email === "") {
@@ -61,10 +79,10 @@ export default function SignupForm() {
       setnicknameError("닉네임을 입력해주세요.");
       return;
     } else {
-      setnicknameError("");
+      setnicknameError(""); 
     }
 
-
+    
     if (!validatePassword(password)) {
       setPasswordError(
         "비밀번호는 영문, 숫자, 특수 기호를 각각 하나 이상 포함해야 합니다."
@@ -74,22 +92,38 @@ export default function SignupForm() {
       setPasswordError("");
     }
 
-
+    
     if (password !== confirmPassword) {
       setPasswordError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    const formData = {
-      birth,
-      email,
-      name,
-      nick_name,
-      password,
-      phone_num,
-    };
-    console.log('456456 formdata: ', formData);
-    mutate(formData);
+    // 회원가입 API 요청 보내기
+    const response = await fetch("http://localhost:8080/member/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        birthday,
+        phone_number,
+        name,
+        nick_name,
+      }),
+    });
+
+   
+    const data = await response.json();
+    console.log(data); 
+
+    if (response.ok) {
+      // 회원가입 성공 시 메인 페이지로 리다이렉션
+      window.location.href = "/";
+    } else {
+      throw new Error(data.message || "Something went wrong!");
+    }
   };
 
   return (
@@ -124,7 +158,7 @@ export default function SignupForm() {
           />
           {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
           <DatePicker
-            selected={birth}
+            selected={birthday}
             onChange={(date) => setselectedDate(date)}
             dateFormat="yyyy년 MM월 dd일"
             scrollableYearDropdown
@@ -132,7 +166,7 @@ export default function SignupForm() {
           />
           <Input
             type="string"
-            value={phone_num}
+            value={phone_number}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="전화번호"
           />
@@ -143,43 +177,11 @@ export default function SignupForm() {
             placeholder="닉네임"
           />
           {nicknameError && <ErrorMessage>{nicknameError}</ErrorMessage>}
-          <Button type="submit">
-             회원가입
-          </Button>
-
+          <Button type="submit">회원가입</Button>
         </Form>
       )}
     </>
   );
 };
 
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 300px;
-  margin: 0 auto;
-  margin-top: 50px;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-  font-size: 14px;
-`;
-
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
+export default SignupForm;
