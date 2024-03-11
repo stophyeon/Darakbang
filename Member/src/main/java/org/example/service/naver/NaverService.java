@@ -10,7 +10,7 @@ import org.example.entity.Member;
 import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
 import org.example.jwt.NaverToken;
-import org.example.repository.MemberRepository;
+import org.example.repository.member.MemberRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.security.authentication.AuthenticationProvider;

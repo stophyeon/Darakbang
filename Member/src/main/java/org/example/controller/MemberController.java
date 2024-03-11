@@ -1,10 +1,13 @@
 package org.example.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.example.dto.FollowDto;
 import org.example.dto.MemberDto;
 import org.example.dto.PointRequest;
 import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
+import org.example.service.FollowService;
 import org.example.service.kakao.KakaoService;
 import org.example.service.MemberService;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-    private final KakaoService kakaoService;
+    private final FollowService followService;
 
-    public MemberController(MemberService memberService, KakaoService kakaoService) {
-        this.memberService = memberService;
-        this.kakaoService = kakaoService;
-    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseCustom> signup(@RequestBody MemberDto memberDto){
@@ -44,5 +45,8 @@ public class MemberController {
         memberService.getPoint(point.getEmail(), point.getPoint());
         return point.getPoint()+" 충전 완료됐습니다.";
     }
-    //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=b9759cba8e0cdd5bcdb9d601f5a10ac1&redirect_uri=http://localhost:8080/oauth2/kakao
+    @PostMapping("/follow")
+    public String follow(@RequestBody FollowDto followDto){
+        return  followService.FollowReq(followDto.getEmail()).getFollowingId()+"에게 팔로우 요청 성공";
+    }
 }
