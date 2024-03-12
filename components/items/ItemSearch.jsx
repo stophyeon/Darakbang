@@ -1,20 +1,46 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import styled from 'styled-components'; // styled-components import 추가
 
 import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 
-import { fetchitems } from '../../util/http.js';  
-import Items from './Items.jsx';      // 게시글 작성된 상품들
+import { fetchitems } from '../../util/http.js';
+import Items from './Items.jsx';
 
-export default function FindEventSection() {
+// 검색 폼 스타일드 컴포넌트 생성
+const SearchForm = styled.form`
+  header {
+    display: flex;
+    align-items: center;
+  }
+
+  input[type='search'] {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+`;
+
+const FindEventSection = () => {
   const searchElement = useRef();
-  const [searchTerm, setSearchTerm] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['Items', { searchTerm: searchTerm }],
     queryFn: ({ signal, queryKey }) => fetchitems({ signal, ...queryKey[1] }),
-    enabled: searchTerm !== undefined
+    enabled: searchTerm !== '',
   });
 
   function handleSubmit(event) {
@@ -22,47 +48,32 @@ export default function FindEventSection() {
     setSearchTerm(searchElement.current.value);
   }
 
-  let content = <p>당신이 원하는 검색을 하세요!</p>;
-
-  if (isLoading) {
-    content = <LoadingIndicator />;
-  }
-
-  if (isError) {
-    content = (
-      <ErrorBlock
-        title="검색 결과가 없습니다."
-        message={error.info?.message || '연결 실패'}
-      />
-    );
-  }
-
-  if (data) {
-    content = (
-      <ul>
-        {data.map((items) => (
-          <li key={items.id}>
-            <Items items={items} />
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
   return (
-    <section>
+    <SearchForm onSubmit={handleSubmit} id="search-form">
       <header>
-        <h2>당신이 찾는 물건을 검색하세요!</h2>
-        <form onSubmit={handleSubmit} id="search-form">
-          <input
-            type="search"
-            placeholder="Search events"
-            ref={searchElement}
-          />
-          <button>Search</button>
-        </form>
+        <input type="search" placeholder="상품 검색" ref={searchElement} />
+        <button type="submit">검색</button>
       </header>
-      {content}
-    </section>
+
+      {isLoading && <LoadingIndicator />}
+      {isError && (
+        <ErrorBlock
+          title="검색 결과가 없습니다."
+          message={error.info?.message || '연결 실패'}
+        />
+      )}
+
+      {data && (
+        <ul>
+          {data.map((item) => (
+            <li key={item.id}>
+              <Items items={item} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </SearchForm>
   );
-}
+};
+
+export default FindEventSection;

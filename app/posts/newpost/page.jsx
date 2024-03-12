@@ -13,6 +13,8 @@ async function sendProductData(productDetails) {
   
       if (response.status !== 201) {
         throw new Error('상품을 게시하는데 문제가 발생했습니다.');
+      } else {
+        <h2>상품 게시 완료!</h2>
       }
   
      
@@ -59,7 +61,7 @@ function ProductForm() {
         soldout: soldOut,
         categoryid: parseInt(categoryId),
         jwt: jwt,
-        Pmessage: bodyMessage,
+        pmessage: bodyMessage,
       };
       console.log(productDetails);
 

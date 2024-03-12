@@ -1,12 +1,14 @@
 'use client';
 import Link from "next/link";
-
+import FindEventSection from "../items/ItemSearch";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import SmallProfileModal from "../profile/SmallProfile";
 
 export default function MainNavigation() {
     const [Authorization, setAccessToken] = useState("");
+    const [showProfile, setShowProfile] = useState(false);
     const router = useRouter();
 
     // 토큰이 있는지 확인하고 토큰 값 가져오기
@@ -18,49 +20,41 @@ export default function MainNavigation() {
     }, []);
 
     // 로그아웃 시 토큰 값 빈 값으로 변경 후 메인페이지로 이동
-    function logoutHandler() {
-        localStorage.removeItem('Authorization');
-        window.location.href = "http://localhost:3000"
-    }
+    
 
     return (
+    <>
         <HeaderContainer>
             <Link href="/" legacyBehavior passHref>
                     <Logo>Darakbang</Logo>
             </Link>
             <Nav>
                 <NavList>
+                <NavItem>
+                          <FindEventSection />
+                </NavItem>
                     {!Authorization && (
-                        <NavItem>
+                        <NavItem2>
                             <Link href="/login" passHref>
                                 <NavLink>로그인</NavLink>
                             </Link>
-                        </NavItem>
+                        </NavItem2>
                     )}
                     {Authorization && (
-                        <NavItem>
-                            <Link href="/profile" passHref>
-                                <NavLink>프로필</NavLink>
-                            </Link>
-                        </NavItem>
+                        <NavItem2>
+                             <SmallProfileModal />
+                        </NavItem2>
                     )}
-                    {Authorization && (
-                        <NavItem>
-                            <Link href="/getpoint" passHref>
-                                <NavLink>포인트 구매</NavLink>
-                            </Link>
-                        </NavItem>
-                    )}
-                    {Authorization &&  (
-                        <NavItem>
-                            <Button onClick={logoutHandler}>로그아웃</Button>
-                        </NavItem>
-                    )}
+                    {/*  */}
                 </NavList>
             </Nav>
         </HeaderContainer>
+        
+         </>
     );
 }
+   
+
 
 
 const HeaderContainer = styled.header`
@@ -95,8 +89,13 @@ list-style: none;
 `;
 
 const NavItem = styled.li`
-margin-right: 10px;
+margin-right: 350px;
 `;
+
+const NavItem2 = styled.li`
+margin-left: 100px;
+`;
+
 
 const NavLink = styled.div`
   text-decoration: none;
@@ -105,13 +104,3 @@ const NavLink = styled.div`
   margin-right: 50px;
 `;
 
-const Button = styled.button`
-font: inherit;
-background-color: transparent;
-border: 1px solid white;
-color: white;
-font-weight: bold;
-padding: 0.5rem 1.5rem;
-border-radius: 6px;
-cursor: pointer;
-`;

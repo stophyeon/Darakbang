@@ -38,7 +38,7 @@ export async function createNewEvent(eventData) {
 
 
 export async function fetchitems({ signal, searchTerm, max }) {        // 상품 검색 api 연결
-  let url = 'http://localhost:8000/items';   // 나중에 상품 게시물 동작하면 거기서 가져오기
+  let url = 'http://localhost:6080/product/list';   // 나중에 상품 게시물 동작하면 거기서 가져오기
 
   if (searchTerm && max) {
     url += '?search=' + searchTerm + '&max=' + max;         // http://localhost:3000/events?search=example&max=10 -> example 검색시 10개의 결과 값 나온 주소
@@ -57,8 +57,8 @@ export async function fetchitems({ signal, searchTerm, max }) {        // 상품
     throw error;
   }
 
-  const { example } = await response.json();         //응답 값에서 {} 값 추출 하여 반환 
+  const { search } = await response.json();         //응답 값에서 {} 값 추출 하여 반환 
 
-  return example;
+  return search;
 }
 
