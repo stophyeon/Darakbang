@@ -55,8 +55,9 @@ public class MemberService {
         Authentication auth = authenticationProvider.authenticate(token);
         return jwtProvider.createToken(auth);
     }
-    public Member Myprofile(String email){
+    public Member profile(String email){
         try {
+            log.info(email);
             return memberRepository.findByEmail(email).get();
         }catch (NullPointerException e){
             return new Member();

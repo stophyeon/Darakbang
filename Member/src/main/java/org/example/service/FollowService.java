@@ -8,6 +8,7 @@ import org.example.repository.follow.FollowRepository;
 import org.example.repository.member.MemberRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -16,7 +17,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
     //Follow 신청 자신이 follower, 상대가 following
-
+    @Transactional
     public Follow FollowReq(String email){
         String MyEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info(email);
@@ -27,10 +28,13 @@ public class FollowService {
                 .followingId(following_member)
                 .followerId(follower_member)
                 .build();
-        log.info(String.valueOf(follow.getFollowerId()));
+        //follow 관계 저장
         followRepository.save(follow);
-        memberRepository.updateFollower(follower_member);
-        memberRepository.updateFollowing(following_member);
+        //member의 follower수 수정
+        memberRepository.updateFollower(following_member);
+        //member의 following수 수정
+        memberRepository.updateFollowing(follower_member);
+
         return follow;
     }
 

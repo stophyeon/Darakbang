@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.MemberDto;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.List;
 
 @Entity
@@ -22,8 +24,10 @@ public class Member {
     private String nickName;
     private int point;
     private String image;
-    private final Long follower= 0L;
-    private final Long following= 0L;
+    @ColumnDefault("0")
+    private int follower;
+    @ColumnDefault("0")
+    private int following;
 
     private final String role="ROLE_USER";
     @Builder

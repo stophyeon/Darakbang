@@ -1,12 +1,14 @@
 package org.example.repository.member;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Member;
 import org.example.entity.QMember;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Slf4j
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory query;
 
@@ -40,18 +42,22 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     @Override
     public void updateFollower(Member member) {
+        int num = member.getFollower()+1;
         QMember qMember = QMember.member;
         query.update(qMember)
-                .set(qMember.follower,member.getFollower()+1)
-                .where(qMember.email.eq(member.getEmail()));
+                .set(qMember.follower,num)
+                .where(qMember.email.eq(member.getEmail())).execute();
+        log.info(String.valueOf(num));
     }
 
     @Override
     public void updateFollowing(Member member) {
         QMember qMember = QMember.member;
+        int num=member.getFollowing()+1;
         query.update(qMember)
-                .set(qMember.following,member.getFollowing()+1)
-                .where(qMember.email.eq(member.getEmail()));
+                .set(qMember.following,num)
+                .where(qMember.email.eq(member.getEmail())).execute();
+        log.info(String.valueOf(num));
     }
 
 
