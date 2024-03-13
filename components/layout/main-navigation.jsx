@@ -4,7 +4,7 @@ import FindEventSection from "../items/ItemSearch";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import SmallProfileModal from "../profile/SmallProfile";
+import SmallProfile from "../profile/SmallProfile";
 
 export default function MainNavigation() {
     const [Authorization, setAccessToken] = useState("");
@@ -42,7 +42,7 @@ export default function MainNavigation() {
                     )}
                     {Authorization && (
                         <NavItem2>
-                             <SmallProfileModal />
+                             <SmallProfile />
                         </NavItem2>
                     )}
                     {/*  */}

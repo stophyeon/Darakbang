@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Image from 'next/image';
+
+import { fetchUserProfile } from '@compoents/util/http';
 
 
 // 프로필 모달 컴포넌트
 export default function SmallProfile() {
     // 모달 열기/닫기 상태를 관리하는 state
     const [isOpen, setIsOpen] = useState(false);
+    const [userInfo, setUserInfo] = useState('');
     const [Authorization, setAccessToken] = useState("");
+
+    const defaultImage = "/kakaoImg.jpg";
+
     useEffect(() => {
-        const storedAccessToken = localStorage.getItem('Authorization');
-        if (storedAccessToken) {
-            setAccessToken(storedAccessToken);
+        const fetchUserProfileData = async () => {
+            const accesstoken = localStorage.getItem('Authorization');
+            if (accesstoken) {
+                setAccessToken(accesstoken);
+            }
+            const data = await fetchUserProfile(accesstoken);
+            setUserInfo(data);
         }
+        fetchUserProfileData();
     }, []);
 
     function logoutHandler() {
@@ -32,14 +44,22 @@ export default function SmallProfile() {
     return (
         <div>
             {/* 프로필 사진 */}
-            <ProfileImage src="/kakaoImg.jpg" alt="사진" onClick={openModal} />
+            <ProfileImage src={userInfo.image || defaultImage}
+                alt="이미지" onClick={openModal} />
 
             {/* 프로필 모달 */}
             {isOpen && (
                 <ModalBackground onClick={closeModal}>
                     <ModalContent>
-                        <h1>이름</h1>
-                        <h2>나이</h2>
+                        <div><Image
+                            src={userInfo.image || defaultImage}
+                            alt="이미지"
+                            width={70}
+                            height={100}
+                        /></div>
+                        <h1>{userInfo.name}</h1>
+                        <h2>{userInfo.email}</h2>
+                        <h2>{userInfo.point} point</h2>
                         <Button>
                             <Link href="/profile">프로필</Link>
                         </Button>
@@ -105,7 +125,7 @@ font: inherit;
 background-color: transparent;
 color: black;
 font-weight: bold;
-padding: 0.5rem 1.5rem;
+padding: 0.2rem 0.5rem;
 border-radius: 6px;
 cursor: pointer;
 `;

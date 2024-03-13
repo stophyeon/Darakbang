@@ -62,3 +62,20 @@ export async function fetchitems({ signal, searchTerm, max }) {        // 상품
   return search;
 }
 
+
+// 멤버 프로필 api
+
+export const fetchUserProfile = async (accesstoken) => {
+  try {
+    const response = await fetch('http://localhost:8080/member/profile', {
+      headers: {
+        'Authorization': `${accesstoken}`
+      }
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+};

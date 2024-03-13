@@ -1,50 +1,50 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import FollowList from './FollowList';
+import Image from 'next/image';
+import { fetchUserProfile } from '@compoents/util/http';
 
-const UserProfile = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const followerList = [{ nickname:'김민우' }, { nickname:'정지현' }, { nickname:'임지혁' }];
-  const followingList = [{ nickname:'김민우' }, { nickname:'정지현' }, { nickname:'임지혁' }];
+export default function UserProfile() {
+  const [userInfo, setUserInfo] = useState('');
+  const defaultImage = "/kakaoImg.jpg";
 
   useEffect(() => {
     // API 호출 -> 사용자 정보 받아오기
-    const fetchUserProfile = async () => {
+    const fetchUserProfileData = async () => {
       try {
         const accesstoken = localStorage.getItem('Authorization');
-        
-        // API 호출
-        const response = await fetch('http://localhost:8080/member/profile', {
-          headers: {
-            'Authorization': `Bearer ${accesstoken}`
-          }
-        });
-        const data = await response.json();
+        const data = await fetchUserProfile(accesstoken);
         setUserInfo(data);
       } catch (error) {
         console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
       }
     };
-
-    fetchUserProfile();
+    fetchUserProfileData();
   }, []);
+
 
   return (
     <ProfileContainer>
       {userInfo ? (
         <ProfileInfo>
           <ProfileTitle>사용자 프로필 정보</ProfileTitle>
-          <ProfileItem>닉네임: {userInfo.nick_name}</ProfileItem>
+          <ProfileItem>
+          <Image
+            src={userInfo.image || defaultImage}
+            alt="이미지"
+            width={200}
+            height={300}
+          />
+            </ProfileItem>
+          <ProfileItem>닉네임: {userInfo.nickName}</ProfileItem>
           <ProfileItem>이름: {userInfo.name}</ProfileItem>
           <ProfileItem>이메일: {userInfo.email}</ProfileItem>
+          <ProfileItem>내 포인트: {userInfo.point} point</ProfileItem>
           <FollowListContainer>
-            <FollowListHeader>팔로잉 목록</FollowListHeader>
-            <FollowList header="팔로잉 목록" data={followingList}/>
+            <FollowListHeader>팔로잉 {userInfo.following}</FollowListHeader>
           </FollowListContainer>
           <FollowListContainer>
-            <FollowListHeader>팔로워 목록</FollowListHeader>
-            <FollowList header="팔로워 목록" data={followerList}/>
+            <FollowListHeader>팔로워 {userInfo.follower}</FollowListHeader>
           </FollowListContainer>
         </ProfileInfo>
       ) : (
@@ -88,4 +88,3 @@ const ProfileLoading = styled.p`
   font-size: 16px;
 `;
 
-export default UserProfile;

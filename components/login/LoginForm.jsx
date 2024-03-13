@@ -22,10 +22,7 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data);
-
         const { accessToken, refreshToken } = data;
-
         // accessToken을 localStorage에 저장
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
         const expiration = new Date(); // 엑세스 토큰 시간 저장
