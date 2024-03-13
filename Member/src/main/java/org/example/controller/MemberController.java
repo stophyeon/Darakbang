@@ -38,8 +38,12 @@ public class MemberController {
     @GetMapping("/info")
     public String info(){
         return memberService.Myprofile(SecurityContextHolder.getContext().getAuthentication().getName()).getEmail();
-
     }
+    @GetMapping("/profile")
+    public Member profile(){
+        return memberService.Myprofile(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
     @PostMapping("/point")
     public String changePoint(@RequestBody PointRequest point){
         memberService.getPoint(point.getEmail(), point.getPoint());
@@ -47,6 +51,15 @@ public class MemberController {
     }
     @PostMapping("/follow")
     public String follow(@RequestBody FollowDto followDto){
-        return  followService.FollowReq(followDto.getEmail()).getFollowingId()+"에게 팔로우 요청 성공";
+        return  followService.FollowReq(followDto.getEmail()).getFollowingId().getName()+" 에게 팔로우 요청 성공";
+    }
+    @GetMapping("/follower")
+    public List<Member> follower(){
+        return null;
+    }
+
+    @GetMapping("/following")
+    public List<Member> following(){
+        return null;
     }
 }

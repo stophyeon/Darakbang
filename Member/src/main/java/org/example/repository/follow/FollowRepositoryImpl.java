@@ -1,21 +1,12 @@
 package org.example.repository.follow;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.example.entity.QFollow;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class FollowRepositoryImpl implements FollowRepositoryCustom {
-    @Override
-    public Long findFollowerNumber(Long user_id) {
-        return null;
-    }
-
-    @Override
-    public Long findFollowingNumber(Long user_id) {
-        return null;
-    }
-
-    @Override
-    public void followReq(String email) {
-
-    }
+    private final JPAQueryFactory query;
 }

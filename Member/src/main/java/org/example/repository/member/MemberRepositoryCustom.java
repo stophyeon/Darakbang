@@ -8,5 +8,7 @@ public interface MemberRepositoryCustom {
 
     void changePoint(Member members,int point);
     void updateInfo(Member member);
+    void updateFollower(Member member);
+    void updateFollowing(Member member);
     Long findId(String email);
 }

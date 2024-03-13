@@ -39,6 +39,23 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
+    public void updateFollower(Member member) {
+        QMember qMember = QMember.member;
+        query.update(qMember)
+                .set(qMember.follower,member.getFollower()+1)
+                .where(qMember.email.eq(member.getEmail()));
+    }
+
+    @Override
+    public void updateFollowing(Member member) {
+        QMember qMember = QMember.member;
+        query.update(qMember)
+                .set(qMember.following,member.getFollowing()+1)
+                .where(qMember.email.eq(member.getEmail()));
+    }
+
+
+    @Override
     public Long findId(String email) {
         QMember member = QMember.member;
         return query.select(member.member_id)

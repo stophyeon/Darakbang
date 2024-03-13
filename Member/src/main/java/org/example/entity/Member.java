@@ -1,18 +1,12 @@
 package org.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
+
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.MemberDto;
-
-import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @RequiredArgsConstructor
@@ -28,6 +22,9 @@ public class Member {
     private String nickName;
     private int point;
     private String image;
+    private final Long follower= 0L;
+    private final Long following= 0L;
+
     private final String role="ROLE_USER";
     @Builder
     public Member(MemberDto memberDto){

@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Follow;
+import org.example.entity.Member;
 import org.example.repository.follow.FollowRepository;
 import org.example.repository.member.MemberRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,14 +21,18 @@ public class FollowService {
         String MyEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info(email);
         log.info(MyEmail);
+        Member following_member = memberRepository.findByEmail(email).get();
+        Member follower_member = memberRepository.findByEmail(MyEmail).get();
         Follow follow = Follow.builder()
-                .followingId(memberRepository.findId(email))
-                .followerId(memberRepository.findId(MyEmail))
+                .followingId(following_member)
+                .followerId(follower_member)
                 .build();
         log.info(String.valueOf(follow.getFollowerId()));
-        log.info(String.valueOf(memberRepository.findId(email)));
         followRepository.save(follow);
+        memberRepository.updateFollower(follower_member);
+        memberRepository.updateFollowing(following_member);
         return follow;
-
     }
+
+
 }
