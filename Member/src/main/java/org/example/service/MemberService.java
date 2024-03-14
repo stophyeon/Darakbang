@@ -30,7 +30,7 @@ public class MemberService {
     private final AuthenticationProvider authenticationProvider;
     private final JwtProvider jwtProvider;
     public boolean duplicate(MemberDto memberDto){
-        return memberRepository.findByEmail(memberDto.getEmail()).isPresent();
+        return memberRepository.findByEmail(memberDto.getEmail()).isPresent() && memberRepository.findByNickName(memberDto.getEmail()).isPresent();
     }
     @Transactional
     public ResponseCustom join(MemberDto memberDto){
@@ -62,6 +62,10 @@ public class MemberService {
         }catch (NullPointerException e){
             return new Member();
         }
+    }
+    public Member otherProfile(String nickName){
+        log.info(nickName);
+        return memberRepository.findByNickName(nickName).get();
     }
     //point 충전
     public void getPoint(String email, int point){

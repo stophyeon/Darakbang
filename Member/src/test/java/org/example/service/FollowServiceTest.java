@@ -12,6 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
@@ -37,10 +41,10 @@ class FollowServiceTest {
         System.out.println();
     }
     @Test
-    void followNum(){
-        Member member = memberRepository.findByEmail("j6778@naver.com").get();
-        int num=followRepository.countByFollowerId(member);
-        System.out.println(num);
+    void follower(){
+        Optional<Member> member = memberRepository.findByEmail("j6778@naver.com");
+        List<Member> folloingList=followRepository.findFollowing(member.get());
+        folloingList.forEach(s->System.out.println(s.getEmail()));
     }
 
 

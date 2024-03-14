@@ -10,6 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -36,6 +39,14 @@ public class FollowService {
         memberRepository.updateFollowing(follower_member);
 
         return follow;
+    }
+    public List<Member> getFollower(String nickName){
+        Optional<Member> member = memberRepository.findByNickName(nickName);
+        return followRepository.findFollower(member.get());
+    }
+    public List<Member> getFollowing(String nickName){
+        Optional<Member> member = memberRepository.findByNickName(nickName);
+        return followRepository.findFollowing(member.get());
     }
 
 
