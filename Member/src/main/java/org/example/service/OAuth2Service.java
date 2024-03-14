@@ -7,7 +7,7 @@ import org.example.dto.MemberDto;
 import org.example.dto.OAuthAttributes;
 import org.example.dto.OAuthMember;
 import org.example.entity.Member;
-import org.example.repository.MemberRepository;
+import org.example.repository.member.MemberRepository;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

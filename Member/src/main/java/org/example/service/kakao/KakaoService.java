@@ -1,35 +1,26 @@
 package org.example.service.kakao;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
-import org.example.dto.MemberDetails;
 import org.example.dto.MemberDto;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
 import org.example.jwt.KakaoToken;
-import org.example.repository.MemberRepository;
-import org.example.service.MemberDetailService;
-import org.example.service.MemberService;
+import org.example.repository.member.MemberRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -47,7 +38,7 @@ public class KakaoService {
     private final String Content_type ="application/x-www-form-urlencoded;charset=utf-8";
     private final String grant_type = "authorization_code";
     private final String client_id = "b9759cba8e0cdd5bcdb9d601f5a10ac1";
-    private final String login_redirect ="http://localhost:8080/oauth2/kakao";
+    private final String login_redirect ="http://localhost:3000/login/oauth2/kakao";
     private final String logout_redirect ="http://localhost:8080";
     private final String secret ="8VCVTZpYOA21l7wgaKiqQa74q02S6pYI";
     public JwtDto GenerateToken(String code) throws ParseException, IOException, org.json.simple.parser.ParseException {

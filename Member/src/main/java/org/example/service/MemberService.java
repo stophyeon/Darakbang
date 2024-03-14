@@ -7,7 +7,8 @@ import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
-import org.example.repository.MemberRepository;
+import org.example.repository.follow.FollowRepository;
+import org.example.repository.member.MemberRepository;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -25,11 +25,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationProvider authenticationProvider;
     private final JwtProvider jwtProvider;
     public boolean duplicate(MemberDto memberDto){
-        return memberRepository.findByEmail(memberDto.getEmail()).isPresent();
+        return memberRepository.findByEmail(memberDto.getEmail()).isPresent() && memberRepository.findByNickName(memberDto.getEmail()).isPresent();
     }
     @Transactional
     public ResponseCustom join(MemberDto memberDto){
@@ -54,20 +55,22 @@ public class MemberService {
         Authentication auth = authenticationProvider.authenticate(token);
         return jwtProvider.createToken(auth);
     }
-    public Member Myprofile(String email){
+    public Member profile(String email){
         try {
+            log.info(email);
             return memberRepository.findByEmail(email).get();
         }catch (NullPointerException e){
             return new Member();
         }
     }
-
+    public Member otherProfile(String nickName){
+        log.info(nickName);
+        return memberRepository.findByNickName(nickName).get();
+    }
+    //point 충전
     public void getPoint(String email, int point){
         Optional<Member> member = memberRepository.findByEmail(email);
-        memberRepository.changepoint(member.get(),point);
-
-
+        memberRepository.changePoint(member.get(),point);
     }
-
 
 }

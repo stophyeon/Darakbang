@@ -1,15 +1,29 @@
 package org.example.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Entity
+@Getter
+@RequiredArgsConstructor
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long follow_id;
-    private Long follower_id;
-    private Long following_id;
+    private Long followId;
+
+    @ManyToOne
+    @JoinColumn(name = "follower_id")
+    private Member followerId;
+
+    @ManyToOne
+    @JoinColumn(name = "following_id")
+    private Member followingId;
+
+    @Builder
+    public Follow(Member followerId,Member followingId){
+        this.followerId=followerId;
+        this.followingId=followingId;
+    }
 }
