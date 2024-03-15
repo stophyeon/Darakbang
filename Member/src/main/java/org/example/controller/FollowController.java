@@ -43,4 +43,5 @@ public class FollowController {
     public List<Member> following(@RequestParam("nick_name") @Parameter(name = "닉네임 입력")String nickName){
         return followService.getFollowing(nickName);
     }
+
 }
