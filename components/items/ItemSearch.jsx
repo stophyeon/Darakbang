@@ -8,30 +8,7 @@ import ErrorBlock from '../UI/ErrorBlock.jsx';
 import { fetchitems } from '../../util/http.js';
 import Items from './Items.jsx';
 
-// 검색 폼 스타일드 컴포넌트 생성
-const SearchForm = styled.form`
-  header {
-    display: flex;
-    align-items: center;
-  }
 
-  input[type='search'] {
-    width: 300px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-  }
-
-  button {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-`;
 
 const FindEventSection = () => {
   const searchElement = useRef();
@@ -77,3 +54,29 @@ const FindEventSection = () => {
 };
 
 export default FindEventSection;
+
+
+// 검색 폼 스타일드 컴포넌트 생성
+const SearchForm = styled.form`
+  header {
+    display: flex;
+    align-items: center;
+  }
+
+  input[type='search'] {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+`;

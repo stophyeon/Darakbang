@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+import LoadingIndicator from "@compoents/components/UI/LoadingIndicator";
+
 export default function KakaoLogin() {
   useEffect(() => {
     const kakaoLogin = async () => {
@@ -19,7 +21,6 @@ export default function KakaoLogin() {
         }
 
         const data = await response.json();
-        console.log(data);
 
         const { accessToken, refreshToken } = data;
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
@@ -45,6 +46,7 @@ export default function KakaoLogin() {
   return (
     <div>
       <div>
+        <LoadingIndicator />
         <p>로그인 중입니다.</p>
         <p>잠시만 기다려주세요.</p>
       </div>

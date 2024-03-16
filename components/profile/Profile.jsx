@@ -6,6 +6,10 @@ import { fetchUserProfile } from '@compoents/util/http';
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useState('');
+  const [followingList, setFollowingList] = useState([]);
+  const [followerList, setFollowerList] = useState([]);
+  const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
+  const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const defaultImage = "/kakaoImg.jpg";
 
   useEffect(() => {
@@ -22,6 +26,24 @@ export default function UserProfile() {
     fetchUserProfileData();
   }, []);
 
+  const openFollowingModal = () => {
+    setIsFollowingModalOpen(true);
+    
+  };
+
+  const closeFollowingModal = () => {
+    setIsFollowingModalOpen(false);
+  };
+
+  const openFollowerModal = () => {
+    setIsFollowerModalOpen(true);
+    
+  };
+
+  const closeFollowerModal = () => {
+    setIsFollowerModalOpen(false);
+  };
+
 
   return (
     <ProfileContainer>
@@ -29,22 +51,33 @@ export default function UserProfile() {
         <ProfileInfo>
           <ProfileTitle>사용자 프로필 정보</ProfileTitle>
           <ProfileItem>
-          <Image
-            src={userInfo.image || defaultImage}
-            alt="이미지"
-            width={200}
-            height={300}
-          />
-            </ProfileItem>
+            <Image
+              src={userInfo.image || defaultImage}
+              alt="이미지"
+              width={200}
+              height={300}
+            />
+          </ProfileItem>
           <ProfileItem>닉네임: {userInfo.nickName}</ProfileItem>
           <ProfileItem>이름: {userInfo.name}</ProfileItem>
           <ProfileItem>이메일: {userInfo.email}</ProfileItem>
           <ProfileItem>내 포인트: {userInfo.point} point</ProfileItem>
           <FollowListContainer>
-            <FollowListHeader>팔로잉 {userInfo.following}</FollowListHeader>
+            <FollowButton onClick={openFollowingModal}>팔로잉 {userInfo.following}</FollowButton>
+            {isFollowingModalOpen && (
+              <Modal>
+                <CloseButton onClick={closeFollowingModal}>닫기</CloseButton>
+              </Modal>
+            )}
           </FollowListContainer>
           <FollowListContainer>
-            <FollowListHeader>팔로워 {userInfo.follower}</FollowListHeader>
+            <FollowButton onClick={openFollowerModal}>팔로워 {userInfo.follower}</FollowButton>
+            {isFollowerModalOpen && (
+              <Modal>
+                {/* 팔로워 리스트 표시 */}
+                <CloseButton onClick={closeFollowerModal}>닫기</CloseButton>
+              </Modal>
+            )}
           </FollowListContainer>
         </ProfileInfo>
       ) : (
@@ -79,9 +112,24 @@ const FollowListContainer = styled.div`
   margin-top: 20px;
 `;
 
-const FollowListHeader = styled.h3`
-  font-size: 20px;
-  margin-bottom: 10px;
+const FollowButton = styled.button`
+  font-size: 16px;
+  padding: 5px 10px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const CloseButton = styled.button`
+  
+`
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100
 `;
 
 const ProfileLoading = styled.p`

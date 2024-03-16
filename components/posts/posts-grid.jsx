@@ -6,7 +6,7 @@ function PostsGrid(props) {
   return (
     <ul>
       {posts && posts.map((post)=> (
-        <PostItem key={post.slug} post={post} />
+        <PostItem key={post.productId} post={post} />
       ))}
     </ul>
   );

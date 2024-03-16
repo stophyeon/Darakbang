@@ -27,7 +27,6 @@ export default function PaymentButton() {
       payMethod: "EASY_PAY",
       redirectUrl: `http://localhost:3000`,
     });
-    console.log(requestPayment);
     if (response.code != null) {
       return alert(response.message);
     }
@@ -44,9 +43,8 @@ export default function PaymentButton() {
         pointname: orderName,
       }),
     });
-
     const validationData = await validation.json();
-
+    console.log(validationData);
   };
 
   return (

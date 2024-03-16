@@ -30,7 +30,6 @@ export async function createNewEvent(eventData) {
   }
 
   const data = await response.json();
-  console.log('123123 data: ', data )
   return data;
 }
 
@@ -79,3 +78,47 @@ export const fetchUserProfile = async (accesstoken) => {
     throw error;
   }
 };
+
+// 상대방 프로필 api
+
+export const fetchOtherUserProfile = async (nickName, accessToken) => {
+  try {
+    const response = await fetch(`http://localhost:8080/member/other?nick_name=${nickName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${accessToken}`
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('상대방 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+};
+
+// 팔로우 요청 api
+
+export async function followUser(accessToken, email) {
+  try {
+    const response = await fetch('http://localhost:8080/member/follow', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${accessToken}`
+      },
+      body: JSON.stringify({ email })
+    });
+    console.log(accessToken, email)
+    if (!response.ok) {
+      throw new Error('팔로우 요청을 보내는 중 오류가 발생했습니다.');
+    }
+    if (response.ok) {
+      console.log("팔로우 성공!");
+    }
+  } catch (error) {
+    console.error('팔로우 요청을 보내는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+}

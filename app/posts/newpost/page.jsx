@@ -95,6 +95,7 @@ function ProductForm() {
       title: '성공!',
       message: '게시물이 성공적으로 전송되었습니다!',
     };
+    window.location.href = '/posts';
   }
 
   if (requestStatus === 'error') {
