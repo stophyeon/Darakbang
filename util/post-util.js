@@ -1,14 +1,29 @@
 
 export async function getPostsFiles() {
-    const response = await fetch('http://localhost:6080/product/list');
+    const response = await fetch('http://localhost:6080/product/list', {
+      cache: 'no-store'
+    });
     const data = await response.json();
     return data;
   }
   
   export async function getPostData(productid) {
-    const response = await fetch(`http://localhost:6080/product/${productid}`);
+    const response = await fetch(`http://localhost:6080/product/${productid}`, {
+      cache: 'no-store'
+    });
     const data = await response.json();
     return data;
+  }
+
+  export async function PutPostData(productid, productData) {
+    const response = await fetch(`http://localhost:6080/product/update/${productid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productData),
+      cache: 'no-store'
+    });
   }
 
   export async function DeletePost(productid) {

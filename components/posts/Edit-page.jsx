@@ -1,33 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-async function sendProductData(productDetails) {
-    try {
-      const response = await fetch('http://localhost:6080/product/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productDetails),
-      });
-  
-      if (response.status !== 201) {
-        throw new Error('상품을 게시하는데 문제가 발생했습니다.');
-      } else {
-        <h2>상품 게시 완료!</h2>
-      }
-  
-     
-    } catch (error) {
-      throw new Error(error.message || '상품을 게시하는데 문제가 발생했습니다.');
-    }
-  }
-  
+import { PutPostData } from '@compoents/util/post-util';
 
-  export default function ProductForm() {
+  export default function EditProductForm({ productId }) {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [images, setImages] = useState([]);
+//   const [images, setImages] = useState([]);
   const [createdAt, setCreatedAt] = useState('');
   const [jwt, setJwt] = useState('');
   const [soldOut, setSoldOut] = useState(false);
@@ -39,6 +18,7 @@ async function sendProductData(productDetails) {
   useEffect(() => {
     // 로컬스토리지에서 jwt 가져오기
     const jwt = localStorage.getItem("Authorization");
+    
     if (!jwt) {
       alert("로그인이 필요합니다. 로그인 창으로 이동합니다.");
       window.location.href = "/login";
@@ -47,29 +27,39 @@ async function sendProductData(productDetails) {
     setJwt(jwt);
   }, []);
 
+  async function handleSubmit(productData) {
+    console.log(productId)
+    try {
+      const response = await PutPostData(productId, productData)
+    } catch (error) {
+      console.error('게시물 수정에 실패했습니다:', error);
+      alert('게시물 수정에 실패했습니다.');
+    }
+  }
+
   async function sendProductHandler(event) {
     event.preventDefault();
 
     setRequestStatus('pending');
 
     try {
-      const productDetails = {
+      const productData = {
         productname: productName,
         price: parseInt(price),
-        image: images,
+        // image: images,
         createat: createdAt,
         soldout: soldOut,
         categoryid: parseInt(categoryId),
         jwt: jwt,
         pmessage: bodyMessage,
       };
-      console.log(productDetails);
+      console.log (productData);
 
-      await sendProductData(productDetails);
+      await handleSubmit (productData);
       setRequestStatus('success');
       setProductName('');
       setPrice('');
-      setImages([]);
+    //   setImages([]);
       setCreatedAt('');
       setSoldOut(false);
       setCategoryId('');
@@ -111,7 +101,7 @@ async function sendProductData(productDetails) {
 
   return (
     <section>
-      <h1>상품 게시물 작성하기</h1>
+      <h1>상품 게시물 수정하기</h1>
       <form onSubmit={sendProductHandler}>
         <div>
           <label htmlFor='productname'>상품명</label>
@@ -133,7 +123,7 @@ async function sendProductData(productDetails) {
             onChange={(event) => setPrice(event.target.value)}
           />
         </div>
-        <div>
+        {/* <div>
           <label htmlFor='image'>이미지 (최대 5장)</label>
           <input
             type='file'
@@ -141,7 +131,7 @@ async function sendProductData(productDetails) {
             multiple
             onChange={(event) => setImages(Array.from(event.target.files))}
           />
-        </div>
+        </div> */}
         <div>
           <label htmlFor='createat'>올린 날짜</label>
           <input
@@ -183,7 +173,7 @@ async function sendProductData(productDetails) {
             onChange={(event) => setbodyMessage(event.target.value)}
           />
         </div>
-        <button>게시물 전송</button>
+        <button>게시물 수정</button>
       </form>
       {notification && (
         <div>

@@ -1,24 +1,15 @@
-'use client'
 import Head from 'next/head';
 import Link from 'next/link';
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment } from 'react';
 
 import { getPostsFiles } from '@compoents/util/post-util';
 import CommuPosts from '@compoents/components/posts/commu-post';
 
-export default function CommuPostsPage() {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getPostsFiles();
-        setPosts(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+
+export default async function CommuPostsPage() {
+  const postdata = await getPostsFiles();
+
+  const [ posts ] = await Promise.all([postdata]);
 
   return (
     <Fragment>
