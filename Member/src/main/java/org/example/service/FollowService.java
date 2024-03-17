@@ -1,5 +1,7 @@
 package org.example.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.annotation.TimeCheck;
@@ -20,7 +22,8 @@ import java.util.Optional;
 public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
-
+    @PersistenceContext
+    private EntityManager em;
     //Follow 신청 자신이 follower, 상대가 following
     @Transactional
     @TimeCheck
@@ -33,7 +36,8 @@ public class FollowService {
                 .followerId(follower_member)
                 .build();
         //follow 관계 저장
-        followRepository.save(follow);
+        em.persist(follow);
+        //followRepository.save(follow);
         //member의 follower수 수정
         memberRepository.updateFollower(following_member);
         //member의 following수 수정
