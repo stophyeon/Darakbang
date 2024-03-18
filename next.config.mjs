@@ -4,7 +4,14 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ['k.kakaocdn.net'],
+    domains: ['k.kakaocdn.net', 't1.kakaocdn.net', 't1'],
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    })
+    return config
   },
 };
 

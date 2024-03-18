@@ -40,19 +40,29 @@ export async function getPostsFiles() {
       console.log('삭제 완료')
     }
   }
-  
-  export async function getAllPosts() {
-    const postFiles = await getPostsFiles();
-  
-    const allPosts = await Promise.all(postFiles.map(async (postFile) => {
-      const postData = await getPostData(postFile);
-      return postData;
-    }));
-  
-    const sortedPosts = allPosts.sort((postA, postB) => postA.date > postB.date ? -1 : 1);
-  
-    return sortedPosts;
-  }
-  
 
+  // 댓글 api
   
+  export async function getComments() {
+    const response = await fetch('http://localhost:6080/comment/list', {
+      cache: 'no-store'
+    });
+    const data = await response.json();
+    return data;
+  }
+
+  export async function PostComments(jwt, productId, commentdetail) {
+    const response = await fetch('http://localhost:6080/comment/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          jwt: jwt,
+          productid: productId,
+          commentdetail: commentdetail,
+        }),
+      });
+      const data = await response.json();
+      return data;
+  }

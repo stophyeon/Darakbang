@@ -11,13 +11,13 @@ export default function OtherProfileform() {
   
   const [profile, setProfile] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
   const email = profile?.email || '';
 
 
   
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("Authorization"); 
     const fetchProfile = async () => {
       try {
         const data = await fetchOtherUserProfile(nickName, accessToken);
@@ -26,15 +26,15 @@ export default function OtherProfileform() {
         console.error('프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
       }
     };
-
-    if (nickName) {
+    const storedAccessToken = localStorage.getItem('Authorization');
+    if (storedAccessToken) {
+      setAccessToken(storedAccessToken);
       fetchProfile();
     }
-  }, [nickName]);
+  }, [nickName, accessToken]);
 
   const handleFollow = async () => {
     try { 
-
       const response = await followUser(accessToken, email);
       console.log('팔로우 요청이 성공했습니다.');
       setIsFollowing(true); 

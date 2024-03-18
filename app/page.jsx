@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MainScroll from "@compoents/components/MainInfinite";
 
 import Link from "next/link";
 
@@ -10,11 +12,12 @@ export default function Home() {
   return (
     <>
       <h1>메인 페이지</h1>
-      {nicknames.map((nickname, index) => (
+      {/* {nicknames.map((nickname, index) => (
         <Link key={nickname} href={linkPaths[index]}>
           <div>{nickname} 프로필</div>
         </Link>
-      ))}
+      ))} */}
+      <MainScroll />
     </>
   );
 }
