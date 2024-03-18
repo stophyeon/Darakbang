@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Data
 @RequiredArgsConstructor
-@Schema(description = "사용자")
+
 public class MemberDto {
 
     @Email
