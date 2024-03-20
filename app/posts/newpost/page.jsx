@@ -1,30 +1,31 @@
 'use client';
 import { useState, useEffect } from 'react';
+import styles from './page.module.css';
 
 async function sendProductData(productDetails) {
-    try {
-      const response = await fetch('http://localhost:6080/product/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productDetails),
-      });
-  
-      if (response.status !== 201) {
-        throw new Error('상품을 게시하는데 문제가 발생했습니다.');
-      } else {
-        <h2>상품 게시 완료!</h2>
-      }
-  
-     
-    } catch (error) {
-      throw new Error(error.message || '상품을 게시하는데 문제가 발생했습니다.');
-    }
-  }
-  
+  try {
+    const response = await fetch('http://localhost:6080/product/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productDetails),
+    });
 
-  export default function ProductForm() {
+    if (response.status !== 201) {
+      throw new Error('상품을 게시하는데 문제가 발생했습니다.');
+    } else {
+      <h2>상품 게시 완료!</h2>
+    }
+
+
+  } catch (error) {
+    throw new Error(error.message || '상품을 게시하는데 문제가 발생했습니다.');
+  }
+}
+
+
+export default function ProductForm() {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [images, setImages] = useState([]);
@@ -78,7 +79,7 @@ async function sendProductData(productDetails) {
       setRequestStatus('error');
     }
   }
-  
+
   let notification;
 
   if (requestStatus === 'pending') {
@@ -90,11 +91,6 @@ async function sendProductData(productDetails) {
   }
 
   if (requestStatus === 'success') {
-    notification = {
-      status: 'success',
-      title: '성공!',
-      message: '게시물이 성공적으로 전송되었습니다!',
-    };
     window.location.href = '/posts';
   }
 
@@ -107,15 +103,16 @@ async function sendProductData(productDetails) {
   }
 
 
-  
+
 
   return (
-    <section>
-      <h1>상품 게시물 작성하기</h1>
+    <>
+    <section className={styles.formContainer}>
       <form onSubmit={sendProductHandler}>
         <div>
-          <label htmlFor='productname'>상품명</label>
+          <label htmlFor='productname' className={styles.label}>상품명</label>
           <input
+            className={styles.inputField}
             type='text'
             id='productname'
             required
@@ -124,8 +121,9 @@ async function sendProductData(productDetails) {
           />
         </div>
         <div>
-          <label htmlFor='price'>가격</label>
+          <label htmlFor='price' className={styles.label}>가격</label>
           <input
+            className={styles.inputField}
             type='int'
             id='price'
             required
@@ -134,8 +132,9 @@ async function sendProductData(productDetails) {
           />
         </div>
         <div>
-          <label htmlFor='image'>이미지 (최대 5장)</label>
+          <label htmlFor='image' className={styles.label}>이미지 (최대 5장)</label>
           <input
+            className={styles.inputField}
             type='file'
             id='image'
             multiple
@@ -143,8 +142,9 @@ async function sendProductData(productDetails) {
           />
         </div>
         <div>
-          <label htmlFor='createat'>올린 날짜</label>
+          <label htmlFor='createat' className={styles.label}>올린 날짜</label>
           <input
+          className={styles.selectField}
             type='date'
             id='createat'
             required
@@ -153,8 +153,9 @@ async function sendProductData(productDetails) {
           />
         </div>
         <div>
-          <label htmlFor='soldout'>상품 판매 여부</label>
+          <label htmlFor='soldout' className={styles.label}>상품 판매 여부</label>
           <select
+          className={styles.selectField}
             id='soldout'
             value={soldOut}
             onChange={(event) => setSoldOut(event.target.value === 'true')}
@@ -164,8 +165,9 @@ async function sendProductData(productDetails) {
           </select>
         </div>
         <div>
-          <label htmlFor='categoryId'>상품 카테고리</label>
+          <label htmlFor='categoryId' className={styles.label}>상품 카테고리</label>
           <input
+            className={styles.inputField}
             type='int'
             id='categoryId'
             required
@@ -174,8 +176,9 @@ async function sendProductData(productDetails) {
           />
         </div>
         <div>
-          <label htmlFor='bodyMessage'></label>
+          <label htmlFor='bodyMessage' className={styles.label}></label>
           <input
+            className={styles.inputFielded}
             type='string'
             id='bodyMessage'
             required
@@ -183,14 +186,16 @@ async function sendProductData(productDetails) {
             onChange={(event) => setbodyMessage(event.target.value)}
           />
         </div>
-        <button>게시물 전송</button>
+        <button className={styles.button}>게시물 전송</button>
       </form>
       {notification && (
-        <div>
-          <h2>{notification.title}</h2>
-          <p>{notification.message}</p>
-        </div>
-      )}
+      <div className={`${styles.notification} ${styles[notification.status]}`}>
+        <h2 className={styles.notificationTitle}>{notification.title}</h2>
+        <p className={styles.notificationMessage}>{notification.message}</p>
+      </div>
+    )}
     </section>
+    
+    </>
   );
 }

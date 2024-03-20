@@ -19,6 +19,7 @@
     "react": "^18",
     "react-datepicker": "^6.1.0",
     "react-dom": "^18",
+    "react-icons": "^5.0.1",
     "react-infinite-scroller": "^1.2.6",
     "styled-components": "^6.1.8"
   },

@@ -31,7 +31,7 @@ export function CommentEdits({ commentId, initialComment }) {
   return (
     <div>
       {isEditing ? (
-        <textarea
+        <textarea   
           value={updatedComment}
           onChange={(e) => setUpdatedComment(e.target.value)}
         />

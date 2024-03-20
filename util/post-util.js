@@ -70,13 +70,14 @@ export async function getPostsFiles() {
         return { message: '댓글이 게시되었습니다!' };
       }
   }
-
+// `http://localhost:6080/comment/delete/${commentid}`
   export async function DeleteComment(commentid) {
-    const response = await fetch(`http://localhost:6080/comment/delete/${commentid}`, {
+    const response = await fetch('http://localhost:6080/comment/delete', {
       cache: 'no-store',
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'commentid': commentid,
       },
     });
     if (response.status !== 200) {

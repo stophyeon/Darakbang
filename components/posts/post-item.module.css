@@ -1,0 +1,14 @@
+
+
+.postItem {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.postItem h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: green;
+}

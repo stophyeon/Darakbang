@@ -1,5 +1,7 @@
+'use client';
 import React, { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { IoSearch } from "react-icons/io5";
 import styled from 'styled-components'; // styled-components import 추가
 
 import LoadingIndicator from '../UI/LoadingIndicator.jsx';
@@ -7,12 +9,14 @@ import ErrorBlock from '../UI/ErrorBlock.jsx';
 
 import { fetchitems } from '../../util/http.js';
 import Items from './Items.jsx';
+import { useRouter } from 'next/navigation';
 
 
 
 const FindEventSection = () => {
   const searchElement = useRef();
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['Items', { searchTerm: searchTerm }],
@@ -22,14 +26,16 @@ const FindEventSection = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+    const searchTerm = searchElement.current.value;
     setSearchTerm(searchElement.current.value);
+    router.push(`/search/posts?searchTerm=${searchTerm}`);
   }
 
   return (
     <SearchForm onSubmit={handleSubmit} id="search-form">
       <header>
         <input type="search" placeholder="상품 검색" ref={searchElement} />
-        <button type="submit">검색</button>
+        <button type="submit"><IoSearch /></button>
       </header>
 
       {isLoading && <LoadingIndicator />}

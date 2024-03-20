@@ -37,6 +37,8 @@ export default function KakaoLogin() {
         window.location.href = redirectUrl;
       } catch (error) {
         console.error(error);
+        localStorage.removeItem("Authorization"); // 예외 발생 시 localStorage에서 값 삭제
+        localStorage.removeItem("expiration");
         // Handle error
       }
     };

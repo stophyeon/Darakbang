@@ -15,6 +15,7 @@ export default function LoginForm() {
     event.preventDefault();
     try {
       const response = await fetch("http://localhost:8080/member/login", {
+        cache: 'no-store',
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -26,7 +27,7 @@ export default function LoginForm() {
         // accessToken을 localStorage에 저장
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
         const expiration = new Date(); // 엑세스 토큰 시간 저장
-        expiration.setHours(expiration.getHours() + 1); // 1시간 이후에 토큰 만료
+        expiration.setHours(expiration.getHours() + 2); // 1시간 이후에 토큰 만료
         localStorage.setItem("expiration", expiration.toISOString());
 
         // refreshToken을 cookie에 저장 HttpOnly와 Secure 사용하여 보안 강화

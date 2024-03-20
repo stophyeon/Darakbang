@@ -1,0 +1,30 @@
+/* CommentForm.module.css */
+
+.formContainer {
+    display: flex;
+    margin: 10px;
+  }
+  
+  .formInput {
+    width: 500px;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .formButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+  }
+  
+  .formButton:hover {
+    background-color: #0056b3;
+  }
+  

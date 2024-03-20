@@ -1,0 +1,48 @@
+.headerContainer {
+    padding: 5px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+  }
+  
+  .logo {
+    font-family: 'Lato', sans-serif;
+    font-size: 2rem;
+    color: black;
+    margin: 0;
+    padding: 10px;
+    margin-left: 40px;
+    background-color: white;
+    border: none;
+  }
+  
+  .nav {
+    margin-top: 10px;
+  }
+  
+  .navList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 10px;
+    
+  }
+  
+  .navItem {
+    margin-right: 350px;
+  }
+  
+  .navItem2 {
+    margin-left: 100px;
+  }
+  
+  .navLink {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    margin-right: 50px;
+  }
+  

@@ -1,0 +1,22 @@
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px; /* 버튼과 다른 컨텐츠 사이의 간격 조절을 위한 마진 추가 */
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #9ebbc3; /* 배경색 */
+    color: white; /* 글자색 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 마우스 오버 효과 */
+  }
+  
+  .button:hover {
+    background-color: #45a049; /* 마우스 오버시 배경색 변화 */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 그림자 효과 */
+  }
+  

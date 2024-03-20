@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { DeletePost } from '@compoents/util/post-util';
+import { DeleteComment, DeletePost } from '@compoents/util/post-util';
 
-export default function DeletePostButton({ productId }) {
+export default function DeletePostButton({ productId}) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function deletePostDataHandler() {

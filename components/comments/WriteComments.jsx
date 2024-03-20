@@ -2,6 +2,8 @@
 import { PostComments } from '@compoents/util/post-util';
 import { useState } from 'react';
 
+import styles from './WriteComments.module.css';
+
 export default function CommentForm({ productId }) {
   const [comment, setComment] = useState('');
 
@@ -21,15 +23,16 @@ export default function CommentForm({ productId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
       <input
-        type="text"
+        className={styles.formInput}
+        type="textarea"
         name="commentdetail"
         placeholder="댓글을 입력하세요"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <button type="submit">댓글 작성</button>
+      <button type="submit" className={styles.formButton}>작성</button>
 
     </form>
   );
