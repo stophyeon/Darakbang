@@ -52,15 +52,7 @@ public class MemberController {
         JwtDto jwtDto = memberService.login(memberDto);
         return ResponseEntity.ok(jwtDto);
     }
-    @Operation(
-            operationId = "My email",
-            summary = "로그인한 사용자의 이메일"
 
-    )
-    @GetMapping("/info")
-    public String info(){
-        return memberService.profile(SecurityContextHolder.getContext().getAuthentication().getName()).getEmail();
-    }
     @Operation(
             operationId = "My profile",
             summary = "로그인한 사용자의 프로필"
