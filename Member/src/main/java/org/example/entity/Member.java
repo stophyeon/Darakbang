@@ -20,7 +20,7 @@ public class Member {
     private String email;
     private String name;
     private String password;
-    private String phoneNumber;
+
     private String nickName;
     private int point;
     private String image;
@@ -35,7 +35,7 @@ public class Member {
         this.email=memberDto.getEmail();
         this.password= memberDto.getPassword();
         this.nickName= memberDto.getNickName();
-        this.phoneNumber= memberDto.getPhoneNumber();
+
         this.name= memberDto.getName();
         this.image=memberDto.getImage();
     }

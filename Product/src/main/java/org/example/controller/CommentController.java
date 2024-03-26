@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name ="댓글" , description = "댓글 관련 API")
+@Tag(name ="댓글" , description = "댓글 API")
 public class CommentController {
 
     private final CommentService commentService;

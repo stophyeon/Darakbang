@@ -27,9 +27,7 @@ public class MemberDto {
     @Schema(description = "비밀번호",example = "영문,숫자,특수기호 포함8자리이상")
     private String password;
 
-    @JsonProperty("phone_num")
-    @Schema(description = "전화번호", example = "010-xxxx-xxxx")
-    private String phoneNumber;
+
     @Schema(description = "프로필 사진")
     private String image;
 
@@ -37,13 +35,13 @@ public class MemberDto {
     @Schema(description = "닉네임")
     private String nickName;
     @Builder
-    public MemberDto(String email, String nickName,String image, String name,String password,String phoneNumber){
+    public MemberDto(String email, String nickName,String image, String name,String password){
         this.email=email;
         this.nickName=nickName;
         this.image = image;
         this.name=name;
         this.password=password;
-        this.phoneNumber=phoneNumber;
+
     }
 
 }
