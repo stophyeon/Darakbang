@@ -14,15 +14,15 @@ public class Point {
 
     @Id
     @Column(name = "point_id")
-    private int pointid;
+    private int pointId;
 
     @Column(name = "point_name")
-    private String pointname;
+    private String pointName;
 
     @Column(name = "point_price")
-    private int pointprice;
+    private int pointPrice;
 
     @Column(name = "point_amount")
-    private int pointamount;
+    private int pointAmount;
 
 }

@@ -23,14 +23,17 @@ public class PurchaseController {
 
     private final PurchaseService purchaseService;
 
+    //paymentservice는 portone의 결제 확인 정보를 포함한 내용을
+    //purchase는 결제 확인 정보와 검증을 포함한 내용을 전달해야 합니다.
+
 
     @CrossOrigin
     @PostMapping("/payments/complete")
     public Mono<ResponseEntity<PurChaseCheck>> validatepayment(@RequestBody ValidationRequest validation) {
         return accessTokenService.GetToken()
-                .flatMap(token -> validateService.getpurchaseinfobyportone(validation.getPaymentId(), token)
+                .flatMap(token -> validateService.getpurchaseinfobyportone(validation.getPayment_id(), token)
                         .flatMap(purchasecheckresponsewebclient -> {
-                          return purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPaymentId(),validation.getPointname(),validation.getJwt());
+                          return purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPayment_id(),validation.getPoint_name());
                         }));
     }
 

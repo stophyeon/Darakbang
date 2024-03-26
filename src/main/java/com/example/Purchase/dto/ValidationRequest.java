@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ValidationRequest {
 
-    String paymentId;
-    int totalAmount;
-
-    String pointname;
-
-    String jwt;
-
+    String payment_id;
+    int total_amount;
+    String point_name;
 
 
 }

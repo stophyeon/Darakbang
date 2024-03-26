@@ -17,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #url: jdbc:mysql://localhost:3306/purchasedb?allowPublicKeyRetrieval=true
     #local용
-    url: jdbc:mysql://localhost:3307/purchaseandpointdb?allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3307/paymentandpointdb?allowPublicKeyRetrieval=true
     #이미지 생성시 INDEX.HTML 제거 필요
     #db만 cloud 용
     #url: jdbc:mysql://my-purchasedb-container:3306/purchasedb?allowPublicKeyRetrieval=true&useSSL=false
