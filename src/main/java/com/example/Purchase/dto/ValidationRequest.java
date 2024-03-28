@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ValidationRequest {
 
     String payment_id;
-    int total_amount;
+    int total_amount; //결제금액
     String point_name;
 
 

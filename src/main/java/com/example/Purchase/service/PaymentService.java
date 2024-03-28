@@ -20,7 +20,7 @@ public class PaymentService {
 
     //결제정보 저장 service단 입니다.
     //db와의 datetime type을 맞추어주었습니다.
-    public Mono<Payment> SavePaymentInfo(String paymentid, String status, String paytime, String ordername, int totalamount, String memberid)
+    public Mono<Payment> SavePaymentInfo(String paymentid, String status, String paytime, String ordername, int totalamount, String useremail)
     {
         if (paymentid == null || status == null || paytime == null || ordername == null) {
             throw new IllegalArgumentException("Payment 정보에 null 값이 포함되어 있습니다.");
@@ -30,7 +30,7 @@ public class PaymentService {
         Timestamp requestedAtTimestamp = Timestamp.from(offsetDateTime.toInstant());
 
         Payment payment =
-                new Payment(paymentid,status,requestedAtTimestamp,ordername,totalamount,memberid) ;
+                new Payment(paymentid,status,requestedAtTimestamp,ordername,totalamount,useremail) ;
 
 
         return Mono.fromCallable(() -> {

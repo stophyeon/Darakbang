@@ -19,7 +19,7 @@ public class Point {
     @Column(name = "point_name")
     private String pointName;
 
-    @Column(name = "point_price")
+    @Column(name = "spoint_price")
     private int pointPrice;
 
     @Column(name = "point_amount")

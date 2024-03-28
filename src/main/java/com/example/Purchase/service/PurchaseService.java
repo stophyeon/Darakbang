@@ -30,7 +30,7 @@ public class PurchaseService {
     private final ChangeMemberPointService changeMemberPointService;
 
 
-    public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, String pointname) {
+    public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, String pointname, String useremail) {
         Point point = pointRepository.findByPointName(pointname);
         int purchaseprice = point.getPointPrice();
         int pointamount = point.getPointAmount();
@@ -43,10 +43,10 @@ public class PurchaseService {
                         purchasecheckbyportone.getRequestedAt(),
                         purchasecheckbyportone.getOrderName(),
                         pointamount,
-                        "구매한 사용자 email" // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
+                        useremail
                 ).flatMap(savedPayment-> {
-                    PointChangeFormat pointChangeFormat = new PointChangeFormat("구매한 사용자 이메일", pointamount); // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
-                    return changeMemberPointService.changePointByEmail(pointChangeFormat, "구매한 사용자 이메일") // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
+                    PointChangeFormat pointChangeFormat = new PointChangeFormat(useremail, pointamount); // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
+                    return changeMemberPointService.changePointByEmail(pointChangeFormat) // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
                             .map(response -> {
                                 return ResponseEntity.ok(purchasecheckbyportone);
                             });

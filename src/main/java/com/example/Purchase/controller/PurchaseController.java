@@ -28,12 +28,12 @@ public class PurchaseController {
 
 
     @CrossOrigin
-    @PostMapping("/payments/complete")
-    public Mono<ResponseEntity<PurChaseCheck>> validatepayment(@RequestBody ValidationRequest validation) {
+    @PostMapping("/payments/complete/{useremail}")
+    public Mono<ResponseEntity<PurChaseCheck>> validatepayment(@PathVariable(value = "useremail") String useremail, @RequestBody ValidationRequest validation) {
         return accessTokenService.GetToken()
-                .flatMap(token -> validateService.getpurchaseinfobyportone(validation.getPayment_id(), token)
+                .flatMap(PortOnetoken -> validateService.getpurchaseinfobyportone(validation.getPayment_id(), PortOnetoken)
                         .flatMap(purchasecheckresponsewebclient -> {
-                          return purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPayment_id(),validation.getPoint_name());
+                          return purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPayment_id(),validation.getPoint_name(),useremail);
                         }));
     }
 
