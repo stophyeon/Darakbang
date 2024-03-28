@@ -68,7 +68,7 @@ public class NaverService {
         MemberDto memberDto =MemberDto.builder()
                 .email(response.get("email").toString())
                 .image(response.get("profile_image").toString())
-                .phoneNumber(response.get("mobile").toString())
+
                 .name(response.get("name").toString())
                 .password(passwordEncoder.encode("default1234"))
                 .build();

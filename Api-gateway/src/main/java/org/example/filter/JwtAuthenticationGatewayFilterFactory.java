@@ -1,0 +1,83 @@
+package org.example.filter;
+
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.example.jwt.JwtValid;
+import org.example.jwt.TokenUser;
+import org.json.JSONException;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+
+@Component
+@Slf4j
+
+public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtAuthenticationGatewayFilterFactory.Config> {
+    private final JwtValid jwtValid;
+    public JwtAuthenticationGatewayFilterFactory(JwtValid jwtValid) {
+        super(Config.class);
+        this.jwtValid = jwtValid;
+    }
+    @Override
+    public GatewayFilter apply(Config config) {
+        return (exchange, chain) -> {
+            String authorizationHeader = exchange.getRequest().getHeaders().getFirst(config.header);
+            if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(config.grant+" ")) {
+                String token = authorizationHeader.substring(7); // Bearer
+                log.info(token);
+                try {
+                    if (jwtValid.validateToken(token)) {
+                        TokenUser user = jwtValid.decode(token);
+                        log.info(user.getId());
+                        log.info(user.getRole());
+
+                        ServerWebExchange req= exchange.mutate()
+                                .request(addAuthorization(exchange.getRequest(), user))
+                                .build();
+
+                        log.info(req.getRequest().getURI().toString());
+                        return chain.filter(req); // 유효성 검사 통과후 성공 로직
+                    }
+                } catch (TokenExpiredException e) {
+                    log.error("Token validation error: {}", e.getMessage());
+                }
+            }
+            return onError(exchange); // 유효성 검사 실패 반환
+        };
+    }
+    @Getter
+    @Setter
+    public static class Config{
+        private String header="Authorization";
+        private String grant="Bearer";
+    }
+    private ServerHttpRequest addAuthorization(ServerHttpRequest request, TokenUser tokenUser) {
+        URI uri = URI.create(request.getURI().toString()+"/"+tokenUser.getId());
+        return request.mutate()
+                .uri(uri)
+                .build();
+    }
+
+    private Mono<Void> onError(ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        return exchange.getResponse().setComplete();
+    }
+
+
+}
