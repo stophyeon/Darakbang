@@ -29,8 +29,8 @@ public class FollowService {
     //Follow 신청 자신이 follower, 상대가 following
     @Transactional
     @TimeCheck
-    public Follow FollowReq(String email){
-        String MyEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+    public Follow FollowReq(String email,String MyEmail){
+
         Member following_member = memberRepository.findByEmail(email).get();
         Member follower_member = memberRepository.findByEmail(MyEmail).get();
         Follow follow = Follow.builder()
@@ -49,15 +49,13 @@ public class FollowService {
     }
 
     @TimeCheck
-    public List<Member> getFollower(String nickName){
-        Optional<Member> member = memberRepository.findByNickName(nickName);
+    public List<Member> getFollower(String email){
+        Optional<Member> member = memberRepository.findByEmail(email);
         return followRepository.findFollower(member.get());
     }
     @TimeCheck
-    public List<Member> getFollowing(String nickName){
-
-
-        Optional<Member> member = memberRepository.findByNickName(nickName);
+    public List<Member> getFollowing(String email){
+        Optional<Member> member = memberRepository.findByEmail(email);
         return followRepository.findFollowing(member.get());
 
 
