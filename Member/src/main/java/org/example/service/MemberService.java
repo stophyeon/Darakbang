@@ -72,5 +72,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
         memberRepository.changePoint(member.get(),point);
     }
-
+    public String getNickName(String email){
+        return memberRepository.findByEmail(email).get().getNickName();
+    }
 }
