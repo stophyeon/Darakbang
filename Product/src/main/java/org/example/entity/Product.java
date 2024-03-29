@@ -1,12 +1,12 @@
 package org.example.entity;
 
-import org.example.dto.ProductResponse;
+import org.example.dto.ProductDto;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Table(name = "product")
+
 @Entity
 @Data
 @RequiredArgsConstructor
@@ -18,61 +18,68 @@ public class Product {
     private Long productId ;
 
     @Column(name = "product_name")
-    private String productname;
+    private String productName;
 
     @Column(name = "price")
     private int price ;
 
-//    @Column(name = "image1")
-//    private String image1;
-//
-//    @Column(name = "image2")
-//    private String image2;
-//    @Column(name = "image3")
-//    private String image3;
-//    @Column(name = "image4")
-//    private String image4;
-//    @Column(name = "image5")
-//    private String image5;
+    @Lob
+    @Column(name = "image_product")
+    private byte[] ImageProduct;
 
-    @Column(name = "Pmessage")
-    private String pmessage;
+    @Lob
+    @Column(name = "image_real")
+    private byte[] ImageReal;
+
 
     @Column(name = "create_at")
-    private Date createat;
+    private LocalDate createAt;
+
+    @Column(name="state")
+    private boolean state=true;
 
     @Column(name = "category_id")
-    private int categoryid;
+    private int categoryId;
 
-    @Column(name = "sold_out")
-    private boolean soldout;
+    @Column(name = "expiration_at")
+    private LocalDate expireAt;
+
+    @Column(name = "nickname")
+    private String nickName;
 
     @Column(name = "user_email")
-    private String useremail;
+    private String userEmail;
 
 
-    public Product(String product_name, int price, String pmessage, Date create_at, int category_id, boolean sold_out, String user_email) {
-        this.productname = product_name;
+    @Builder
+    public Product(String productName, int price, byte[] imageProduct, byte[] imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail) {
+        this.productName = productName;
         this.price = price;
-        this.pmessage = pmessage;
-        this.createat = create_at;
-        this.categoryid = category_id;
-        this.soldout = sold_out;
-        this.useremail = user_email;
+        this.ImageProduct = imageProduct;
+        this.ImageReal = imageReal;
+        this.createAt = createAt;
+        this.categoryId = categoryId;
+        this.expireAt = expireAt;
+        this.nickName = nickName;
+        this.userEmail = userEmail;
     }
 
-    public ProductResponse toProductResponseDto()
-    {
-        return ProductResponse.builder()
-                .product_id(productId)
-                .product_name(productname)
-                .price(price)
-                .product_detail(pmessage)
-                .create_at(createat)
-                .category_id(categoryid)
-                .sold_out(soldout)
-                .user_email(useremail).build();
+
+
+    public static Product ToEntity(ProductDto productDto,String userEmail){
+        return Product.builder()
+                .categoryId(productDto.getCategory_id())
+                .productName(productDto.getProduct_name())
+                .createAt(productDto.getCreate_at())
+                .expireAt(productDto.getExpire_at())
+                .nickName(productDto.getNick_name())
+                .userEmail(userEmail)
+                .imageProduct(productDto.getImage_product())
+                .imageReal(productDto.getImage_real())
+                .build();
     }
+
+
 
 
 

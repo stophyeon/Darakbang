@@ -80,5 +80,8 @@ public class MemberController {
         memberService.getPoint(point.getEmail(), point.getPoint());
         return point.getPoint()+" 충전 완료됐습니다.";
     }
-
+    @GetMapping("/nick_name")
+    public String getNickName(@RequestParam("email") String email){
+        return memberService.getNickName(email);
+    }
 }

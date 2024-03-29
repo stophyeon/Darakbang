@@ -19,21 +19,27 @@ public class QProduct extends EntityPathBase<Product> {
 
     public static final QProduct product = new QProduct("product");
 
-    public final NumberPath<Integer> categoryid = createNumber("categoryid", Integer.class);
+    public final NumberPath<Integer> categoryId = createNumber("categoryId", Integer.class);
 
-    public final DateTimePath<java.util.Date> createat = createDateTime("createat", java.util.Date.class);
+    public final DatePath<java.time.LocalDate> createAt = createDate("createAt", java.time.LocalDate.class);
 
-    public final StringPath pmessage = createString("pmessage");
+    public final DatePath<java.time.LocalDate> expireAt = createDate("expireAt", java.time.LocalDate.class);
+
+    public final ArrayPath<byte[], Byte> ImageProduct = createArray("ImageProduct", byte[].class);
+
+    public final ArrayPath<byte[], Byte> ImageReal = createArray("ImageReal", byte[].class);
+
+    public final StringPath nickName = createString("nickName");
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
     public final NumberPath<Long> productId = createNumber("productId", Long.class);
 
-    public final StringPath productname = createString("productname");
+    public final StringPath productName = createString("productName");
 
-    public final BooleanPath soldout = createBoolean("soldout");
+    public final BooleanPath state = createBoolean("state");
 
-    public final StringPath useremail = createString("useremail");
+    public final StringPath userEmail = createString("userEmail");
 
     public QProduct(String variable) {
         super(Product.class, forVariable(variable));
