@@ -38,7 +38,10 @@ public class ProductService {
     public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email)
     {
         Product product = productRepository.findByProductId(productId);
-        if (product.getUserEmail().equals(email)){return ResponseEntity.ok(new SuccessRes(product.getProductName(),"삭제 성공"));}
+        if (product.getUserEmail().equals(email)){
+            productRepository.delete(product);
+            return ResponseEntity.ok(new SuccessRes(product.getProductName(),"삭제 성공"));
+        }
         else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지 않습니다."));}
     }
 
@@ -52,7 +55,7 @@ public class ProductService {
     {
         Product product=productRepository.findByProductId(productId);
         if (product.getUserEmail().equals(email)){
-            productRepository.updateProduct(productDto.getProduct_name(),productDto.getPrice(),
+            productRepository.updateProduct(productDto.getProduct_id(),productDto.getProduct_name(),productDto.getPrice(),
                 productDto.getImage_product(), productDto.getImage_real(),
                 productDto.getCategory_id(), productDto.getExpire_at());
             return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));

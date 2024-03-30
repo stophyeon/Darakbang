@@ -21,12 +21,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query("update Product p set p.productName = :productname, " +
             "p.price = :price, " +
-            "p.imageProduct = :imageproduct, p.imageReal = :imagereal, " +
-            "p.createAt = :updateat, " +
-            "p.state = :state, p.categoryId = :categoryid, " +
+            "p.ImageProduct = :imageproduct, p.ImageReal = :imagereal, " +
+            "p.categoryId = :categoryid, " +
             "p.expireAt = :expireat " +
             "where p.productId = :productid")
-    void updateProduct(@Param("productname") String productName,
+    void updateProduct(@Param("productid") Long productid,
+                       @Param("productname") String productName,
                        @Param("price") int price,
                        @Param("imageproduct") byte[] imageProduct,
                        @Param("imagereal") byte[] imageReal,
