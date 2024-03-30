@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,19 +51,17 @@ public class ProductService {
 
         return null;
     }
-
+    @Transactional
     public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email)
     {
         Product product=productRepository.findByProductId(productId);
         if (product.getUserEmail().equals(email)){
-            productRepository.updateProduct(productDto.getProduct_id(),productDto.getProduct_name(),productDto.getPrice(),
+            productRepository.updateProduct(productId,productDto.getProduct_name(),productDto.getPrice(),
                 productDto.getImage_product(), productDto.getImage_real(),
                 productDto.getCategory_id(), productDto.getExpire_at());
             return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));
         }
         else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지않습니다."));}
-
-
     }
 
 
