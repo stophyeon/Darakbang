@@ -46,12 +46,10 @@ public class ProductController {
             @ApiResponse(responseCode = "403", description = "접근자와 게시글 작성자가 다릅니다")
     })
     @CrossOrigin
-    @DeleteMapping("/{email}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("email") String email, @RequestParam("product_id") Long productId) {
+    @DeleteMapping("/{product_id}/{email}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId) {
         return productService.deleteProduct(productId,email);
     }
-
-
 
     // 게시글 수정 , email 필요, email 활용 검증 필요
     @Operation(summary = "상품 게시글 수정")
@@ -62,39 +60,24 @@ public class ProductController {
             @ApiResponse(responseCode = "403", description = "접근자와 게시글 작성자가 다릅니다")
     })
     @CrossOrigin
-    @PutMapping("/{email}")
-    public ResponseEntity<?> changeProduct(@PathVariable("email") String email, @RequestParam("product_id") Long productId,
+    @PutMapping("/{product_id}/{email}")
+    public ResponseEntity<?> changeProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId,
                                            @RequestBody ProductDto productDto)
     {
         return productService.updateProduct(productId,productDto,email) ;
-
     }
-
     // 페이징 형태로 변경
-
-    @Operation(summary = "기본 화면 (첫 페이지 확인)")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "기본 화면 page 조회 성공"),
-            @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
-    })
-    @CrossOrigin
-    @GetMapping("/pro")
-    public ResponseEntity<Page<ProductDto>> getDefaultPage() //기본 화면
-    {return productService.findProductPage(0);}
-
     @Operation(summary = "페이지 별 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "기본 화면 page 조회 성공"),
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
     @CrossOrigin
-    @GetMapping("/pro")
-    public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam("page") int page)
+    @GetMapping("/page")
+    public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page)
     {
         return productService.findProductPage(page-1) ;
     }
-
-
     //게시글 1개 검색
     @Operation(summary = "상품 게시글 상세 조회")
     @ApiResponses(value = {
@@ -103,8 +86,8 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
     @CrossOrigin
-    @GetMapping("/detail")
-    public ResponseEntity<ProductDto> getProduct(@RequestParam("product_id") Long productId)
+    @GetMapping("/detail/{product_id}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable("product_id") Long productId)
     {
         return productService.findProductDetail(productId);
     }

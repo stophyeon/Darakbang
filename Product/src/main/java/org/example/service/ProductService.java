@@ -28,28 +28,38 @@ public class ProductService {
             return ResponseEntity.ok(new SuccessRes(product.getProductName(),"success"));
     }
 
-
-
     public ResponseEntity<Page<ProductDto>> findProductPage (int page){
-        Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
+        Pageable pageable = PageRequest.of(page, 3, Sort.by(Sort.Direction.ASC, "productId"));
         Page<Product> productPage = productRepository.findAll(pageable);
         Page<ProductDto> products = productPage.map(ProductDto::ToDto);
         return ResponseEntity.ok(products);
     }
 
-    public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email){
-        return null;
+    public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email)
+    {
+        Product product = productRepository.findByProductId(productId);
+        if (product.getUserEmail().equals(email)){return ResponseEntity.ok(new SuccessRes(product.getProductName(),"삭제 성공"));}
+        else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지 않습니다."));}
     }
 
     public ResponseEntity<ProductDto> findProductDetail(Long productId)
     {
+
         return null;
     }
 
-    public ResponseEntity updateProduct(Long productId, ProductDto productDto,String email)
+    public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email)
     {
+        Product product=productRepository.findByProductId(productId);
+        if (product.getUserEmail().equals(email)){
+            productRepository.updateProduct(productDto.getProduct_name(),productDto.getPrice(),
+                productDto.getImage_product(), productDto.getImage_real(),
+                productDto.getCategory_id(), productDto.getExpire_at());
+            return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));
+        }
+        else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지않습니다."));}
 
-        return null;
+
     }
 
 
