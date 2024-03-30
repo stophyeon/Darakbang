@@ -1,0 +1,26 @@
+server:
+  port: 7080
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #url: jdbc:mysql://localhost:3306/purchasedb?allowPublicKeyRetrieval=true
+    #local용
+    #url: jdbc:mysql://localhost:3307/purchaseandpointdb?allowPublicKeyRetrieval=true
+    #이미지 생성시 INDEX.HTML 제거 필요
+    #db만 cloud 용
+    url: jdbc:mysql://paymentdbcontainer:3306/paymentandpointdb?allowPublicKeyRetrieval=true&useSSL=false
+    #cloud접속용
+    username: root
+    password: 1234
