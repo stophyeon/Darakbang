@@ -1,0 +1,45 @@
+.profileContainer {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .profileInfo {
+    margin-bottom: 20px;
+  }
+  
+  .profileTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .profileItem {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .followListContainer {
+    margin-top: 20px;
+  }
+  
+  .followButton {
+    font-size: 16px;
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .profileLoading {
+    font-size: 16px;
+  }
+  

@@ -1,4 +1,4 @@
-/* ProductForm.module.css */
+
 
 .formContainer {
     margin: 20px;
@@ -7,7 +7,7 @@
     border-radius: 5px;
     background-color: #f9f9f9;
     display: flex;
-    position: fixed;
+    position: absolute;
     justify-content: center;
     top: 50%;
     left: 50%;

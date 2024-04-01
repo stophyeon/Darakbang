@@ -1,0 +1,76 @@
+version: '3'
+services:
+  discovery-service:
+    image: stophyeon/test:eureka
+    ports:
+      - 8761:8761
+    networks:
+      - test-net
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8761/ || exit 1" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+  apigateway-service:
+      image: stophyeon/test:api-gw
+      ports:
+        - 8888:8888
+      environment:
+        - DISCOVERY_SERVICE_URL=http://localhsot:8761/eureka/
+      healthcheck:
+        test: [ "CMD-SHELL", "curl -f http://api-gw:8888/actuator/health || exit 1" ]
+        interval: 10s
+        timeout: 3s
+        retries: 3
+      depends_on:
+        discovery-service:
+          condition: service_healthy
+      networks:
+        - test-net
+      restart: on-failure
+  member-service:
+      image: stophyeon/test:member
+      ports:
+        - 0:1000
+      environment:
+        - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
+      depends_on:
+        discovery-service:
+          condition: service_healthy
+      networks:
+        - test-net
+      restart: on-failure
+  product-service:
+      image: stophyeon/test:product-api
+      ports:
+        - "0:1001"
+      environment:
+        - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
+      depends_on:
+        discovery-service:
+          condition: service_healthy
+      networks:
+        - test-net
+      restart: on-failure
+  purchase-service:
+    image: stophyeon/test:purchase
+    ports:
+      - "0:1001"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - test-net
+    restart: on-failure
+  config-service:
+      image: stophyeon/test:config
+      ports:
+        - 8071:8071
+      networks:
+        - test-net
+      restart: on-failure
+networks:
+  test-net:
+

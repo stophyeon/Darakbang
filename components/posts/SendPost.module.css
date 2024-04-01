@@ -1,0 +1,82 @@
+/* ProductForm.module.css */
+
+.formContainer {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-right: 10px;
+  }
+  
+  .inputField {
+    width: 50%;
+    padding: 8px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .inputFielded {
+    width: 90%;
+    height: 100px;
+    padding: 8px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .selectField {
+    margin: 10px;
+    width: 20%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+ }
+  .button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .notification {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .pending {
+    background-color: #ffc107;
+  }
+  
+  .success {
+    background-color: #28a745;
+  }
+  
+  .error {
+    background-color: #dc3545;
+  }
+  
+  .notificationTitle {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .notificationMessage {
+    font-size: 16px;
+  }
+  

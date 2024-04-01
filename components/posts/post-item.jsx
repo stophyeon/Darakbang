@@ -4,17 +4,23 @@ import Link from 'next/link';
 import styles from './post-item.module.css';
 
 function PostItem(props) {
-  const { productname, price, productId } = props.post;
+  const { product_name, price, product_id } = props.post;
+  const { pageNumber } = props.posts.pageable;
 
  
-  // const imagePath = `/images/posts/${slug}/${image}`;
-  const linkPath = `/posts/${productId}`;
+  const linkPath = `/${pageNumber}/${product_id}`;
 
   return (
       <Link href={linkPath} style={{ textDecoration: "none" }}>
         <div className={styles.postItem}>
-          <h3>{productname}</h3>
+          {/* 유저 프로필 */}
+          <h3>{product_name}</h3>
+          {/* 판매 사진 */}
+          <h3>가격</h3>
           <h3>{price}원</h3>
+          <div>
+            <button>좋아요</button> <button>구매하기</button>
+          </div>
         </div>
       </Link>
   );

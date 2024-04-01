@@ -64,25 +64,34 @@ export default FindEventSection;
 
 // 검색 폼 스타일드 컴포넌트 생성
 const SearchForm = styled.form`
+  display: flex;
+  position: relative;
   header {
     display: flex;
     align-items: center;
+    width: 880px;
+    height: 48px;
+    flex-shrink: 0;
   }
 
   input[type='search'] {
-    width: 300px;
-    padding: 8px;
+    width: 1440px;
+    height: 48px;
+    flex-shrink: 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
+    margin-left: 100px;
+    padding-left: 20px;
   }
 
   button {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    background: #FFFFFF;
+    margin-left: 1500px;
+    position: absolute;
   }
 `;

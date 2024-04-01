@@ -1,30 +1,22 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styles from './Profile.module.css';
 import Image from 'next/image';
 import { fetchUserProfile } from '@compoents/util/http';
 
-export default function UserProfile() {
-  const [userInfo, setUserInfo] = useState('');
+export async function fetchUserProfileData({ accessToken }) {
+  const UserInfo = await fetchUserProfile(accessToken);
+  return UserInfo;
+}
+
+export default function UserProfile({ UserInfo }) {
   const [followingList, setFollowingList] = useState([]);
   const [followerList, setFollowerList] = useState([]);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const defaultImage = "/kakaoImg.jpg";
+  
 
-  useEffect(() => {
-    // API 호출 -> 사용자 정보 받아오기
-    const fetchUserProfileData = async () => {
-      try {
-        const accesstoken = localStorage.getItem('Authorization');
-        const data = await fetchUserProfile(accesstoken);
-        setUserInfo(data);
-      } catch (error) {
-        console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
-      }
-    };
-    fetchUserProfileData();
-  }, []);
 
   const openFollowingModal = () => {
     setIsFollowingModalOpen(true);
@@ -46,44 +38,44 @@ export default function UserProfile() {
 
 
   return (
-    <ProfileContainer>
-      {userInfo ? (
-        <ProfileInfo>
-          <ProfileTitle>사용자 프로필 정보</ProfileTitle>
-          <ProfileItem>
-            <Image
-              src={userInfo.image || defaultImage}
-              alt="이미지"
-              width={200}
-              height={300}
-            />
-          </ProfileItem>
-          <ProfileItem>닉네임: {userInfo.nickName}</ProfileItem>
-          <ProfileItem>이름: {userInfo.name}</ProfileItem>
-          <ProfileItem>이메일: {userInfo.email}</ProfileItem>
-          <ProfileItem>내 포인트: {userInfo.point} point</ProfileItem>
-          <FollowListContainer>
-            <FollowButton onClick={openFollowingModal}>팔로잉 {userInfo.following}</FollowButton>
-            {isFollowingModalOpen && (
-              <Modal>
-                <CloseButton onClick={closeFollowingModal}>닫기</CloseButton>
-              </Modal>
-            )}
-          </FollowListContainer>
-          <FollowListContainer>
-            <FollowButton onClick={openFollowerModal}>팔로워 {userInfo.follower}</FollowButton>
-            {isFollowerModalOpen && (
-              <Modal>
-                {/* 팔로워 리스트 표시 */}
-                <CloseButton onClick={closeFollowerModal}>닫기</CloseButton>
-              </Modal>
-            )}
-          </FollowListContainer>
-        </ProfileInfo>
-      ) : (
-        <ProfileLoading>사용자 프로필 정보를 불러오는 중입니다...</ProfileLoading>
-      )}
-    </ProfileContainer>
+    <div className={styles.profileContainer}>
+    {UserInfo ? (
+      <div className={styles.profileInfo}>
+        <h2 className={styles.profileTitle}>사용자 프로필 정보</h2>
+        <div className={styles.profileItem}>
+          <Image
+            src={UserInfo.image || defaultImage}
+            alt="이미지"
+            width={200}
+            height={300}
+          />
+        </div>
+        <p className={styles.profileItem}>닉네임: {UserInfo.nickName}</p>
+        <p className={styles.profileItem}>이름: {UserInfo.name}</p>
+        <p className={styles.profileItem}>이메일: {UserInfo.email}</p>
+        <p className={styles.profileItem}>내 포인트: {UserInfo.point} point</p>
+        <div className={styles.followListContainer}>
+          <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {UserInfo.following}</button>
+          {isFollowingModalOpen && (
+            <div className={styles.modal}>
+              <button className={styles.closeButton} onClick={closeFollowingModal}>닫기</button>
+            </div>
+          )}
+        </div>
+        <div className={styles.followListContainer}>
+          <button className={styles.followButton} onClick={openFollowerModal}>팔로워 {UserInfo.follower}</button>
+          {isFollowerModalOpen && (
+            <div className={styles.modal}>
+              {/* 팔로워 리스트 표시 */}
+              <button className={styles.closeButton} onClick={closeFollowerModal}>닫기</button>
+            </div>
+          )}
+        </div>
+      </div>
+    ) : (
+      <p className={styles.profileLoading}>사용자 프로필 정보를 불러오는 중입니다...</p>
+    )}
+  </div>
   );
 };
 

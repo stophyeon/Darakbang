@@ -1,23 +1,16 @@
-'use client'
+import { cookies } from "next/headers";
 
-import MainScroll from "@compoents/components/MainInfinite";
+import MainNavigation from "@compoents/components/layout/main-navigation";
+import styles from "./page.module.css";
 
-import Link from "next/link";
 
 export default function Home() {
-  const nicknames = ["김민우", "지현정", "지혁이"];
-  const linkPaths = nicknames.map((nickname) => `/profile/${nickname}`);
-
-  
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("Authorization");
   return (
     <>
-      <h1>메인 페이지</h1>
-      {/* {nicknames.map((nickname, index) => (
-        <Link key={nickname} href={linkPaths[index]}>
-          <div>{nickname} 프로필</div>
-        </Link>
-      ))} */}
-      <MainScroll />
+    <MainNavigation accessToken={accessToken}/>
+    <section className={styles.flexSection1}></section>
     </>
   );
 }

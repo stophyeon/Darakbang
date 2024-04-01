@@ -1,7 +1,4 @@
 import { QueryClient } from '@tanstack/react-query';
-import InfiniteScroll from 'react-infinite-scroller';
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { Species } from "./Species";
 
 export const queryClient = new QueryClient();
 
@@ -81,9 +78,9 @@ export const fetchUserProfile = async (accesstoken) => {
 
 // 상대방 프로필 api
 
-export const fetchOtherUserProfile = async (nickName, accessToken) => {
+export const fetchOtherUserProfile = async (nick_name, accessToken) => {
   try {
-    const response = await fetch(`http://localhost:8080/member/other?nick_name=${nickName}`, {
+    const response = await fetch(`http://localhost:8080/member/other?nick_name=${nick_name}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -110,10 +107,6 @@ export async function followUser(accessToken, email) {
       },
       body: JSON.stringify({ email })
     });
-    console.log(accessToken, email)
-    if (!response.ok) {
-      throw new Error('팔로우 요청을 보내는 중 오류가 발생했습니다.');
-    }
     if (response.ok) {
       console.log("팔로우 성공!");
     }

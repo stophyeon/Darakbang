@@ -1,0 +1,23 @@
+.headerContainer {
+    display: flex;
+    background-color: #456AE2;
+    height: 130px;
+    /* width: 1440px; */
+    flex-shrink: 0;
+    border: 0px;
+
+  }
+  
+  .logo {
+    color: #FFFFFF;
+    font-family: "Gmarket Sans TTF";
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 144px;
+    height: 44px;
+    margin-left: 144px;
+    margin-top: 43px;
+    cursor: pointer;
+  }

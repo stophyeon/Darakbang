@@ -1,0 +1,273 @@
+.parent {
+    position: relative;
+    height: 100vh; /* 화면 전체 높이 */
+  }
+  
+  .formContainer {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 684px;
+    height: 753px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
+  }
+.logintext {
+    color: var(--black, #191A1C);
+font-family: "Pretendard Variable";
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+width: 78px;
+height: 21px;
+margin-top: 62px;
+margin-left: 59px;
+gap: 0px;
+opacity: 0px;
+padding: 0%;
+}
+
+.logintext2 {
+    color: var(--black, #191A1C);
+font-family: "Pretendard Variable";
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+width: 78px;
+height: 21px;
+margin-top: 31px;
+margin-left: 59px;
+gap: 0px;
+opacity: 0px;
+padding: 0%;
+}
+
+.Input{
+    width: 566px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-left: 59px;
+    margin-top: 14px;
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    gap: 0px;
+    opacity: 0px;
+    padding-left: 23px;
+}
+
+.Input2{
+    width: 566px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-left: 59px;
+    margin-top: 14px;
+    padding-left: 23px;
+}
+
+.Input::placeholder {
+    color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-left: 0%;
+}
+
+
+.Button1 {
+    width: 566px;
+    height: 50px;
+    margin-top: 52px;
+    margin-left: 59px;
+    gap: 0px;
+    border-radius: 10px 0px 0px 0px;
+    opacity: 0px;
+    border-radius: 10px;
+    border: #496AF3;
+    background: var(--primary-primary, #496AF3);
+    color: #FFF;
+    font-family: "Pretendard Variable";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 0%;
+}
+
+.Button2 {
+    width: 566px;
+    height: 50px;
+    margin-top: 18px;
+    margin-left: 59px;
+    gap: 0px;
+    border-radius: 10px 0px 0px 0px;
+    border: 1.5px 0px 0px 0px;
+    opacity: 0px;
+    border-radius: 10px;
+border: 1.5px solid var(--primary-primary, #496AF3);
+background: #FFF;
+color: var(--primary-primary, #496AF3);
+font-family: "Pretendard Variable";
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+padding: 0%;
+}
+
+
+.Easylogin {
+    color: var(--gray-600, #808389);
+font-family: "Pretendard Variable";
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+width: 90px;
+height: 19px;
+margin-top: 40px;
+margin-left: 300px;
+gap: 0px;
+opacity: 0px;
+
+}
+
+
+.anyLogins{
+    display: flex;
+}
+.naverButton {
+    width: 70px;
+    height: 70px;
+    margin-top: 14px;
+    margin-left: 239px;
+    gap: 0px;
+    opacity: 0px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+  
+  .ellipseContainer img {
+    position: absolute;
+    fill: #D9D9D9;
+    border-radius: 100%;
+  }
+
+.kakaoButton {
+    margin-top: 14px;
+    margin-left: 69px;
+    gap: 0px;
+    opacity: 0px;
+    cursor: pointer;
+}
+
+.naverText {
+    color: var(--gray-400, #BEC0C6);
+font-family: "Pretendard Variable";
+font-size: 13px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+width: 100px;
+height: 17px;
+margin-top: 15px;
+margin-left: 226px;
+gap: 0px;
+opacity: 0px;
+}
+
+.kakaoText {
+    color: var(--gray-400, #BEC0C6);
+font-family: "Pretendard Variable";
+font-size: 13px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+width: 100px;
+height: 17px;
+margin-top: 15px;
+margin-left: 39px;
+gap: 0px;
+opacity: 0px;
+}
+
+.pageContainer {
+    position: relative;
+    /* width: 1440px;  */
+    height: 894px;
+}
+
+.flexSection1 {
+    /* width: 1440px; */
+    height: 347px;
+    background: #456AE2;
+    border: 0;
+}
+
+.flexSection2 {
+    /* width: 1440px; */
+    /* height: 547px; */
+    background: #F3F5FA;
+}
+
+.write1 {
+    color: #FFF;
+    font-family: "Pretendard Variable";
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    /* width: 156px; */
+    height: 72px;
+    gap: 0px;
+    opacity: 0px;
+}
+
+.write2 {
+    color: #FFF;
+font-family: "Pretendard Variable";
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+text-align: center;
+color: #FFFFFF;
+/* width: 245px; */
+height: 24px;
+margin-top: 10px;
+gap: 0px;
+opacity: 0px;
+}
+
+.errorMsg {
+    color: #E13333;
+font-family: "Pretendard Variable";
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+ margin-left: 9px;
+ margin-top: 29px;
+}
+
+.smile {
+    margin-left: 58px;
+    margin-top: 25px;
+}

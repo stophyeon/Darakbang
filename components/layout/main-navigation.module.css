@@ -1,48 +1,82 @@
+
 .headerContainer {
-    padding: 5px;
-    display: flex; 
-    justify-content: space-between;
+    display: flex;  
     align-items: center; 
+    background: #FFFFFF;
+    height: 130px;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 2;
   }
   
   .logo {
-    font-family: 'Lato', sans-serif;
-    font-size: 2rem;
-    color: black;
-    margin: 0;
-    padding: 10px;
-    margin-left: 40px;
-    background-color: white;
+    color: var(--black, #191A1C);
+    font-family: "Gmarket Sans TTF";
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 144px;
+    height: 44px;
+    margin-left: 144px;
     border: none;
-  }
-  
-  .nav {
-    margin-top: 10px;
-  }
-  
-  .navList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 10px;
-    
-  }
-  
-  .navItem {
-    margin-right: 350px;
-  }
-  
-  .navItem2 {
-    margin-left: 100px;
+    align-items: center; 
+    cursor: pointer;
+
   }
   
   .navLink {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
+    width: 111px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 0;
+    background: rgba(73, 106, 243, 0.80);
     margin-right: 50px;
+    color: #FFF;
+    font-family: "Pretendard Variable";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    cursor: pointer;
+  }
+  .navItem2{
+    margin-left: 90%;
+    position: absolute;
   }
   
+  @media screen and (max-width: 435px) and (max-height:950px){
+    .headerContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .logo {
+      font-size: 1rem;
+      margin: 0; /* 화면이 작을 때 로고의 왼쪽 여백 조정 */
+    }
+  
+    .navList {
+      justify-content: center;
+    }
+  
+    .navItem {
+      margin-right: 0; /* 항목 간 간격 조정 */
+      font-size: 0.2rem;
+    }
+  
+    .navItem2 {
+      font-size: 0.5rem;
+      margin-top: 10px;
+      margin-left: 90%;
+      position: absolute;
+    }
+  
+    .navLink {
+      font-size: 0.9rem;
+    }
+  }

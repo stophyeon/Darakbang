@@ -1,15 +1,15 @@
 'use client';
 import { useState } from 'react';
-import { DeleteComment, DeletePost } from '@compoents/util/post-util';
+import { DeletePost } from '@compoents/util/post-util';
 
-export default function DeletePostButton({ productId}) {
+export default function DeletePostButton({ productId, accessToken }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function deletePostDataHandler() {
     setIsDeleting(true);
-    await DeletePost(productId);
+    await DeletePost(productId, accessToken);
     setIsDeleting(false);
-    window.location.href = '/posts';
+    window.location.href = '/';
   }
 
   return (
