@@ -30,25 +30,28 @@ public class MemberService {
     private final AuthenticationProvider authenticationProvider;
     private final JwtProvider jwtProvider;
     public boolean duplicate(MemberDto memberDto){
-        return memberRepository.findByEmail(memberDto.getEmail()).isPresent() && memberRepository.findByNickName(memberDto.getEmail()).isPresent();
+        return memberRepository.findByEmail(memberDto.getEmail()).isEmpty();
     }
     @Transactional
     public ResponseCustom join(MemberDto memberDto){
-        if (duplicate(memberDto)){
+        if (!duplicate(memberDto)){
             return ResponseCustom.builder()
                     .message("이미 가입되어 있는 회원입니다.")
                     .state("중복된 이메일")
                     .build();
         }
-        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-        Member member = Member.builder()
-                .memberDto(memberDto)
-                .build();
-        memberRepository.save(member);
-        return ResponseCustom.builder()
-                .message("회원가입 되었습니다")
-                .state("처리 성공")
-                .build();
+        else {
+            memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+            Member member = Member.builder()
+                    .memberDto(memberDto)
+                    .build();
+            memberRepository.save(member);
+            return ResponseCustom.builder()
+                    .message("회원가입 되었습니다")
+                    .state("처리 성공")
+                    .build();
+        }
+
     }
     public JwtDto login(MemberDto memberDto){
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberDto.getEmail(),memberDto.getPassword());

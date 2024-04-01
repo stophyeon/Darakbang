@@ -1,19 +1,136 @@
 version: '3'
 services:
-  mysql:
-    image: library/mysql:5.7
-    container_name: mysql-container
+
+  member-db:
+    # 사용할 이미지
+    image: mysql:8.2.0
+    # 컨테이너 실행 시 재시작
     restart: always
+    # 컨테이너명 설정
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
     ports:
-      - 3306:3306
+      - "3306:3306"
+    # 환경 변수 설정
     environment:
-      MYSQL_ROOT_PASSWORD: play
+      MYSQL_ROOT_PASSWORD: 1234
       TZ: Asia/Seoul
-    volumes:
-      - ./db/mysql/data:/var/lib/mysql
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
-      - ./db/mysql/mycustom.cnf:/etc/mysql/conf.d/custom.cnf
-    platform: linux/x86_64
+    # 명렬어 설정
     command:
-      - --character-set-server=utf8
-      - --collation-server=utf8_unicode_ci
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  product-db:
+    # 사용할 이미지
+    image: mysql:8.2.0
+    # 컨테이너 실행 시 재시작
+    restart: always
+    # 컨테이너명 설정
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    ports:
+      - "3305:3306"
+    # 환경 변수 설정
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: Asia/Seoul
+    # 명렬어 설정
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  purchase-db:
+    # 사용할 이미지
+    image: mysql:8.2.0
+    # 컨테이너 실행 시 재시작
+    restart: always
+    # 컨테이너명 설정
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    ports:
+      - "3307:3306"
+    # 환경 변수 설정
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: Asia/Seoul
+    # 명렬어 설정
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  config-service:
+    image: stophyeon/test:config
+    ports:
+      - 8071:8071
+    networks:
+      - test-net
+    restart: on-failure
+  discovery-service:
+    image: stophyeon/test:eureka
+    ports:
+      - 8761:8761
+    networks:
+      - test-net
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8761/ || exit 1" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+  apigateway-service:
+      image: stophyeon/test:api-gw
+      ports:
+        - 8888:8888
+      environment:
+        - DISCOVERY_SERVICE_URL=http://localhsot:8761/eureka/
+      healthcheck:
+        test: [ "CMD-SHELL", "curl -f http://api-gw:8888/actuator/health || exit 1" ]
+        interval: 10s
+        timeout: 3s
+        retries: 3
+      depends_on:
+        discovery-service:
+          condition: service_healthy
+      networks:
+        - test-net
+      restart: on-failure
+  member-service:
+      image: stophyeon/test:member
+      ports:
+        - "8080:8080"
+      environment:
+        - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
+      depends_on:
+        discovery-service:
+          condition: service_healthy
+      networks:
+        - test-net
+      restart: on-failure
+  product-service:
+      image: stophyeon/test:product
+      ports:
+        - "7080:7080"
+      environment:
+        - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
+      depends_on:
+        discovery-service:
+          condition: service_healthy
+      networks:
+        - test-net
+      restart: on-failure
+  purchase-service:
+    image: stophyeon/test:purchase
+    ports:
+      - "6080:6080"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - test-net
+    restart: on-failure
+
+networks:
+  test-net:
+
+
