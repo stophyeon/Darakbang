@@ -22,7 +22,8 @@ public class ChangeMemberPointService {
     public Mono<String> changePointByEmail(PointChangeFormat pointChangeFormat) {
         return webClient
                 .post()
-                .uri("http://localhost:8080/member/point")
+                //.uri("http://localhost:8888/member/point")
+                .uri("http://darakbang-member-service-1:8080/member/point")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(pointChangeFormat))
                 .retrieve()
