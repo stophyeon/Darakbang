@@ -15,7 +15,7 @@ public enum OAuthAttributes {
         memberProfile.setName((String) response.get("name"));
         memberProfile.setEmail(((String) response.get("email")));
         memberProfile.setProfile_image((String)response.get("profile_image"));
-        memberProfile.setPhone_number((String)response.get("mobile"));
+
         return memberProfile;
     }),
 

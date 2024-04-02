@@ -5,10 +5,8 @@ package org.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.dto.FollowDto;
 import org.example.dto.MemberDto;
 import org.example.dto.PointRequest;
 import org.example.dto.ResponseCustom;
@@ -20,16 +18,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "회원", description = "회원 API")
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-    private final FollowService followService;
+
 
 
     @Operation(
@@ -40,6 +35,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseCustom> signup(@RequestBody @Parameter MemberDto memberDto){
+        
         return ResponseEntity.ok(memberService.join(memberDto));
     }
     @PostMapping("/login")
@@ -76,10 +72,7 @@ public class MemberController {
             summary = "포인트 구매후 적용"
 
     )
-    public String changePoint(@RequestBody PointRequest point){
-        memberService.getPoint(point.getEmail(), point.getPoint());
-        return point.getPoint()+" 충전 완료됐습니다.";
-    }
+
     @GetMapping("/nick_name")
     public String getNickName(@RequestParam("email") String email){
         return memberService.getNickName(email);

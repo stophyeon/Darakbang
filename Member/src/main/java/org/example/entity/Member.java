@@ -20,22 +20,18 @@ public class Member {
     private String email;
     private String name;
     private String password;
-
     private String nickName;
-    private int point;
     private String image;
     @ColumnDefault("0")
     private int follower;
     @ColumnDefault("0")
     private int following;
-
     private final String role="ROLE_USER";
     @Builder
     public Member(MemberDto memberDto){
         this.email=memberDto.getEmail();
         this.password= memberDto.getPassword();
         this.nickName= memberDto.getNickName();
-
         this.name= memberDto.getName();
         this.image=memberDto.getImage();
     }

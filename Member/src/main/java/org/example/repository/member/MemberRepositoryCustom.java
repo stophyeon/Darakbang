@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface MemberRepositoryCustom {
 
-    void changePoint(Member members,int point);
+    //void changeProfile(Member members);
     void updateInfo(Member member);
     void updateFollower(Member member);
     void updateFollowing(Member member);

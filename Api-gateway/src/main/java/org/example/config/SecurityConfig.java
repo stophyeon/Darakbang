@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+
 @EnableWebFluxSecurity
 @Configuration
 public class SecurityConfig {
@@ -13,7 +14,9 @@ public class SecurityConfig {
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+
                 .cors(ServerHttpSecurity.CorsSpec::disable)
                 .build();
     }
+
 }
