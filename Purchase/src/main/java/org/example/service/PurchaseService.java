@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.CancelRequest;
 import org.example.dto.CancelResponse;
-import org.example.dto.PointChangeFormat;
 import org.example.dto.PurChaseCheck;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ public class PurchaseService {
 
     private final WebClient webClient = WebClient.builder().baseUrl("https://api.portone.io").build();
 
-    private final ChangeMemberPointService changeMemberPointService;
+
 
 
     public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, int frontpayamount, String useremail) {
@@ -40,13 +39,10 @@ public class PurchaseService {
                         purchasecheckbyportone.getOrderName(),
                         frontpayamount,
                         useremail
-                ).flatMap(savedPayment-> {
-                    PointChangeFormat pointChangeFormat = new PointChangeFormat(useremail, frontpayamount); // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
-                    return changeMemberPointService.changePointByEmail(pointChangeFormat) // 여기에 실제 이메일 (인증. 인가 후)를 넣어야 합니다.
-                            .map(response -> {
+                ).map(response -> {
                                 return ResponseEntity.ok(purchasecheckbyportone);
-                            });
                 });
+
 
         } else {
             CancelRequest cancelRequest = new CancelRequest("결제 금액과 DB 확인 결과 맞지 않습니다");

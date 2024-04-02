@@ -20,17 +20,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
 
-    @Override
-    @Transactional
-    public void changePoint(Member members,int point) {
-        QMember member = QMember.member;
-        int res =members.getPoint()+point;
-         query.update(member)
-                .set(member.point,res)
-                .where(member.email.eq(members.getEmail())).execute();
 
-
-    }
 
     @Override
     @Transactional

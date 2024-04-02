@@ -71,9 +71,8 @@ public class MemberService {
         return memberRepository.findByNickName(nickName).get();
     }
     //point 충전
-    public void getPoint(String email, int point){
-        Optional<Member> member = memberRepository.findByEmail(email);
-        memberRepository.changePoint(member.get(),point);
+    public boolean duplicateNickName(String nickName){
+        return memberRepository.findByNickName(nickName).isPresent();
     }
     public String getNickName(String email){
         return memberRepository.findByEmail(email).get().getNickName();

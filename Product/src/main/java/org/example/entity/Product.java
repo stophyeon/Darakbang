@@ -74,6 +74,7 @@ public class Product {
                 .expireAt(productDto.getExpire_at())
                 .nickName(productDto.getNick_name())
                 .userEmail(userEmail)
+                .price(productDto.getPrice())
                 .imageProduct(productDto.getImage_product())
                 .imageReal(productDto.getImage_real())
                 .build();
