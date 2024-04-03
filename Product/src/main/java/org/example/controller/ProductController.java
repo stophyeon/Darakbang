@@ -30,7 +30,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "상품 게시글 작성 성공"),
             @ApiResponse(responseCode = "400", description = "상품 게시글 작성 중 문제 발생")
     })
-    @CrossOrigin
+
     @PostMapping("/{email}")
     public ResponseEntity<SuccessRes> saveProduct(@PathVariable("email") String email,
                                                   @RequestBody ProductDto productDto)
@@ -45,7 +45,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 게시글 삭정 중 문제 발생"),
             @ApiResponse(responseCode = "403", description = "접근자와 게시글 작성자가 다릅니다")
     })
-    @CrossOrigin
+
     @DeleteMapping("/{product_id}/{email}")
     public ResponseEntity<?> deleteProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId) {
         return productService.deleteProduct(productId,email);
@@ -59,7 +59,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 게시글 변경 중 문제 발생"),
             @ApiResponse(responseCode = "403", description = "접근자와 게시글 작성자가 다릅니다")
     })
-    @CrossOrigin
+
     @PutMapping("/{product_id}/{email}")
     public ResponseEntity<?> changeProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId,
                                            @RequestBody ProductDto productDto)
@@ -72,7 +72,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "기본 화면 page 조회 성공"),
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
-    @CrossOrigin
+
     @GetMapping("/page")
     public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page)
     {
@@ -85,7 +85,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "NULL 관련 문제 발생"),
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
-    @CrossOrigin
+
     @GetMapping("/detail/{product_id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable("product_id") Long productId)
     {

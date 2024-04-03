@@ -27,7 +27,7 @@ public class PurchaseController {
     //purchase는 결제 확인 정보와 검증을 포함한 내용을 전달해야 합니다.
 
 
-    @CrossOrigin
+
     @PostMapping("/payments/complete/{useremail}")
     public Mono<ResponseEntity<PurChaseCheck>> validatepayment(@PathVariable(value = "useremail") String useremail, @RequestBody ValidationRequest validation) {
         return accessTokenService.GetToken()

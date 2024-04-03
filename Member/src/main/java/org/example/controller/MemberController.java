@@ -8,14 +8,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.MemberDto;
-import org.example.dto.PointRequest;
 import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
-import org.example.service.FollowService;
+
 import org.example.service.MemberService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,7 +34,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseCustom> signup(@RequestBody @Parameter MemberDto memberDto){
-        
+
         return ResponseEntity.ok(memberService.join(memberDto));
     }
     @PostMapping("/login")
@@ -49,29 +48,15 @@ public class MemberController {
         return ResponseEntity.ok(jwtDto);
     }
 
-    @Operation(
-            operationId = "My profile",
-            summary = "로그인한 사용자의 프로필"
-    )
-    @GetMapping("/profile")
-    public Member profile(){
-        return memberService.profile(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
-    @PostMapping("/other")
+    @PostMapping("/profile")
     @Operation(
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
     )
-    public Member otherProfile(@RequestParam("nick_name") @Parameter(name = "닉네임 입력") String nickName){
-        return memberService.otherProfile(nickName);
+    public Member Profile(@RequestParam(value = "nick_name",required = false) @Parameter(name = "닉네임 입력") String nickName){
+        return memberService.profile(nickName);
     }
 
-    @PostMapping("/point")
-    @Operation(
-            operationId = "point purchase",
-            summary = "포인트 구매후 적용"
-
-    )
 
     @GetMapping("/nick_name")
     public String getNickName(@RequestParam("email") String email){

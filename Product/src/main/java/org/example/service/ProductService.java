@@ -23,12 +23,8 @@ import reactor.core.publisher.Mono;
 public class ProductService {
     private final ProductRepository productRepository ;
     private final MemberFeign memberFeign;
-    //private final WebClient webClient = WebClient.builder().baseUrl("http://localhost:8080").build();
+
     public ResponseEntity<SuccessRes> addProduct(ProductDto productDto, String email) {
-//        Mono<String> nickName = webClient.get()
-//                .uri("/member/{email}", email)
-//                .retrieve()
-//                .bodyToMono(String.class);
             String nickName= memberFeign.getNickName(email);
             productDto.setNick_name(nickName);
             Product product = Product.ToEntity(productDto,email);
