@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import styles from "./LoginForm.module.css";
+import styles from "@compoents/components/login/LoginForm.module.css";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ export default function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/member/login", {
+      const response = await fetch("http://localhost:8888/member/login", {
         cache: 'no-store',
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -28,19 +28,19 @@ export default function LoginForm() {
       if (response.ok) {
         const { accessToken, refreshToken } = data;
         // accessToken을 localStorage에 저장
-        // localStorage.setItem("Authorization", `Bearer ${accessToken}`);
-        // localStorage.setItem("expiration", expiration.toISOString());
+        localStorage.setItem("Authorization", `Bearer ${accessToken}`);
+        // localStorage.setItem("expiration", expirations.toISOString());
 
         const expiration = new Date(); // 엑세스 토큰 시간 저장
         expiration.setHours(expiration.getHours() + 2); // 1시간 이후에 토큰 만료
-        // accessToken cookie에 저장장
-        document.cookie = `Authorization = Bearer ${accessToken}; Expires=${expiration.toUTCString()}; Secure; HttpOnly`;
+        // // accessToken cookie에 저장
+        document.cookie = `Authorization = Bearer ${accessToken}; Expires=${expiration.toUTCString()};`;
         
 
         // // refreshToken을 cookie에 저장 HttpOnly와 Secure 사용하여 보안 강화
         const expirations = new Date(); // 리프레시 토큰 시간 저장
         expirations.setHours(expirations.getHours() + 5); // 5시간 이후에 토큰 만료
-        document.cookie = `refreshToken=${refreshToken}; Expires=${expirations.toUTCString()}; Secure; HttpOnly`;
+        document.cookie = `refreshToken=${refreshToken}; Expires=${expirations.toUTCString()};`;
         //         response.cookies.set('Authorization', `Bearer ${accessToken}`, { httpOnly: true, path: '/' });
         // response.cookies.set('refreshToken', refreshToken, { httpOnly: true, path: '/' });
         const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
@@ -70,7 +70,7 @@ export default function LoginForm() {
     router.push("/user/signup"); // 회원가입 페이지로 이동
   };
 
-  const handleKakaoLogin = async () => {
+  const handleKakaoLogin = () => {
     const REST_API_KEY = 'b9759cba8e0cdd5bcdb9d601f5a10ac1';
     const REDIRECT_URI = 'http://localhost:3000/user/login/oauth2/kakao';
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
@@ -161,4 +161,3 @@ export default function LoginForm() {
       <section className={styles.flexSection2}></section>
     </div>
   );
-}
