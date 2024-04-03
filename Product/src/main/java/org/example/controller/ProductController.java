@@ -87,8 +87,8 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
 
-    @GetMapping("/detail/{product_id}")
-    public ResponseEntity<ProductDetailRes> getProduct(@PathVariable("product_id") Long productId)
+    @GetMapping("/detail")
+    public ResponseEntity<ProductDetailRes> getProduct(@RequestParam("product_id") Long productId)
     {
         return productService.findProductDetail(productId);
     }

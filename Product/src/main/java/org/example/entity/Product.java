@@ -36,7 +36,7 @@ public class Product {
     private LocalDate createAt;
 
     @Column(name="state")
-    private boolean state=true;
+    private int state;
 
     @Column(name = "category_id")
     private int categoryId;
@@ -52,7 +52,7 @@ public class Product {
 
 
     @Builder
-    public Product(String productName, int price, byte[] imageProduct, byte[] imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail) {
+    public Product(String productName, int price, byte[] imageProduct, byte[] imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail, int state) {
         this.productName = productName;
         this.price = price;
         this.ImageProduct = imageProduct;
@@ -62,6 +62,7 @@ public class Product {
         this.expireAt = expireAt;
         this.nickName = nickName;
         this.userEmail = userEmail;
+        this.state = state ;
     }
 
 
@@ -77,6 +78,7 @@ public class Product {
                 .price(productDto.getPrice())
                 .imageProduct(productDto.getImage_product())
                 .imageReal(productDto.getImage_real())
+                .state(productDto.getState())
                 .build();
     }
 

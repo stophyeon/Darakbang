@@ -19,7 +19,7 @@ public class ProductDto {
     private byte[] image_product;
     private byte[] image_real;
 
-    private boolean state;
+    private int state;
 
     private int category_id;
 
@@ -29,7 +29,7 @@ public class ProductDto {
 
     private String nick_name;
     @Builder
-    public ProductDto(Long product_id,String nick_name,String product_name, int price, LocalDate create_at, LocalDate expire_at, byte[] image_product, byte[] image_real, int category_id){
+    public ProductDto(Long product_id,String nick_name,String product_name, int price, LocalDate create_at, LocalDate expire_at, byte[] image_product, byte[] image_real, int category_id, int state){
         this.category_id=category_id;
         this.expire_at=expire_at;
         this.image_product=image_product;
@@ -39,6 +39,7 @@ public class ProductDto {
         this.image_real=image_real;
         this.nick_name=nick_name;
         this.product_id=product_id;
+        this.state = state ;
     }
     public static ProductDto ToDto(Product product){
         return ProductDto.builder()
@@ -50,6 +51,7 @@ public class ProductDto {
                 .image_product(product.getImageProduct())
                 .product_name(product.getProductName())
                 .price(product.getPrice())
+                .state(product.getState())
                 .build();
     }
 
