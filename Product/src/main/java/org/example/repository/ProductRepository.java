@@ -35,4 +35,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAll(Pageable pageable) ;
 
+    @Query("SELECT p FROM Product p WHERE p.productName Like %:keyword% and p.productId != :productid")
+    List<Product> findByProductNameKeyword(@Param("keyword") String keyword,@Param("productid") Long productid);
+    //제목과 유사한 키워드에 따라서 검색하는 쿼리입니다.
+
+    @Query("SELECT p FROM Product p WHERE p.categoryId = :categoryid and p.productId != :productid")
+    List<Product> findByProductCategory(@Param("categoryid") int categoryid,@Param("productid") Long productid) ;
+    //제목 관련 키워드가 없을때를 대비한 것으로, 카테고리 아이디에 따라서 검색합니다.
+
+
+
 }

@@ -2,6 +2,7 @@ package org.example.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
 
@@ -87,7 +88,7 @@ public class ProductController {
     })
 
     @GetMapping("/detail/{product_id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable("product_id") Long productId)
+    public ResponseEntity<ProductDetailRes> getProduct(@PathVariable("product_id") Long productId)
     {
         return productService.findProductDetail(productId);
     }

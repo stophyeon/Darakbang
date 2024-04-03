@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
 import org.example.entity.Product;
@@ -14,8 +15,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,10 +53,48 @@ public class ProductService {
         else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지 않습니다."));}
     }
 
-    public ResponseEntity<ProductDto> findProductDetail(Long productId)
+    public ResponseEntity<ProductDetailRes> findProductDetail(Long productId)
     {
+        Product selectedProduct = productRepository.findByProductId(productId);
+        // 해당 상품 상세를 확인합니다.
 
-        return null;
+        String keywords = selectedProduct.getProductName();
+        // 해당 상품의 명을 확인합니다.
+
+        Map<Product, Integer> resultMap = new HashMap<>();
+        String[] words = StringUtils.tokenizeToStringArray(keywords, " ");
+        // 해당 상품명을 띄어쓰기 기준 분할합니다.
+
+        for (String word : words) {
+            List<Product> similarProducts = productRepository.findByProductNameKeyword(word,productId);
+
+            for (Product product : similarProducts) {
+                int count = resultMap.getOrDefault(product, 0);
+                resultMap.put(product, count + 1);
+            }
+        }
+        // 복잡도가 조금 고민이 되지만.. 가장 많이 나오는 키워드의 상품을 hashmap에 append합니다.
+
+        List<Map.Entry<Product, Integer>> sortedEntries = new ArrayList<>(resultMap.entrySet());
+        sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder())); // value대로 정렬했습니다.
+        //comparator에서 오류가 나서, (product가 comparotor 불가) 변경했습니다.
+
+        List<Product> productList = new ArrayList<>();
+        for (Map.Entry<Product, Integer> entry : sortedEntries) {
+            productList.add(entry.getKey());
+        } //한번이라도 검색되는 product들을 list로 변경했습니다.
+
+        List<Product> topProducts = productList.subList(0, Math.min(productList.size(), 9));
+        if (topProducts.isEmpty()) {
+            List<Product> samecategoryproductlist = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId) ;
+            topProducts = samecategoryproductlist.subList(0,Math.min(samecategoryproductlist.size(), 9)) ;
+        } //검색이 하나도 안된다면.. 카테고리 위주로 검색한 결과를 return합니다.
+        //9개보다 모자라면, 일단 있는걸 다 list로 return합니다.
+
+        ProductDetailRes productDetailRes = new ProductDetailRes();
+        productDetailRes.setProduct(selectedProduct);
+        productDetailRes.setProductList(topProducts);
+        return ResponseEntity.ok(productDetailRes);
     }
     @Transactional
     public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email)
