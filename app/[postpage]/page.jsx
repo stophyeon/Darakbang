@@ -1,7 +1,6 @@
 
 import Link from 'next/link';
 import { MdPostAdd } from "react-icons/md";
-import { cookies } from 'next/headers';
 
 import { getPostsFiles } from '@compoents/util/post-util';
 import CommuPosts from '@compoents/components/posts/commu-post';
@@ -10,12 +9,9 @@ import styles from './page.module.css';
 
 
 export default async function CommuPostsPage({ params }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("Authorization");
-  const postdata = await getPostsFiles(params.postpage, accessToken);
   
-
-  const [ posts ] = await Promise.all([postdata]);
+  //const postdata = await getPostsFiles(params.postpage, accessToken);
+  //const [ posts ] = await Promise.all([postdata]);
 
   return (
     <div className={styles.pageContainer}>
@@ -84,8 +80,7 @@ export default async function CommuPostsPage({ params }) {
       </div>
       </form>
       </div>
-
-      <CommuPosts posts={posts} />
+      {/*<CommuPosts posts={posts} />*/}
       </section>
     </div>
   );

@@ -4,19 +4,28 @@ import styles from './Profile.module.css';
 import Image from 'next/image';
 import { fetchUserProfile } from '@compoents/util/http';
 
-export async function fetchUserProfileData({ accessToken }) {
-  const UserInfo = await fetchUserProfile(accessToken);
-  return UserInfo;
-}
 
-export default function UserProfile({ UserInfo }) {
+export default function UserProfile() {
+  const [userInfo, setuserInfo] = useState('');
   const [followingList, setFollowingList] = useState([]);
   const [followerList, setFollowerList] = useState([]);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const defaultImage = "/kakaoImg.jpg";
   
-
+  useEffect(() => {
+    // API 호출 -> 사용자 정보 받아오기
+    async function fetchUserProfileData() {
+      try {
+        const accesstoken = localStorage.getItem('Authorization');
+        const data = await fetchUserProfile(accesstoken);
+        setuserInfo(data);
+      } catch (error) {
+        console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+      }
+    };
+    fetchUserProfileData();
+  }, []);
 
   const openFollowingModal = () => {
     setIsFollowingModalOpen(true);
@@ -39,23 +48,22 @@ export default function UserProfile({ UserInfo }) {
 
   return (
     <div className={styles.profileContainer}>
-    {UserInfo ? (
+    {userInfo ? (
       <div className={styles.profileInfo}>
         <h2 className={styles.profileTitle}>사용자 프로필 정보</h2>
         <div className={styles.profileItem}>
           <Image
-            src={UserInfo.image || defaultImage}
+            src={userInfo.image || defaultImage}
             alt="이미지"
             width={200}
             height={300}
           />
         </div>
-        <p className={styles.profileItem}>닉네임: {UserInfo.nickName}</p>
-        <p className={styles.profileItem}>이름: {UserInfo.name}</p>
-        <p className={styles.profileItem}>이메일: {UserInfo.email}</p>
-        <p className={styles.profileItem}>내 포인트: {UserInfo.point} point</p>
+        <p className={styles.profileItem}>닉네임: {userInfo.nick_name}</p>
+        <p className={styles.profileItem}>이름: {userInfo.name}</p>
+        <p className={styles.profileItem}>이메일: {userInfo.email}</p>
         <div className={styles.followListContainer}>
-          <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {UserInfo.following}</button>
+          <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {userInfo.following}</button>
           {isFollowingModalOpen && (
             <div className={styles.modal}>
               <button className={styles.closeButton} onClick={closeFollowingModal}>닫기</button>
@@ -63,7 +71,7 @@ export default function UserProfile({ UserInfo }) {
           )}
         </div>
         <div className={styles.followListContainer}>
-          <button className={styles.followButton} onClick={openFollowerModal}>팔로워 {UserInfo.follower}</button>
+          <button className={styles.followButton} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
           {isFollowerModalOpen && (
             <div className={styles.modal}>
               {/* 팔로워 리스트 표시 */}
@@ -78,53 +86,3 @@ export default function UserProfile({ UserInfo }) {
   </div>
   );
 };
-
-const ProfileContainer = styled.div`
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-`;
-
-const ProfileInfo = styled.div`
-  margin-bottom: 20px;
-`;
-
-const ProfileTitle = styled.h2`
-  font-size: 24px;
-  margin-bottom: 10px;
-`;
-
-const ProfileItem = styled.p`
-  font-size: 16px;
-  margin-bottom: 5px;
-`;
-
-const FollowListContainer = styled.div`
-  margin-top: 20px;
-`;
-
-const FollowButton = styled.button`
-  font-size: 16px;
-  padding: 5px 10px;
-  background-color: #f1f1f1;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const CloseButton = styled.button`
-  
-`
-
-const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100
-`;
-
-const ProfileLoading = styled.p`
-  font-size: 16px;
-`;
-

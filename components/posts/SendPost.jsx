@@ -6,22 +6,29 @@ import styles from './SendPost.module.css';
 import { sendProductData } from '@compoents/util/post-util';
 import { fetchUserProfile } from '@compoents/util/http';
 
-export async function fetchUserProfileData({ accessToken }) {
-  const UserInfo = await fetchUserProfile(accessToken);
-  return UserInfo;
-}
+// export async function fetchUserProfileData({ accessToken }) {
+//   const UserInfo = await fetchUserProfile(accessToken);
+//   return UserInfo;
+// }
 
 
-export default function ProductForm({ accessToken }) {
+export default function ProductForm() {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [images1, setImages1] = useState();
-  const [images2, setImages2] = useState();
+  // const [images1, setImages1] = useState();
+  // const [images2, setImages2] = useState();
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
-  const [soldOut, setSoldOut] = useState(false);
+  const [soldOut, setSoldOut] = useState('');  // 판매중 1, 만료일자 넘어간것 0, 판매 팔린것 -1 
   const [categoryId, setCategoryId] = useState('');
+  const [accessToken, setAccessToken] = useState('');
 
+  useEffect(() => {
+    const AccessTokens = localStorage.getItem('Authorization');
+    if (AccessTokens) {
+      setAccessToken(AccessTokens);
+    }
+  }, []); 
 
   const handleImageChange = (e, setImageState) => {
     const selectedFile = e.target.files[0];
@@ -34,11 +41,11 @@ export default function ProductForm({ accessToken }) {
     }
   };
 
-  async function sendProductHandler(event, UserInfo) {
+  async function sendProductHandler(event) {
 
     const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-    const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
-    const currentDateTime = `날짜 : ${currentDate} 시간 : ${currentTime}`; // 현재 날짜와 시간을 합침
+    // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
+    const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
     setCreatedAt(currentDateTime);
 
     event.preventDefault();
@@ -46,23 +53,22 @@ export default function ProductForm({ accessToken }) {
       const productDetails = {
         product_name: productName,
         price: parseInt(price),
-        image_product: images1, // 이미지 하나 더 추가 , base64
-        image_real: images2,
-        create_at: createdAt,
-        expire_at: expireAt, // 만료 일자 추가
-        state: soldOut,
+        // image_product: images1, // 이미지 하나 더 추가 , base64
+        // image_real: images2,
+        // create_at: createdAt,
+        // expire_at: expireAt, // 만료 일자 추가
+        // state: soldOut,
         category_id: parseInt(categoryId),
-        nick_name: UserInfo.nick_name,
       };
       console.log(productDetails);
 
       await sendProductData(productDetails, accessToken);
       setProductName('');
       setPrice('');
-      setImages1();
-      setImages2();
-      setCreatedAt('');
-      setSoldOut(false);
+      // setImages1();
+      // setImages2();
+      // setCreatedAt('');
+      // setSoldOut(false);
       setCategoryId('');
     } catch (error) {
       console.error('에러 발생:', error);
@@ -96,7 +102,7 @@ export default function ProductForm({ accessToken }) {
               onChange={(event) => setPrice(event.target.value)}
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor='expire' className={styles.label}>만료 기간</label>
             <input
               className={styles.inputField}
@@ -108,8 +114,8 @@ export default function ProductForm({ accessToken }) {
               value={expireAt}
               onChange={(event) => setexpireAt(event.target.value)}
             />
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <label htmlFor='images1' className={styles.label}>상품 노출 이미지</label>
             <input
               className={styles.inputField}
@@ -126,7 +132,7 @@ export default function ProductForm({ accessToken }) {
               id='images2'
               onChange={(event) => handleImageChange(event, setImages2)}
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor='soldout' className={styles.label}>상품 판매 여부</label>
             <select

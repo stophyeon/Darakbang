@@ -1,4 +1,4 @@
-import PaymentButton from "../../components/Purchases/PaymentButton"
+import PaymentButton from "@compoents/components/Purchases/PaymentButton"
 
 export default function GetPoint() {
 

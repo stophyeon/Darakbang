@@ -161,3 +161,4 @@ export default function LoginForm() {
       <section className={styles.flexSection2}></section>
     </div>
   );
+}

@@ -44,20 +44,19 @@ export default function SignupForm() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+// 중복이면 True 중복아니면 false
   async function handleCheckDuplicate() {
     // 서버로 중복 확인 요청을 보내는 부분
-    const response = await fetch('http://localhost:8080/member/nicknameCheck', {
-      method: 'POST',
+    const response = await fetch(`http://localhost:8888/?nick_name=${nick_name}`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nick_name }),
     })
       const data = await response.json();
         if (data.isDuplicate) {
           // 중복 일 때
           setIsDuplicate(true);
+          alert("닉네임을 변경해 주시길 바랍니다.")
         } else {
           // 중복되지 않은 경우
           setIsDuplicate(false);
@@ -110,7 +109,7 @@ export default function SignupForm() {
 
 
     // 회원가입 API 요청 보내기
-    const response = await fetch("http://localhost:8080/member/signup", {
+    const response = await fetch("http://localhost:8888/member/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +119,7 @@ export default function SignupForm() {
         "password": password,
         "name": name,
         "nick_name": nick_name,
-        "image": image,
+        // "image": image,
       }),
     });
 
@@ -257,8 +256,8 @@ export default function SignupForm() {
             placeholder="닉네임"
           />
           <button className={styles.nickBtn} onClick={handleCheckDuplicate}>중복 확인</button>
-          {isDuplicate=== true && <p><Image className={styles.vector} src={'/Ellipse-168.svg'} width={14} height={14}/><Image className={styles.vector2} src={'/Vector340.svg'} width={12} height={11}/><p className={styles.nickFalse}>   사용 불가능한 닉네임입니다.</p></p>}
-          {isDuplicate=== false && <p className={styles.nickTrue}> <Image src={'/Ellipse-169.svg'} width={14} height={14}/>    사용 가능한 닉네임입니다.</p>}
+          {isDuplicate=== true && <p><Image className={styles.vector}  alt="벡터" src={'/Ellipse-168.svg'} width={14} height={14}/><Image className={styles.vector2}  alt="벡터2"  src={'/Vector340.svg'} width={12} height={11}/><p className={styles.nickFalse}>   사용 불가능한 닉네임입니다.</p></p>}
+          {isDuplicate=== false && <p className={styles.nickTrue}> <Image src={'/Ellipse-169.svg'} alt="스마일2"  width={14} height={14}/>    사용 가능한 닉네임입니다.</p>}
           </div>
           {nicknameError && <div className={styles.anyLogins}>
             <Image src={smile} width={132} height={132} alt="스마일" className={styles.smile} />

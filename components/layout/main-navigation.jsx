@@ -1,14 +1,20 @@
-'use server';
+'use client';
 import Link from "next/link";
 import FindEventSection from "../items/ItemSearch";
-import { cookies } from "next/headers";
+import { useState, useEffect } from "react";
 
 import styles from './main-navigation.module.css'; // CSS 모듈 import
 import SmallProfile from "../profile/SmallProfile";
 
-export default async function MainNavigation() {
-    const cookieStore = cookies();
-    const Authorization = cookieStore.get("Authorization");
+export default function MainNavigation() {
+    const [Authorization, setAccessToken] = useState("");
+
+    useEffect(() => {
+        const AccessToken = localStorage.getItem('Authorization');
+        if (AccessToken) {
+            setAccessToken(AccessToken);
+        }
+    }, []); 
 
     return (
         <>

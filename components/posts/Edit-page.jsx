@@ -6,7 +6,7 @@ import { fetchUserProfile } from '@compoents/util/http';
 import { PutPostData } from '@compoents/util/post-util';
 import styles from './Edit-page.module.css';
 
-export default function EditProductForm({ productId, accessToken }) {
+export default function EditProductForm({ productId }) {
     const [userInfo, setUserInfo] = useState('');
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
@@ -74,7 +74,7 @@ export default function EditProductForm({ productId, accessToken }) {
             };
             console.log(productData);
 
-            await handleSubmit(productData);
+            await handleSubmit(productData, accessToken);
             setRequestStatus('success');
             setProductName('');
             setPrice('');

@@ -1,13 +1,9 @@
-import UserProfile from "../../components/profile/Profile"
-
-import { cookies } from "next/headers";
+import UserProfile from "@compoents/components/profile/Profile";
 
 export default function ProfilePage() {
-    const cookieStore = cookies();
-    const accessToken = cookieStore.get("Authorization");
     return (
         <>
-            <UserProfile accessToken={accessToken} />
+            <UserProfile />
         </>
     )
 }

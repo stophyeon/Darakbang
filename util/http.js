@@ -4,7 +4,7 @@ export const queryClient = new QueryClient();
 
 
 export async function createNewEvent(eventData) {
-  const response = await fetch(`http://localhost:8080/member/signup`, {
+  const response = await fetch(`http://localhost:8888/member/signup`, {
     method: 'POST',
     body: JSON.stringify(eventData),
     headers: {
@@ -34,7 +34,7 @@ export async function createNewEvent(eventData) {
 
 
 export async function fetchitems({ signal, searchTerm, max }) {        // 상품 검색 api 연결
-  let url = 'http://localhost:6080/product/list';   // 나중에 상품 게시물 동작하면 거기서 가져오기
+  let url = 'http://localhost:8888/product/list';   // 나중에 상품 게시물 동작하면 거기서 가져오기
 
   if (searchTerm && max) {
     url += '?search=' + searchTerm + '&max=' + max;         // http://localhost:3000/events?search=example&max=10 -> example 검색시 10개의 결과 값 나온 주소
@@ -61,9 +61,9 @@ export async function fetchitems({ signal, searchTerm, max }) {        // 상품
 
 // 멤버 프로필 api
 
-export const fetchUserProfile = async (accesstoken) => {
+export async function fetchUserProfile(accesstoken, nick_name) {
   try {
-    const response = await fetch('http://localhost:8080/member/profile', {
+    const response = await fetch(`http://localhost:8888/member/profile?nick_name=${nick_name}`, {
       headers: {
         'Authorization': `${accesstoken}`
       }
@@ -78,9 +78,9 @@ export const fetchUserProfile = async (accesstoken) => {
 
 // 상대방 프로필 api
 
-export const fetchOtherUserProfile = async (nick_name, accessToken) => {
+export async function fetchOtherUserProfile(nick_name, accessToken){
   try {
-    const response = await fetch(`http://localhost:8080/member/other?nick_name=${nick_name}`, {
+    const response = await fetch(`http://localhost:8888/member/profile?nick_name=${nick_name}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export const fetchOtherUserProfile = async (nick_name, accessToken) => {
 
 export async function followUser(accessToken, email) {
   try {
-    const response = await fetch('http://localhost:8080/member/follow', {
+    const response = await fetch('http://localhost:8888/member/follow', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

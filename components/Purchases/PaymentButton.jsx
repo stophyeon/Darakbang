@@ -35,23 +35,24 @@ export default function PaymentButton() {
     });
     if (response.code != null) {
       return alert(response.message);
-    }
+    } 
+    
+    
 
-    const validation = await fetch("http://localhost:7080/payments/complete", {
+    const validation = await fetch("http://localhost:8888/payments/complete", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         'Authorization': `${token}`
       },
       body: JSON.stringify({
-        paymentId: response.paymentId,
-        totalAmount: selectedAmount
+        payment_id: response.paymentId,
+        total_amount: selectedAmount
       }),
     });
-    const validationData = await validation.json();
-    console.log(validationData);
-  };
-
+    
+   
+  }
   return (
     <>
       <div className={stlyes.container}>
