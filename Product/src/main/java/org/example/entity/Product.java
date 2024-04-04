@@ -36,7 +36,7 @@ public class Product {
     private LocalDate createAt;
 
     @Column(name="state")
-    private boolean state=true;
+    private int state;
 
     @Column(name = "category_id")
     private int categoryId;

@@ -19,7 +19,7 @@ public class ProductDto {
     private byte[] image_product;
     private byte[] image_real;
 
-    private boolean state;
+    private int state;
 
     private int category_id;
 
