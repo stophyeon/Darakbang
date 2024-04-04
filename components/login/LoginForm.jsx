@@ -34,7 +34,7 @@ export default function LoginForm() {
         const expiration = new Date(); // 엑세스 토큰 시간 저장
         expiration.setHours(expiration.getHours() + 2); // 1시간 이후에 토큰 만료
         // // accessToken cookie에 저장
-        document.cookie = `Authorization = Bearer ${accessToken}; Expires=${expiration.toUTCString()};`;
+        // document.cookie = `Authorization = Bearer ${accessToken}; Expires=${expiration.toUTCString()};`;
         
 
         // // refreshToken을 cookie에 저장 HttpOnly와 Secure 사용하여 보안 강화

@@ -21,31 +21,35 @@ export default function SmallProfile() {
                 <Image
                     src={defaultImage} // UserInfo.image || 
                     alt="이미지"
-                    width={70}
-                    height={100}
+                    width={83}
+                    height={83}
                     className={styles.profileImage}
                 />
             </PopoverTrigger>
             <PopoverContent className={styles.modalContent}>
                 <div onClick={(e) => e.stopPropagation()}>
                     <Link href="/profile" style={{ textDecoration: "none" }}>
-                        <Button>프로필</Button>
-                    </Link>
-                  
-                        <Button onClick={logoutHandler}>
-                            로그아웃
+                        <Button className={styles.contents}>
+                            프로필
                         </Button>
+                    </Link>
                 </div>
+                <div className={styles.verticalLine}></div>
                 <div onClick={(e) => e.stopPropagation()}>
-                        <Link href="/getpoint" passHref style={{ textDecoration: "none" }}>
-                            <Button>포인트 구매</Button>
-                        </Link>
-                        <Link href="/" passHref style={{ textDecoration: "none" }}>
-                            <Button>상품</Button>
-                        </Link>
+                    <Link href="/getpoint" passHref style={{ textDecoration: "none" }}>
+                        <Button className={styles.contents}>
+                            포인트 구매
+                        </Button>
+                    </Link>
+                </div>
+                <div className={styles.verticalLine}></div>
+                <div onClick={(e) => e.stopPropagation()}>
+                    <Button onClick={logoutHandler} className={styles.logcontents}>
+                        로그아웃
+                    </Button>
                 </div>
             </PopoverContent>
-        </Popover>
+        </Popover >
 
     );
 };

@@ -14,7 +14,7 @@ export default function OtherProfileform({nick_name}) {
     const fetchProfile = async () => {
       try {
         const data = await fetchOtherUserProfile(nick_name, accessToken);
-        console.log(nick_name);
+        console.log(data);
         setProfile(data);
       } catch (error) {
         console.error('프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
@@ -45,7 +45,7 @@ export default function OtherProfileform({nick_name}) {
     <div>
       <h1>프로필</h1>
       <Image
-            src={profile.image || "/kakaoImg.jpg"}
+            src={require (`/${profile.image}.jpg` || "/kakaoImg.jpg")}
             alt="이미지"
             width={200}
             height={300}

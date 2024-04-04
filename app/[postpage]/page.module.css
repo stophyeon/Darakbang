@@ -14,7 +14,7 @@
 
 .flexSection2 {
   /* width: 1440px; */
-  height: 1300px;
+  height: 3000px;
   background: #F3F5FA;
   position: relative;
 }
@@ -104,3 +104,21 @@ font-weight: 500;
 line-height: normal;
 margin-left: 8px;
   }
+
+  .pagination {
+    margin-left: 728px;
+    margin-top: 100px;
+}
+
+.pagebtn{
+  color: var(--gray-400, #BEC0C6);
+font-family: "Pretendard Variable";
+font-size: 40px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+background-color: #F3F5FA;
+border: 0;
+padding-left: 30px;
+cursor: pointer;
+}

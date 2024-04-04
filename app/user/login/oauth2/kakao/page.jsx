@@ -27,7 +27,7 @@ export default function KakaoLogin() {
         const expiration = new Date(); // 엑세스 토큰 시간 저장
         expiration.setHours(expiration.getHours() + 1); // 1시간 이후에 토큰 만료
         localStorage.setItem("expiration", expiration.toISOString());
-        document.cookie = `Authorization=Bearer ${accessToken}; Expires=${expiration.toUTCString()}`;
+        // document.cookie = `Authorization=Bearer ${accessToken}; Expires=${expiration.toUTCString()}`;
 
         // refreshToken을 cookie에 저장 HttpOnly와 Secure 사용하여 보안 강화
         const expirations = new Date(); // 리프레시 토큰 시간 저장

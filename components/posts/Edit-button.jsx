@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 
-export default function PutDetailPage({ productId }) {
+export default function PutDetailbutton({ productId, postpage }) {
     const router = useRouter();
 
     const handleButtonClick = () => {
-      router.push(`/posts/${productId}/edit`);
+      router.push(`/${postpage}/${productId}/edit`);
     };
   return (
     <>

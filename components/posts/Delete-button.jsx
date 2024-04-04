@@ -2,10 +2,11 @@
 import { useState } from 'react';
 import { DeletePost } from '@compoents/util/post-util';
 
-export default function DeletePostButton({ productId, accessToken }) {
+export default function DeletePostButton({ productId }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function deletePostDataHandler() {
+    const accessToken = localStorage.getItem('Authorization');
     setIsDeleting(true);
     await DeletePost(productId, accessToken);
     setIsDeleting(false);

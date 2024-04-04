@@ -46,7 +46,7 @@ export async function getPostsFiles(page, accessToken) {
   }
   
   export async function getPostData(productid, accessToken) {
-    const response = await fetch(`http://localhost:8888/product/detail/${productid}`, {
+    const response = await fetch(`http://localhost:8888/product/detail?product_id=${productid}`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -59,6 +59,7 @@ export async function getPostsFiles(page, accessToken) {
 
   export async function PutPostData(productid, productData, accessToken) {
     const response = await fetch(`http://localhost:8888/product/${productid}`, {
+      cache: 'no-store',
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

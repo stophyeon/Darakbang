@@ -1,5 +1,70 @@
 version: '3'
 services:
+
+  member-db:
+    # 사용할 이미지
+    image: mysql:8.2.0
+    # 컨테이너 실행 시 재시작
+    restart: always
+    # 컨테이너명 설정
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    ports:
+      - "3306:3306"
+    # 환경 변수 설정
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: Asia/Seoul
+    # 명렬어 설정
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  product-db:
+    # 사용할 이미지
+    image: mysql:8.2.0
+    # 컨테이너 실행 시 재시작
+    restart: always
+    # 컨테이너명 설정
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    ports:
+      - "3305:3306"
+    # 환경 변수 설정
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: Asia/Seoul
+    # 명렬어 설정
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  purchase-db:
+    # 사용할 이미지
+    image: mysql:8.2.0
+    # 컨테이너 실행 시 재시작
+    restart: always
+    # 컨테이너명 설정
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    ports:
+      - "3307:3306"
+    # 환경 변수 설정
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: Asia/Seoul
+    # 명렬어 설정
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  config-service:
+    image: stophyeon/test:config
+    ports:
+      - 8071:8071
+    networks:
+      - test-net
+    restart: on-failure
   discovery-service:
     image: stophyeon/test:eureka
     ports:
@@ -31,7 +96,7 @@ services:
   member-service:
       image: stophyeon/test:member
       ports:
-        - 0:1000
+        - "8080:8080"
       environment:
         - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
       depends_on:
@@ -41,9 +106,9 @@ services:
         - test-net
       restart: on-failure
   product-service:
-      image: stophyeon/test:product-api
+      image: stophyeon/test:product
       ports:
-        - "0:1001"
+        - "7080:7080"
       environment:
         - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
       depends_on:
@@ -55,7 +120,7 @@ services:
   purchase-service:
     image: stophyeon/test:purchase
     ports:
-      - "0:1001"
+      - "6080:6080"
     environment:
       - DISCOVERY_SERVICE_URL=http://localhost:8761/eureka/
     depends_on:
@@ -64,13 +129,7 @@ services:
     networks:
       - test-net
     restart: on-failure
-  config-service:
-      image: stophyeon/test:config
-      ports:
-        - 8071:8071
-      networks:
-        - test-net
-      restart: on-failure
+
 networks:
   test-net:
 

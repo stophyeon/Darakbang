@@ -28,16 +28,16 @@ export default function SignupForm() {
   };
 
   // 사진 base64 인코딩
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setImage(event.target.result);
-      };
-      reader.readAsDataURL(selectedFile);
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   if (selectedFile) {
+  //     const reader = new FileReader();
+  //     reader.onload = (event) => {
+  //       setImage(event.target.result);
+  //     };
+  //     reader.readAsDataURL(selectedFile);
+  //   }
+  // };
   
   
 
@@ -272,9 +272,10 @@ export default function SignupForm() {
               type="file"
               name="image_URL"
               id="input-file"
+              value={image}
               accept="image/*"
               style={{ display: "none" }}
-              onChange={handleImageChange}
+              onChange= {(e) => setImage(e.target.value)}
             />
           </div>
 

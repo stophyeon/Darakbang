@@ -2,12 +2,10 @@
 
 import { useState, useEffect } from 'react';
 
-import { fetchUserProfile } from '@compoents/util/http';
 import { PutPostData } from '@compoents/util/post-util';
 import styles from './Edit-page.module.css';
 
 export default function EditProductForm({ productId }) {
-    const [userInfo, setUserInfo] = useState('');
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
     const [images1, setImages1] = useState();
@@ -16,24 +14,20 @@ export default function EditProductForm({ productId }) {
     const [expireAt, setexpireAt] = useState('');
     const [soldOut, setSoldOut] = useState(false);
     const [categoryId, setCategoryId] = useState('');
+    const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
 
-        const fetchUserProfileData = async () => {
-            try {
-                const data = await fetchUserProfile(accessToken);
-                setUserInfo(data);
-            } catch (error) {
-                console.error('pf error', error);
-            }
-        };
-        fetchUserProfileData();
+        const storedAccessToken = localStorage.getItem('Authorization');
+        if (storedAccessToken) {
+        setAccessToken(storedAccessToken);
+        }
 
         const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
         const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
         const currentDateTime = `${currentDate}T${currentTime}`; // 현재 날짜와 시간을 합침
         setCreatedAt(currentDateTime);
-    }, []);
+    }, [accessToken]);
 
     const handleImageChange = (e, setImageState) => {
         const selectedFile = e.target.files[0];
@@ -63,27 +57,17 @@ export default function EditProductForm({ productId }) {
             const productData = {
                 product_name: productName,
                 price: parseInt(price),
-                image_product: images1, // 이미지 하나 더 추가 , base64
-                image_real: images2,
-                create_at: createdAt,
-                sold_out: soldOut,
-                expire_at: expireAt,
+                // image_product: images1, // 이미지 하나 더 추가 , base64
+                // image_real: images2,
+                // create_at: createdAt,
+                // expire_at: expireAt,
                 category_id: parseInt(categoryId),
-                product_detail: bodyMessage,
-                nick_name: userInfo.nick_name,
             };
             console.log(productData);
 
             await handleSubmit(productData, accessToken);
-            setRequestStatus('success');
-            setProductName('');
-            setPrice('');
-            setImages1();
-            setImages2();
-            setCreatedAt('');
-            setSoldOut(false);
-            setCategoryId('');
-            setUserInfo('');
+            const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+            window.location.href = redirectUrl;
         } catch (error) {
             console.error('에러 발생:', error);
             alert('죄송합니다. 요청을 처리하는 동안 오류가 발생했습니다. 나중에 다시 시도해주세요.');
@@ -117,7 +101,7 @@ export default function EditProductForm({ productId }) {
                         onChange={(event) => setPrice(event.target.value)}
                     />
                 </div>
-                <div>
+                {/* <div>
                     <label htmlFor='expire' className={styles.label}>만료 기간</label>
                     <input
                         className={styles.inputField}
@@ -129,8 +113,8 @@ export default function EditProductForm({ productId }) {
                         value={expireAt}
                         onChange={(event) => setexpireAt(event.target.value)}
                     />
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <label htmlFor='images1' className={styles.label}>상품 노출 이미지</label>
                     <input
                         className={styles.inputField}
@@ -147,19 +131,7 @@ export default function EditProductForm({ productId }) {
                         id='images2'
                         onChange={(event) => handleImageChange(event, setImages2)}
                     />
-                </div>
-                <div>
-                    <label htmlFor='soldout' className={styles.label}>상품 판매 여부</label>
-                    <select
-                        className={styles.selectField}
-                        id='soldout'
-                        value={soldOut}
-                        onChange={(event) => setSoldOut(event.target.value === 'true')}
-                    >
-                        <option value='false'>판매 중</option>
-                        <option value='true'>품절</option>
-                    </select>
-                </div>
+                </div> */}
                 <div>
                     <label htmlFor='categoryId' className={styles.label}>상품 카테고리</label>
                     <input
@@ -169,17 +141,6 @@ export default function EditProductForm({ productId }) {
                         required
                         value={categoryId}
                         onChange={(event) => setCategoryId(event.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='bodyMessage' className={styles.label}></label>
-                    <input
-                        className={styles.inputFielded}
-                        type='string'
-                        id='bodyMessage'
-                        required
-                        value={bodyMessage}
-                        onChange={(event) => setbodyMessage(event.target.value)}
                     />
                 </div>
                 <button className={styles.button}>게시물 수정</button>

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { BsSendFill } from "react-icons/bs";
 import styles from './SendPost.module.css';
+import { useRouter } from 'next/navigation';
 
 import { sendProductData } from '@compoents/util/post-util';
 import { fetchUserProfile } from '@compoents/util/http';
@@ -13,13 +14,14 @@ import { fetchUserProfile } from '@compoents/util/http';
 
 
 export default function ProductForm() {
+  const router = useRouter()
+
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  // const [images1, setImages1] = useState();
-  // const [images2, setImages2] = useState();
+  const [images1, setImages1] = useState();
+  const [images2, setImages2] = useState();
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
-  const [soldOut, setSoldOut] = useState('');  // 판매중 1, 만료일자 넘어간것 0, 판매 팔린것 -1 
   const [categoryId, setCategoryId] = useState('');
   const [accessToken, setAccessToken] = useState('');
 
@@ -57,24 +59,24 @@ export default function ProductForm() {
         // image_real: images2,
         // create_at: createdAt,
         // expire_at: expireAt, // 만료 일자 추가
-        // state: soldOut,
         category_id: parseInt(categoryId),
       };
       console.log(productDetails);
 
-      await sendProductData(productDetails, accessToken);
+    await sendProductData(productDetails, accessToken);
       setProductName('');
       setPrice('');
+      setCategoryId('');
       // setImages1();
       // setImages2();
       // setCreatedAt('');
-      // setSoldOut(false);
-      setCategoryId('');
-    } catch (error) {
-      console.error('에러 발생:', error);
-      alert('죄송합니다. 요청을 처리하는 동안 오류가 발생했습니다. 나중에 다시 시도해주세요.');
-    }
+      const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+      window.location.href = redirectUrl;
+  } 
+  catch (error) {
+    console.error('에러 발생:', error);
   }
+}
 
   return (
     <>
@@ -133,18 +135,6 @@ export default function ProductForm() {
               onChange={(event) => handleImageChange(event, setImages2)}
             />
           </div> */}
-          <div>
-            <label htmlFor='soldout' className={styles.label}>상품 판매 여부</label>
-            <select
-              className={styles.selectField}
-              id='soldout'
-              value={soldOut}
-              onChange={(event) => setSoldOut(event.target.value === 'true')}
-            >
-              <option value='false'>판매 중</option>
-              <option value='true'>품절</option>
-            </select>
-          </div>
           <div>
             <label htmlFor='categoryId' className={styles.label}>상품 카테고리</label>
             <input
