@@ -61,9 +61,9 @@ export async function fetchitems({ signal, searchTerm, max }) {        // 상품
 
 // 멤버 프로필 api
 
-export async function fetchUserProfile(accesstoken, nick_name) {
+export async function fetchUserProfile(accesstoken) {
   try {
-    const response = await fetch(`http://localhost:8888/member/profile?nick_name=${nick_name}`, {
+    const response = await fetch(`http://localhost:8888/member/profile`, {
       headers: {
         'Authorization': `${accesstoken}`
       }
@@ -80,7 +80,7 @@ export async function fetchUserProfile(accesstoken, nick_name) {
 
 export async function fetchOtherUserProfile(nick_name, accessToken){
   try {
-    const response = await fetch(`http://localhost:8888/member/profile?nick_name=${nick_name}`, {
+    const response = await fetch(`http://localhost:8888/member/profile/${nick_name}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

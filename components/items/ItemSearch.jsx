@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { IoSearch } from "react-icons/io5";
-import styled from 'styled-components'; // styled-components import 추가
+import styles from './ItemSearch.module.css';
 
 import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
@@ -32,10 +32,10 @@ const FindEventSection = () => {
   }
 
   return (
-    <SearchForm onSubmit={handleSubmit} id="search-form">
-      <header>
-        <input type="search" placeholder="상품 검색" ref={searchElement} />
-        <button type="submit"><IoSearch /></button>
+    <form onSubmit={handleSubmit} id="search-form" className={styles.SearchForm}>
+      <header className={styles.headerd}>
+        <input type="search" placeholder="상품 검색" ref={searchElement} className={styles.inputSch}/>
+        <button type="submit" className={styles.SchBtn}><IoSearch /></button>
       </header>
 
       {isLoading && <LoadingIndicator />}
@@ -55,43 +55,8 @@ const FindEventSection = () => {
           ))}
         </ul>
       )}
-    </SearchForm>
+    </form>
   );
 };
 
 export default FindEventSection;
-
-
-// 검색 폼 스타일드 컴포넌트 생성
-const SearchForm = styled.form`
-  display: flex;
-  position: relative;
-  header {
-    display: flex;
-    align-items: center;
-    width: 880px;
-    height: 48px;
-    flex-shrink: 0;
-  }
-
-  input[type='search'] {
-    width: 1440px;
-    height: 48px;
-    flex-shrink: 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-left: 100px;
-    padding-left: 20px;
-  }
-
-  button {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    border: none;
-    cursor: pointer;
-    background: #FFFFFF;
-    margin-left: 1500px;
-    position: absolute;
-  }
-`;

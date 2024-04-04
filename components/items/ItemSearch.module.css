@@ -1,0 +1,25 @@
+
+.headerd{
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 880px;
+    height: 48px;
+}
+
+.inputSch{
+    width: 200%;
+    height: 48px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 100px;
+    padding-left: 20px;
+}
+
+.SchBtn{
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    background: #FFFFFF;
+}

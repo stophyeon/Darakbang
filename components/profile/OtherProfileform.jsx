@@ -45,7 +45,7 @@ export default function OtherProfileform({nick_name}) {
     <div>
       <h1>프로필</h1>
       <Image
-            src={require (`/${profile.image}.jpg` || "/kakaoImg.jpg")}
+            src={ ( "/kakaoImg.jpg")} // require  `/${profile.image}.jpg` ||
             alt="이미지"
             width={200}
             height={300}

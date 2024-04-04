@@ -53,7 +53,7 @@ export default function UserProfile() {
         <h2 className={styles.profileTitle}>사용자 프로필 정보</h2>
         <div className={styles.profileItem}>
           <Image
-            src={userInfo.image || defaultImage}
+            src={require (`/${userInfo.image}.jpg` || defaultImage)}  // require  `/${userInfo.image}.jpg` ||
             alt="이미지"
             width={200}
             height={300}
