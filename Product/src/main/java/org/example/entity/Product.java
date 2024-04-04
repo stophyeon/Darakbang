@@ -36,7 +36,7 @@ public class Product {
     private LocalDate createAt;
 
     @Column(name="state")
-    private int state;
+    private int state=1;
 
     @Column(name = "category_id")
     private int categoryId;
@@ -52,7 +52,7 @@ public class Product {
 
 
     @Builder
-    public Product(String productName, int price, byte[] imageProduct, byte[] imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail) {
+    public Product(String productName, int price, byte[] imageProduct, byte[] imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail,int state) {
         this.productName = productName;
         this.price = price;
         this.ImageProduct = imageProduct;
@@ -74,6 +74,7 @@ public class Product {
                 .expireAt(productDto.getExpire_at())
                 .nickName(productDto.getNick_name())
                 .userEmail(userEmail)
+
                 .price(productDto.getPrice())
                 .imageProduct(productDto.getImage_product())
                 .imageReal(productDto.getImage_real())

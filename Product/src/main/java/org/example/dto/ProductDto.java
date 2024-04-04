@@ -39,6 +39,7 @@ public class ProductDto {
         this.image_real=image_real;
         this.nick_name=nick_name;
         this.product_id=product_id;
+
     }
     public static ProductDto ToDto(Product product){
         return ProductDto.builder()

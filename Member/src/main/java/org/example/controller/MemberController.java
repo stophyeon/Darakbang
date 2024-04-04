@@ -11,11 +11,13 @@ import org.example.dto.MemberDto;
 import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
-
 import org.example.service.MemberService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,10 +34,10 @@ public class MemberController {
             summary = "회원가입"
     )
 
-    @PostMapping("/signup")
-    public ResponseEntity<ResponseCustom> signup(@RequestBody @Parameter MemberDto memberDto){
+    @PostMapping(value = "/signup",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseCustom> signup(@RequestPart(name = "req") @Parameter MemberDto memberDto, @RequestPart(name = "img",required = false) @Parameter MultipartFile img) throws IOException {
 
-        return ResponseEntity.ok(memberService.join(memberDto));
+        return ResponseEntity.ok(memberService.join(memberDto,img));
     }
     @PostMapping("/login")
     @Operation(
@@ -48,13 +50,13 @@ public class MemberController {
         return ResponseEntity.ok(jwtDto);
     }
 
-    @PostMapping("/profile")
+    @PostMapping("/profile/{email}")
     @Operation(
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
     )
-    public Member Profile(@RequestParam(value = "nick_name",required = false) @Parameter(name = "닉네임 입력") String nickName){
-        return memberService.profile(nickName);
+    public MemberDto Profile(@RequestParam(value = "nick_name",required = false,defaultValue = "me") @Parameter(name = "닉네임 입력") String nickName,@PathVariable("email")String email){
+        return memberService.profile(nickName,email);
     }
 
 
