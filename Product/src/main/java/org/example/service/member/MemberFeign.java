@@ -11,4 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface MemberFeign {
     @GetMapping("/nick_name")
     public String getNickName(@RequestParam("email") String email);
+    @GetMapping("/userinfo")
+    public String getProfile(@RequestParam("email") String email);
 }

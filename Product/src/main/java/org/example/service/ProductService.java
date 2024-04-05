@@ -40,7 +40,9 @@ public class ProductService {
     private String bucketName;
     public ResponseEntity<SuccessRes> addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
             String nickName= memberFeign.getNickName(email);
+            String profile = memberFeign.getProfile(email);
             productDto.setNick_name(nickName);
+            productDto.setUserProfile(profile);
             // 이미지 구글 클라우드 저장
             InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
             String product_origin_name =img_product.getOriginalFilename();
@@ -54,6 +56,7 @@ public class ProductService {
                     .setCredentials(GoogleCredentials.fromStream(keyFile))
                     .build()
                     .getService();
+            // 이미지 GCP bucket에 저장
             BlobInfo blobInfo_product = storage.create(
                     BlobInfo.newBuilder(bucketName, product_file_name)
                         .setContentType(product_ext)

@@ -50,9 +50,12 @@ public class Product {
     @Column(name = "user_email")
     private String userEmail;
 
+    @Column(name = "user_profile")
+    private String userProfile;
+
 
     @Builder
-    public Product(String productName, int price, String imageProduct, String imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail,int state) {
+    public Product(String productName, int price, String imageProduct, String imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName,String userProfile, String userEmail,int state) {
         this.productName = productName;
         this.price = price;
         this.ImageProduct = imageProduct;
@@ -62,6 +65,7 @@ public class Product {
         this.expireAt = expireAt;
         this.nickName = nickName;
         this.userEmail = userEmail;
+        this.userProfile=userProfile;
     }
 
 
@@ -77,6 +81,7 @@ public class Product {
                 .price(productDto.getPrice())
                 .imageProduct(productDto.getImage_product())
                 .imageReal(productDto.getImage_real())
+                .userProfile(productDto.getUserProfile())
                 .build();
     }
 
