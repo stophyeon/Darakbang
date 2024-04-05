@@ -28,8 +28,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     void updateProduct(@Param("productid") Long productid,
                        @Param("productname") String productName,
                        @Param("price") int price,
-                       @Param("imageproduct") byte[] imageProduct,
-                       @Param("imagereal") byte[] imageReal,
+                       @Param("imageproduct") String imageProduct,
+                       @Param("imagereal") String imageReal,
                        @Param("categoryid") int categoryId,
                        @Param("expireat") LocalDate expireAt);
 

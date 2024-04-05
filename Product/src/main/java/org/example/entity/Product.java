@@ -25,11 +25,11 @@ public class Product {
 
     @Lob
     @Column(name = "image_product")
-    private byte[] ImageProduct;
+    private String ImageProduct;
 
     @Lob
     @Column(name = "image_real")
-    private byte[] ImageReal;
+    private String ImageReal;
 
 
     @Column(name = "create_at")
@@ -52,7 +52,7 @@ public class Product {
 
 
     @Builder
-    public Product(String productName, int price, byte[] imageProduct, byte[] imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail,int state) {
+    public Product(String productName, int price, String imageProduct, String imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName, String userEmail,int state) {
         this.productName = productName;
         this.price = price;
         this.ImageProduct = imageProduct;
@@ -74,7 +74,6 @@ public class Product {
                 .expireAt(productDto.getExpire_at())
                 .nickName(productDto.getNick_name())
                 .userEmail(userEmail)
-
                 .price(productDto.getPrice())
                 .imageProduct(productDto.getImage_product())
                 .imageReal(productDto.getImage_real())

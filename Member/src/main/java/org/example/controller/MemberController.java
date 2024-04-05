@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.MemberDto;
 import org.example.dto.ResponseCustom;
-import org.example.entity.Member;
 import org.example.jwt.JwtDto;
 import org.example.service.MemberService;
 import org.springframework.http.MediaType;
@@ -55,8 +54,16 @@ public class MemberController {
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
     )
-    public MemberDto Profile(@RequestParam(value = "nick_name",required = false,defaultValue = "me") @Parameter(name = "닉네임 입력") String nickName,@PathVariable("email")String email){
-        return memberService.profile(nickName,email);
+    public MemberDto myProfile(@PathVariable("email")String email){
+        return memberService.myProfile(email);
+    }
+    @PostMapping("/profile/{nick_name}/{email}")
+    @Operation(
+            operationId = "other's profile",
+            summary = "다른 사용자의 프로필"
+    )
+    public MemberDto Profile(@PathVariable(value = "nick_name",required = false) @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email")String email){
+        return memberService.profile(nickName);
     }
 
 
