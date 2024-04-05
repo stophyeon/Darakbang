@@ -52,7 +52,7 @@ export default function UserProfile() {
       <div className={styles.profileInfo}>
         <div >
           <img //img , `file://C:/Profile_img/${userInfo.image}}`
-            src={defaultImage}  // require  `/${userInfo.image}.jpg` || // `file://C:/Profile_img/${userInfo.image}}` ||
+            src={userInfo.image || defaultImage}  
             alt="이미지"
             width={200}
             height={200}

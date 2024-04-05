@@ -7,7 +7,7 @@ import styles from './post-item.module.css';
 
 function PostItem(props) {
   const [profile, setProfile] = useState('');
-  const { product_name, price, product_id, nick_name } = props.post;
+  const { product_name, price, product_id, nick_name, image_product } = props.post;
   const { pageNumber } = props.posts.pageable;
   const accessToken = props.accessToken;
 
@@ -35,7 +35,7 @@ function PostItem(props) {
           </div>
           <h3>{product_name}</h3>
           {/* 판매 사진 */}
-          <Image src='/kakaoImg.jpg' width={440} height={540} alt="상품 이미지"className={styles.productImg}/>
+          <Image src={image_product ||'/kakaoImg.jpg'} width={440} height={540} alt="상품 이미지"className={styles.productImg}/>
           <h1>가격</h1>
           <h4>{price}원</h4>
           <div className={styles.buttons}>

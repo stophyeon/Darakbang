@@ -4,7 +4,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ['k.kakaocdn.net', 't1.kakaocdn.net', 't1'],
+    domains: ['k.kakaocdn.net', 't1.kakaocdn.net', 't1','storage.googleapis.com'],
   },
   webpack: (config) => {
     config.module.rules.push({

@@ -116,6 +116,7 @@ export default function Home() {
       </form>
       </div>
       <CommuPosts posts={posts} accessToken={accessToken}/>
+      
       <div className={styles.pagination}>
       {currentPage > 1 && (
       <button onClick={goToPreviousPageGroup}>이전</button>

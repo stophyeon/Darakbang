@@ -73,19 +73,19 @@ export default function ProductForm() {
       "category_id": parseInt(categoryId),
     }
     formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
-    formData.append('image_product', images1);
-    formData.append('image_real', images2);
+    formData.append('img_product', images1);
+    formData.append('img_real', images2);
     for (var pair of formData.values()) {
       console.log(pair); 
     }
     
 
       await sendProductData(formData, accessToken); //productDetails
-      setProductName('');
-      setPrice('');
-      setCategoryId('');
-      setImages1();
-      setImages2();
+      // setProductName('');
+      // setPrice('');
+      // setCategoryId('');
+      // setImages1();
+      // setImages2();
       // setCreatedAt('');
       const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
       window.location.href = redirectUrl;

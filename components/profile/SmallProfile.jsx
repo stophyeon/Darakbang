@@ -3,23 +3,37 @@ import styles from './SmallProfile.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
-
-
+import { useState, useEffect } from 'react';
+import { fetchUserProfile } from '@compoents/util/http';
 
 export default function SmallProfile() {
     const defaultImage = "/kakaoImg.jpg";
+    const [userInfo, setuserInfo] = useState('')
 
     function logoutHandler() {
         localStorage.removeItem('Authorization');
         localStorage.removeItem("expiration");
         window.location.href = "http://localhost:3000"
     }
+    useEffect(() => {
+        // API 호출 -> 사용자 정보 받아오기
+        async function fetchUserProfileData() {
+          try {
+            const accesstoken = localStorage.getItem('Authorization');
+            const data = await fetchUserProfile(accesstoken);
+            setuserInfo(data);
+          } catch (error) {
+            console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+          }
+        };
+        fetchUserProfileData();
+      }, []);
 
     return (
         <Popover showArrow={true} placement="bottom">
             <PopoverTrigger>
                 <Image
-                    src={defaultImage} // UserInfo.image || 
+                    src={userInfo.image || defaultImage} // UserInfo.image || 
                     alt="이미지"
                     width={83}
                     height={83}
