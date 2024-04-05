@@ -2,7 +2,7 @@
 
 .pageContainer {
   /* width: 1440px;  */
-  position: relative;
+  background: #F3F5FA;
 }
 
 .flexSection1 {
@@ -21,7 +21,8 @@
 
 
 .buttonContainer {
-  margin-left: 97.5%;
+  position: absolute;
+  right: 5px;
   margin-bottom: 20px; /* 버튼과 다른 컨텐츠 사이의 간격 조절을 위한 마진 추가 */
 }
 

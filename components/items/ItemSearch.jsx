@@ -34,7 +34,7 @@ const FindEventSection = () => {
   return (
     <form onSubmit={handleSubmit} id="search-form" className={styles.SearchForm}>
       <header className={styles.headerd}>
-        <input type="search" placeholder="상품 검색" ref={searchElement} className={styles.inputSch}/>
+        <input type="search" ref={searchElement} className={styles.inputSch}/>
         <button type="submit" className={styles.SchBtn}><IoSearch /></button>
       </header>
 

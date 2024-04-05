@@ -1,34 +1,168 @@
 .postForm {
     /* 게시글 스타일 */
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #FFFFFF;
+    position: relative;
   }
   
-  .postForm div {
-    margin-bottom: 10px;
-    font-size: 18px;
-  }
-  
-  .postForm div:last-child {
-    font-size: 16px;
-    font-style: italic;
-    color: #666;
+  .productCtr {
+    text-align: center;
+    border-radius: 10px;
+    border: 0;
   }
 
-  .commentSection {
-    /* 댓글 섹션 스타일 */
+  .profiles{
     margin-top: 20px;
+    margin-left: 844px;
+    display: flex;
+  }
+  .productImg{
+    border-radius: 20px;
+  }
+  .ProImg{
+    border-radius: 90%;
+    border: 0;
+  }
+  .nickNames{
+    color: var(--gray-800, #737A8D);
+    font-family: "Pretendard Variable";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 16px;
+    margin-top: 16px;
+  }
+
+  .prdName{
+    display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 1;
+overflow: hidden;
+color: var(--black, #191A1C);
+text-overflow: ellipsis;
+font-family: "Pretendard Variable";
+font-size: 32px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-left: 844px;
+margin-top: 35px;
+  }
+
+  .verticalLine {
+    border-top: 1px solid #E2E5EF;
+    background: #F4F5F9;
+    width: 605px;
+    height: 1px;
+    text-align: center;
+    margin-left: 832px;
+    margin-top: 20px;
+    padding: 0%;
+  }
+
+  .price{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+color: var(--primary-primary, #496AF3);
+text-overflow: ellipsis;
+font-family: "Pretendard Variable";
+font-size: 40px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+margin-left: 844px;
+margin-top: 30px;
+  }
+
+  .buttons{
+    margin-top: 55px;
+    margin-left: 844px;
   }
   
-  .commentForm {
-    /* 댓글 폼 스타일 */
-    margin-bottom: 10px;
-    padding: 5px;
-    border: 1px solid #eee;
-    border-radius: 3px;
-    background-color: #f5f5f5;
+  .like {
+    border-radius: 10px;
+  background: var(--gray-200, #F4F5F9);
+  width: 113px;
+  height: 50px;
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 0;
   }
   
+  .buy {
+    width: 113px;
+  height: 50px;
+  flex-shrink: 0;
+  background: #496AF3;
+  border-radius: 10px;
+  border: 0;
+  color: #FFFFFF;
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 44px;
+  }
+
+  .anotherLine{
+height: 50px;
+flex-shrink: 0;
+background: var(--gray-100, #F8F9FC);
+margin-top: 74px;
+  }
+
+  .recomePrd{
+    margin-left: 475px;
+  }
+
+  .postsGrid {
+    margin-left: 430px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px;
+    width: 1000px;
+  }
+
+  .postItem {
+    background: #FFF;
+    width: 400px;
+    height: 400px;
+  }
+  .ListprdName{
+    overflow: hidden;
+color: var(--black, #191A1C);
+text-overflow: ellipsis;
+white-space: nowrap;
+font-family: "Pretendard Variable";
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+position: absolute;
+margin-left: 30px;
+margin-top: 12px;
+  }
+
+  .ListPrice{
+    color: var(--gray-800, #737A8D);
+    font-family: "Pretendard Variable";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    position: absolute;
+    margin-left: 30px;
+    margin-top: 38px;
+  }
+
+  .ListImgs{
+      border-radius: 20px;
+  }

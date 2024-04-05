@@ -1,35 +1,71 @@
 .profileContainer {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+  display: flex;
   }
   
   .profileInfo {
-    margin-bottom: 20px;
+    display: flex;
   }
-  
-  .profileTitle {
-    font-size: 24px;
-    margin-bottom: 10px;
+  .profileImg{
+    margin-left: 436px;
+    border-radius: 90%;
+    cursor: pointer;
   }
-  
-  .profileItem {
-    font-size: 16px;
-    margin-bottom: 5px;
+  .profileNickName{
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 12px;
+    margin-left: 33px;
   }
-  
+
+  .Followes{
+    display: flex;
+    margin-left: -88px;
+    margin-top: 60px;
+  }
+
   .followListContainer {
-    margin-top: 20px;
   }
   
   .followButton {
     font-size: 16px;
     padding: 5px 10px;
-    background-color: #f1f1f1;
+    background-color: #FFFFFF;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    color: var(--gray-800, #737A8D);
+font-family: "Pretendard Variable";
+font-size: 32px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+    
+  }
+  
+  .profileName {
+    margin-left: -278px;
+    margin-top: 125px;
+    color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .profileEmail {
+    margin-left: -58px;  
+    margin-top: 150px;
+    color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
   
   .modal {
@@ -38,6 +74,47 @@
     left: 0;
     width: 100%;
   }
+
+  .Button1{
+    position: absolute;
+    color: var(--primary-primary, #496AF3);
+    font-family: "Pretendard Variable";
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background-color: #FFFFFF;
+    border: 0;
+    margin-left: 205px;
+    margin-top: 399px;
+  }
+
+  .Button2 {
+    position: absolute;
+    color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background-color: #FFFFFF;
+    border: 0;
+    margin-left: 455px;
+    margin-top: 399px;
+  }
+
+
+  .verticalLine {
+    position: absolute;
+    border-top: 1px solid #E2E5EF;
+    width: 2000px;
+    height: 1px;
+    margin-top: 477px;
+    margin-left: 144px;
+    padding: 0%;
+  }
+
+
   
   .profileLoading {
     font-size: 16px;

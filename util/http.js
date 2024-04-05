@@ -64,6 +64,7 @@ export async function fetchitems({ signal, searchTerm, max }) {        // 상품
 export async function fetchUserProfile(accesstoken) {
   try {
     const response = await fetch(`http://localhost:8888/member/profile`, {
+      method: 'POST',
       headers: {
         'Authorization': `${accesstoken}`
       }

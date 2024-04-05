@@ -23,7 +23,7 @@
   
   .buttonContainer {
     position: absolute;
-    right: 0;
+    right: 5px;
     margin-bottom: 20px; /* 버튼과 다른 컨텐츠 사이의 간격 조절을 위한 마진 추가 */
   }
   

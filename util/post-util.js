@@ -1,14 +1,14 @@
 
-export async function sendProductData(productDetails, accessToken) {
+export async function sendProductData(formData, accessToken) {
   try {
     const response = await fetch('http://localhost:8888/product', {
       cache: 'no-store',
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `${accessToken}`
       },
-      body: JSON.stringify(productDetails),
+      // body: JSON.stringify(productDetails),
+      body: formData,
     });
 
     if (response.status !== 200) {

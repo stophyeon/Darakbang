@@ -11,6 +11,7 @@ export default function UserProfile() {
   const [followerList, setFollowerList] = useState([]);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
+  const [List, setList] = useState();
   const defaultImage = "/kakaoImg.jpg";
   
   useEffect(() => {
@@ -45,23 +46,21 @@ export default function UserProfile() {
     setIsFollowerModalOpen(false);
   };
 
-
   return (
     <div className={styles.profileContainer}>
     {userInfo ? (
       <div className={styles.profileInfo}>
-        <h2 className={styles.profileTitle}>사용자 프로필 정보</h2>
-        <div className={styles.profileItem}>
-          <Image
-            src={require (`/${userInfo.image}.jpg` || defaultImage)}  // require  `/${userInfo.image}.jpg` ||
+        <div >
+          <img //img , `file://C:/Profile_img/${userInfo.image}}`
+            src={defaultImage}  // require  `/${userInfo.image}.jpg` || // `file://C:/Profile_img/${userInfo.image}}` ||
             alt="이미지"
             width={200}
-            height={300}
+            height={200}
+            className={styles.profileImg}
           />
         </div>
-        <p className={styles.profileItem}>닉네임: {userInfo.nick_name}</p>
-        <p className={styles.profileItem}>이름: {userInfo.name}</p>
-        <p className={styles.profileItem}>이메일: {userInfo.email}</p>
+        <p className={styles.profileNickName}>{userInfo.nick_name}</p>
+        <div className={styles.Followes}>
         <div className={styles.followListContainer}>
           <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {userInfo.following}</button>
           {isFollowingModalOpen && (
@@ -79,6 +78,14 @@ export default function UserProfile() {
             </div>
           )}
         </div>
+        </div>
+        <p className={styles.profileName}>{userInfo.name}</p>
+        <p className={styles.profileEmail}>{userInfo.email}</p>
+        <button className={styles.Button1}>판매 물품</button>
+        <button className={styles.Button2}>좋아요 목록</button>
+        
+        <div className={styles.verticalLine}></div>
+        
       </div>
     ) : (
       <p className={styles.profileLoading}>사용자 프로필 정보를 불러오는 중입니다...</p>

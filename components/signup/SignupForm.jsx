@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from './SignupForm.module.css';
 
+
 export default function SignupForm() {
+  const formData = new FormData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,17 +29,13 @@ export default function SignupForm() {
     return logic.test(password);
   };
 
-  // 사진 base64 인코딩
-  // const handleImageChange = (e) => {
-  //   const selectedFile = e.target.files[0];
-  //   if (selectedFile) {
-  //     const reader = new FileReader();
-  //     reader.onload = (event) => {
-  //       setImage(event.target.result);
-  //     };
-  //     reader.readAsDataURL(selectedFile);
-  //   }
-  // };
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.files[0];
+  const imageUrl = (selectedImage);
+  setImage(imageUrl);
+  console.log(imageUrl);
+  
+  };
   
   
 
@@ -108,21 +106,33 @@ export default function SignupForm() {
     }
 
 
+    // JSON.stringify({
+    //   "email": email,
+    //   "password": password,
+    //   "name": name,
+    //   "nick_name": nick_name,
+    //   "image": image,
+    // }),
+
+    const formData = new FormData();
+    let req ={
+      "email": email,
+      "password": password,
+      "name": name,
+      "nick_name": nick_name
+    }
+    formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
+    formData.append('img', image);
+    
+    for (var pair of formData.values()) {
+      console.log(pair); 
+    }
+    
     // 회원가입 API 요청 보내기
     const response = await fetch("http://localhost:8888/member/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "email": email,
-        "password": password,
-        "name": name,
-        "nick_name": nick_name,
-        // "image": image,
-      }),
+      body: formData
     });
-
     const data = await response.json();
     console.log(data);
 
@@ -267,15 +277,16 @@ export default function SignupForm() {
           <div className={styles.outProfile}>
             <label htmlFor="input-file">
               {image && <img src={image} alt="프로필 이미지" width="132" height="132" className={styles.selectImg} />}
+              사진 넣기
             </label>
             <input
               type="file"
               name="image_URL"
               id="input-file"
-              value={image}
               accept="image/*"
               style={{ display: "none" }}
-              onChange= {(e) => setImage(e.target.value)}
+              onChange= {(e) => {handleImageChange(e)
+              }}
             />
           </div>
 

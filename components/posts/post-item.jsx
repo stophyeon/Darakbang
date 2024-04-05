@@ -35,7 +35,7 @@ function PostItem(props) {
           </div>
           <h3>{product_name}</h3>
           {/* 판매 사진 */}
-          <Image src='/kakaoImg.jpg' width={440} height={540} className={styles.productImg}/>
+          <Image src='/kakaoImg.jpg' width={440} height={540} alt="상품 이미지"className={styles.productImg}/>
           <h1>가격</h1>
           <h4>{price}원</h4>
           <div className={styles.buttons}>
