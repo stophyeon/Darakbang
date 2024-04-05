@@ -35,7 +35,16 @@ public class Member {
         this.name= memberDto.getName();
         this.image=memberDto.getImage();
     }
-
+    public static MemberDto toDto(Member member){
+        return MemberDto.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .nickName(member.getNickName())
+                .image(member.getImage())
+                .follower(member.follower)
+                .following(member.following)
+                .build();
+    }
 
 
 }

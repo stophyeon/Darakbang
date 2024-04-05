@@ -15,6 +15,9 @@ import org.example.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @Slf4j
@@ -34,10 +37,11 @@ public class ProductController {
 
     @PostMapping("/{email}")
     public ResponseEntity<SuccessRes> saveProduct(@PathVariable("email") String email,
-                                                  @RequestBody ProductDto productDto)
-    {
+                                                  @RequestPart("req") ProductDto productDto,
+                                                  @RequestPart("img_product") MultipartFile img_product,
+                                                  @RequestPart("img_real") MultipartFile img_real) throws IOException {
         log.info("상품 등록");
-        return productService.addProduct(productDto,email);
+        return productService.addProduct(productDto,email,img_product,img_real);
     }
     @Operation(summary = "상품 게시글 삭제")
     @ApiResponses(value = {
