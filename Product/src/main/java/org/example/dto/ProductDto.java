@@ -39,6 +39,7 @@ public class ProductDto {
         this.image_real=image_real;
         this.nick_name=nick_name;
         this.product_id=product_id;
+        this.state = state ;
 
     }
     public static ProductDto ToDto(Product product){
@@ -52,6 +53,7 @@ public class ProductDto {
                 .image_real(product.getImageReal())
                 .product_name(product.getProductName())
                 .price(product.getPrice())
+                .state(product.getState())
                 .build();
     }
 
