@@ -3,8 +3,9 @@
 }
 
 .profileImage {
-    border-radius: 90%;
+    border-radius: 50%;
     cursor: pointer;
+    margin-bottom: 5px;
   }
   
   .modalBackground {

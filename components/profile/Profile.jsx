@@ -50,7 +50,7 @@ export default function UserProfile() {
     <div className={styles.profileContainer}>
     {userInfo ? (
       <div className={styles.profileInfo}>
-        <div >
+        <div>
           <img //img , `file://C:/Profile_img/${userInfo.image}}`
             src={userInfo.image || defaultImage}  
             alt="이미지"
@@ -59,7 +59,10 @@ export default function UserProfile() {
             className={styles.profileImg}
           />
         </div>
-        <p className={styles.profileNickName}>{userInfo.nick_name}</p>
+        
+        <div className={styles.profileNickName}>
+          {userInfo.nick_name}
+        </div>
         <div className={styles.Followes}>
         <div className={styles.followListContainer}>
           <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {userInfo.following}</button>

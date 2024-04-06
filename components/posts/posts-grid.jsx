@@ -8,7 +8,7 @@ export default function PostsGrid(props) {
 
   return (
     <ul className={styles.postsGrid}>
-        {posts && posts.content.map((post)=> (
+        {posts && posts.content && posts.content.map((post) => (
         <PostItem key={post.product_id} post={post} posts={posts} accessToken={accessToken}/>
       ))}
     </ul>

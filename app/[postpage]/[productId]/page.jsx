@@ -4,6 +4,7 @@ import DeletePostButton from '@compoents/components/posts/Delete-button';
 import { getPostData } from '@compoents/util/post-util';
 import styles from './page.module.css'
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
 import PutDetailbutton from '@compoents/components/posts/Edit-button';
@@ -13,6 +14,8 @@ export default function PostDetailPage({ params }) {
   const [accessToken, setAccessToken] = useState('');
   const [post, setPosts] = useState('');
   const [postList, setPostList] = useState('');
+
+  
 
   useEffect(() => {
     const accessTokenFromLocalStorage = localStorage.getItem('accessToken');
@@ -43,10 +46,10 @@ export default function PostDetailPage({ params }) {
       {post && (
         <form className={styles.postForm}>
           <div className={styles.productCtr}>
-            {<Image src={'/kakaoImg.jpg'} alt='상품 이미지' width={600} height={600} className={styles.productImg} />} {/*post.imageProduct ||*/}
+            {<Image src={post.imageProduct} alt='상품 이미지' width={600} height={600} className={styles.productImg} />} {/*post.imageProduct ||*/}
           </div>
           <div className={styles.profiles}>
-            {<Image src={'/kakaoImg.jpg'} alt='상품 이미지' width={78} height={78} className={styles.ProImg} />}
+            {<Image src={'/kakaoImg.jpg'} alt='프로필 이미지' width={78} height={78} className={styles.ProImg} />}
             <p className={styles.nickNames}>{post.nickName}</p>
           </div>
           <div className={styles.verticalLine}></div>
@@ -61,10 +64,12 @@ export default function PostDetailPage({ params }) {
             <p  className={styles.recomePrd}>추천 상품</p>
             <ul className={styles.postsGrid}>
               {postList && postList.productList.map((posts) => (
-                <div className={styles.postItem}>
-                  <div><Image src={'/kakaoImg.jpg'} alt="상품" width={350} height={350} className={styles.ListImgs}/></div>
+                <div key={posts.productId} className={styles.postItem}>
+                  <Link href={`/${params.postpage}/${posts.productId}`} style={{ textDecoration: "none" }}>
+                  <div><Image src={posts.imageProduct} alt="상품" width={350} height={350} className={styles.ListImgs}/></div>
                   <div className={styles.ListprdName}>{posts.productName}</div>
                   <div className={styles.ListPrice}>{posts.price}원</div>
+                  </Link>
                 </div>
               ))}
             </ul>

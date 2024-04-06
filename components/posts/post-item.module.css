@@ -7,7 +7,7 @@
   border-radius: 10px;
   background: #FFF;
   box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
-  width: 519px;
+  width: 579px;
   height: 900px;
 
 }
@@ -20,7 +20,7 @@
   background: lightgray 50% / cover no-repeat;
 box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
 border-radius: 50%;
-margin-left: 25px;
+margin-left: 55px;
 margin-top: 31px;
 }
 
@@ -52,7 +52,7 @@ font-style: normal;
 font-weight: 500;
 line-height: normal;
 margin-top: 40px;
-margin-left: 27px;
+margin-left: 61px;
 }
 
 .postItem h1 {
@@ -62,7 +62,7 @@ font-size: 20px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
-margin-left: 27px;
+margin-left: 47px;
 margin-top: 10px;
 margin-bottom: 0px;
 padding: 0%;
@@ -76,11 +76,11 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 margin-top: 0px;
-margin-left: 27px;
+margin-left: 47px;
 }
 
 .productImg{
-  margin-left: 38px;
+  margin-left: 58px;
 }
 .buttons{
   margin-top: 0px;

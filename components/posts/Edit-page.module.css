@@ -1,41 +1,52 @@
 
 
 .formContainer {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    display: flex;
-    position: absolute;
-    justify-content: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   }
   
-  .label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    margin-right: 10px;
+  .imglabel {
+    display: flex;
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    
+  }
+
+  .label{
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .selectImg{
+    margin-top: 30px;
+    border-radius: 10px;
+    margin-left: 40px;
+  }
+  .margins{
+    margin-top: 30px;
   }
   
   .inputField {
-    width: 50%;
-    padding: 8px;
-    margin: 5px 0 20px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    display: flex;
+    width: 840px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 30px;
+    padding-left: 10px;
   }
-  .inputFielded {
-    width: 90%;
-    height: 100px;
-    padding: 8px;
-    margin: 5px 0 20px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+
   .selectField {
     margin: 10px;
     width: 20%;
@@ -44,39 +55,30 @@
     border-radius: 5px;
  }
   .button {
+    margin-top: 54px;
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 840px;
+    height: 70px;
   }
   
-  .notification {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 5px;
+  .bkImg{
+    display: flex;
+    position: absolute;
+    margin-top: 32px;
+    margin-left: 10px;
   }
-  
-  .pending {
-    background-color: #ffc107;
+  .inputFields {
+    display: flex;
+    width: 790px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 30px;
+    padding-left: 50px;
   }
-  
-  .success {
-    background-color: #28a745;
-  }
-  
-  .error {
-    background-color: #dc3545;
-  }
-  
-  .notificationTitle {
-    margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .notificationMessage {
-    font-size: 16px;
-  }
-  

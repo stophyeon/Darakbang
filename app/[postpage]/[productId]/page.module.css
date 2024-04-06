@@ -12,7 +12,8 @@
 
   .profiles{
     margin-top: 20px;
-    margin-left: 844px;
+    align-items: center;
+  justify-content: center;
     display: flex;
   }
   .productImg{
@@ -45,16 +46,15 @@ font-size: 32px;
 font-style: normal;
 font-weight: 500;
 line-height: normal;
-margin-left: 844px;
+text-align: center;
 margin-top: 35px;
   }
 
   .verticalLine {
     border-top: 1px solid #E2E5EF;
     background: #F4F5F9;
-    width: 605px;
+    width: 1135px;
     height: 1px;
-    text-align: center;
     margin-left: 832px;
     margin-top: 20px;
     padding: 0%;
@@ -72,13 +72,13 @@ font-size: 40px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
-margin-left: 844px;
+text-align: center;
 margin-top: 30px;
   }
 
   .buttons{
     margin-top: 55px;
-    margin-left: 844px;
+    text-align: center;
   }
   
   .like {

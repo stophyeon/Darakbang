@@ -1,19 +1,21 @@
 /* ProductForm.module.css */
 
 .formContainer {
-  position: relative;
-    background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   }
   
   .imglabel {
     display: flex;
-    margin-left: 800px;
     color: var(--black, #191A1C);
     font-family: "Pretendard Variable";
     font-size: 32px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    
   }
 
   .label{
@@ -26,13 +28,11 @@
   }
 
   .selectImg{
-    margin-left: 800px;
     margin-top: 30px;
     border-radius: 10px;
+    margin-left: 40px;
   }
-
   .margins{
-    margin-left: 800px;
     margin-top: 30px;
   }
   
@@ -44,6 +44,7 @@
     border: 1.5px solid var(--gray-400, #BEC0C6);
     background: #FFF;
     margin-top: 30px;
+    padding-left: 10px;
   }
 
   .selectField {
@@ -54,7 +55,6 @@
     border-radius: 5px;
  }
   .button {
-    margin-left: 720px;
     margin-top: 54px;
     padding: 10px 20px;
     background-color: #007bff;
@@ -62,6 +62,23 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 1000px;
+    width: 840px;
+    height: 70px;
   }
   
+  .bkImg{
+    display: flex;
+    position: absolute;
+    margin-top: 32px;
+    margin-left: 10px;
+  }
+  .inputFields {
+    display: flex;
+    width: 790px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 30px;
+    padding-left: 50px;
+  }

@@ -35,6 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
+# Ignore Dockerfile
 Dockerfile
 docker-compose.yml

@@ -19,7 +19,9 @@ export default function ProductForm() {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [images1, setImages1] = useState('/SendDfImg.png');
-  const [images2, setImages2] = useState();
+  const [showimages1, setShowImages1] = useState('/SendDfImg.png');
+  const [images2, setImages2] = useState('/bkimg.png');
+  const [showimages2, setShowImages2] = useState('/bkimg.png');
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -37,6 +39,8 @@ export default function ProductForm() {
     const imageUrl = (selectedImage);
     setImages1(imageUrl);
     console.log(imageUrl);
+    const imageUrls = URL.createObjectURL(selectedImage);
+    setShowImages1(imageUrls);
   };
 
   const handleImageChanges = (e) => {
@@ -44,6 +48,8 @@ export default function ProductForm() {
     const imageUrl = (selectedImage);
     setImages2(imageUrl);
     console.log(imageUrl);
+    const imageUrls = URL.createObjectURL(selectedImage);
+    setShowImages2(imageUrls);
   };
 
   async function sendProductHandler(event) {
@@ -102,7 +108,7 @@ export default function ProductForm() {
           <div>
           <label className={styles.imglabel}>등록 이미지</label>
             <label htmlFor='images1' className={styles.label}>
-            <img src={images1} alt="프로필 이미지" width="760" height="760" className={styles.selectImg} />
+            <Image src={showimages1} alt="프로필 이미지" width="760" height="760" className={styles.selectImg} />
             </label>
             <input
               className={styles.inputField}
@@ -152,7 +158,7 @@ export default function ProductForm() {
               onChange={(event) => setPrice(event.target.value)}
             />
           </div>
-          {/* <div className={styles.margins}>
+          <div className={styles.margins}>
             <label htmlFor='expire' className={styles.label}>만료 기간</label>
             <input
               className={styles.inputField}
@@ -164,21 +170,34 @@ export default function ProductForm() {
               value={expireAt}
               onChange={(event) => setexpireAt(event.target.value)}
             />
-          </div>  */}
+          </div> 
           <div className={styles.margins}>
-            <label htmlFor='images2' className={styles.label}>실제 이미지 (바코드)</label>
+          <label className={styles.label}>실제 이미지 (바코드)</label>
+            <label htmlFor='images2' className={styles.label}>
+            <Image src={showimages2} alt="프로필 이미지" width="350" height="55" className={styles.bkImg} />
+            </label>
+            <input
+              className={styles.inputFields}
+              type='int'
+              id='price'
+              required
+              value={price}
+              disabled
+              onChange={(event) => setPrice(event.target.value)}
+            />
             <input
               className={styles.inputField}
               type='file'
               id='images2'
+              placeholder='바코드가 나온 사진을 등록하세요.'
+              accept="image/*"
+              style={{ display: "none" }}
               onChange={(e) => handleImageChanges(e)}
             />
           </div>
-
           <button className={styles.button}>등록</button>
         </form>
       </section>
-
     </>
   );
 }

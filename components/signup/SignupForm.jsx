@@ -14,6 +14,7 @@ export default function SignupForm() {
   const [nick_name, setNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(null);
   const [image, setImage] = useState('/defaultImg.jpg');
+  const [showimage, setShowimage] = useState('');
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
   const [emailError, setemailError] = useState("");
@@ -33,8 +34,9 @@ export default function SignupForm() {
     const selectedImage = e.target.files[0];
   const imageUrl = (selectedImage);
   setImage(imageUrl);
+  const imageUrls = URL.createObjectURL(selectedImage);
+  setShowimage(imageUrls);
   console.log(imageUrl);
-  
   };
   
   
@@ -276,7 +278,7 @@ export default function SignupForm() {
           <h1 className={styles.logintext2}>프로필 이미지</h1>
           <div className={styles.outProfile}>
             <label htmlFor="input-file">
-              {image && <img src={image} alt="프로필 이미지" width="132" height="132" className={styles.selectImg} />}
+              {image && <img src={showimage} alt="프로필 이미지" width="132" height="132" className={styles.selectImg} />}
               사진 넣기
             </label>
             <input

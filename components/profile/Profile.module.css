@@ -1,7 +1,4 @@
-.profileContainer {
-  display: flex;
-  }
-  
+
   .profileInfo {
     display: flex;
   }
@@ -10,26 +7,25 @@
     border-radius: 90%;
     cursor: pointer;
   }
+  .Followes{
+    display: flex;
+    margin-top: 50px;
+  }
+  
   .profileNickName{
+    display: flex;
+    position: absolute;
     color: var(--black, #191A1C);
     font-family: "Pretendard Variable";
     font-size: 32px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-top: 12px;
-    margin-left: 33px;
+    margin-left: 647px;
   }
 
-  .Followes{
-    display: flex;
-    margin-left: -88px;
-    margin-top: 60px;
-  }
-
-  .followListContainer {
-  }
   
+
   .followButton {
     font-size: 16px;
     padding: 5px 10px;
@@ -38,7 +34,7 @@
     border-radius: 5px;
     cursor: pointer;
     color: var(--gray-800, #737A8D);
-font-family: "Pretendard Variable";
+    font-family: "Pretendard Variable";
 font-size: 32px;
 font-style: normal;
 font-weight: 400;
