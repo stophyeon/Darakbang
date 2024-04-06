@@ -71,4 +71,10 @@ public class MemberController {
     public String getNickName(@RequestParam("email") String email){
         return memberService.getNickName(email);
     }
+    @PutMapping(name = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseCustom> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
+                                                        @RequestPart(name = "img",required = false) @Parameter MultipartFile img,
+                                                        @PathVariable("email") String email) throws IOException {
+        return ResponseEntity.ok(memberService.updateProfile(img,memberDto,email));
+    }
 }
