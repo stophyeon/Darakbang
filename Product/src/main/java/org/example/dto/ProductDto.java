@@ -28,8 +28,9 @@ public class ProductDto {
     private LocalDate expire_at;
 
     private String nick_name;
+    private String userProfile;
     @Builder
-    public ProductDto(Long product_id,String nick_name,String product_name, int price, LocalDate create_at, LocalDate expire_at, String image_product, String image_real, int category_id){
+    public ProductDto(Long product_id,String nick_name,String product_name, int price, LocalDate create_at, LocalDate expire_at, String image_product, String image_real, int category_id, String userProfile){
         this.category_id=category_id;
         this.expire_at=expire_at;
         this.image_product=image_product;
@@ -39,8 +40,7 @@ public class ProductDto {
         this.image_real=image_real;
         this.nick_name=nick_name;
         this.product_id=product_id;
-        this.state = state ;
-
+        this.userProfile=userProfile;
     }
     public static ProductDto ToDto(Product product){
         return ProductDto.builder()
@@ -53,7 +53,7 @@ public class ProductDto {
                 .image_real(product.getImageReal())
                 .product_name(product.getProductName())
                 .price(product.getPrice())
-                .state(product.getState())
+                .userProfile(product.getUserProfile())
                 .build();
     }
 
