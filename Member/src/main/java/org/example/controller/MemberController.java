@@ -7,9 +7,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.LoginSuccessDto;
 import org.example.dto.MemberDto;
 import org.example.dto.ResponseCustom;
-import org.example.jwt.JwtDto;
 import org.example.service.MemberService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +25,11 @@ import java.io.IOException;
 public class MemberController {
     private final MemberService memberService;
 
-
-
     @Operation(
             operationId = "signup",
             description = "아이디,비밀번호,이름등을 입력받아 회원가입",
             summary = "회원가입"
     )
-
     @PostMapping(value = "/signup",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseCustom> signup(@RequestPart(name = "req") @Parameter MemberDto memberDto, @RequestPart(name = "img",required = false) @Parameter MultipartFile img) throws IOException {
 
@@ -44,12 +41,12 @@ public class MemberController {
             description = "아이디,비밀번호으로 로그인",
             summary = "로그인한 사용자의 이메일"
     )
-    public ResponseEntity<JwtDto> follow(@RequestBody @Parameter MemberDto memberDto){
-        JwtDto jwtDto = memberService.login(memberDto);
-        return ResponseEntity.ok(jwtDto);
+    public ResponseEntity<LoginSuccessDto> follow(@RequestBody @Parameter MemberDto memberDto){
+        LoginSuccessDto res = memberService.login(memberDto);
+        return ResponseEntity.ok(res);
     }
 
-    @PostMapping("/profile/{email}")
+    @GetMapping("/profile/{email}")
     @Operation(
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
@@ -71,7 +68,8 @@ public class MemberController {
     public String getNickName(@RequestParam("email") String email){
         return memberService.getNickName(email);
     }
-    @PutMapping(name = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
+
+    @PutMapping(path = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseCustom> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
                                                         @RequestPart(name = "img",required = false) @Parameter MultipartFile img,
                                                         @PathVariable("email") String email) throws IOException {

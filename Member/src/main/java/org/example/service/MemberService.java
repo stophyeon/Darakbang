@@ -1,34 +1,24 @@
 package org.example.service;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.LoginSuccessDto;
 import org.example.dto.MemberDto;
 import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
-import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
 import org.example.repository.member.MemberRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.example.service.storage.StorageService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -37,12 +27,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationProvider authenticationProvider;
+    private final StorageService storageService;
     private final JwtProvider jwtProvider;
-    @Value("${spring.cloud.gcp.storage.bucket}")
-    private String bucketName;
-    @Value("${spring.cloud.gcp.storage.project-id}")
-    private String projectId;
 
+    private final String googleURL = "https://storage.googleapis.com/darakban-img/";
 
 
 
@@ -59,8 +47,8 @@ public class MemberService {
         }
         else {
             if(!profileImg.isEmpty()){
-                String file_name=imageUpload(profileImg);
-                memberDto.setImage("https://storage.googleapis.com/darakban-img/"+file_name);
+                String file_name=storageService.imageUpload(profileImg);
+                memberDto.setImage(googleURL+file_name);
             }
             memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
 
@@ -75,54 +63,59 @@ public class MemberService {
         }
 
     }
-    public String imageUpload(MultipartFile profileImg) throws IOException {
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
-        String origin_name =profileImg.getOriginalFilename();
-        String file_name=changedImageName(origin_name);
-        String ext = profileImg.getContentType();
-        log.info(origin_name);
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(GoogleCredentials.fromStream(keyFile))
-                .build()
-                .getService();
-        BlobInfo blobInfo = storage.create(
-                BlobInfo.newBuilder(bucketName, file_name)
-                        .setContentType(ext)
-                        .build(),
-                profileImg.getInputStream()
-        );
-        return file_name;
-    }
-    private static String changedImageName(String originName) {
-        String random = UUID.randomUUID().toString();
-        return random+originName;
-    }
-    public JwtDto login(MemberDto memberDto){
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberDto.getEmail(),memberDto.getPassword());
-        Authentication auth = authenticationProvider.authenticate(token);
-        return jwtProvider.createToken(auth);
+
+    public LoginSuccessDto login(MemberDto memberDto){
+        if (memberRepository.findByEmail(memberDto.getEmail()).isPresent()){
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberDto.getEmail(),memberDto.getPassword());
+            Authentication auth = authenticationProvider.authenticate(token);
+            return LoginSuccessDto.builder()
+                    .message("로그인 성공")
+                    .jwtDto(jwtProvider.createToken(auth)).
+                    build();
+        }
+        else {
+            return LoginSuccessDto.builder()
+                    .message("회원가입하지않은 회원")
+                    .build();
+        }
+
     }
     public MemberDto myProfile(String email){
-        return Member.toDto(memberRepository.findByEmail(email).get());
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent()){
+            return Member.toDto(member.get());
+        }
+        else {
+            return MemberDto.builder().email("No Such Email").build();
+        }
     }
     public MemberDto profile(String nickName) {
         log.info(nickName);
-        return Member.toDto(memberRepository.findByNickName(nickName).get());
+        Optional<Member> member = memberRepository.findByNickName(nickName);
+        if (member.isPresent()){
+            return Member.toDto(member.get());
+        }
+        else {
+            return MemberDto.builder().email("No Such NickName").build();
+        }
     }
     public boolean duplicateNickName(String nickName){
         return memberRepository.findByNickName(nickName).isPresent();
     }
     public String getNickName(String email){
-        return memberRepository.findByEmail(email).get().getNickName();
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent()){return member.get().getNickName();}
+        else {return "No Such NickName";}
     }
     public ResponseCustom updateProfile(MultipartFile profileImg,MemberDto memberDto,String email) throws IOException {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()){
             if (!profileImg.isEmpty()){
-                String file_name=imageUpload(profileImg);
-                memberDto.setImage("https://storage.googleapis.com/darakban-img/"+file_name);
-                imageDelete(email);
+                String file_name=storageService.imageUpload(profileImg);
+                memberDto.setImage(googleURL+file_name);
+                storageService.imageDelete(email);
             }
+            memberDto.setImage(member.get().getImage());
             memberRepository.updateInfo(Member.builder().memberDto(memberDto).build());
             return ResponseCustom.builder()
                     .state("success")
@@ -131,20 +124,9 @@ public class MemberService {
         }
         return ResponseCustom.builder()
                 .state("fail")
-                .message("회원가입되어있지않은 회원입니다.")
+                .message("회원가입 되어있지않은 회원입니다.")
                 .build();
     }
 
-    public void imageDelete(String email) throws IOException {
-        Optional<Member> member = memberRepository.findByEmail(email);
-        if (member.isPresent()){
-            String img = member.get().getImage().substring(44);
-            InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
-            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-            Blob blob = storage.get(bucketName, img);
-            Storage.BlobSourceOption precondition =
-                    Storage.BlobSourceOption.generationMatch(blob.getGeneration());
-            storage.delete(bucketName, img, precondition);
-        }
-    }
+
 }

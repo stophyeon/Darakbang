@@ -26,7 +26,7 @@ import java.io.IOException;
 @Tag(name ="상품 게시판" , description = "상품 관련 API")
 public class ProductController {
 
-    private final ProductService productService ;
+    private final ProductService productService;
 
     // 게시글 작성 - email 필요
     @Operation(summary = "상품 게시글 작성")
@@ -52,7 +52,7 @@ public class ProductController {
     })
 
     @DeleteMapping("/{product_id}/{email}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId) {
+    public ResponseEntity<?> deleteProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId) throws IOException {
         return productService.deleteProduct(productId,email);
     }
 
@@ -66,10 +66,12 @@ public class ProductController {
     })
 
     @PutMapping("/{product_id}/{email}")
-    public ResponseEntity<?> changeProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId,
-                                           @RequestBody ProductDto productDto)
-    {
-        return productService.updateProduct(productId,productDto,email) ;
+    public ResponseEntity<?> changeProduct(@PathVariable("email") String email,
+                                           @PathVariable("product_id") Long productId,
+                                           @RequestPart("req") ProductDto productDto,
+                                           @RequestPart(name = "img_product",required = false) MultipartFile image_product,
+                                           @RequestPart(name = "img_real",required = false) MultipartFile image_real) throws IOException {
+        return productService.updateProduct(productId,productDto,email,image_product,image_real) ;
     }
     // 페이징 형태로 변경
     @Operation(summary = "페이지 별 조회")
