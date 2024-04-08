@@ -25,7 +25,6 @@ import java.io.IOException;
 @RequestMapping("/product")
 @Tag(name ="상품 게시판" , description = "상품 관련 API")
 public class ProductController {
-
     private final ProductService productService;
 
     // 게시글 작성 - email 필요
@@ -98,13 +97,4 @@ public class ProductController {
     {
         return productService.findProductDetail(productId);
     }
-
-
-
-
-
-
-
-
-
 }

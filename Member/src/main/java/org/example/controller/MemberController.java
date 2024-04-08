@@ -65,10 +65,9 @@ public class MemberController {
 
 
     @GetMapping("/nick_name")
-    public String getNickName(@RequestParam("email") String email){
-        return memberService.getNickName(email);
-    }
-
+    public String getNickName(@RequestParam("email") String email){return memberService.getNickName(email);}
+    @GetMapping("/user_info")
+    public String getEmail(@RequestParam("email") String email){return memberService.profileImg(email);}
     @PutMapping(path = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseCustom> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
                                                         @RequestPart(name = "img",required = false) @Parameter MultipartFile img,

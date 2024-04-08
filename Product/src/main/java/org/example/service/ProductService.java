@@ -1,11 +1,7 @@
 package org.example.service;
 
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+
 import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
@@ -14,7 +10,7 @@ import org.example.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.service.member.MemberFeign;
-import org.springframework.beans.factory.annotation.Value;
+import org.example.service.storage.StorageService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,28 +30,25 @@ import java.util.*;
 public class ProductService {
     private final ProductRepository productRepository ;
     private final MemberFeign memberFeign;
-
+    private final StorageService storageService;
     private final String googleURL = "https://storage.googleapis.com/darakban-img/";
-    @Value("${spring.cloud.gcp.storage.bucket}")
-    private String bucketName;
-    @Value("${spring.cloud.gcp.storage.project-id}")
-    private String projectId;
+
     public ResponseEntity<SuccessRes> addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
-            String nickName= memberFeign.getNickName(email);
-            String profile = memberFeign.getProfile(email);
-            productDto.setNick_name(nickName);
-            productDto.setUserProfile(profile);
-            // 이미지 구글 클라우드 저장
-            InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        String nickName= memberFeign.getNickName(email);
+        String profile = memberFeign.getProfile(email);
+        productDto.setNick_name(nickName);
+        productDto.setUserProfile(profile);
+        // 이미지 구글 클라우드 저장
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
 
-            String product_file_name= imageUpload(img_product);
-            String real_file_name= imageUpload(img_real);
+        String product_file_name= storageService.imageUpload(img_product);
+        String real_file_name= storageService.imageUpload(img_real);
 
-            productDto.setImage_product(googleURL+product_file_name);
-            productDto.setImage_real(googleURL+real_file_name);
-            Product product = Product.ToEntity(productDto,email);
-            productRepository.save(product);
-            return ResponseEntity.ok(new SuccessRes(product.getProductName(),"success"));
+        productDto.setImage_product(googleURL+product_file_name);
+        productDto.setImage_real(googleURL+real_file_name);
+        Product product = Product.ToEntity(productDto,email);
+        productRepository.save(product);
+        return ResponseEntity.ok(new SuccessRes(product.getProductName(),"success"));
     }
 
 
@@ -69,7 +62,7 @@ public class ProductService {
     public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email) throws IOException {
         Product product = productRepository.findByProductId(productId);
         if (product.getUserEmail().equals(email)){
-            imageDelete(productId);
+            storageService.imageDelete(productId);
             productRepository.delete(product);
             return ResponseEntity.ok(new SuccessRes(product.getProductName(),"삭제 성공"));
         }
@@ -125,63 +118,23 @@ public class ProductService {
 
         if (product.getUserEmail().equals(email)){
             if (!imageProduct.isEmpty()){
-                InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
-                imageDelete(productId);
-                String fileNameProduct = imageUpload(imageProduct);
+                storageService.imageDelete(productId);
+                String fileNameProduct = storageService.imageUpload(imageProduct);
                 productDto.setImage_product(fileNameProduct);
             }
+
             if (!imageReal.isEmpty()){
-                imageDelete(productId);
-                String fileNameReal = imageUpload(imageReal);
+                storageService.imageDelete(productId);
+                String fileNameReal = storageService.imageUpload(imageReal);
                 productDto.setImage_real(googleURL+fileNameReal);
             }
 
             productRepository.updateProduct(productId,productDto.getProduct_name(),productDto.getPrice(),
-                productDto.getImage_product(), productDto.getImage_real(),
-                productDto.getCategory_id(), productDto.getExpire_at());
+                    productDto.getImage_product(), productDto.getImage_real(),
+                    productDto.getCategory_id(), productDto.getExpire_at());
             return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));
         }
         else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지않습니다."));}
-    }
-    public String imageUpload(MultipartFile img_product) throws IOException {
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
-        String product_origin_name =img_product.getOriginalFilename();
-        String product_file_name=changedImageName(product_origin_name);
-        String product_ext = img_product.getContentType();
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(GoogleCredentials.fromStream(keyFile))
-                .build()
-                .getService();
-        // 이미지 GCP bucket에 저장
-        BlobInfo blobInfo_product = storage.create(
-                BlobInfo.newBuilder(bucketName, product_file_name)
-                        .setContentType(product_ext)
-                        .build(),
-                img_product.getInputStream()
-        );
-        return product_file_name;
-    }
-
-    public void imageDelete(Long productId) throws IOException {
-        Product product = productRepository.findByProductId(productId);
-        String imgReal = product.getImageReal().substring(44);
-        String imgProduct = product.getImageProduct().substring(44);
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
-        Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-        Blob blobProduct = storage.get(bucketName, imgProduct);
-        Blob blobReal = storage.get(bucketName, imgReal);
-
-        Storage.BlobSourceOption precondition1 =
-                Storage.BlobSourceOption.generationMatch(blobProduct.getGeneration());
-        storage.delete(bucketName, imgProduct, precondition1);
-        Storage.BlobSourceOption precondition2 =
-                Storage.BlobSourceOption.generationMatch(blobReal.getGeneration());
-        storage.delete(bucketName, imgReal, precondition2);
-
-    }
-    private static String changedImageName(String originName) {
-        String random = UUID.randomUUID().toString();
-        return random+originName;
     }
 
 

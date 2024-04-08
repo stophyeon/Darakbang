@@ -24,10 +24,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StorageService {
     private final MemberRepository memberRepository;
+
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
+
     @Value("${spring.cloud.gcp.storage.project-id}")
     private String projectId;
+
     public String imageUpload(MultipartFile profileImg) throws IOException {
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
         String origin_name =profileImg.getOriginalFilename();
