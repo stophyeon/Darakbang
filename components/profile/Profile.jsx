@@ -51,7 +51,7 @@ export default function UserProfile() {
     {userInfo ? (
       <div className={styles.profileInfo}>
         <div>
-          <img //img , `file://C:/Profile_img/${userInfo.image}}`
+          <Image //img , `file://C:/Profile_img/${userInfo.image}}`
             src={userInfo.image || defaultImage}  
             alt="이미지"
             width={200}
@@ -59,9 +59,11 @@ export default function UserProfile() {
             className={styles.profileImg}
           />
         </div>
-        
+        <div className={styles.userInfo}>
         <div className={styles.profileNickName}>
           {userInfo.nick_name}
+        </div>
+        <button className={styles.EditBtn}>프로필 수정</button>
         </div>
         <div className={styles.Followes}>
         <div className={styles.followListContainer}>
@@ -73,7 +75,7 @@ export default function UserProfile() {
           )}
         </div>
         <div className={styles.followListContainer}>
-          <button className={styles.followButton} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
+          <button className={styles.followButton2} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
           {isFollowerModalOpen && (
             <div className={styles.modal}>
               {/* 팔로워 리스트 표시 */}

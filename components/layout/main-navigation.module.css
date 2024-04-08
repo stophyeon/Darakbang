@@ -31,6 +31,10 @@
     justify-content: center;
     flex: 1; 
   }
+
+  .navItem2 {
+    margin-right: 20px;
+  }
   
   .navLink {
     width: 111px;

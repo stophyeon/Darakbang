@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MdPostAdd } from "react-icons/md";
 
 import { getPostsFiles } from '@compoents/util/post-util';
@@ -15,7 +16,7 @@ export default function CommuPostsPage({ params }) {
   const [accessToken, setAccessToken] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [posts, setPosts] = useState('');
-  const PAGE_GROUP_SIZE = 5;
+  const PAGE_GROUP_SIZE = 2;
 
   useEffect(() => {
     const accessTokenFromLocalStorage = localStorage.getItem('accessToken');
@@ -28,7 +29,7 @@ export default function CommuPostsPage({ params }) {
       if (postdata) {
         console.log(postdata);
         setPosts(postdata);
-        setCurrentPage(postdata.pageable.pageNumber + 1);
+        setCurrentPage(postdata.pageable.pageNumber);
       }
       else {
         alert('게시물안받아옴')
@@ -38,13 +39,17 @@ export default function CommuPostsPage({ params }) {
   }, [accessToken]);
 
   const handlePageChange = (page) => {
-    router.push(`/${page}`);
+    if (page == 1) {
+      router.push('/')
+    } else {
+      router.push(`/${page}`);
+    }
   }
 
   const goToPreviousPageGroup = () => {
     setCurrentPage((prev) => (prev - PAGE_GROUP_SIZE < 1 ? 1 : prev - PAGE_GROUP_SIZE));
   }
-  
+
   const goToNextPageGroup = () => {
     setCurrentPage((prev) => prev + PAGE_GROUP_SIZE);
   }
@@ -119,18 +124,18 @@ export default function CommuPostsPage({ params }) {
         </div>
         <CommuPosts posts={posts} />
         <div className={styles.pagination}>
-          {currentPage > 1 && (
-            <button onClick={goToPreviousPageGroup}>이전</button>
-          )}
-          {Array.from({ length: Math.min(PAGE_GROUP_SIZE, posts.totalPages - currentPage + 1) }, (_, index) => (
-            <button key={currentPage + index} onClick={() => handlePageChange(currentPage + index)} className={styles.pagebtn}>
-              {currentPage + index}
-            </button>
-          ))}
-          {currentPage + PAGE_GROUP_SIZE <= posts.totalPages && (
-            <button onClick={goToNextPageGroup}>다음</button>
-          )}
-        </div>
+            {posts && posts.totalPages && currentPage > 1 && (
+              <button onClick={goToPreviousPageGroup}><Image src={'/Polygon2.svg'} alt="" width={26} height={26} /></button>
+            )}
+            {posts && posts.totalPages && Array.from({ length: Math.min(PAGE_GROUP_SIZE, posts.totalPages - currentPage + 1) }, (_, index) => (
+              <button key={currentPage + index} onClick={() => handlePageChange(currentPage + index)} className={styles.pagebtn}>
+                {currentPage + index}
+              </button>
+            ))}
+            {posts && posts.totalPages && currentPage + PAGE_GROUP_SIZE <= posts.totalPages && (
+              <button onClick={goToNextPageGroup}><Image src={'/Polygon3.svg'} alt="" width={26} height={26} /></button>
+            )}
+          </div>
       </section>
     </div>
   );

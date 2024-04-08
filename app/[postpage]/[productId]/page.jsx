@@ -23,6 +23,7 @@ export default function PostDetailPage({ params }) {
       setAccessToken(accessTokenFromLocalStorage);
     }
 
+    
     const fetchPosts = async () => {
       const postdata = await getPostData(params.productId, accessToken);
       if (postdata) {
@@ -66,7 +67,7 @@ export default function PostDetailPage({ params }) {
               {postList && postList.productList.map((posts) => (
                 <div key={posts.productId} className={styles.postItem}>
                   <Link href={`/${params.postpage}/${posts.productId}`} style={{ textDecoration: "none" }}>
-                  <div><Image src={posts.imageProduct} alt="상품" width={350} height={350} className={styles.ListImgs}/></div>
+                  <div><Image src={posts.imageProduct || '/defaultImg.jpg'} alt="상품" width={350} height={350} className={styles.ListImgs}/></div>
                   <div className={styles.ListprdName}>{posts.productName}</div>
                   <div className={styles.ListPrice}>{posts.price}원</div>
                   </Link>

@@ -27,15 +27,14 @@ function PostItem(props) {
   }, [nick_name]);
 
   return (
-      <Link href={linkPath} style={{ textDecoration: "none" }}>
+      <Link href={linkPath} style={{ textDecoration: "none" }} className={styles.PostLinks}>
         <div className={styles.postItem}>
           <div className={styles.profile}>
           <Image src={profile.image || '/kakaoImg.jpg'} alt="프로필 이미지" width={49} height={49} className={styles.profileImage} />
           <h2 className={styles.nickName}>{nick_name}</h2>
           </div>
           <h3>{product_name}</h3>
-          {/* 판매 사진 */}
-          <Image src={image_product ||'/kakaoImg.jpg'} width={440} height={540} alt="상품 이미지"className={styles.productImg}/>
+          <Image src={image_product || '/kakaoImg.jpg'} width={210} height={230} alt="상품 이미지"className={styles.productImg}/>
           <h1>가격</h1>
           <h4>{price}원</h4>
           <div className={styles.buttons}>

@@ -24,8 +24,17 @@ export default function ProductForm() {
   const [showimages2, setShowImages2] = useState('/bkimg.png');
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
-  const [categoryId, setCategoryId] = useState('');
+  const [categoryId, setCategoryId] = useState('카테고리 선택');
   const [accessToken, setAccessToken] = useState('');
+
+  const selectList = [
+    { value: "3001", name: "음료" },
+    { value: "3002", name: "음식" },
+    { value: "3003", name: "영화 관람권" },
+    { value: "3004", name: "모바일 교환권" },
+    { value: "3005", name: "상품권" },
+    { value: "3006", name: "기타" },
+  ];
 
   useEffect(() => {
     const AccessTokens = localStorage.getItem('Authorization');
@@ -38,7 +47,6 @@ export default function ProductForm() {
     const selectedImage = e.target.files[0];
     const imageUrl = (selectedImage);
     setImages1(imageUrl);
-    console.log(imageUrl);
     const imageUrls = URL.createObjectURL(selectedImage);
     setShowImages1(imageUrls);
   };
@@ -47,10 +55,14 @@ export default function ProductForm() {
     const selectedImage = e.target.files[0];
     const imageUrl = (selectedImage);
     setImages2(imageUrl);
-    console.log(imageUrl);
     const imageUrls = URL.createObjectURL(selectedImage);
     setShowImages2(imageUrls);
   };
+
+  const handleSelect = (e) => {
+    setCategoryId(e.target.selectedOptions[0].value);
+  };
+
 
   async function sendProductHandler(event) {
 
@@ -73,18 +85,19 @@ export default function ProductForm() {
       // console.log(productDetails);
 
       const formData = new FormData();
-    let req ={
-      "product_name": productName,
-      "price": parseInt(price),
-      "category_id": parseInt(categoryId),
-    }
-    formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
-    formData.append('img_product', images1);
-    formData.append('img_real', images2);
-    for (var pair of formData.values()) {
-      console.log(pair); 
-    }
-    
+      let req = {
+        "product_name": productName,
+        "price": parseInt(price),
+        "category_id": parseInt(categoryId),
+        "expireAt": expireAt,
+      }
+      formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
+      formData.append('img_product', images1);
+      formData.append('img_real', images2);
+      for (var pair of formData.values()) {
+        console.log(pair);
+      }
+
 
       await sendProductData(formData, accessToken); //productDetails
       // setProductName('');
@@ -106,9 +119,9 @@ export default function ProductForm() {
       <section className={styles.formContainer}>
         <form onSubmit={sendProductHandler}>
           <div>
-          <label className={styles.imglabel}>등록 이미지</label>
+            <label className={styles.imglabel}>등록 이미지</label>
             <label htmlFor='images1' className={styles.label}>
-            <Image src={showimages1} alt="프로필 이미지" width="760" height="760" className={styles.selectImg} />
+              <Image src={showimages1} alt="상품 이미지" width="760" height="760" className={styles.selectImg} />
             </label>
             <input
               className={styles.inputField}
@@ -120,20 +133,19 @@ export default function ProductForm() {
             />
           </div>
           <div className={styles.margins}>
-            <label htmlFor='categoryId' className={styles.label}>카테고리</label>
+            <label className={styles.label}>카테고리</label>
             <select
               className={styles.inputField}
               id='categoryId'
-              required
-              value={categoryId}
-              onChange={(event) => setCategoryId(event.target.value)}
+              value={categoryId} // option value 값이 담기게
+              onChange={handleSelect}
             >
-              <option value="3001">음료</option>
-              <option value="3002">음식</option>
-              <option value="3003">영화 관람권</option>
-              <option value="3004">모바일 교환권</option>
-              <option value="3005">상품권</option>
-              <option value="3006">기타</option>
+              {selectList.map((item) => (
+                <option value={item.value} key={item.value}>
+                  {item.name}
+                </option>
+              ))}
+
             </select>
           </div>
           <div className={styles.margins}>
@@ -170,11 +182,11 @@ export default function ProductForm() {
               value={expireAt}
               onChange={(event) => setexpireAt(event.target.value)}
             />
-          </div> 
+          </div>
           <div className={styles.margins}>
-          <label className={styles.label}>실제 이미지 (바코드)</label>
+            <label className={styles.label}>실제 이미지 (바코드)</label>
             <label htmlFor='images2' className={styles.label}>
-            <Image src={showimages2} alt="프로필 이미지" width="350" height="55" className={styles.bkImg} />
+              <Image src={showimages2} alt="프로필 이미지" width="350" height="55" className={styles.bkImg} />
             </label>
             <input
               className={styles.inputFields}

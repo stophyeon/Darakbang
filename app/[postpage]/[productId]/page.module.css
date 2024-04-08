@@ -53,9 +53,9 @@ margin-top: 35px;
   .verticalLine {
     border-top: 1px solid #E2E5EF;
     background: #F4F5F9;
-    width: 1135px;
+    width: 615px;
     height: 1px;
-    margin-left: 832px;
+    margin-left: 30%;
     margin-top: 20px;
     padding: 0%;
   }
@@ -119,16 +119,16 @@ margin-top: 74px;
   }
 
   .recomePrd{
-    margin-left: 475px;
+    margin-left: 175px;
   }
 
   .postsGrid {
-    margin-left: 430px;
     text-align: center;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 50px;
     width: 1000px;
+    margin-left: 100px;
   }
 
   .postItem {

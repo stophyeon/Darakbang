@@ -50,9 +50,9 @@ export default function SmallProfile() {
                 </div>
                 <div className={styles.verticalLine}></div>
                 <div onClick={(e) => e.stopPropagation()}>
-                    <Link href="/getpoint" passHref style={{ textDecoration: "none" }}>
+                    <Link href="/user/bucket" passHref style={{ textDecoration: "none" }}>
                         <Button className={styles.contents}>
-                            포인트 구매
+                            장바구니
                         </Button>
                     </Link>
                 </div>

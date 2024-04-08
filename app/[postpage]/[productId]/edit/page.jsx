@@ -1,9 +1,13 @@
 import EditProductForm from "@compoents/components/posts/Edit-page";
+import { getPostData } from "@compoents/util/post-util";
 
 
-export default function EditPage({ params }) {
+export default async function EditPage({ params }) {
+    const postData = getPostData(params.productId)
+  
+    const [ post ] = await Promise.all([postData]);
 
     return (
-        <EditProductForm postpage={params.postpage}  productId={params.productId}/>
+        <EditProductForm post={post}  productId={params.productId}/>
     )
 }

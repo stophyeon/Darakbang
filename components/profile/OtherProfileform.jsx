@@ -66,7 +66,7 @@ export default function OtherProfileform({nick_name}) {
       <div className={styles.profileInfo}>
         <div >
           <Image //img , `file://C:/Profile_img/${userInfo.image}}`
-            src={'/defaultImg.jpg'}  // require  `/${userInfo.image}.jpg` || // `file://C:/Profile_img/${userInfo.image}}` ||
+            src={ userInfo.image || '/defaultImg.jpg'}  // require  `/${userInfo.image}.jpg` || // `file://C:/Profile_img/${userInfo.image}}` ||
             alt="이미지"
             width={200}
             height={200}
@@ -89,7 +89,7 @@ export default function OtherProfileform({nick_name}) {
           )}
         </div>
         <div className={styles.followListContainer}>
-          <button className={styles.followButton} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
+          <button className={styles.followButton2} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
           {isFollowerModalOpen && (
             <div className={styles.modal}>
               {/* 팔로워 리스트 표시 */}

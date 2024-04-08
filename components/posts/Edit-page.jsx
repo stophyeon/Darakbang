@@ -6,18 +6,17 @@ import Image from 'next/image';
 import { PutPostData } from '@compoents/util/post-util';
 import styles from './Edit-page.module.css';
 
-export default function EditProductForm({ productId }) {
+export default function EditProductForm({ productId, post }) {
+    const posts = post.product;
+    const [accessToken, setAccessToken] = useState('');
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
-    const [images1, setImages1] = useState('/SendDfImg.png');
-    const [showimages1, setShowImages1] = useState('/SendDfImg.png');
-    const [images2, setImages2] = useState('/bkimg.png');
-    const [showimages2, setShowImages2] = useState('/bkimg.png');
-    const [createdAt, setCreatedAt] = useState('');
-    const [expireAt, setexpireAt] = useState('');
-    const [soldOut, setSoldOut] = useState(false);
+    const [images1, setImages1] = useState('');
+    const [showimages1, setShowImages1] = useState('');
+    const [images2, setImages2] = useState('');
+    const [showimages2, setShowImages2] = useState('');
+    const [expireAt, setexpireAt] = useState(''); //posts.expireAt
     const [categoryId, setCategoryId] = useState('');
-    const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
 
@@ -25,13 +24,22 @@ export default function EditProductForm({ productId }) {
         if (storedAccessToken) {
             setAccessToken(storedAccessToken);
         }
-    }, [accessToken]);
+        if (posts) {
+            setProductName(posts.productName);
+            setPrice(posts.price);
+            setImages1(posts.imageProduct);
+            setShowImages1(posts.imageProduct);
+            setImages2(posts.imageReal);
+            setShowImages2(posts.imageReal);
+            setCategoryId(posts.categoryId);
+            setexpireAt(posts.expireAt); 
+        }
+    }, [posts]);
 
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
         const imageUrl = (selectedImage);
         setImages1(imageUrl);
-        console.log(imageUrl);
         const imageUrls = URL.createObjectURL(selectedImage);
         setShowImages1(imageUrls);
     };
@@ -40,59 +48,50 @@ export default function EditProductForm({ productId }) {
         const selectedImage = e.target.files[0];
         const imageUrl = (selectedImage);
         setImages2(imageUrl);
-        console.log(imageUrl);
         const imageUrls = URL.createObjectURL(selectedImage);
         setShowImages2(imageUrls);
     };
 
 
     async function handleSubmit(productData) {
-
-        const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-        const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
-        const currentDateTime = `${currentDate}T${currentTime}`; // 현재 날짜와 시간을 합침
-        setCreatedAt(currentDateTime);
-
         try {
-            const response = await PutPostData(productId, formData, accessToken)
+            const response = await PutPostData(productId, productData, accessToken) //formData
         } catch (error) {
             console.error('게시물 수정에 실패했습니다:', error);
             alert('게시물 수정에 실패했습니다.');
         }
     }
 
-    const formData = new FormData();
-    let req = {
-        "product_name": productName,
-        "price": parseInt(price),
-        "category_id": parseInt(categoryId),
-    }
-    formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
-    formData.append('img_product', images1);
-    formData.append('img_real', images2);
-    for (var pair of formData.values()) {
-        console.log(pair);
-    }
-
-
     async function sendProductHandler(event) {
         event.preventDefault();
 
         try {
-            // const productData = {
-            //     product_name: productName,
-            //     price: parseInt(price),
-            //     // image_product: images1, // 이미지 하나 더 추가 , base64
-            //     // image_real: images2,
-            //     // create_at: createdAt,
-            //     // expire_at: expireAt,
-            //     category_id: parseInt(categoryId),
-            // };
-            // console.log(productData);
+            // const formData = new FormData();
+            // let req = {
+            //     "product_name": productName,
+            //     "price": parseInt(price),
+            //     "category_id": parseInt(categoryId),
+            // }
+            // formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
+            // formData.append('img_product', images1);
+            // formData.append('img_real', images2);
+            // for (var pair of formData.values()) {
+            //     console.log(pair); 
+            //   }
+            const productData = {
+                product_name: productName,
+                price: parseInt(price),
+                image_product: images1, // 이미지 하나 더 추가 , base64
+                image_real: images2,
+                // create_at: createdAt,
+                // expire_at: expireAt,
+                category_id: parseInt(categoryId),
+            };
+            console.log(productData);
 
-            await handleSubmit(formData, accessToken);
-            const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
-            window.location.href = redirectUrl;
+            await handleSubmit(productData); //formData
+            // const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+            // window.location.href = redirectUrl;
         } catch (error) {
             console.error('에러 발생:', error);
             alert('죄송합니다. 요청을 처리하는 동안 오류가 발생했습니다. 나중에 다시 시도해주세요.');

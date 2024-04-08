@@ -28,7 +28,7 @@ const FindEventSection = () => {
     event.preventDefault();
     const searchTerm = searchElement.current.value;
     setSearchTerm(searchElement.current.value);
-    router.push(`/search/posts?searchTerm=${searchTerm}`);
+    router.push(`/search/${searchTerm}/?search=${searchTerm}`);
   }
 
   return (
@@ -45,7 +45,6 @@ const FindEventSection = () => {
           message={error.info?.message || '연결 실패'}
         />
       )}
-
       {data && (
         <ul>
           {data.map((item) => (

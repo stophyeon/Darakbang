@@ -1,20 +1,17 @@
 
 
 .pageContainer {
-    /* width: 1440px;  */
     background: #F3F5FA;
+    height: 200%;
   }
   
   .flexSection1 {
-    /* width: 1440px; */
-    height: 347px;
+    height: 246px;
     background: #456AE2;
     border: 0;
   }
   
   .flexSection2 {
-    /* width: 1440px; */
-    height: 3000px;
     background: #F3F5FA;
     position: relative;
     margin-top: 0px;
@@ -108,10 +105,9 @@
     }
 
     .pagination {
-      margin-left: 928px;
-      margin-top: 100px;
+      margin-left: 45%;
+      margin-top: 50px;
   }
-  
   .pagebtn{
     color: var(--gray-400, #BEC0C6);
   font-family: "Pretendard Variable";

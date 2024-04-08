@@ -8,12 +8,11 @@
 }
 
 .inputSch{
-    width: 1440px;
+    width: 880px;
     height: 48px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background: var(--gray-200, #F4F5F9);
-    margin-left: 100px;
     padding-left: 20px;
 }
 

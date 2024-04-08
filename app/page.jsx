@@ -15,7 +15,8 @@ export default function Home() {
   const [accessToken, setAccessToken] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState('');
-  const PAGE_GROUP_SIZE = 5;
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const PAGE_GROUP_SIZE = 3;
 
   useEffect(() => {
     const accessTokenFromLocalStorage = localStorage.getItem('Authorization');
@@ -45,6 +46,11 @@ export default function Home() {
     setCurrentPage((prev) => prev + PAGE_GROUP_SIZE);
   }
 
+    const handleCategoryChange = (e) => {
+      const categoryId = parseInt(e.target.id);
+      setSelectedCategory(prevCategory => prevCategory === categoryId ? null : categoryId);
+    };
+  
 
   return (
     <>
@@ -68,6 +74,7 @@ export default function Home() {
                     type='checkbox'
                     id='3001'
                     className={styles.Checkboxes}
+                    onChange={handleCategoryChange}
                   />
                   <p className={styles.cateTexts}>커피 식 음료</p>
                 </div>
@@ -76,6 +83,7 @@ export default function Home() {
                     type='checkbox'
                     id='3002'
                     className={styles.Checkboxes}
+                    onChange={handleCategoryChange}
                   />
                   <p className={styles.cateTexts}>영화 관람권</p>
                 </div>
@@ -84,6 +92,7 @@ export default function Home() {
                     type='checkbox'
                     id='3003'
                     className={styles.Checkboxes}
+                    onChange={handleCategoryChange}
                   />
                   <p className={styles.cateTexts}>공연 관람권</p>
                 </div>
@@ -92,6 +101,7 @@ export default function Home() {
                     type='checkbox'
                     id='3004'
                     className={styles.Checkboxes}
+                    onChange={handleCategoryChange}
                   />
                   <p className={styles.cateTexts}>숙박권</p>
                 </div>
@@ -100,6 +110,7 @@ export default function Home() {
                     type='checkbox'
                     id='3005'
                     className={styles.Checkboxes}
+                    onChange={handleCategoryChange}
                   />
                   <p className={styles.cateTexts}>상품권</p>
                 </div>
@@ -108,17 +119,18 @@ export default function Home() {
                     type='checkbox'
                     id='3006'
                     className={styles.Checkboxes}
+                    onChange={handleCategoryChange}
                   />
                   <p className={styles.cateTexts}>기타</p>
                 </div>
               </div>
             </form>
           </div>
-          <CommuPosts posts={posts} accessToken={accessToken} />
+          <CommuPosts posts={posts} accessToken={accessToken} selectedCategory={selectedCategory} />
 
           <div className={styles.pagination}>
             {posts && posts.totalPages && currentPage > 1 && (
-              <button onClick={goToPreviousPageGroup}>이전</button>
+              <button onClick={goToPreviousPageGroup}><Image src={'/Polygon2.svg'} alt="" width={26} height={26} className={styles.before} /></button>
             )}
             {posts && posts.totalPages && Array.from({ length: Math.min(PAGE_GROUP_SIZE, posts.totalPages - currentPage + 1) }, (_, index) => (
               <button key={currentPage + index} onClick={() => handlePageChange(currentPage + index)} className={styles.pagebtn}>
@@ -126,9 +138,10 @@ export default function Home() {
               </button>
             ))}
             {posts && posts.totalPages && currentPage + PAGE_GROUP_SIZE <= posts.totalPages && (
-              <button onClick={goToNextPageGroup}>다음</button>
+              <button onClick={goToNextPageGroup}><Image src={'/Polygon3.svg'} alt="" width={26} height={26} /></button>
             )}
           </div>
+          
         </section>
       </div>
     </>
