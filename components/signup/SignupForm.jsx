@@ -32,38 +32,37 @@ export default function SignupForm() {
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-  const imageUrl = (selectedImage);
-  setImage(imageUrl);
-  const imageUrls = URL.createObjectURL(selectedImage);
-  setShowimage(imageUrls);
-  console.log(imageUrl);
+    const imageUrl = (selectedImage);
+    setImage(imageUrl);
+    const imageUrls = URL.createObjectURL(selectedImage);
+    setShowimage(imageUrls);
+    console.log(imageUrl);
   };
-  
-  
+
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-// 중복이면 True 중복아니면 false
-  async function handleCheckDuplicate() {
-    // 서버로 중복 확인 요청을 보내는 부분
-    const response = await fetch(`http://localhost:8888/?nick_name=${nick_name}`, {
+  // 중복이면 True 중복아니면 false
+  async function handleCheckDuplicate(e) {
+    e.preventDefault();
+    const response = await fetch(`http://localhost:8888/nick_name?nick_name=${nick_name}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      const data = await response.json();
-        if (data.isDuplicate) {
-          // 중복 일 때
-          setIsDuplicate(true);
-          alert("닉네임을 변경해 주시길 바랍니다.")
-        } else {
-          // 중복되지 않은 경우
-          setIsDuplicate(false);
-        }
-      
+    const data = await response.json();
+    if (data === true) {
+      // 중복이면
+      setIsDuplicate(true);
+      alert("닉네임을 변경해 주시길 바랍니다.");
+    } else {
+      setIsDuplicate(false);
+    }
   };
-  
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -117,7 +116,7 @@ export default function SignupForm() {
     // }),
 
     const formData = new FormData();
-    let req ={
+    let req = {
       "email": email,
       "password": password,
       "name": name,
@@ -125,30 +124,30 @@ export default function SignupForm() {
     }
     formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
     formData.append('img', image);
-    
+
     for (var pair of formData.values()) {
-      console.log(pair); 
+      console.log(pair);
     }
-    
+
     // 회원가입 API 요청 보내기
     const response = await fetch("http://localhost:8888/member/signup", {
       method: "POST",
       body: formData
     });
-    const data = await response.json();
-    console.log(data);
 
     if (response.ok) {
-      // 회원가입 성공 시 메인 페이지로 리다이렉션
-      window.location.href = "/user/login";
-    } else if (response.status === 400) {
-      setRequestError(400);
-    } else if (response.status === 500) {
-      setemailError("이미 가입된 이메일입니다.");
+      const responseData = await response.json();
+      if (responseData.state === "처리 성공") {
+        // 회원가입 성공 시 메인 페이지로 리다이렉션
+        window.location.href = "/user/login";
+      } else if (responseData.state === "중복된 이메일") {
+        // 중복된 이메일일 경우 알림창 표시
+        alert(responseData.message);
+      }
+    } else {
+      console.error(response.status);
     }
-    else {
-      console.log(error);
-    }
+
   };
 
   function handleFocus(e) {
@@ -158,7 +157,7 @@ export default function SignupForm() {
       document.getElementById("email").style.borderColor = "#496AF3";
     } else if (field === "password") {
       document.getElementById("password").style.borderColor = "#496AF3";
-    } else if (field === "name" ) {
+    } else if (field === "name") {
       document.getElementById("name").style.borderColor = "#496AF3";
     }
     else if (requestError === 400) {
@@ -167,7 +166,7 @@ export default function SignupForm() {
       } else if (field === "password") {
         document.getElementById("password").style.borderColor = "#FF0000";
       }
-      else if (field === "name" ) {
+      else if (field === "name") {
         document.getElementById("name").style.borderColor = "#496AF3";
       }
     }
@@ -189,7 +188,7 @@ export default function SignupForm() {
             type="string"
             id="name"
             value={name}
-            onChange={(e) => { 
+            onChange={(e) => {
               setName(e.target.value)
               handleFocus(e)
             }}
@@ -225,8 +224,8 @@ export default function SignupForm() {
               type={showPassword ? "text" : "password"}
               id="password"
               value={password}
-              onChange={(e) => { 
-                setPassword(e.target.value) 
+              onChange={(e) => {
+                setPassword(e.target.value)
                 handleFocus(e)
               }}
               placeholder="비밀번호"
@@ -237,19 +236,19 @@ export default function SignupForm() {
           </div>
           <h1 className={styles.logintext2}>비밀번호 확인</h1>
           <div className={styles.anyLogins}>
-          <input
-            className={styles.Input}
-            type={showPassword ? "text" : "password"}
-            value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value)
-              handleFocus(e)
-            }}
-            placeholder="비밀번호 확인"
-          />
-          <button onClick={togglePasswordVisibility} className={styles.showPswbtn}>
-            <Image src={showpsw} width={18} height={12} alt="비밀번호 표시" />
-          </button>
+            <input
+              className={styles.Input}
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value)
+                handleFocus(e)
+              }}
+              placeholder="비밀번호 확인"
+            />
+            <button onClick={togglePasswordVisibility} className={styles.showPswbtn}>
+              <Image src={showpsw} width={18} height={12} alt="비밀번호 표시" />
+            </button>
           </div>
           {passwordError && <div className={styles.anyLogins}>
             <Image src={smile} width={30} height={30} alt="스마일" className={styles.smile} />
@@ -260,16 +259,27 @@ export default function SignupForm() {
           <h1 className={styles.logintext3}>프로필 정보</h1>
           <h1 className={styles.logintext}>닉네임</h1>
           <div className={styles.anyLogins}>
-          <input
-            className={styles.Input3}
-            type="string"
-            value={nick_name}
-            onChange={(e) => setNickname(e.target.value)}
-            placeholder="닉네임"
-          />
-          <button className={styles.nickBtn} onClick={handleCheckDuplicate}>중복 확인</button>
-          {isDuplicate=== true && <p><Image className={styles.vector}  alt="벡터" src={'/Ellipse-168.svg'} width={14} height={14}/><Image className={styles.vector2}  alt="벡터2"  src={'/Vector340.svg'} width={12} height={11}/><p className={styles.nickFalse}>   사용 불가능한 닉네임입니다.</p></p>}
-          {isDuplicate=== false && <p className={styles.nickTrue}> <Image src={'/Ellipse-169.svg'} alt="스마일2"  width={14} height={14}/>    사용 가능한 닉네임입니다.</p>}
+            <input
+              className={styles.Input3}
+              type="string"
+              value={nick_name}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="닉네임"
+            />
+            <button className={styles.nickBtn} onClick={handleCheckDuplicate}>중복 확인</button>
+            {isDuplicate === true &&
+              <div>
+                <Image className={styles.vector} alt="벡터" src={'/Ellipse-168.svg'} width={14} height={14} />
+                <Image className={styles.vector2} alt="벡터2" src={'/Vector340.svg'} width={12} height={10} />
+                <p className={styles.nickFalse}>   사용 불가능한 닉네임입니다.</p>
+              </div>
+            }
+            {isDuplicate === false &&
+              <div className={styles.nickTrue}>
+                <Image src={'/Ellipse-169.svg'} alt="스마일2" width={14} height={14} />
+                사용 가능한 닉네임입니다.
+              </div>
+            }
           </div>
           {nicknameError && <div className={styles.anyLogins}>
             <Image src={smile} width={132} height={132} alt="스마일" className={styles.smile} />
@@ -286,7 +296,8 @@ export default function SignupForm() {
               id="input-file"
               accept="image/*"
               style={{ display: "none" }}
-              onChange= {(e) => {handleImageChange(e)
+              onChange={(e) => {
+                handleImageChange(e)
               }}
             />
           </div>
