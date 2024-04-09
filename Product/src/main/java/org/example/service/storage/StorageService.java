@@ -6,6 +6,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Product;
 import org.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StorageService {
 
     @Value("${spring.cloud.gcp.storage.bucket}")
@@ -48,24 +51,42 @@ public class StorageService {
         return product_file_name;
     }
 
-    public void imageDelete(Long productId) throws IOException {
-        Product product = productRepository.findByProductId(productId);
-        String imgReal = product.getImageReal().substring(44);
-        String imgProduct = product.getImageProduct().substring(44);
+    public void productImageDelete(Long productId) throws IOException {
+        Optional<Product> product = productRepository.findByProductId(productId);
+
+        String imgProduct = product.get().getImageProduct().substring(44);
+        log.info(imgProduct);
+
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+            Storage storage = StorageOptions.newBuilder()
+                    .setCredentials(GoogleCredentials.fromStream(keyFile))
+                    .build()
+                    .getService();
+
+            Blob blobReal = storage.get(bucketName, imgProduct);
+
+            Storage.BlobSourceOption precondition =
+                    Storage.BlobSourceOption.generationMatch(blobReal.getGeneration());
+            storage.delete(bucketName, imgProduct, precondition);
+
+    }
+    public void realImageDelete(Long productId) throws IOException {
+        Optional<Product> product = productRepository.findByProductId(productId);
+
+        String imgReal = product.get().getImageReal().substring(44);
+        log.info(imgReal);
+
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
         Storage storage = StorageOptions.newBuilder()
                 .setCredentials(GoogleCredentials.fromStream(keyFile))
                 .build()
                 .getService();
-        Blob blobProduct = storage.get(bucketName, imgProduct);
+
         Blob blobReal = storage.get(bucketName, imgReal);
 
-        Storage.BlobSourceOption precondition1 =
-                Storage.BlobSourceOption.generationMatch(blobProduct.getGeneration());
-        storage.delete(bucketName, imgProduct, precondition1);
-        Storage.BlobSourceOption precondition2 =
+        Storage.BlobSourceOption precondition =
                 Storage.BlobSourceOption.generationMatch(blobReal.getGeneration());
-        storage.delete(bucketName, imgReal, precondition2);
+        storage.delete(bucketName, imgReal, precondition);
 
     }
     private static String changedImageName(String originName) {

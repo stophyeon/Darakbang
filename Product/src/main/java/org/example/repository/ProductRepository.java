@@ -12,10 +12,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findByProductId(Long id);
+    Optional<Product> findByProductId(Long id);
     @Transactional
     @Modifying
     @Query("update Product p set p.productName = :productname, " +
