@@ -78,7 +78,6 @@ public class MemberService {
                     .message("회원가입하지않은 회원")
                     .build();
         }
-
     }
     public MemberDto myProfile(String email){
         Optional<Member> member = memberRepository.findByEmail(email);
@@ -99,6 +98,13 @@ public class MemberService {
             return MemberDto.builder().email("No Such NickName").build();
         }
     }
+    public String profileImg(String email){
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent()){
+            return member.get().getImage();
+        }
+        else {return "등록되지않은 이메일입니다";}
+    }
     public boolean duplicateNickName(String nickName){
         return memberRepository.findByNickName(nickName).isPresent();
     }
@@ -110,12 +116,9 @@ public class MemberService {
     public ResponseCustom updateProfile(MultipartFile profileImg,MemberDto memberDto,String email) throws IOException {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()){
-            if (!profileImg.isEmpty()){
-                String file_name=storageService.imageUpload(profileImg);
-                memberDto.setImage(googleURL+file_name);
-                storageService.imageDelete(email);
-            }
-            memberDto.setImage(member.get().getImage());
+            String file_name=storageService.imageUpload(profileImg);
+            memberDto.setImage(googleURL+file_name);
+            storageService.imageDelete(email);
             memberRepository.updateInfo(Member.builder().memberDto(memberDto).build());
             return ResponseCustom.builder()
                     .state("success")
