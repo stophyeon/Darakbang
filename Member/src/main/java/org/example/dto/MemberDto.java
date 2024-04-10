@@ -34,11 +34,11 @@ public class MemberDto {
     @JsonProperty("nick_name")
     @Schema(description = "닉네임")
     private String nickName;
-
+    private int point;
     private int follower;
     private int following;
     @Builder
-    public MemberDto(String email, String nickName,String image, String name,String password,int follower,int following){
+    public MemberDto(String email, String nickName,String image, String name,String password,int follower,int following,int point){
         this.email=email;
         this.nickName=nickName;
         this.image = image;
@@ -46,6 +46,7 @@ public class MemberDto {
         this.password=password;
         this.follower=follower;
         this.following=following;
+        this.point=point;
     }
 
 }

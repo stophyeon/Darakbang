@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.LoginSuccessDto;
 import org.example.dto.MemberDto;
+import org.example.dto.PaymentsReq;
 import org.example.dto.ResponseCustom;
 import org.example.service.MemberService;
 import org.springframework.http.MediaType;
@@ -66,12 +67,18 @@ public class MemberController {
 
     @GetMapping("/nick_name")
     public String getNickName(@RequestParam("email") String email){return memberService.getNickName(email);}
+
     @GetMapping("/user_info")
     public String getEmail(@RequestParam("email") String email){return memberService.profileImg(email);}
+
     @PutMapping(path = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseCustom> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
                                                         @RequestPart(name = "img",required = false) @Parameter MultipartFile img,
                                                         @PathVariable("email") String email) throws IOException {
         return ResponseEntity.ok(memberService.updateProfile(img,memberDto,email));
+    }
+    @PostMapping("/payments/{email}")
+    public String payments(@RequestBody PaymentsReq paymentsReq){
+        return"";
     }
 }

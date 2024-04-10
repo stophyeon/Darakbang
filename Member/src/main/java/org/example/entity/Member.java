@@ -26,6 +26,7 @@ public class Member {
     private int follower;
     @ColumnDefault("0")
     private int following;
+    private int point;
     private final String role="ROLE_USER";
     @Builder
     public Member(MemberDto memberDto){
@@ -43,6 +44,7 @@ public class Member {
                 .image(member.getImage())
                 .follower(member.follower)
                 .following(member.following)
+                .point(member.getPoint())
                 .build();
     }
 
