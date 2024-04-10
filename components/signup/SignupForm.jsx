@@ -143,6 +143,7 @@ export default function SignupForm() {
       } else if (responseData.state === "중복된 이메일") {
         // 중복된 이메일일 경우 알림창 표시
         alert(responseData.message);
+        alert("이메일을 변경해주세요.")
       }
     } else {
       console.error(response.status);

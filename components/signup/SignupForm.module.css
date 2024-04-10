@@ -303,3 +303,321 @@ line-height: normal;
     margin-top: 32px;
     margin-left: 604px;
 }
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 786px) {
+    .parent {
+        position: relative;
+        height: 100vh; /* 화면 전체 높이 */
+      }
+      
+      .formContainer {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 344px;
+        height: 833px;
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
+      }
+    
+      .write1 {
+        color: #FFF;
+        font-family: "Pretendard Variable";
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        text-align: center;
+        /* width: 156px; */
+        height: 72px;
+    }
+    
+    
+    .logintext {
+        color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 78px;
+    height: 21px;
+    margin-top: 18px;
+    margin-left: 19px;
+    padding: 0%;
+    }
+    
+    .logintext2 {
+        color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 150px;
+    height: 21px;
+    margin-top: 21px;
+    margin-left: 19px;
+    padding: 0%;
+    }
+    
+    .logintext3 {
+        color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 14px;
+    margin-left: 19px;
+    }
+    
+    .Input{
+        width: 290px;
+        height: 30px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 1.5px solid var(--gray-400, #BEC0C6);
+        background: #FFF;
+        margin-left: 19px;
+        margin-top: 2px;
+        color: var(--black, #191A1C);
+        font-family: "Pretendard Variable";
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 0%;
+        padding-left: 13px;
+    }
+    
+    .Input2{
+        width: 290px;
+        height: 30px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 1.5px solid var(--gray-400, #BEC0C6);
+        background: #FFF;
+        margin-left: 19px;
+        margin-top: 2px;
+        padding-left: 13px;
+    }
+    
+    .Input::placeholder {
+        color: var(--gray-400, #BEC0C6);
+        font-family: "Pretendard Variable";
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding-left: 0px;
+    }
+    
+    
+    .Input3{
+        width: 105px;
+        height: 30px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 1.5px solid var(--gray-400, #BEC0C6);
+        background: #FFF;
+        margin-left: 19px;
+        margin-top: 2px;
+        color: var(--black, #191A1C);
+        font-family: "Pretendard Variable";
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 0%;
+        padding-left: 13px;
+    }
+    .verticalLine {
+        border-top: 1px solid #E2E5EF;
+        width: 272px;
+        height: 1px;
+        margin-top: 21px;
+        margin-left: 36px;
+        padding: 0%;
+      }
+      
+    
+    .Button1 {
+        width: 312px;
+        height: 40px;
+        margin-top: 52px;
+        margin-left: 17px;
+        border-radius: 10px 0px 0px 0px;
+        border-radius: 10px;
+        border: #496AF3;
+        background: var(--primary-primary, #496AF3);
+        color: #FFF;
+        font-family: "Pretendard Variable";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        padding: 0%;
+    }
+    
+    .Button2 {
+        width: 566px;
+        height: 50px;
+        margin-top: 18px;
+        margin-left: 59px;
+        border-radius: 10px 0px 0px 0px;
+        border: 1.5px 0px 0px 0px;
+        border-radius: 10px;
+        border: 1.5px solid var(--primary-primary, #496AF3);
+        background: #FFF;
+        color: var(--primary-primary, #496AF3);
+        font-family: "Pretendard Variable";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        padding: 0%;
+    }
+    
+    .nickBtn {
+        width: 60px;
+        height: 25px;
+        flex-shrink: 0; 
+        margin-left: 8px;
+        margin-top: 5px;
+        border-radius: 10px;
+        border: 0;
+        background: var(--gray-300, #E2E5EF);
+        color: var(--gray-800, #737A8D);
+        font-family: "Pretendard Variable";
+        font-size: 10px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    
+    .nickFalse{
+        stroke-width: 2px;
+        stroke: var(--secondary, #E13333);
+        color: var(--secondary, #E13333);
+        font-family: "Pretendard Variable";
+        font-size: 8px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        margin-left: 9px;
+        margin-top: 10px;
+    
+    }
+    .vector {
+        position: absolute;
+        margin-top: 32px;
+        margin-left: 7px;
+    }
+    
+    .vector2 {
+        position: absolute;
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+    
+    .nickTrue{
+        color: var(--primary-primary, #496AF3);
+        font-family: "Pretendard Variable";
+        font-size: 8px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        margin-left: 7px;
+        margin-top: 8px;
+    
+    }
+    
+    .outProfile {
+        position: relative;
+        overflow: hidden;
+        width: 132px;
+        height: 132px;
+        flex-shrink: 0; 
+        border-radius: 10px;
+        border: 1.5px solid var(--gray-400, #BEC0C6);
+        background: #FFF;
+        margin-left: 59px;
+        margin-top: 18px;
+    }
+    
+    .selectImg {
+        position: absolute;
+        box-shadow: 10px 10px 50px 0px #0000001A;
+        object-fit: cover;
+    }
+    
+    .Imgtext {
+        color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 36px;
+    padding: 0%;
+    }
+    
+    .pageContainer {
+        position: relative;
+        /* width: 1440px;  */
+        height: 894px;
+    }
+    
+    .flexSection1 {
+        /* width: 1440px; */
+        height: 347px;
+        background: #456AE2;
+        border: 0;
+    }
+    
+    .flexSection2 {
+        /* width: 1440px; */
+        height: 1300px;
+        background: #F3F5FA;
+    }
+    
+    .errorMsg {
+        color: #E13333;
+    font-family: "Pretendard Variable";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+     margin-left: 9px;
+     margin-top: 29px;
+    }
+    
+    .smile {
+        margin-left: 58px;
+        margin-top: 25px;
+    }
+    .anyLogins{
+        display: flex;
+    }
+    
+    .showPswbtn {
+        position: absolute;
+        border: #FFF;
+        background-color: #FFF;
+        margin-top: 32px;
+        margin-left: 604px;
+    }
+    
+
+}

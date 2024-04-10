@@ -20,7 +20,7 @@ const FindEventSection = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['Items', { searchTerm: searchTerm }],
-    queryFn: ({ signal, queryKey }) => fetchitems({ signal, ...queryKey[1] }),
+    queryFn: ({ signal, queryKey }) => fetchItemsByProductName({ signal, ...queryKey[1] }),
     enabled: searchTerm !== '',
   });
 
@@ -28,7 +28,7 @@ const FindEventSection = () => {
     event.preventDefault();
     const searchTerm = searchElement.current.value;
     setSearchTerm(searchElement.current.value);
-    router.push(`/search/${searchTerm}/?search=${searchTerm}`);
+    router.push(`/search/${searchTerm}?search=${searchTerm}`);
   }
 
   return (
@@ -48,9 +48,7 @@ const FindEventSection = () => {
       {data && (
         <ul>
           {data.map((item) => (
-            <li key={item.id}>
-              <Items items={item} />
-            </li>
+              <Items key={item.id} items={item} />
           ))}
         </ul>
       )}

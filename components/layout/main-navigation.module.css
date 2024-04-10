@@ -60,8 +60,8 @@
     }
   
     .logo {
+      margin-left: 30px;
       font-size: 1rem;
-      margin: 0; /* 화면이 작을 때 로고의 왼쪽 여백 조정 */
     }
   
     .navList {
@@ -76,11 +76,24 @@
     .navItem2 {
       font-size: 0.5rem;
       margin-top: 10px;
-      margin-left: 90%;
+      margin-left: 80%;
       position: absolute;
     }
   
     .navLink {
-      font-size: 0.9rem;
+      width: 51px;
+      height: 28px;
+      border-radius: 10px;
+      border: 0;
+      background: rgba(73, 106, 243, 0.80);
+      margin-right: 10px;
+      margin-top: 8px;
+      color: #FFF;
+      font-family: "Pretendard Variable";
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      cursor: pointer;
     }
   }

@@ -86,39 +86,94 @@ cursor: pointer;
   transform: translateY(0);
 }
 
-@media screen and (max-width: 500px) and (max-height:900px){
+@media screen and (max-width: 500px){
   .Modaldiv{
     z-index: 1000;
 }
   .profileImage {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
+    margin-top: 3px;
   }
 
   .modalBackground {
     position: fixed;
     top: 0;
     left: 0;
-    
     width: 50%;
     height: 50%;
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: #FFFFFF;
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
+    filter: drop-shadow(10px 10px 50px rgba(0, 0, 0, 0.20));
   }
+  
   .modalContent {
-    background-color: rgb(73, 73, 73);
+    background-color: #FFFFFF;
     z-index: 1000;
-    padding: 20px;
+    flex-shrink: 0;
+    padding: 10px;
     border-radius: 8px;
+    filter: drop-shadow(10px 10px 50px rgba(0, 0, 0, 0.20));
+    text-align: center;
+    color: var(--gray-600, #808389);
+    font-family: "Pretendard Variable";
   }
-  .active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  
+  .verticalLine {
+    border-top: 1px solid #E2E5EF;
+    width: 130px;
+    height: 1px;
+    margin-left: 4px;
+    margin-top: 12px;
+    padding: 0%;
   }
+
+  .contents{
+    background-color: #FFFFFF;
+    border: 0;
+    color: var(--gray-600, #808389);
+font-family: "Pretendard Variable";
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-top: 10px;
+text-align: center;
+cursor: pointer;
+  }
+  .logcontents{
+    background-color: #FFFFFF;
+    border: 0;
+    color: var(--secondary, #E13333);
+font-family: "Pretendard Variable";
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-top: 15px;
+text-align: center;
+margin-bottom: 5px;
+cursor: pointer;
+  }
+
+.button{
+font: inherit;
+background-color: transparent;
+color: black;
+font-weight: bold;
+padding: 0.2rem 0.5rem;
+border-radius: 6px;
+cursor: pointer;
+}
+.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
 
 }
