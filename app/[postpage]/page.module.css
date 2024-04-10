@@ -20,6 +20,7 @@
 }
 
 
+
 .buttonContainer {
   position: absolute;
   right: 5px;
@@ -42,10 +43,26 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 그림자 효과 */
   }
   
+
+
+  .categoryContainer {
+    overflow: hidden;
+  }
+
+  
+.categoryList {
+  display: flex;
+  white-space: nowrap; /* 요소들이 가로로 나란히 표시되도록 설정 */
+}
+
+.categoryItem {
+  flex: 0 0 auto; /* 요소들이 고정된 크기로 표시되도록 설정 */
+  margin-right: 10px; /* 요소들 간의 간격 설정 */
+}
+
   .cateSticky{
     position: sticky;
     top: 150px;
-    z-index: 1;
   }
 
   .categoryTitle{
@@ -122,4 +139,23 @@ background-color: #F3F5FA;
 border: 0;
 padding-left: 30px;
 cursor: pointer;
+}
+
+@media screen and (max-width: 786px) {
+.categorySlider {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
+}
+
+.categoryList {
+  display: flex;
+}
+
+.categoryItem {
+  flex: 0 0 auto;
+  margin-right: 10px;
+}
 }

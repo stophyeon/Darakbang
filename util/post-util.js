@@ -65,7 +65,7 @@ export async function getPostsFiles(page, accessToken) {
         'Content-Type': 'application/json',
         'Authorization': `${accessToken}`
       },
-      body: JSON.stringify(productData),
+      body: JSON.stringify(productData), // formData
       cache: 'no-store'
     });
   }

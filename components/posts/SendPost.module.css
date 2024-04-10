@@ -82,3 +82,104 @@
     margin-top: 30px;
     padding-left: 50px;
   }
+
+
+
+
+  
+  @media screen and (max-width: 786px) {
+    /* ProductForm.module.css */
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  }
+  
+  .imglabel {
+    display: flex;
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    
+  }
+
+  .minis{
+    width: 50%;
+  }
+  .label{
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .selectImg{
+    border-radius: 10px;
+    width: 200px;
+    height: 200px;
+    margin-left: 20px;
+  }
+  .margins{
+    margin-top: 10px;
+    width: 50%;
+    
+  }
+  
+  .inputField {
+    display: flex;
+    width: 240px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 10px;
+    padding-left: 10px;
+  }
+
+  .selectField {
+    margin: 10px;
+    width: 240px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+ }
+  .button {
+    margin-top: 24px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 340px;
+    height: 40px;
+    margin-left: -40px;
+  }
+  
+  .bkImg{
+    display: flex;
+    position: absolute;
+    margin-top: 17px;
+    margin-left: 10px;
+    width: 200px;
+    height: 30px;
+  }
+  .inputFields {
+    display: flex;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 15px;
+    padding-left: 50px;
+  }
+
+  }

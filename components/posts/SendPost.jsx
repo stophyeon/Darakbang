@@ -24,7 +24,7 @@ export default function ProductForm() {
   const [showimages2, setShowImages2] = useState('/bkimg.png');
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
-  const [categoryId, setCategoryId] = useState('카테고리 선택');
+  const [categoryId, setCategoryId] = useState('음료');
   const [accessToken, setAccessToken] = useState('');
 
   const selectList = [
@@ -117,8 +117,8 @@ export default function ProductForm() {
   return (
     <>
       <section className={styles.formContainer}>
-        <form onSubmit={sendProductHandler}>
-          <div>
+        <form onSubmit={sendProductHandler} className={styles.minis}>
+          <div className={styles.minis}>
             <label className={styles.imglabel}>등록 이미지</label>
             <label htmlFor='images1' className={styles.label}>
               <Image src={showimages1} alt="상품 이미지" width="760" height="760" className={styles.selectImg} />

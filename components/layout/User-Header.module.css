@@ -21,3 +21,31 @@
     margin-top: 43px;
     cursor: pointer;
   }
+
+  @media screen and (max-width: 786px) {
+    .headerContainer {
+      display: flex;
+      background: #FFF;
+      height: 80px;
+      flex-shrink: 0;
+      border: 0px;
+      margin-left: 0;
+  
+    }
+    
+    .logo {
+      color: var(--black, #191A1C);
+      font-family: "Gmarket Sans TTF";
+      font-size: 25px;
+      font-style: normal;
+      font-weight: 1000;
+      line-height: normal;
+      width: 144px;
+      height: 44px;
+      margin-left: 64px;
+      margin-top: 23px;
+      cursor: pointer;
+    }
+  
+  
+  }

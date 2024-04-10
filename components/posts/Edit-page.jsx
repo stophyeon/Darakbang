@@ -78,7 +78,7 @@ export default function EditProductForm({ productId, post }) {
             // for (var pair of formData.values()) {
             //     console.log(pair); 
             //   }
-            const productData = {
+            const productData = {                   // 아직 formData 형식으로 푸시안됨
                 product_name: productName,
                 price: parseInt(price),
                 image_product: images1, // 이미지 하나 더 추가 , base64

@@ -17,6 +17,11 @@ export default function Home() {
   const [posts, setPosts] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const PAGE_GROUP_SIZE = 3;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleCategory = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const accessTokenFromLocalStorage = localStorage.getItem('Authorization');
@@ -35,6 +40,23 @@ export default function Home() {
     }
     fetchPosts()
   }, [accessToken]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 786) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
+      }
+    };
+
+    handleResize(); // 초기 로드 시 처리
+
+    window.addEventListener('resize', handleResize); // 윈도우 크기 변경 감지
+    return () => {
+      window.removeEventListener('resize', handleResize); // 컴포넌트 언마운트 시 리스너 제거
+    };
+  }, []);
   
   const handlePageChange = (page) => {
     router.push(`/${page}`);
@@ -68,7 +90,7 @@ export default function Home() {
               <p className={styles.categoryText}>카테고리</p>
             </div>
             <form className={styles.categoryForm}>
-              <div className={styles.anycategory}>
+              <div className={`${styles.categoryContainer} ${isOpen ? styles.categorySlider : ''}`}>
                 <div className={styles.cateMg}>
                   <input
                     type='checkbox'
@@ -125,6 +147,7 @@ export default function Home() {
                 </div>
               </div>
             </form>
+            <button onClick={toggleCategory}>카테고리</button>
           </div>
           <CommuPosts posts={posts} accessToken={accessToken} selectedCategory={selectedCategory} />
 
@@ -141,7 +164,6 @@ export default function Home() {
               <button onClick={goToNextPageGroup}><Image src={'/Polygon3.svg'} alt="" width={26} height={26} /></button>
             )}
           </div>
-          
         </section>
       </div>
     </>

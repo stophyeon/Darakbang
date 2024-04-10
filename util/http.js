@@ -93,6 +93,7 @@ export async function fetchUserProfile(accesstoken) {
 export async function fetchOtherUserProfile(nick_name, accessToken){
   try {
     const response = await fetch(`http://localhost:8888/member/profile/${nick_name}`, {
+      cache: 'no-store',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -111,7 +112,7 @@ export async function fetchOtherUserProfile(nick_name, accessToken){
 
 export async function followUser(accessToken, email) {
   try {
-    const response = await fetch('http://localhost:8888/member/follow', {
+    const response = await fetch('http://localhost:8888/follow', {   // 본문에 이메일 넣어서?
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

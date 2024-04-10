@@ -36,25 +36,9 @@
     margin-right: 20px;
   }
   
-  .navLink {
-    width: 111px;
-    height: 48px;
-    border-radius: 10px;
-    border: 0;
-    background: rgba(73, 106, 243, 0.80);
-    margin-right: 50px;
-    color: #FFF;
-    font-family: "Pretendard Variable";
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    cursor: pointer;
-  }
   
-  @media screen and (max-width: 435px) and (max-height:950px){
+  @media screen and (max-width: 786px){
     .headerContainer {
-      display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
@@ -64,36 +48,16 @@
       font-size: 1rem;
     }
   
-    .navList {
-      justify-content: center;
-    }
-  
     .navItem {
-      margin-right: 0; /* 항목 간 간격 조정 */
-      font-size: 0.2rem;
+     
     }
   
     .navItem2 {
+      display: flex;
       font-size: 0.5rem;
       margin-top: 10px;
-      margin-left: 80%;
+      margin-left: 87%;
       position: absolute;
     }
   
-    .navLink {
-      width: 51px;
-      height: 28px;
-      border-radius: 10px;
-      border: 0;
-      background: rgba(73, 106, 243, 0.80);
-      margin-right: 10px;
-      margin-top: 8px;
-      color: #FFF;
-      font-family: "Pretendard Variable";
-      font-size: 10px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      cursor: pointer;
-    }
   }

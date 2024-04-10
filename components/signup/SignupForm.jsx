@@ -44,6 +44,7 @@ export default function SignupForm() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   // 중복이면 True 중복아니면 false
   async function handleCheckDuplicate(e) {
     e.preventDefault();
@@ -277,7 +278,7 @@ export default function SignupForm() {
             }
             {isDuplicate === false &&
               <div className={styles.nickTrue}>
-                <Image src={'/Ellipse-169.svg'} alt="스마일2" width={14} height={14} />
+                <Image src={'/Ellipse-169.svg'} alt="스마일2" width={14} height={14} className={styles.Vector3}/>
                 사용 가능한 닉네임입니다.
               </div>
             }

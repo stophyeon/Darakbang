@@ -86,7 +86,7 @@ cursor: pointer;
   transform: translateY(0);
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 786px){
   .Modaldiv{
     z-index: 1000;
 }

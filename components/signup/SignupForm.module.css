@@ -515,22 +515,31 @@ line-height: normal;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        margin-left: 9px;
-        margin-top: 10px;
+        margin-left: 18px;
+        margin-top: 11px;
     
     }
     .vector {
         position: absolute;
-        margin-top: 32px;
-        margin-left: 7px;
+        margin-top: 10px;
+        margin-left: 4px;
+        width: 10px;
     }
     
     .vector2 {
         position: absolute;
-        margin-top: 13px;
+        margin-top: 12px;
         margin-left: 5px;
+        width: 8px;
     }
     
+    .Vector3{
+        width: 8px;
+        height: 8px;
+        margin-top: 8px;
+        margin-right: 3px;
+    }
+
     .nickTrue{
         color: var(--primary-primary, #496AF3);
         font-family: "Pretendard Variable";
@@ -538,21 +547,21 @@ line-height: normal;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        margin-left: 7px;
-        margin-top: 8px;
+        margin-left: 6px;
+        margin-top: 5px;
     
     }
     
     .outProfile {
         position: relative;
         overflow: hidden;
-        width: 132px;
-        height: 132px;
+        width: 82px;
+        height: 82px;
         flex-shrink: 0; 
         border-radius: 10px;
         border: 1.5px solid var(--gray-400, #BEC0C6);
         background: #FFF;
-        margin-left: 59px;
+        margin-left: 19px;
         margin-top: 18px;
     }
     
@@ -560,6 +569,8 @@ line-height: normal;
         position: absolute;
         box-shadow: 10px 10px 50px 0px #0000001A;
         object-fit: cover;
+        width: 82px;
+        height: 82px;
     }
     
     .Imgtext {
@@ -595,17 +606,19 @@ line-height: normal;
     .errorMsg {
         color: #E13333;
     font-family: "Pretendard Variable";
-    font-size: 18px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
      margin-left: 9px;
-     margin-top: 29px;
+     margin-top: 13px;
     }
     
     .smile {
-        margin-left: 58px;
-        margin-top: 25px;
+        margin-left: 38px;
+        margin-top: 12px;
+        width: 20px;
+        height: 20px;
     }
     .anyLogins{
         display: flex;
@@ -615,8 +628,8 @@ line-height: normal;
         position: absolute;
         border: #FFF;
         background-color: #FFF;
-        margin-top: 32px;
-        margin-left: 604px;
+        margin-top: 12px;
+        margin-left: 284px;
     }
     
 
