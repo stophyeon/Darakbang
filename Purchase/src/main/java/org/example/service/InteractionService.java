@@ -2,13 +2,18 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PaymentsRes;
+import org.example.dto.Payments;
 import org.example.dto.PointChangeRequest;
-import org.example.dto.PortOne.ValidationRequest;
+import org.example.dto.Portone.ProductInfo;
+import org.example.dto.Portone.ValidationRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,15 +21,19 @@ public class InteractionService {
 
     private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
 
-    private final WebClient webClientforProduct =  WebClient.builder().baseUrl("http://localhost:7080/product").build();
-
     public Mono<PaymentsRes> changePointMember(ValidationRequest validationRequest, String email)
     {
+        List<ProductInfo> productInfoList = validationRequest.getProductInfoList() ;
+
+
+        List<Payments> paymentsList =
+                productInfoList.stream()
+                        .map(Payments::ToPointChangeProductInfo)
+                        .collect(Collectors.toList());
+
         PointChangeRequest pointChangeRequest = PointChangeRequest.builder()
-                .product_id(validationRequest.getProduct_id())
                 .consumer(email)
-                .seller(validationRequest.getSeller_email())
-                .total_point(validationRequest.getOriginal_amount()) //판 상품 금액만
+                .paymentsList(paymentsList)
                 .build() ;
 
         Mono<PaymentsRes> responsemono = webClientforMember.post()
@@ -38,14 +47,4 @@ public class InteractionService {
 
     }
 
-//    public Mono<?> changeProductStatus(long productId)
-//    {
-//        Mono<?> responsemono = webClientforProduct.post()
-//                .uri("/payments")
-//                .retrieve()
-//                .bodyToMono(<?>) ;
-//
-//        return responsemono;
-//
-//    }
 }

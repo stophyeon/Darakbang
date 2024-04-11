@@ -2,17 +2,17 @@ package org.example.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.dto.OrderSaveRequest;
-import org.example.dto.SuccessRes;
-import org.example.dto.PortOne.ValidationRequest;
+import org.example.dto.PaymentsRes;
+import org.example.dto.Portone.ValidationRequest;
 import org.example.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
-@Slf4j
 @RequiredArgsConstructor
 public class PurchaseController {
 
@@ -32,20 +32,21 @@ public class PurchaseController {
     //한개 결제시 .
 
     @PostMapping("/payments/complete/{useremail}")
-    public Mono<ResponseEntity> validatepaymentone(@PathVariable(value = "useremail") String useremail, @RequestBody ValidationRequest validation) {
+    public Mono<PaymentsRes> validatepaymentone(@PathVariable(value = "useremail") String useremail, @RequestBody ValidationRequest validation) {
         return accessTokenService.GetToken()
                 .flatMap(PortOnetoken -> validateService.getpurchaseinfobyportone(validation.getPayment_id(), PortOnetoken)
                         .flatMap(purchasecheckresponsewebclient -> purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPayment_id(), (long) validation.getDifference_amount(),useremail)
-                                .flatMap(changememberpoint -> interactionService.changePointMember(validation,useremail))
-                                        .flatMap(ordersave -> {return Mono.just(orderService.saveOrder(validation,useremail));
-                                        }))) ;
+                                .flatMap(changememberpoint -> {
+                                    return interactionService.changePointMember(validation,useremail) ;
+                                }))) ;
+
     }
 
 
     @PostMapping("/payments/complete")
-    public ResponseEntity<SuccessRes> saveOrder(@RequestBody OrderSaveRequest orderSaveRequests)
+    public ResponseEntity<PaymentsRes> saveOrder(@RequestBody List<OrderSaveRequest> orderSaveRequestList)
     {
-        return orderService.saveOrderInteract(orderSaveRequests) ;
+        return orderService.saveOrderInteract(orderSaveRequestList) ;
     }
 
 

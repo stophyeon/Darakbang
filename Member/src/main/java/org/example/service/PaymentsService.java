@@ -54,7 +54,7 @@ public class PaymentsService {
                 }
             }
         }
-        //purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+        purchaseFeign.saveOrder(purchaseDto.getPayments_list());
         return PaymentsRes.builder().charge(false).message("구매 성공").build();
     }
     @Transactional
@@ -77,7 +77,7 @@ public class PaymentsService {
                 }
             }
         }
-        //purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+        purchaseFeign.saveOrder(purchaseDto.getPayments_list());
         return PaymentsRes.builder().charge(false).message("구매 성공").build();
     }
 

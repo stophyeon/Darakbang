@@ -3,8 +3,8 @@ package org.example.service;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.PortOne.PortoneTokenRequest;
-import org.example.dto.PortOne.PortoneTokenResponse;
+import org.example.dto.Portone.PortoneTokenRequest;
+import org.example.dto.Portone.PortoneTokenResponse;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
