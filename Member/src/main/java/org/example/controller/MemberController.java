@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -79,12 +80,12 @@ public class MemberController {
 
 
     @PostMapping("/payments/{email}")
-    public ResponseEntity<PaymentsRes> payments(@RequestBody PaymentsReq paymentsReq, @PathVariable("email") String email) {
-        return ResponseEntity.ok(paymentsService.purchase(paymentsReq, email));
+    public ResponseEntity<PaymentsRes> payments(@RequestBody PurchaseDto purchaseDto,@PathVariable("email") String email) {
+        return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 
     @PostMapping("/payments")
-    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PaymentsReq paymentsReq){
-        return ResponseEntity.ok(paymentsService.purchaseSuccess(paymentsReq));
+    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PurchaseDto purchaseDto){
+        return ResponseEntity.ok(paymentsService.purchaseSuccess(purchaseDto));
     }
 }

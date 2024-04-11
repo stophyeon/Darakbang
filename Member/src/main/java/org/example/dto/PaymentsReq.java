@@ -2,6 +2,7 @@ package org.example.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.time.LocalDate;
@@ -12,9 +13,9 @@ import java.time.LocalDate;
 public class PaymentsReq {
     private String seller;
     private String consumer;
-    private int total_point;
+    private int product_point;
     private Long product_id;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate purchase_at;
 
 }
