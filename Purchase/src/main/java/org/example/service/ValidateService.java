@@ -1,7 +1,7 @@
 package org.example.service;
 
 import lombok.NoArgsConstructor;
-import org.example.dto.PurChaseCheck;
+import org.example.dtoforportone.PurChaseCheck;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,7 +17,6 @@ public class ValidateService {
 
     public Mono<PurChaseCheck> getpurchaseinfobyportone(String paymentid, String token)
     {
-
         Mono<PurChaseCheck> purchasecheck = webClient.get()
                 .uri("/payments/{paymentId}", paymentid)
                 .header("Authorization", "Bearer " + token)

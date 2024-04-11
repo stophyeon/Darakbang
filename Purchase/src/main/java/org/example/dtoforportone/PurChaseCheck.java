@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dtoforportone;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
