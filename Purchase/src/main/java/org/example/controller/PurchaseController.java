@@ -43,9 +43,9 @@ public class PurchaseController {
 
 
     @PostMapping("/payments/complete")
-    public ResponseEntity<SuccessRes> saveOrder(@RequestBody OrderSaveRequest orderSaveRequest)
+    public ResponseEntity<SuccessRes> saveOrder(@RequestBody OrderSaveRequest orderSaveRequests)
     {
-        return orderService.saveOrderInteract(orderSaveRequest) ;
+        return orderService.saveOrderInteract(orderSaveRequests) ;
     }
 
 

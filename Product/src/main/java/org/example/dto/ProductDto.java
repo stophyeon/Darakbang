@@ -2,7 +2,9 @@ package org.example.dto;
 
 import lombok.*;
 import org.example.entity.Product;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 
 @Data
@@ -23,8 +25,10 @@ public class ProductDto {
 
     private int category_id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate create_at;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expire_at;
 
     private String nick_name;
