@@ -34,7 +34,7 @@ public class MemberDto {
     @JsonProperty("nick_name")
     @Schema(description = "닉네임")
     private String nickName;
-
+    private int point;
     private int follower;
     private int following;
     private int point;

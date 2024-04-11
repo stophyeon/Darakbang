@@ -7,7 +7,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.dto.*;
+
+
+import org.example.dto.LoginSuccessDto;
+import org.example.dto.MemberDto;
+import org.example.dto.PaymentsReq;
+import org.example.dto.ResponseCustom;
+
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
 import org.springframework.http.MediaType;
@@ -74,8 +80,10 @@ public class MemberController {
         return ResponseEntity.ok(memberService.updateProfile(img,memberDto,email));
     }
 
+
     @PostMapping("/payments/{email}")
     public ResponseEntity<PaymentsRes> payments(@RequestBody PaymentsReq paymentsReq, @PathVariable("email") String email){
         return ResponseEntity.ok(paymentsService.purchase(paymentsReq,email));
-    }
+
+   
 }

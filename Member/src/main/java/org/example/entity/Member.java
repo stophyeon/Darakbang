@@ -26,6 +26,7 @@ public class Member {
     private int follower;
     @ColumnDefault("0")
     private int following;
+    private int point;
     private final String role="ROLE_USER";
     private int point;
     @Builder

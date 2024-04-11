@@ -6,6 +6,7 @@ import org.example.dto.WishListDto;
 import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -80,6 +81,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "기본 화면 page 조회 성공"),
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
+
     @GetMapping("/page")
     public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page) {
         return productService.findProductPage(page-1) ;
@@ -91,6 +93,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "NULL 관련 문제 발생"),
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
+
     @GetMapping("/detail")
     public ResponseEntity<ProductDetailRes> getProduct(@RequestParam("product_id") Long productId) {
         return productService.findProductDetail(productId);
