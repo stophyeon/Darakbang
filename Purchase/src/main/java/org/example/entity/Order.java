@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Entity
 @Data
 @RequiredArgsConstructor
-@IdClass(OrderProductId.class)
 public class Order {
 
     @Id
@@ -22,7 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;
 
-    @Id
+
     @Column(name = "product_id")
     private Long productId ;
 
@@ -41,7 +40,7 @@ public class Order {
     @Builder
     public Order (Long productId, int orderPrice, String consumerEmail, String sellerEmail, LocalDate orderAt)
     {
-        this.productId = productId ;
+        this.productId = productId;
         this.orderPrice=orderPrice ;
         this.consumerEmail = consumerEmail;
         this.sellerEmail = sellerEmail;
@@ -52,10 +51,10 @@ public class Order {
     {
         return Order.builder()
                 .productId(orderSaveRequest.getProduct_id())
-                .orderPrice(orderSaveRequest.getProduct_price())
+                .orderPrice(orderSaveRequest.getTotal_point())
                 .consumerEmail(orderSaveRequest.getConsumer())
                 .sellerEmail(orderSaveRequest.getSeller())
-                .orderAt(orderSaveRequest.getCreated_at())
+                .orderAt(orderSaveRequest.getPurchase_at())
                 .build() ;
     }
 

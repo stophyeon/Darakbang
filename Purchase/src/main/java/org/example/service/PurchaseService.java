@@ -3,9 +3,9 @@ package org.example.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dtoforportone.CancelRequest;
-import org.example.dtoforportone.CancelResponse;
-import org.example.dtoforportone.PurChaseCheck;
+import org.example.dto.PortOne.CancelRequest;
+import org.example.dto.PortOne.CancelResponse;
+import org.example.dto.PortOne.PurChaseCheck;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

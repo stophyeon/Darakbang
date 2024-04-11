@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 
-import org.example.dto.LoginSuccessDto;
-import org.example.dto.MemberDto;
-import org.example.dto.PaymentsReq;
-import org.example.dto.ResponseCustom;
+import org.example.dto.*;
 
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
@@ -82,8 +79,12 @@ public class MemberController {
 
 
     @PostMapping("/payments/{email}")
-    public ResponseEntity<PaymentsRes> payments(@RequestBody PaymentsReq paymentsReq, @PathVariable("email") String email){
-        return ResponseEntity.ok(paymentsService.purchase(paymentsReq,email));
+    public ResponseEntity<PaymentsRes> payments(@RequestBody PaymentsReq paymentsReq, @PathVariable("email") String email) {
+        return ResponseEntity.ok(paymentsService.purchase(paymentsReq, email));
+    }
 
-   
+    @PostMapping("/payments")
+    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PaymentsReq paymentsReq){
+        return ResponseEntity.ok(paymentsService.purchaseSuccess(paymentsReq));
+    }
 }

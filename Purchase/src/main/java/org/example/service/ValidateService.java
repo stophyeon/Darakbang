@@ -1,7 +1,7 @@
 package org.example.service;
 
 import lombok.NoArgsConstructor;
-import org.example.dtoforportone.PurChaseCheck;
+import org.example.dto.PortOne.PurChaseCheck;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;

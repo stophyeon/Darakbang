@@ -3,9 +3,8 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PaymentsRes;
 import org.example.dto.PointChangeRequest;
-import org.example.dtoforportone.ValidationRequest;
+import org.example.dto.PortOne.ValidationRequest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,7 +24,7 @@ public class InteractionService {
                 .product_id(validationRequest.getProduct_id())
                 .consumer(email)
                 .seller(validationRequest.getSeller_email())
-                .total_price(validationRequest.getOriginal_amount()) //판 상품 금액만
+                .total_point(validationRequest.getOriginal_amount()) //판 상품 금액만
                 .build() ;
 
         Mono<PaymentsRes> responsemono = webClientforMember.post()

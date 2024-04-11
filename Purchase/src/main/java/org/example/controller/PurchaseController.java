@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.OrderSaveRequest;
 import org.example.dto.SuccessRes;
-import org.example.dtoforportone.PurChaseCheck;
-import org.example.dtoforportone.ValidationBucketRequest;
-import org.example.dtoforportone.ValidationRequest;
+import org.example.dto.PortOne.ValidationRequest;
 import org.example.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,17 +41,9 @@ public class PurchaseController {
                                         }))) ;
     }
 
-//    @PostMapping("/payments/complete/bucket/{useremail}")
-//    public Mono<ResponseEntity<PurChaseCheck>> validatepaymentmany(@PathVariable(value = "useremail") String useremail, @RequestBody ValidationBucketRequest validation) {
-//        return accessTokenService.GetToken()
-//                .flatMap(PortOnetoken -> validateService.getpurchaseinfobyportone(validation.getPayment_id(), PortOnetoken)
-//                        .flatMap(purchasecheckresponsewebclient -> {
-//                            return purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPayment_id(),validation.getTotal_amount(),useremail);
-//                        }));
-//    }
 
     @PostMapping("/payments/complete")
-    public ResponseEntity<SuccessRes> saveOrder(OrderSaveRequest orderSaveRequest)
+    public ResponseEntity<SuccessRes> saveOrder(@RequestBody OrderSaveRequest orderSaveRequest)
     {
         return orderService.saveOrderInteract(orderSaveRequest) ;
     }

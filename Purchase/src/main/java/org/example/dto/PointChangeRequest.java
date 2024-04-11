@@ -11,15 +11,15 @@ public class PointChangeRequest {
 
     private String seller ;
     private String consumer;
-    private int total_price;
+    private int total_point;
     private Long product_id ;
 
     @Builder
-    public PointChangeRequest (String seller, String consumer, int total_price, Long product_id)
+    public PointChangeRequest (String seller, String consumer, int total_point, Long product_id)
     {
         this.consumer = consumer;
         this.seller = seller;
-        this.total_price = total_price ;
+        this.total_point = total_point ;
         this.product_id = product_id;
     }
 

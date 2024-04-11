@@ -112,8 +112,13 @@ public class ProductController {
     public ResponseEntity<SuccessRes> deleteLikeProduct(@RequestBody List<ProductDto> products, @PathVariable("email") String email){
         return ResponseEntity.ok(wishListService.delLikeProduct(email,products));
     }
-    @PostMapping("/payments")
-    public boolean changeState(@RequestParam("product_id")Long product_id){
-        return productService.updateState(product_id);
+    @PostMapping("/payments/sell")
+    public boolean changeState(@RequestParam("product_id")Long product_id,@RequestParam("state") int state){
+        return productService.sell(product_id,state);
+    }
+
+    @PostMapping("/payments/fail")
+    public boolean purchaseFail(@RequestParam("product_id")Long product_id,@RequestParam("state") int state){
+        return productService.fail(product_id,state);
     }
 }

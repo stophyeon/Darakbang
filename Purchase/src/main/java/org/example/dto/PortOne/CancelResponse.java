@@ -1,4 +1,4 @@
-package org.example.dtoforportone;
+package org.example.dto.PortOne;
 
 
 import lombok.AllArgsConstructor;

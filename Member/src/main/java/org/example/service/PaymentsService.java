@@ -39,21 +39,46 @@ public class PaymentsService {
             int consumerPoint=consumer.get().getPoint()-paymentsReq.getTotal_point();
             int sellerPoint=seller.get().getPoint()+paymentsReq.getTotal_point();
             if (consumerPoint<0){
-                return PaymentsRes.builder().charge(true).point(Math.abs(consumerPoint)).build();
+                return PaymentsRes.builder().charge(true).point(Math.abs(consumerPoint)).message("포인트 충전 필요").build();
             }
             else{
-                boolean complete = productFeign.changeState(paymentsReq.getProduct_id());
+                boolean complete = productFeign.changeStateSuccess(paymentsReq.getProduct_id(),-1);
                 if (complete){
                     memberRepository.updatePoint(consumerPoint,email);
                     memberRepository.updatePoint(sellerPoint,seller.get().getEmail());
+                    paymentsReq.setConsumer(email);
                     purchaseFeign.saveOrder(paymentsReq);
                     return PaymentsRes.builder().charge(false).message("구매 성공").build();
                 }
-                else {return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
+                else {
+
+                    return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();
+                }
             }
         }
 
     }
+    @Transactional
+    public PaymentsRes purchaseSuccess(PaymentsReq paymentsReq){
+        Optional<Member> consumer = memberRepository.findByEmail(paymentsReq.getConsumer());
+        Optional<Member> seller = memberRepository.findByEmail(paymentsReq.getSeller());
+        if (consumer.isEmpty()|| seller.isEmpty()){return PaymentsRes.builder().charge(null).message("등록되지 않은 이메일입니다").build();}
+        else {
+            int sellerPoint = seller.get().getPoint()+ paymentsReq.getTotal_point();
+            boolean complete = productFeign.changeStateSuccess(paymentsReq.getProduct_id(),-1);
+            if (complete){
+                memberRepository.updatePoint(0,paymentsReq.getConsumer());
+                memberRepository.updatePoint(sellerPoint,seller.get().getEmail());
+                purchaseFeign.saveOrder(paymentsReq);
+                return PaymentsRes.builder().charge(false).message("구매 성공").build();
+            }
+            else {
 
+                return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();
+            }
+
+        }
+
+    }
 
 }

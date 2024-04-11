@@ -28,7 +28,7 @@ public class Member {
     private int following;
     private int point;
     private final String role="ROLE_USER";
-    private int point;
+
     @Builder
     public Member(MemberDto memberDto){
         this.email=memberDto.getEmail();
