@@ -50,7 +50,7 @@ public class Order {
     {
         return Order.builder()
                 .productId(orderSaveRequest.getProduct_id())
-                .orderPrice(orderSaveRequest.getProduct_price())
+                .orderPrice(orderSaveRequest.getProduct_point())
                 .consumerEmail(orderSaveRequest.getConsumer())
                 .sellerEmail(orderSaveRequest.getSeller())
                 .orderAt(orderSaveRequest.getCreated_at())

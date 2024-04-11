@@ -15,7 +15,7 @@ import java.util.ListIterator;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
     //금액부족시 purchas에서 바로 orderservice 저장
 
 
@@ -27,7 +27,7 @@ public class OrderService {
         for (OrderSaveRequest orderSaveRequest : orderSaveRequestlist) {
 
             Order order = Order.builder()
-                    .orderPrice(orderSaveRequest.getProduct_price())
+                    .orderPrice(orderSaveRequest.getProduct_point())
                     .orderAt(orderSaveRequest.getCreated_at())
                     .consumerEmail(orderSaveRequest.getConsumer())
                     .sellerEmail(orderSaveRequest.getSeller())

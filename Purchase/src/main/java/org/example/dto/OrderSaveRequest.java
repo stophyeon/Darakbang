@@ -15,7 +15,7 @@ public class OrderSaveRequest {
     private String seller ;
     private String consumer ;
     private Long product_id ;
-    private int product_price;
+    private int product_point;
     private LocalDate created_at ;
 
 }
