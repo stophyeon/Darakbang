@@ -27,6 +27,7 @@ public class Member {
     @ColumnDefault("0")
     private int following;
     private final String role="ROLE_USER";
+    private int point;
     @Builder
     public Member(MemberDto memberDto){
         this.email=memberDto.getEmail();
@@ -34,6 +35,7 @@ public class Member {
         this.nickName= memberDto.getNickName();
         this.name= memberDto.getName();
         this.image=memberDto.getImage();
+        this.point= memberDto.getPoint();
     }
     public static MemberDto toDto(Member member){
         return MemberDto.builder()
@@ -43,6 +45,7 @@ public class Member {
                 .image(member.getImage())
                 .follower(member.follower)
                 .following(member.following)
+                .point(member.getPoint())
                 .build();
     }
 

@@ -13,6 +13,6 @@ public interface MemberRepositoryCustom {
     void updateFollower(Member member);
     void updateFollowing(Member member);
     Long findId(String email);
-
+    void updatePoint(int point,String email);
     List<Member> findAllById(List<Long> ids);
 }

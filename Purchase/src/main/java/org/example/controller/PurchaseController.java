@@ -3,6 +3,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.PaymentsReq;
 import org.example.dto.PurChaseCheck;
 import org.example.dto.ValidationRequest;
 import org.example.service.AccessTokenService;
@@ -36,6 +37,9 @@ public class PurchaseController {
                           return purchaseService.validateandsave(purchasecheckresponsewebclient,validation.getPayment_id(),validation.getTotal_amount(),useremail);
                         }));
     }
+    @PostMapping("/payments/complete")
+    public void getOrder(@RequestBody PaymentsReq paymentsReq){
 
+    }
 
 }

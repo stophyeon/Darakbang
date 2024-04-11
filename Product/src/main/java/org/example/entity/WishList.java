@@ -1,14 +1,11 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 
 @Entity
-@Data
+@Getter
 @RequiredArgsConstructor
 public class WishList {
 

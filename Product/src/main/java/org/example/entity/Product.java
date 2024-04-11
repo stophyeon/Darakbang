@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Data
+@Getter
 @RequiredArgsConstructor
 public class Product {
 

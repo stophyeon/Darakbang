@@ -146,5 +146,13 @@ public class ProductService {
         }
     }
 
+    public boolean updateState(Long productId){
+        Optional<Product> product = productRepository.findByProductId(productId);
+        if(product.isEmpty()||product.get().getState()==-1||product.get().getState()==0){return false;}
+        else {
+            productRepository.updateState(-1,productId);
+            return true;
+        }
+    }
 
 }
