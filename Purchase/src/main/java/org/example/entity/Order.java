@@ -21,7 +21,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;
 
-
     @Column(name = "product_id")
     private Long productId ;
 
@@ -40,7 +39,7 @@ public class Order {
     @Builder
     public Order (Long productId, int orderPrice, String consumerEmail, String sellerEmail, LocalDate orderAt)
     {
-        this.productId = productId;
+        this.productId = productId ;
         this.orderPrice=orderPrice ;
         this.consumerEmail = consumerEmail;
         this.sellerEmail = sellerEmail;
@@ -51,10 +50,10 @@ public class Order {
     {
         return Order.builder()
                 .productId(orderSaveRequest.getProduct_id())
-                .orderPrice(orderSaveRequest.getTotal_point())
+                .orderPrice(orderSaveRequest.getProduct_price())
                 .consumerEmail(orderSaveRequest.getConsumer())
                 .sellerEmail(orderSaveRequest.getSeller())
-                .orderAt(orderSaveRequest.getPurchase_at())
+                .orderAt(orderSaveRequest.getCreated_at())
                 .build() ;
     }
 
