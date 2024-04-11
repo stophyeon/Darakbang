@@ -28,6 +28,7 @@ public class Member {
     private int following;
     private int point;
     private final String role="ROLE_USER";
+    private int point;
     @Builder
     public Member(MemberDto memberDto){
         this.email=memberDto.getEmail();
@@ -35,6 +36,7 @@ public class Member {
         this.nickName= memberDto.getNickName();
         this.name= memberDto.getName();
         this.image=memberDto.getImage();
+        this.point= memberDto.getPoint();
     }
     public static MemberDto toDto(Member member){
         return MemberDto.builder()

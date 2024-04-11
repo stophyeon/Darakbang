@@ -33,7 +33,6 @@ public class MemberService {
     private final String googleURL = "https://storage.googleapis.com/darakban-img/";
 
 
-
     public boolean duplicate(MemberDto memberDto){
         return memberRepository.findByEmail(memberDto.getEmail()).isEmpty();
     }
@@ -130,6 +129,5 @@ public class MemberService {
                 .message("회원가입 되어있지않은 회원입니다.")
                 .build();
     }
-
 
 }

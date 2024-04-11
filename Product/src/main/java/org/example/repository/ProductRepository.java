@@ -41,8 +41,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.categoryId = :category_id and p.productId != :product_id")
     List<Product> findByProductCategory(@Param("category_id") int categoryId,@Param("product_id") Long productId) ;
-    //제목 관련 키워드가 없을때를 대비한 것으로, 카테고리 아이디에 따라서 검색합니다.
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Product p SET p.state = :state WHERE p.productId = :productid")
+    void updateState(@Param("state") int state, @Param("productid") Long productId) ;
 
 
 
