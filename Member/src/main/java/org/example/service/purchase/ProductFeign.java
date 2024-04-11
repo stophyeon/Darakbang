@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "ProductApi",url = "http://localhost:7080/product")
 public interface ProductFeign {
-    @PostMapping("/payments")
-    public boolean changeState(@RequestParam("product_id")Long product_id);
+    @PostMapping("/payments/sell")
+    public boolean changeStateSuccess(@RequestParam("product_id")Long product_id,@RequestParam("state") int state);
+    @PostMapping("/payments/fail")
+    public boolean changeStateFail(@RequestParam("product_id")Long product_id,@RequestParam("state") int state);
 
 }

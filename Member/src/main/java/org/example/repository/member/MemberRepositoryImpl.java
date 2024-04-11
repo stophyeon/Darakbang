@@ -1,5 +1,4 @@
 package org.example.repository.member;
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Member;

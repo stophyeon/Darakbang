@@ -3,9 +3,9 @@ package org.example.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.CancelRequest;
-import org.example.dto.CancelResponse;
-import org.example.dto.PurChaseCheck;
+import org.example.dto.PortOne.CancelRequest;
+import org.example.dto.PortOne.CancelResponse;
+import org.example.dto.PortOne.PurChaseCheck;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,17 +27,16 @@ public class PurchaseService {
 
 
 
-    public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, int frontpayamount, String useremail) {
+    public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, Long frontpayamount, String useremail) {
 
         //프론트에서 전달한 결제 정보가 일치한지, portone에서 실제로 했던 결제 금액이 일치한지 확인
         if (purchasecheckbyportone.getAmount().getTotal() == frontpayamount) {
-
                 return paymentService.SavePaymentInfo(
                         paymentid,
                         purchasecheckbyportone.getStatus(),
                         purchasecheckbyportone.getRequestedAt(),
                         purchasecheckbyportone.getOrderName(),
-                        frontpayamount,
+                        Math.toIntExact(frontpayamount),
                         useremail
                 ).map(response -> {
                                 return ResponseEntity.ok(purchasecheckbyportone);

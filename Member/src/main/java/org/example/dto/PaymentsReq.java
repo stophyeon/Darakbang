@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class PaymentsReq {
     private String seller;
+    private String consumer;
     private int total_point;
     private Long product_id;
 

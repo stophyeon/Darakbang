@@ -1,16 +1,15 @@
-package org.example.dto;
+package org.example.dto.PortOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class ValidationRequest {
+public class ValidationBucketRequest {
 
     String payment_id;
     int total_amount; //결제금액
-
-
+    List<Long> product_id_list ;
 }
