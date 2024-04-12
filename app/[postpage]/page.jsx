@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { MdPostAdd } from "react-icons/md";
 
 import { getPostsFiles } from '@compoents/util/post-util';
+import MiniCategoryComponents from '@compoents/components/minicategory/Minicategory';
 import CommuPosts from '@compoents/components/posts/commu-post';
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
@@ -16,6 +17,7 @@ export default function CommuPostsPage({ params }) {
   const [accessToken, setAccessToken] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [posts, setPosts] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const PAGE_GROUP_SIZE = 2;
 
   useEffect(() => {
@@ -53,6 +55,12 @@ export default function CommuPostsPage({ params }) {
   const goToNextPageGroup = () => {
     setCurrentPage((prev) => prev + PAGE_GROUP_SIZE);
   }
+
+
+  const handleCategoryChange = (e) => {
+    const categoryId = parseInt(e.target.id);
+    setSelectedCategory(prevCategory => prevCategory === categoryId ? null : categoryId);
+  };
 
 
   return (
@@ -121,6 +129,7 @@ export default function CommuPostsPage({ params }) {
               </div>
             </div>
           </form>
+          <MiniCategoryComponents className={styles.cateminibtn} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange}/>
         </div>
         <CommuPosts posts={posts} />
         <div className={styles.pagination}>

@@ -23,6 +23,19 @@ export default function PaymentButton() {
       return;
     }
 
+    const responses = await fetch("http://localhost:8888/member/payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `${token}`
+      },
+      body: JSON.stringify({
+        product_id: productId,
+        total_price: selectedAmount
+      })
+    });
+    const data = await responses.json();
+
     const response = await PortOne.requestPayment({
       storeId: "store-8c143d19-2e6c-41e0-899d-8c3d02118d41",
       channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",

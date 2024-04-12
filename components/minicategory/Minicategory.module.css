@@ -1,0 +1,66 @@
+
+
+.none{
+    display: flex;
+    position: absolute;
+    border: 1px solid var(--gray-400, #e0e3e9);
+    background-color: #F3F5FA;
+    color: var(--gray-800, #737A8D);
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    width: 38px;
+    margin-left: 0px;
+    margin-top: -49px;
+}
+
+.PopContents{
+position: sticky;
+z-index: 0;
+background: rgba(69, 106, 226, 0.8);
+width: 120px;
+}
+.categoryForm{
+    overflow-y: auto;
+    max-height: 300px;
+}
+.categoryContainer{
+position: relative;
+}
+
+.Checkboxes{
+    width: 12px;
+    height: 12px;
+flex-shrink: 0;
+border: 1px solid var(--gray-400, #a3a7b0);
+margin-top: 10px;
+margin-left: 10px;
+  }
+ 
+
+  .cateMg{
+    display: flex;
+  }
+
+  .cateTexts{
+    color: var(--gray-400, #4f5462);
+font-family: "Pretendard Variable";
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-left: 8px;
+margin-top: 8px;
+height: 15px;
+  }
+
+@media screen and (min-width: 786px) {
+    
+  
+.none{
+    display: none;
+}
+.categoryForm{
+  display: none;
+}
+
+}

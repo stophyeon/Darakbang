@@ -3,3 +3,14 @@
     margin-left: 349px;
     width: 70%;
   }
+
+
+  @media screen and (max-width: 786px){
+    .sections {
+      margin-top: 50px;
+      margin-left: 10px;
+      width: 70%;
+    }
+  
+  }
+  

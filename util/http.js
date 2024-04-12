@@ -75,7 +75,6 @@ export async function fetchItemsByUser(nick_name) {
 export async function fetchUserProfile(accesstoken) {
   try {
     const response = await fetch(`http://localhost:8888/member/profile`, {
-      method: 'POST',
       headers: {
         'Authorization': `${accesstoken}`
       }
@@ -84,6 +83,24 @@ export async function fetchUserProfile(accesstoken) {
     return data;
   } catch (error) {
     console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+};
+
+// 멤버 프로필 수정 api
+export async function PUTUserProfile(accesstoken, formData) {
+  try {
+    const response = await fetch(`http://localhost:8888/member/profile`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `${accesstoken}`
+      },
+      body: formData,
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('사용자 프로필 정보 수정 중 오류가 발생했습니다.', error);
     throw error;
   }
 };

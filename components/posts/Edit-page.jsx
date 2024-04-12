@@ -53,9 +53,9 @@ export default function EditProductForm({ productId, post }) {
     };
 
 
-    async function handleSubmit(productData) {
+    async function handleSubmit(formData) {
         try {
-            const response = await PutPostData(productId, productData, accessToken) //formData
+            const response = await PutPostData(productId, formData, accessToken) //formData
         } catch (error) {
             console.error('게시물 수정에 실패했습니다:', error);
             alert('게시물 수정에 실패했습니다.');
@@ -66,32 +66,32 @@ export default function EditProductForm({ productId, post }) {
         event.preventDefault();
 
         try {
-            // const formData = new FormData();
-            // let req = {
-            //     "product_name": productName,
-            //     "price": parseInt(price),
-            //     "category_id": parseInt(categoryId),
-            // }
-            // formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
-            // formData.append('img_product', images1);
-            // formData.append('img_real', images2);
-            // for (var pair of formData.values()) {
-            //     console.log(pair); 
-            //   }
-            const productData = {                   // 아직 formData 형식으로 푸시안됨
-                product_name: productName,
-                price: parseInt(price),
-                image_product: images1, // 이미지 하나 더 추가 , base64
-                image_real: images2,
-                // create_at: createdAt,
-                // expire_at: expireAt,
-                category_id: parseInt(categoryId),
-            };
-            console.log(productData);
+            const formData = new FormData();
+            let req = {
+                "product_name": productName,
+                "price": parseInt(price),
+                "category_id": parseInt(categoryId),
+            }
+            formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
+            formData.append('img_product', images1);
+            formData.append('img_real', images2);
+            for (var pair of formData.values()) {
+                console.log(pair); 
+              }
+            // const productData = {                   // 아직 formData 형식으로 푸시안됨
+            //     product_name: productName,
+            //     price: parseInt(price),
+            //     image_product: images1, // 이미지 하나 더 추가 , base64
+            //     image_real: images2,
+            //     // create_at: createdAt,
+            //     // expire_at: expireAt,
+            //     category_id: parseInt(categoryId),
+            // };
+            // console.log(productData);
 
-            await handleSubmit(productData); //formData
-            // const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
-            // window.location.href = redirectUrl;
+            await handleSubmit(formData); //formData
+            const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+            window.location.href = redirectUrl;
         } catch (error) {
             console.error('에러 발생:', error);
             alert('죄송합니다. 요청을 처리하는 동안 오류가 발생했습니다. 나중에 다시 시도해주세요.');

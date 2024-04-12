@@ -67,9 +67,10 @@ export default function ProductForm() {
   async function sendProductHandler(event) {
 
     const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-    // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
-    const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
-    setCreatedAt(currentDateTime);
+    // // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
+    // const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
+    setCreatedAt(currentDate);
+    console.log(currentDate)
 
     event.preventDefault();
     try {
@@ -89,6 +90,7 @@ export default function ProductForm() {
         "product_name": productName,
         "price": parseInt(price),
         "category_id": parseInt(categoryId),
+        "createAt": createdAt,
         "expireAt": expireAt,
       }
       formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));

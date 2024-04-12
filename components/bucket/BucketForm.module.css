@@ -1,0 +1,37 @@
+.postsGrid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 10px;
+  }
+
+  .postItem {
+    margin-left: 10%;
+    background: #646060;
+    width: 80%;
+    height: 200px;
+  }
+
+  .Checkboxes{
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border: 1px solid var(--gray-400, #BEC0C6);
+    margin-top: 18px;
+    margin-left: 20px;
+  }
+
+  .SelectBtn{
+    border-radius: 10px;
+    background: var(--primary-primary, #496AF3);
+    width: 82%;
+height: 90px;
+flex-shrink: 0;
+color: #FFF;
+font-family: "Pretendard Variable";
+font-size: 38px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+border: 0;
+margin-left: 10%;
+  }

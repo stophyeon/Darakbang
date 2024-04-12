@@ -26,7 +26,7 @@ export default function MainNavigation() {
                     <FindEventSection />
                 </div>
                 {!Authorization && (
-                    <div className={styles.navItem2}>
+                    <div className={styles.navItem3}>
                         <Link href="/user/login" passHref>
                             <button className={styles.navLink}>로그인</button>
                         </Link>
@@ -34,7 +34,7 @@ export default function MainNavigation() {
                 )}
 
                 {Authorization && (
-                    <div className={styles.navItem2}>
+                    <div className={styles.navItem3}>
                         <SmallProfile accessToken={Authorization}/>
                     </div>
                 )}

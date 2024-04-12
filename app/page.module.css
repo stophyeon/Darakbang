@@ -104,6 +104,11 @@
   margin-left: 8px;
     }
 
+    .cateminibtn{
+      display: none;
+    }
+
+
     .pagination {
       margin-left: 45%;
       margin-top: 50px;
@@ -121,40 +126,14 @@
   cursor: pointer;
   }
 
-  .categoryContainer {
-    overflow: hidden;
-  }
-
-  
-.categoryList {
-  display: flex;
-  white-space: nowrap; /* 요소들이 가로로 나란히 표시되도록 설정 */
-}
-
-.categoryItem {
-  flex: 0 0 auto; /* 요소들이 고정된 크기로 표시되도록 설정 */
-  margin-right: 10px; /* 요소들 간의 간격 설정 */
-}
 
 
   @media screen and (max-width: 786px) {
     
-      .categorySlider {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        padding: 10px 0;
-      }
-      
-      .categoryList {
+      .cateminibtn{
         display: flex;
       }
-      
-      .categoryItem {
-        flex: 0 0 auto;
-        margin-right: 10px;
-      }
+    
       
     .pageContainer {
       background: #F3F5FA;
@@ -162,7 +141,6 @@
     }
     
     .flexSection1 {
-      width: 435px;
       height: 246px;
       background: #456AE2;
       border: 0;
@@ -177,12 +155,12 @@
     
     .buttonContainer {
       position: absolute;
-      right: 5px;
-      margin-bottom: 20px; /* 버튼과 다른 컨텐츠 사이의 간격 조절을 위한 마진 추가 */
+      right: 0px;
+      margin-top: -50px;
     }
     
     .button {
-        padding: 10px 20px;
+        padding: 5px 10px;
         font-size: 16px;
         background-color: #9ebbc3; /* 배경색 */
         color: white; /* 글자색 */
@@ -197,13 +175,19 @@
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 그림자 효과 */
       }
       
+      .categorySlider {
+        transform: translateX(-100%); /* 왼쪽으로 이동하여 숨깁니다. */
+      }
+      
+
       .cateSticky{
         position: sticky;
-        top: 150px;
+        top: 70px;
         z-index: 1;
       }
     
       .categoryTitle{
+        display: none;
         position: absolute;
         width: 175px;
         height: 60px;
@@ -215,6 +199,7 @@
         
       }
       .categoryText{
+        display: none;
         color: var(--black, #191A1C);
         font-family: "Pretendard Variable";
         font-size: 20px;
@@ -226,6 +211,7 @@
       }
     
       .categoryForm{
+        display: none;
         position: absolute;
         width: 175px;
         height: 338px;
@@ -262,13 +248,13 @@
       }
   
       .pagination {
-        margin-left: 45%;
+        margin-left: 40%;
         margin-top: 50px;
     }
     .pagebtn{
       color: var(--gray-400, #BEC0C6);
     font-family: "Pretendard Variable";
-    font-size: 40px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;

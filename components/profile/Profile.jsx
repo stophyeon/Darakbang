@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import Image from 'next/image';
 import { fetchUserProfile } from '@compoents/util/http';
+import LoadingIndicator from '../UI/LoadingIndicator';
+import { useRouter } from 'next/navigation';
 
 
 export default function UserProfile() {
@@ -12,6 +14,9 @@ export default function UserProfile() {
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [List, setList] = useState();
+
+  const router = useRouter();
+  
   const defaultImage = "/kakaoImg.jpg";
   
   useEffect(() => {
@@ -45,6 +50,11 @@ export default function UserProfile() {
   const closeFollowerModal = () => {
     setIsFollowerModalOpen(false);
   };
+
+  function handleEditProfileClick() {
+    
+    router.push('/myedit');
+  }
 
   return (
     
@@ -85,7 +95,7 @@ export default function UserProfile() {
               <button className={styles.closeButton} onClick={closeFollowerModal}>닫기</button>
             </div>
           )}
-          <button className={styles.EditBtn}>프로필 수정</button>
+          <button className={styles.EditBtn} onClick={handleEditProfileClick} >프로필 수정</button>
         </div>
       </div>
       
@@ -96,7 +106,7 @@ export default function UserProfile() {
       <div className={styles.verticalLine}></div>
       </>
     ) : (
-      <p className={styles.profileLoading}>사용자 프로필 정보를 불러오는 중입니다...</p>
+      <div className={styles.Loading}><LoadingIndicator /></div>
     )}
   </div>
   );

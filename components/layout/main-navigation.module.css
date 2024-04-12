@@ -26,38 +26,60 @@
     cursor: pointer;
   }
   .navItem {
-    display: flex;
     align-items: center;
     justify-content: center;
     flex: 1; 
   }
 
-  .navItem2 {
-    margin-right: 20px;
+  .navLink {
+    width: 111px;
+    height: 48px;
+    border-radius: 10px;
+    border: 0;
+    background: rgba(73, 106, 243, 0.80);
+    margin-right: 50px;
+    color: #FFF;
+    font-family: "Pretendard Variable";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    cursor: pointer;
   }
   
   
   @media screen and (max-width: 786px){
     .headerContainer {
-      flex-direction: column;
-      align-items: flex-start;
+      height: 70px;
     }
   
     .logo {
       margin-left: 30px;
       font-size: 1rem;
     }
-  
-    .navItem {
-     
-    }
-  
-    .navItem2 {
-      display: flex;
+ 
+    .navItem3 {
       font-size: 0.5rem;
-      margin-top: 10px;
+      margin-top: 0px;
       margin-left: 87%;
       position: absolute;
     }
   
+    .navLink {
+      width: 41px;
+      height: 28px;
+      border-radius: 10px;
+      border: 0;
+      background: rgba(73, 106, 243, 0.80);
+      margin-right: 13%;
+      margin-top: 0px;
+      color: #FFF;
+      font-family: "Pretendard Variable";
+      font-size: 8px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      cursor: pointer;
+    }
+
   }

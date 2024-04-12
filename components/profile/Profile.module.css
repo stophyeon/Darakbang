@@ -139,8 +139,9 @@ margin-left: 40px;
     padding: 0%;
   }
 
-  .profileLoading {
-    font-size: 16px;
+  .Loading{
+    margin-left: 40%;
+    margin-top: 40%;
   }
   
 
@@ -295,8 +296,9 @@ height: 30px;
     padding: 0%;
   }
 
-  .profileLoading {
-    font-size: 16px;
+  .Loading{
+    margin-left: 40%;
+    margin-top: 40%;
   }
   
 

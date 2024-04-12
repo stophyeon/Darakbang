@@ -26,7 +26,7 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-        const { accessToken, refreshToken } = data;
+        const { accessToken, refreshToken } = data.jwtDto;
         // accessToken을 localStorage에 저장
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
         // localStorage.setItem("expiration", expirations.toISOString());

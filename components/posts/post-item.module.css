@@ -99,6 +99,7 @@ font-weight: 600;
 line-height: normal;
 border: 0;
 margin-left: 27px;
+cursor: pointer;
 }
 
 .buy {
@@ -115,6 +116,133 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 margin-left: 9px;
+cursor: pointer;
+}
 
 
+@media screen and (max-width: 786px){
+  .parent {
+    position: relative;
+    height: 100vh; /* 화면 전체 높이 */
+  }
+  
+  .postItem {
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
+    width: 379px;
+    height: 500px;
+  
+  }
+  
+  .profile{
+    display: flex;
+  }
+  
+  .profileImage{
+    background: lightgray 50% / cover no-repeat;
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
+  border-radius: 50%;
+  margin-left: 45px;
+  margin-top: 21px;
+  }
+  
+  .nickName {
+    width: 171px;
+  height: 19px;
+  flex-shrink: 0;
+  color: var(--gray-800, #737A8D);
+  font-family: "Pretendard Variable";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 20px;
+  margin-top: 33px;
+  }
+  
+  .postItem h3 {
+    width: 235px;
+  height: 22px;
+  flex-shrink: 0;
+  overflow: hidden;
+  color: var(--black, #191A1C);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 10px;
+  margin-left: 61px;
+  margin-bottom: 10px;
+  }
+  
+  .postItem h1 {
+    color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 87px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  padding: 0%;
+  }
+  
+  .postItem h4 {
+    color: var(--primary-primary, #496AF3);
+  font-family: "Pretendard Variable";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 0px;
+  margin-left: 87px;
+  margin-bottom: 0px;
+  }
+  
+  .productImg{
+    margin-left: 77px;
+    width: 230px;
+    height: 250px;
+  }
+  
+  .like {
+    border-radius: 10px;
+  background: var(--gray-200, #F4F5F9);
+  width: 113px;
+  height: 50px;
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 0;
+  margin-left: 77px;
+  margin-top: 5px;
+  cursor: pointer;
+  }
+  
+  .buy {
+    width: 113px;
+  height: 50px;
+  flex-shrink: 0;
+  background: #496AF3;
+  border-radius: 10px;
+  border: 0;
+  color: #FFFFFF;
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 9px;
+  margin-top: 5px;
+  cursor: pointer;
+  }
+  
 }

@@ -41,10 +41,6 @@ export default function OtherProfileform({ nick_name }) {
     }
   };
 
-  if (!userInfo) {
-    return <LoadingIndicator />
-  }
-
   const openFollowingModal = () => {
     setIsFollowingModalOpen(true);
 
@@ -111,7 +107,7 @@ export default function OtherProfileform({ nick_name }) {
         <div className={styles.verticalLine}></div>
         </>
       ) : (
-        <p className={styles.profileLoading}>사용자 프로필 정보를 불러오는 중입니다...</p>
+        <div className={styles.Loading}><LoadingIndicator /></div>
       )}
     </div>
   );
