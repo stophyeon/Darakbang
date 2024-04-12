@@ -28,7 +28,7 @@ public class OrderService {
 
             Order order = Order.builder()
                     .orderPrice(orderSaveRequest.getProduct_point())
-                    .orderAt(orderSaveRequest.getCreated_at())
+                    .orderAt(orderSaveRequest.getPurchase_at())
                     .consumerEmail(orderSaveRequest.getConsumer())
                     .sellerEmail(orderSaveRequest.getSeller())
                     .productId(orderSaveRequest.getProduct_id())

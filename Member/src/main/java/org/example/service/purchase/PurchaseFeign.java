@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "PurchaseApi",url = "http://localhost:6080/payments")
+//@FeignClient(name = "PurchaseApi",url = "http://localhost:6080/payments")
+@FeignClient(name = "PurchaseApi",url = "http://darakbang-purchase-service-1:7080/product")
 public interface PurchaseFeign {
     @PostMapping("/complete")
     public void saveOrder(@RequestBody List<PaymentsReq> paymentsReq);

@@ -108,9 +108,9 @@ public class ProductController {
     public ResponseEntity<WishListDto> getLikeProduct(@PathVariable("email") String email){
         return ResponseEntity.ok(wishListService.showLikeProduct(email));
     }
-    @DeleteMapping("/like/{email}")
-    public ResponseEntity<SuccessRes> deleteLikeProduct(@RequestBody List<ProductDto> products, @PathVariable("email") String email){
-        return ResponseEntity.ok(wishListService.delLikeProduct(email,products));
+    @DeleteMapping("/like/{product_id}/{email}")
+    public ResponseEntity<SuccessRes> deleteLikeProduct( @PathVariable("product_id") Long productId, @PathVariable("email") String email){
+        return ResponseEntity.ok(wishListService.delLikeProduct(email,productId));
     }
     @PostMapping("/payments/sell")
     public boolean changeState(@RequestParam("product_id")Long product_id,@RequestParam("state") int state){

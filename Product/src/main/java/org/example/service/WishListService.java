@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.WishListDto;
@@ -12,6 +13,7 @@ import org.example.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -48,15 +50,20 @@ public class WishListService {
                     .build();
         }
     }
-    public SuccessRes delLikeProduct(String email,List<ProductDto> products){
-        StringBuilder productNames = new StringBuilder();
-        for (ProductDto product:products ){
-            wishListRepository.deleteAllByEmailAndProduct(email,Product.ToEntity(product,email));
-            productNames.append(",").append(product.getProduct_name());
+    @Transactional
+    public SuccessRes delLikeProduct(String email,Long productId){
+        Optional<Product> product = productRepository.findByProductId(productId);
+        try{
+            wishListRepository.deleteByEmailAndProduct(email,product.get());
+            return SuccessRes.builder()
+                    .productName(product.get().getProductName())
+                    .message("좋아요 등록 상품 삭제 성공")
+                    .build();
+        } catch (NoSuchElementException exception){
+            return SuccessRes.builder()
+                    .productName(product.get().getProductName())
+                    .message("해당 상품은 좋아요 등록한 상품이 아닙니다.")
+                    .build();
         }
-        return SuccessRes.builder()
-                .productName(productNames.toString())
-                .message("좋아요 등록 상품 삭제 성공")
-                .build();
     }
 }

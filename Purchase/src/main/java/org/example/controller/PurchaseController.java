@@ -4,7 +4,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.OrderSaveRequest;
 import org.example.dto.PaymentsRes;
-import org.example.dto.Portone.ValidationRequest;
+import org.example.dto.ValidationRequest;
 import org.example.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

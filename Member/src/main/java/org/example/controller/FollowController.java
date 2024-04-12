@@ -1,13 +1,11 @@
 package org.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.FollowDto;
 import org.example.entity.Member;
 import org.example.service.FollowService;
-import org.example.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -16,7 +14,6 @@ import java.util.List;
 @RequestMapping("/follow")
 @Tag(name = "팔로우", description = "팔로우 관련 api")
 public class FollowController {
-    private final MemberService memberService;
     private final FollowService followService;
     @PostMapping("/{email}")
     @Operation(
