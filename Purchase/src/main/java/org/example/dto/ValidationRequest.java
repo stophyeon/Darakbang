@@ -1,4 +1,4 @@
-package org.example.dto.Portone;
+package org.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,14 +10,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class
-ValidationRequest {
-
+public class ValidationRequest {
     String payment_id;
     int difference_amount; //차이 금액
     LocalDate created_at;
-
     List<ProductInfo> productInfoList;
-
-
 }

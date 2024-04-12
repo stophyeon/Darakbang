@@ -14,7 +14,6 @@ public class SecurityConfig {
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-
                 .cors(ServerHttpSecurity.CorsSpec::disable)
                 .build();
     }

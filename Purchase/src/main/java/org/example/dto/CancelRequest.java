@@ -1,4 +1,4 @@
-package org.example.dto.Portone;
+package org.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PortoneTokenResponse {
+public class CancelRequest {
 
-    private String accessToken ;
-    private String refreshToken ;
+    String reason;
+
 }

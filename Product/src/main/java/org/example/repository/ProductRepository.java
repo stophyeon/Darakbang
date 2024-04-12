@@ -1,10 +1,12 @@
 package org.example.repository;
 
+import jakarta.persistence.LockModeType;
 import org.example.entity.Product;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +19,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByProductId(Long id);
-    @Transactional
+
     @Modifying
     @Query("update Product p set p.productName = :productname, " +
             "p.price = :price, " +
@@ -25,6 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.categoryId = :categoryid, " +
             "p.expireAt = :expireat " +
             "where p.productId = :productid")
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     void updateProduct(@Param("productid") Long productid,
                        @Param("productname") String productName,
                        @Param("price") int price,
@@ -34,15 +37,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                        @Param("expireat") LocalDate expireAt);
 
     Page<Product> findAll(Pageable pageable) ;
+
+    @Lock(LockModeType.PESSIMISTIC_READ)
     @Query("SELECT p FROM Product p WHERE p.productName Like %:keyword% and p.productId != :product_id")
     List<Product> findByProductNameKeyword(@Param("keyword") String keyword,@Param("product_id") Long productId);
     //제목과 유사한 키워드에 따라서 검색하는 쿼리입니다.
 
-
+    @Lock(LockModeType.PESSIMISTIC_READ)
     @Query("SELECT p FROM Product p WHERE p.categoryId = :category_id and p.productId != :product_id")
-    List<Product> findByProductCategory(@Param("category_id") int categoryId,@Param("product_id") Long productId) ;
+    List<Product> findByProductCategory(@Param("category_id") int categoryId,@Param("product_id") Long productId);
 
-    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Modifying
     @Query("UPDATE Product p SET p.state = :state WHERE p.productId = :productid")
     void updateState(@Param("state") int state, @Param("productid") Long productId) ;

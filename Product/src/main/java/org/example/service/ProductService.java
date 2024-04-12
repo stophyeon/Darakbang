@@ -33,6 +33,7 @@ public class ProductService {
     private final StorageService storageService;
     private final String googleURL = "https://storage.googleapis.com/darakban-img/";
 
+
     public ResponseEntity<SuccessRes> addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
         String nickName= memberFeign.getNickName(email);
         String profile = memberFeign.getProfile(email);
@@ -74,6 +75,7 @@ public class ProductService {
             return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));
         }
     }
+
 
     public ResponseEntity<ProductDetailRes> findProductDetail(Long productId)
     {
@@ -146,6 +148,7 @@ public class ProductService {
         }
     }
 
+    @Transactional
     public boolean sell(Long productId,int state){
         Optional<Product> product = productRepository.findByProductId(productId);
         if(product.isEmpty()||product.get().getState()==-1||product.get().getState()==0){return false;}
@@ -154,6 +157,7 @@ public class ProductService {
             return true;
         }
     }
+    @Transactional
     public boolean fail(Long productId,int state){
         Optional<Product> product = productRepository.findByProductId(productId);
         if(product.isEmpty()||product.get().getState()==1||product.get().getState()==0){return false;}

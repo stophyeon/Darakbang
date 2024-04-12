@@ -16,7 +16,7 @@ public class ProductDto {
 
     private String product_name;
 
-    private int price ;
+    private int price;
 
     private String image_product;
     private String image_real;

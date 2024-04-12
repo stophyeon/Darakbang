@@ -1,10 +1,11 @@
 package org.example.service;
 
 
-import lombok.NoArgsConstructor;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.Portone.PortoneTokenRequest;
-import org.example.dto.Portone.PortoneTokenResponse;
+import org.example.dto.PortoneTokenRequest;
+import org.example.dto.PortoneTokenResponse;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -12,7 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class AccessTokenService {
 

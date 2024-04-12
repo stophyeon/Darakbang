@@ -53,7 +53,7 @@ public class Order {
                 .orderPrice(orderSaveRequest.getProduct_point())
                 .consumerEmail(orderSaveRequest.getConsumer())
                 .sellerEmail(orderSaveRequest.getSeller())
-                .orderAt(orderSaveRequest.getCreated_at())
+                .orderAt(orderSaveRequest.getPurchase_at())
                 .build() ;
     }
 

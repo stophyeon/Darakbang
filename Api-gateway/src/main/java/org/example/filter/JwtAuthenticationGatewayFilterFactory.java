@@ -39,7 +39,6 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
                         TokenUser user = jwtValid.decode(token);
                         log.info(user.getId());
                         log.info(user.getRole());
-
                         ServerWebExchange req= exchange.mutate()
                                 .request(addAuthorization(exchange.getRequest(), user))
                                 .build();
@@ -61,7 +60,7 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
         private String grant="Bearer";
     }
     private ServerHttpRequest addAuthorization(ServerHttpRequest request, TokenUser tokenUser) {
-        URI uri = URI.create(request.getURI().toString()+"/"+tokenUser.getId());
+        URI uri = URI.create(request.getURI()+"/"+tokenUser.getId());
         return request.mutate()
                 .uri(uri)
                 .build();

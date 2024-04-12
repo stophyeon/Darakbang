@@ -1,14 +1,12 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.parser.ParseException;
 import org.example.jwt.JwtDto;
 import org.example.service.MemberService;
-import org.example.service.kakao.KakaoFeign;
 import org.example.service.kakao.KakaoService;
 import org.example.service.naver.NaverService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
