@@ -56,7 +56,7 @@ export default function PostDetailPage({ params }) {
         'Authorization': `${accessToken}`
       },
       body: JSON.stringify({      // 리스트로 담아서
-        total_price: post.price, // 총 금액 구하는 로직 + 총 금액은 리스트 밖에다 보내기
+        total_point: post.price, // 총 금액 구하는 로직 + 총 금액은 리스트 밖에다 보내기
         payments_list : [
           {
         product_name: post.productName,
@@ -71,7 +71,7 @@ export default function PostDetailPage({ params }) {
     const data = await responses.json();
     setPurchase(data);
     console.log(data);
-    if (data.state == true) { // 구매 실패 시
+    if (data.charge === true) { // 구매 실패 시
       const confirmPurchase = window.confirm(`${data.message} ${data.point} 만큼 충전하시겠습니까?`);
       if (confirmPurchase) {
         handleSetPoint(); 
@@ -94,7 +94,7 @@ export default function PostDetailPage({ params }) {
       storeId: "store-8c143d19-2e6c-41e0-899d-8c3d02118d41",
       channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",
       paymentId: `${crypto.randomUUID()}`, //결제 건을 구분하는 문자열로, 결제 요청 및 조회에 필요합니다. 같은 paymentId에 대해 여러 번의 결제 시도가 가능하나, 최종적으로 결제에 성공하는 것은 단 한 번만 가능합니다. (중복 결제 방지)
-      orderName: purchases.point, // 주문 내용을 나타내는 문자열입니다. 특정한 형식이 있지는 않지만, 결제 처리에 필요하므로 필수적으로 전달해 주셔야 합니다.
+      orderName: "포인트 충전", // 주문 내용을 나타내는 문자열입니다. 특정한 형식이 있지는 않지만, 결제 처리에 필요하므로 필수적으로 전달해 주셔야 합니다.
       totalAmount: purchases.point, //selectedAmount currency는 결제 금액과 결제 화폐를 지정합니다.
       currency: "CURRENCY_KRW",
       payMethod: "EASY_PAY",
@@ -117,7 +117,7 @@ export default function PostDetailPage({ params }) {
         created_at: createdAt,// 지금 시간
         productInfoList : [
           {
-          product_id: params.productId, // 여기부터 판매자 이메일 까지 리스트로 
+          product_id: parseInt(params.productId), // 여기부터 판매자 이메일 까지 리스트로 
           original_amount: post.price,
           seller_email: post.userEmail,// 판매자 이메일
       },

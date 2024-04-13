@@ -90,8 +90,8 @@ export default function ProductForm() {
         "product_name": productName,
         "price": parseInt(price),
         "category_id": parseInt(categoryId),
-        "createAt": createdAt,
-        "expireAt": expireAt,
+        "create_at": createdAt,
+        "expire_at": expireAt,
       }
       formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
       formData.append('img_product', images1);
