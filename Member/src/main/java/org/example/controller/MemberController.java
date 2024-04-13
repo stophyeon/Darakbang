@@ -27,6 +27,7 @@ import java.io.IOException;
 public class MemberController {
     private final MemberService memberService;
     private final PaymentsService paymentsService;
+
     @Operation(
             operationId = "signup",
             description = "아이디,비밀번호,이름등을 입력받아 회원가입",
@@ -64,12 +65,19 @@ public class MemberController {
     public MemberDto Profile(@PathVariable(value = "nick_name",required = false) @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email")String email){
         return memberService.profile(nickName);
     }
+
     @GetMapping("/nick_name")
     public String getNickName(@RequestParam("email") String email){return memberService.getNickName(email);}
+
 
     @GetMapping("/user_info")
     public String getEmail(@RequestParam("email") String email){return memberService.profileImg(email);}
 
+    @Operation(
+            operationId = "profile",
+            description = "프로필 수정 요청",
+            summary = "프로필 업데이트"
+    )
     @PutMapping(path = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseCustom> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
                                                         @RequestPart(name = "img",required = false) @Parameter MultipartFile img,
@@ -77,9 +85,13 @@ public class MemberController {
         return ResponseEntity.ok(memberService.updateProfile(img,memberDto,email));
     }
 
-
+    @Operation(
+            operationId = "payments",
+            description = "결제 요청",
+            summary = "결제"
+    )
     @PostMapping("/payments/{email}")
-    public ResponseEntity<PaymentsRes> payments(@RequestBody PurchaseDto purchaseDto,@PathVariable("email") String email) {
+    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto,@PathVariable("email") String email) {
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 

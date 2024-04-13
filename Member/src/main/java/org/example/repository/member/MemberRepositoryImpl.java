@@ -1,8 +1,10 @@
 package org.example.repository.member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Member;
 import org.example.entity.QMember;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public void updatePoint(int point,String email) {
         QMember qMember = QMember.member;
          query.update(qMember).set(qMember.point,point).where(qMember.email.eq(email)).execute();

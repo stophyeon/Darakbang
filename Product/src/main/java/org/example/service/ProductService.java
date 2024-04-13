@@ -52,7 +52,7 @@ public class ProductService {
         return ResponseEntity.ok(new SuccessRes(product.getProductName(),"success"));
     }
 
-
+    @Transactional
     public ResponseEntity<Page<ProductDto>> findProductPage (int page){
         Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
         Page<Product> productPage = productRepository.findAll(pageable);
@@ -60,6 +60,7 @@ public class ProductService {
         return ResponseEntity.ok(products);
     }
 
+    @Transactional
     public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email) throws IOException {
         Optional<Product> product = productRepository.findByProductId(productId);
         if (product.isPresent()){
@@ -76,7 +77,7 @@ public class ProductService {
         }
     }
 
-
+    @Transactional
     public ResponseEntity<ProductDetailRes> findProductDetail(Long productId)
     {
         Optional<Product> selectedProduct = productRepository.findByProductId(productId);
