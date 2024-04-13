@@ -98,16 +98,31 @@ public class ProductController {
     public ResponseEntity<ProductDetailRes> getProduct(@RequestParam("product_id") Long productId) {
         return productService.findProductDetail(productId);
     }
-
+    @Operation(
+            operationId = "like",
+            description = "좋아요 상품 등록 요청",
+            summary = "좋아요"
+    )
     @PostMapping("/like/{product_id}/{email}")
     public ResponseEntity<SuccessRes> uploadLike(@PathVariable("product_id") Long productId, @PathVariable("email") String email){
         return ResponseEntity.ok(wishListService.likeRegistration(email, productId));
     }
 
+    @Operation(
+            operationId = "like",
+            description = "좋아요 상품 조회 요청",
+            summary = "좋아요"
+    )
     @GetMapping("/like/{email}")
     public ResponseEntity<WishListDto> getLikeProduct(@PathVariable("email") String email){
         return ResponseEntity.ok(wishListService.showLikeProduct(email));
     }
+
+    @Operation(
+            operationId = "like",
+            description = "좋아요 상품 삭제 요청",
+            summary = "좋아요"
+    )
     @DeleteMapping("/like/{product_id}/{email}")
     public ResponseEntity<SuccessRes> deleteLikeProduct( @PathVariable("product_id") Long productId, @PathVariable("email") String email){
         return ResponseEntity.ok(wishListService.delLikeProduct(email,productId));
