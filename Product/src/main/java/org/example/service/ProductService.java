@@ -5,7 +5,7 @@ package org.example.service;
 import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
-import org.example.entity.Product;
+import org.example.controller.entity.Product;
 import org.example.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -124,6 +124,7 @@ public class ProductService {
         }
 
     }
+
     @Transactional
     public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email,MultipartFile imageProduct,MultipartFile imageReal) throws IOException {
         Optional<Product> product=productRepository.findByProductId(productId);
@@ -149,22 +150,7 @@ public class ProductService {
         }
     }
 
-    @Transactional
-    public boolean sell(Long productId,int state){
-        Optional<Product> product = productRepository.findByProductId(productId);
-        if(product.isEmpty()||product.get().getState()==-1||product.get().getState()==0){return false;}
-        else {
-            productRepository.updateState(-1,productId);
-            return true;
-        }
-    }
-    @Transactional
-    public boolean fail(Long productId,int state){
-        Optional<Product> product = productRepository.findByProductId(productId);
-        if(product.isEmpty()||product.get().getState()==1||product.get().getState()==0){return false;}
-        else {
-            productRepository.updateState(1,productId);
-            return true;
-        }
-    }
+
+
+
 }

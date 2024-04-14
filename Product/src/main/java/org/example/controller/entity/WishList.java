@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.controller.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,16 +14,15 @@ public class WishList {
     @Column(name = "wishlist_id")
     private Long wishListId;
 
-    @ManyToOne
-    @JoinColumn(name = "product")
-    private Product product;
+    @Column(name = "product_id")
+    private Long productId;
 
     @Column(name = "email")
     private String email;
 
     @Builder
-    public WishList(String email, Product product){
+    public WishList(String email, Long productId){
         this.email=email;
-        this.product=product;
+        this.productId=productId;
     }
 }
