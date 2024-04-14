@@ -29,18 +29,13 @@ export default function LoginForm() {
         const { accessToken, refreshToken } = data.jwtDto;
         // accessToken을 localStorage에 저장
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
-        // localStorage.setItem("expiration", expirations.toISOString());
 
-        const expiration = new Date(); // 엑세스 토큰 시간 저장
-        expiration.setHours(expiration.getHours() + 2); // 1시간 이후에 토큰 만료
         // // accessToken cookie에 저장
         // document.cookie = `Authorization = Bearer ${accessToken}; Expires=${expiration.toUTCString()};`;
         
 
         // // refreshToken을 cookie에 저장 HttpOnly와 Secure 사용하여 보안 강화
-        const expirations = new Date(); // 리프레시 토큰 시간 저장
-        expirations.setHours(expirations.getHours() + 5); // 5시간 이후에 토큰 만료
-        document.cookie = `refreshToken=${refreshToken}; Expires=${expirations.toUTCString()};`;
+        document.cookie = `refreshToken=${refreshToken};`;
         //         response.cookies.set('Authorization', `Bearer ${accessToken}`, { httpOnly: true, path: '/' });
         // response.cookies.set('refreshToken', refreshToken, { httpOnly: true, path: '/' });
         const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.

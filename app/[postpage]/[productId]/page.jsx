@@ -95,9 +95,10 @@ export default function PostDetailPage({ params }) {
       channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",
       paymentId: `${crypto.randomUUID()}`, //결제 건을 구분하는 문자열로, 결제 요청 및 조회에 필요합니다. 같은 paymentId에 대해 여러 번의 결제 시도가 가능하나, 최종적으로 결제에 성공하는 것은 단 한 번만 가능합니다. (중복 결제 방지)
       orderName: "포인트 충전", // 주문 내용을 나타내는 문자열입니다. 특정한 형식이 있지는 않지만, 결제 처리에 필요하므로 필수적으로 전달해 주셔야 합니다.
-      totalAmount: purchases.point, //selectedAmount currency는 결제 금액과 결제 화폐를 지정합니다.
+      totalAmount: Number(purchases.point), //selectedAmount currency는 결제 금액과 결제 화폐를 지정합니다.
       currency: "CURRENCY_KRW",
       payMethod: "EASY_PAY",
+      redirectUrl: `http://localhost:3000`,
     });
     if (response.code != null) {
       return alert(response.message);
@@ -113,7 +114,7 @@ export default function PostDetailPage({ params }) {
       },
       body: JSON.stringify({
         payment_id: response.paymentId,
-        difference_amount: purchases.price, // 부족한 금액
+        difference_amount: purchases.point, // 부족한 금액
         created_at: createdAt,// 지금 시간
         productInfoList : [
           {
@@ -124,8 +125,10 @@ export default function PostDetailPage({ params }) {
     ]
       })
     });
+
     const Endresponse = await validation.json();
-    if (Endresponse.state == true) {
+    console.log(Endresponse);
+    if (Endresponse.charge == true) {
       alert(Endresponse.message);
     } else {
       alert(Endresponse.message);

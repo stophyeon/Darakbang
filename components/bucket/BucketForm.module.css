@@ -1,37 +1,89 @@
+
+
+
+
+.section1{
+  background: #FFFFFF;
+}
+
+.bktitle{
+  color: var(--black, #191A1C);
+font-family: "Pretendard Variable";
+font-size: 36px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+margin-left: 20%;
+}
+
+.AllLable{
+  color: var(--black, #191A1C);
+font-family: "Pretendard Variable";
+font-size: 36px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+
+}
+
+.AllInput{
+  border-radius: 5px;
+border: 2px solid var(--gray-400, #BEC0C6);
+background: #FFF;
+width: 40px;
+height: 40px;
+flex-shrink: 0;
+margin-left: 22.3%;
+margin-right: 30px;
+margin-bottom: 37px;
+}
+
+
+.section2{
+  position: relative;
+  margin: 0;
+  background: var(--gray-200, #F4F5F9);
+}
+
 .postsGrid {
+  position: relative;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
   }
 
   .postItem {
-    margin-left: 10%;
+    margin-left: 18%;
     background: #646060;
-    width: 80%;
-    height: 200px;
+    width: 70%;
+    height: 270px;
+    margin-top: 46px;
   }
 
   .Checkboxes{
-    width: 22px;
-    height: 22px;
+    border-radius: 5px;
+    border: 2px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
-    border: 1px solid var(--gray-400, #BEC0C6);
-    margin-top: 18px;
-    margin-left: 20px;
+    margin-left: 23px;
+    margin-top: 23px;
   }
 
   .SelectBtn{
     border-radius: 10px;
     background: var(--primary-primary, #496AF3);
     width: 82%;
-height: 90px;
-flex-shrink: 0;
-color: #FFF;
-font-family: "Pretendard Variable";
-font-size: 38px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-border: 0;
-margin-left: 10%;
+    height: 90px;
+    flex-shrink: 0;
+    color: #FFF;
+    font-family: "Pretendard Variable";
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border: 0;
+    margin-left: 10%;
+    margin-bottom: 150px;
   }
