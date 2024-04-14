@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.controller.entity;
 
 import org.example.dto.ProductDto;
 import jakarta.persistence.*;

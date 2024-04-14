@@ -1,12 +1,9 @@
 package org.example.repository;
 
-import jakarta.persistence.LockModeType;
-import org.example.entity.Product;
-import jakarta.transaction.Transactional;
+import org.example.controller.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -52,7 +49,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("UPDATE Product p SET p.state = :state WHERE p.productId = :productid")
     void updateState(@Param("state") int state, @Param("productid") Long productId) ;
 
-
+    public List<Product> findByProductIdIn(List<Long> productIds);
+    public void deleteByProductIdIn(List<Long> productIds);
 
 
 

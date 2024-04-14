@@ -2,7 +2,7 @@ package org.example.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.entity.Product;
+import org.example.controller.entity.Product;
 
 import java.util.List;
 

@@ -2,10 +2,7 @@ package org.example.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.WishListDto;
-import org.example.dto.ProductDetailRes;
-import org.example.dto.SuccessRes;
-import org.example.dto.ProductDto;
+import org.example.dto.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -128,12 +125,15 @@ public class ProductController {
         return ResponseEntity.ok(wishListService.delLikeProduct(email,productId));
     }
     @PostMapping("/payments/sell")
-    public boolean changeState(@RequestParam("product_id")Long product_id,@RequestParam("state") int state){
-        return productService.sell(product_id,state);
+    public PurchaseDto changeState(@RequestBody SellDto sellDto){
+        List<Long> soldOut=wishListService.sellWishList(sellDto.getProduct_id(),sellDto.getEmail());
+        if (soldOut.isEmpty()){
+            wishListService.successPay(sellDto.getProduct_id());
+            return PurchaseDto.builder().success(true).soldOutIds(soldOut).build();
+        }
+        else {return PurchaseDto.builder().success(false).soldOutIds(soldOut).build();}
+
     }
 
-    @PostMapping("/payments/fail")
-    public boolean purchaseFail(@RequestParam("product_id")Long product_id,@RequestParam("state") int state){
-        return productService.fail(product_id,state);
-    }
+
 }

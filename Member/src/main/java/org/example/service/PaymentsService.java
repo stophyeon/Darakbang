@@ -4,16 +4,17 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.PaymentsReq;
-import org.example.dto.PaymentsRes;
-import org.example.dto.PurchaseDto;
+import org.example.dto.*;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
 import org.example.service.purchase.ProductFeign;
 import org.example.service.purchase.PurchaseFeign;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,10 +26,12 @@ public class PaymentsService {
     private final ProductFeign productFeign;
     private final PurchaseFeign purchaseFeign;
 
-    private final HashMap<String,Integer> sellers = new HashMap<>();
+
 
     @Transactional
     public PaymentsRes purchase(PurchaseDto purchaseDto, String email){
+        HashMap<String,Integer> sellers = new HashMap<>();
+        List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(email);
         if (consumer.isEmpty()){return PaymentsRes.builder().charge(null).message("등록되지 않은 이메일입니다").build();}
 
@@ -40,34 +43,68 @@ public class PaymentsService {
             memberRepository.updatePoint(consumerPoint,email);
             for (PaymentsReq req : purchaseDto.getPayments_list()){
                 req.setConsumer(purchaseDto.getEmail());
-                if(!purchaseOne(req)){return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
+                if(!purchaseOne(req,sellers,sellProductId)){return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
             }
-            for (String sellerEmail : sellers.keySet()){
-                memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
+            log.info(sellProductId.toString());
+            log.info(String.valueOf(sellers.size()));
+            ProductFeignRes productFeignRes = productFeign.SoldOut(ProductFeignReq.builder()
+                    .product_id(sellProductId)
+                    .email(email)
+                    .build());
+
+            if (productFeignRes.isSuccess()){
+                for (String sellerEmail : sellers.keySet()){
+                    memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
+                }
+                purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+                return PaymentsRes.builder().charge(false).message("구매 성공").build();
+            }
+            else {
+                log.info(productFeignRes.getSoldOutIds().toString());
+                memberRepository.updatePoint(consumer.get().getPoint(),email);
+                return PaymentsRes.builder()
+                        .charge(null)
+                        .message("구매하려는 상품중 판매된 상품이 있습니다.")
+                        .build();
             }
         }
-        purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-        return PaymentsRes.builder().charge(false).message("구매 성공").build();
+
     }
 
     @Transactional
     public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto){
+        HashMap<String,Integer> sellers = new HashMap<>();
+        List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(purchaseDto.getEmail());
         if (consumer.isEmpty()){return PaymentsRes.builder().charge(null).message("등록되지 않은 이메일입니다").build();}
         memberRepository.updatePoint(0,purchaseDto.getEmail());
         for (PaymentsReq req : purchaseDto.getPayments_list()){
             req.setConsumer(purchaseDto.getEmail());
-            if(!purchaseOne(req)){return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
+            if(!purchaseOne(req,sellers,sellProductId)){return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
         }
-        for (String email : sellers.keySet()){
-            memberRepository.updatePoint(sellers.get(email),email);
+        ProductFeignRes productFeignRes = productFeign.SoldOut(ProductFeignReq.builder()
+                .product_id(sellProductId)
+                .email(purchaseDto.getEmail()).
+                build());
+        if (productFeignRes.isSuccess()){
+            for (String email : sellers.keySet()){
+                memberRepository.updatePoint(sellers.get(email),email);
+            }
+            purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+            return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
-        purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-        return PaymentsRes.builder().charge(false).message("구매 성공").build();
+        else {
+            log.info(productFeignRes.getSoldOutIds().toString());
+            memberRepository.updatePoint(consumer.get().getPoint(),consumer.get().getEmail());
+            return PaymentsRes.builder()
+                    .charge(null)
+                    .message("구매하려는 상품중 판매된 상품이 있습니다.")
+                    .build();
+        }
     }
 
     @Transactional
-    public boolean purchaseOne(PaymentsReq req){
+    public boolean purchaseOne(PaymentsReq req,HashMap<String,Integer> sellers,List<Long> sellProductId){
         Optional<Member> seller = memberRepository.findByEmail(req.getSeller());
             if (seller.isEmpty()){return false;}
         if (sellers.containsKey(seller.get().getEmail())){
@@ -76,7 +113,8 @@ public class PaymentsService {
             sellers.put(seller.get().getEmail(),total);
         }
         else {sellers.put(seller.get().getEmail(),seller.get().getPoint()+ req.getProduct_point());}
-        return productFeign.changeStateSuccess(req.getProduct_id(),-1);
+        sellProductId.add(req.getProduct_id());
+        return true;
     }
 
 }
