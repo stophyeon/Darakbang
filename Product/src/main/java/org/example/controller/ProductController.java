@@ -126,13 +126,13 @@ public class ProductController {
     }
     @PostMapping("/payments/sell")
     public PurchaseDto changeState(@RequestBody SellDto sellDto){
-        List<Long> soldOut=wishListService.sellWishList(sellDto.getProduct_id(),sellDto.getEmail());
-        if (soldOut.isEmpty()){
+        int soldOut=wishListService.sellWishList(sellDto.getProduct_id(),sellDto.getEmail());
+        if (soldOut==0){
             wishListService.successPay(sellDto.getProduct_id());
+            productService.changeState(sellDto.getProduct_id());
             return PurchaseDto.builder().success(true).soldOutIds(soldOut).build();
         }
         else {return PurchaseDto.builder().success(false).soldOutIds(soldOut).build();}
-
     }
 
 

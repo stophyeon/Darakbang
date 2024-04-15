@@ -4,16 +4,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+
 
 @Data
 @RequiredArgsConstructor
 public class PurchaseDto {
     private boolean success;
-    private List<Long> soldOutIds;
+    private int soldOutIds;
 
     @Builder
-    public PurchaseDto(boolean success, List<Long> soldOutIds){
+    public PurchaseDto(boolean success, int soldOutIds){
         this.soldOutIds=soldOutIds;
         this.success=success;
     }

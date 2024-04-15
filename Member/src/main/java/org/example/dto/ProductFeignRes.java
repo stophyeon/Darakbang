@@ -10,10 +10,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductFeignRes {
     private boolean success;
-    private List<Long> soldOutIds;
+    private int soldOutIds;
 
     @Builder
-    public ProductFeignRes(boolean success, List<Long> soldOutIds){
+    public ProductFeignRes(boolean success, int soldOutIds){
         this.soldOutIds=soldOutIds;
         this.success=success;
     }

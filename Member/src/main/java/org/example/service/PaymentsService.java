@@ -60,7 +60,7 @@ public class PaymentsService {
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
             else {
-                log.info(productFeignRes.getSoldOutIds().toString());
+                log.info(String.valueOf(productFeignRes.getSoldOutIds()));
                 memberRepository.updatePoint(consumer.get().getPoint(),email);
                 return PaymentsRes.builder()
                         .charge(null)
@@ -94,7 +94,7 @@ public class PaymentsService {
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
-            log.info(productFeignRes.getSoldOutIds().toString());
+            log.info(String.valueOf(productFeignRes.getSoldOutIds()));
             memberRepository.updatePoint(consumer.get().getPoint(),consumer.get().getEmail());
             return PaymentsRes.builder()
                     .charge(null)

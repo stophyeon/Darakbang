@@ -1,7 +1,7 @@
 package org.example.dto;
 
 import lombok.*;
-import org.example.controller.entity.Product;
+import org.example.entity.Product;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

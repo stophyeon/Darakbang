@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.WishListDto;
 import org.example.dto.SuccessRes;
-import org.example.controller.entity.WishList;
-import org.example.controller.entity.Product;
+import org.example.entity.WishList;
+import org.example.entity.Product;
 import org.example.repository.WishListRepository;
 import org.example.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -24,17 +24,17 @@ public class WishListService {
 
 
     public SuccessRes likeRegistration(String email, Long productId){
-        Optional<Product> product = productRepository.findByProductId(productId);
-        if (product.isEmpty()){return SuccessRes.builder().message("해당 상품이 없습니다").build();}
+        Product product = productRepository.findByProductId(productId);
+        if (product.getState()==-1 ||product.getState()==0){return SuccessRes.builder().message("해당 상품이 없습니다").build();}
         else {
             WishList wishList = WishList.builder()
                     .email(email)
-                    .productId(productId)
+                    .product(product)
                     .build();
             wishListRepository.save(wishList);
             return SuccessRes.builder()
                     .message("등록 성공")
-                    .productName(product.get().getProductName())
+                    .productName(product.getProductName())
                     .build();
         }
     }
@@ -42,8 +42,7 @@ public class WishListService {
         Optional<List<WishList>> likeProducts = wishListRepository.findAllByEmail(email);
         if (likeProducts.isEmpty()){return WishListDto.builder().message("좋아요 등록한 물품이 없습니다.").build();}
         else {
-            List<Long> productIds = likeProducts.get().stream().map(WishList::getProductId).toList();
-            List<Product> products = productRepository.findByProductIdIn(productIds);
+            List<Product> products = likeProducts.get().stream().map(WishList::getProduct).toList();
             return WishListDto.builder()
                     .message("등록 상품 조회")
                     .likeProducts(products)
@@ -53,36 +52,43 @@ public class WishListService {
 
     @Transactional
     public SuccessRes delLikeProduct(String email,Long productId){
-        Optional<Product> product = productRepository.findByProductId(productId);
-        try{
-            wishListRepository.deleteByEmailAndProductId(email,productId);
+        Product product = productRepository.findByProductId(productId);
+        if (product.getState()==-1 ||product.getState()==0){
             return SuccessRes.builder()
-                    .productName(product.get().getProductName())
+                    .productName(product.getProductName())
+                    .message("")
+                    .build();
+        }
+        try{
+            wishListRepository.deleteByEmailAndProduct(email,product);
+            return SuccessRes.builder()
+                    .productName(product.getProductName())
                     .message("좋아요 등록 상품 삭제 성공")
                     .build();
         } catch (NoSuchElementException | NullPointerException exception){
             return SuccessRes.builder()
-                    .productName(product.get().getProductName())
+                    .productName(product.getProductName())
                     .message("해당 상품은 좋아요 등록한 상품이 아닙니다.")
                     .build();
         }
     }
 
     @Transactional
-    public List<Long> sellWishList(List<Long> productIds,String email){
-        List<Product> products = productRepository.findByProductIdIn(productIds);
-        List<Long> productId =products.stream().map(Product::getProductId).toList();
-        List<Long> productsSoldOut=productIds.stream().filter(p->!productId.contains(p)).toList();
+    public int sellWishList(List<Long> productIds,String email){
+        List<Product> products = productRepository.findByProductIdIn(productIds).stream()
+                .filter(p->p.getState()==-1 ||p.getState()==0)
+                .toList();
         log.info(productIds.toString());
-        log.info(productsSoldOut.toString());
-        for (Long product : productsSoldOut){
-            wishListRepository.deleteByEmailAndProductId(email,product);
+
+        for (Product product : products){
+            wishListRepository.deleteByEmailAndProduct(email,product);
         }
-        return productsSoldOut;
+        return products.size();
     }
     @Transactional
     public void successPay(List<Long> productIds){
-        wishListRepository.deleteByProductIdIn(productIds);
-        productRepository.deleteByProductIdIn(productIds);
+        List<Product> products=productRepository.findByProductIdIn(productIds);
+        wishListRepository.deleteByProductIn(products);
+
     }
 }

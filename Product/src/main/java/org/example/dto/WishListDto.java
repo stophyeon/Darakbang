@@ -3,7 +3,7 @@ package org.example.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.controller.entity.Product;
+import org.example.entity.Product;
 
 import java.util.List;
 
