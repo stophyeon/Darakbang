@@ -67,8 +67,6 @@ export default function ProductForm() {
   async function sendProductHandler(event) {
 
     const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-    // // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
-    // const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
     setCreatedAt(currentDate);
     console.log(currentDate)
 
@@ -120,6 +118,7 @@ export default function ProductForm() {
     <>
       <section className={styles.formContainer}>
         <form onSubmit={sendProductHandler} className={styles.minis}>
+          
           <div className={styles.minis}>
             <label className={styles.imglabel}>등록 이미지</label>
             <label htmlFor='images1' className={styles.label}>
@@ -134,6 +133,7 @@ export default function ProductForm() {
               onChange={(e) => handleImageChange(e)}
             />
           </div>
+          <div className={styles.NotEditImg}>이미지는 상품 등록 시 수정 불가합니다.</div>
           <div className={styles.margins}>
             <label className={styles.label}>카테고리</label>
             <select

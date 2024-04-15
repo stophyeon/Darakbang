@@ -5,6 +5,7 @@ import { getPostData } from '@compoents/util/post-util';
 import styles from './page.module.css'
 import Image from 'next/image';
 import Link from 'next/link';
+import LoadingIndicator from "@compoents/components/UI/LoadingIndicator";
 
 import { useState, useEffect } from 'react';
 import PutDetailbutton from '@compoents/components/posts/Edit-button';
@@ -16,6 +17,7 @@ export default function PostDetailPage({ params }) {
   const [postList, setPostList] = useState('');
   const [purchases, setPurchase] = useState('');
   const [createdAt, setCreatedAt] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const accessTokenFromLocalStorage = localStorage.getItem('Authorization');
@@ -26,12 +28,12 @@ export default function PostDetailPage({ params }) {
     // // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
     // const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
     setCreatedAt(currentDate);
-    console.log(currentDate)
     const fetchPosts = async () => {
       const postdata = await getPostData(params.productId, accessToken);
       if (postdata) {
         setPosts(postdata.product);
         setPostList(postdata);
+        setLoading(false);
       }
       else {
         alert('게시물안받아옴')
@@ -94,7 +96,7 @@ export default function PostDetailPage({ params }) {
       storeId: "store-8c143d19-2e6c-41e0-899d-8c3d02118d41",
       channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",
       paymentId: `${crypto.randomUUID()}`, //결제 건을 구분하는 문자열로, 결제 요청 및 조회에 필요합니다. 같은 paymentId에 대해 여러 번의 결제 시도가 가능하나, 최종적으로 결제에 성공하는 것은 단 한 번만 가능합니다. (중복 결제 방지)
-      orderName: "포인트 충전", // 주문 내용을 나타내는 문자열입니다. 특정한 형식이 있지는 않지만, 결제 처리에 필요하므로 필수적으로 전달해 주셔야 합니다.
+      orderName: 'point 충전', // 주문 내용을 나타내는 문자열입니다. 특정한 형식이 있지는 않지만, 결제 처리에 필요하므로 필수적으로 전달해 주셔야 합니다.
       totalAmount: Number(purchases.point), //selectedAmount currency는 결제 금액과 결제 화폐를 지정합니다.
       currency: "CURRENCY_KRW",
       payMethod: "EASY_PAY",
@@ -114,13 +116,14 @@ export default function PostDetailPage({ params }) {
       },
       body: JSON.stringify({
         payment_id: response.paymentId,
-        difference_amount: purchases.point, // 부족한 금액
+        total_point: purchases.point, // 부족한 금액
         created_at: createdAt,// 지금 시간
-        productInfoList : [
+        payments_list : [
           {
           product_id: parseInt(params.productId), // 여기부터 판매자 이메일 까지 리스트로 
-          original_amount: post.price,
-          seller_email: post.userEmail,// 판매자 이메일
+          product_point: post.price,
+          seller: post.userEmail,// 판매자 이메일
+          purchase_at: createdAt,
       },
     ]
       })
@@ -139,6 +142,10 @@ export default function PostDetailPage({ params }) {
 
   return (
     <>
+      {loading ? ( // 로딩 중인 경우에만 로딩 스피너를 표시
+        <LoadingIndicator />
+      ) : (
+        <>
       <DeletePostButton postpage={params.postpage} productId={params.productId} />
       <PutDetailbutton postpage={params.postpage} productId={params.productId} accessToken={accessToken} />
         <div className={styles.postForm}>
@@ -172,7 +179,8 @@ export default function PostDetailPage({ params }) {
             </ul>
           </div>
         </div>
+        </>
+    )}
     </>
-
   );
 }

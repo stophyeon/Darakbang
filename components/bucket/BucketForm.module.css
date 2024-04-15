@@ -46,7 +46,6 @@ margin-bottom: 37px;
 }
 
 .postsGrid {
-  position: relative;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
@@ -54,12 +53,16 @@ margin-bottom: 37px;
 
   .postItem {
     margin-left: 18%;
-    background: #646060;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
     width: 70%;
-    height: 270px;
+    height: 300px;
     margin-top: 46px;
   }
-
+  .flexes{
+    display: flex;
+  }
   .Checkboxes{
     border-radius: 5px;
     border: 2px solid var(--gray-400, #BEC0C6);
@@ -86,4 +89,216 @@ margin-bottom: 37px;
     border: 0;
     margin-left: 10%;
     margin-bottom: 150px;
+  }
+
+  .IpImg{
+    margin-left: 15%;
+  }
+
+  .PrdName{
+    width: 300px;
+    color: #000;
+font-family: "Pretendard Variable";
+font-size: 30px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+margin-left: 125px;
+  }
+
+  .position{
+    position: absolute;
+    margin-left: 23%;
+    margin-top: 4%;
+  }
+
+  .DtBtn{
+    width: 155px;
+    padding: 8px 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    color: var(--gray-600, #808389);
+font-family: "Pretendard Variable";
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+  }
+
+  .OdBtn{
+    width: 155px;
+    padding: 8px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+border: 2px solid var(--primary-primary, #496AF3);
+background: #FFF;
+color: var(--primary-primary, #496AF3);
+font-family: "Pretendard Variable";
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+margin-top: 15px;
+margin-left: 30px;
+  }
+
+
+
+
+  @media screen and (max-width: 786px) {
+
+
+.section1{
+    background: #FFFFFF;
+  }
+  
+  .bktitle{
+    color: var(--black, #191A1C);
+  font-family: "Pretendard Variable";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-left: 20%;
+  }
+  
+  .AllLable{
+    color: var(--black, #191A1C);
+  font-family: "Pretendard Variable";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  
+  }
+  
+  .AllInput{
+    border-radius: 5px;
+  border: 2px solid var(--gray-400, #BEC0C6);
+  background: #FFF;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  margin-left: 22.3%;
+  margin-right: 30px;
+  margin-bottom: 37px;
+  }
+  
+  
+  .section2{
+    position: relative;
+    margin: 0;
+    background: var(--gray-200, #F4F5F9);
+  }
+  
+  .postsGrid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 5px;
+    }
+  
+    .postItem {
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
+        width: 90%;
+        height: 500px;
+        margin-left: 5px;
+    }
+    .flexes{
+        display: table;
+    }
+    .Checkboxes{
+      border-radius: 5px;
+      border: 2px solid var(--gray-400, #BEC0C6);
+      background: #FFF;
+      width: 20px;
+      height: 20px;
+      margin-left: 23px;
+      margin-top: 23px;
+    }
+  
+    .SelectBtn{
+      border-radius: 10px;
+      background: var(--primary-primary, #496AF3);
+      width: 90%;
+      height: 60px;
+      flex-shrink: 0;
+      color: #FFF;
+      font-family: "Pretendard Variable";
+      font-size: 25px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      border: 0;
+      margin-left: 5%;
+      margin-bottom: 150px;
+    }
+  
+    .IpImg{
+        margin-top: 10%;
+      margin-left: 40%;
+    }
+  
+    .PrdName{
+      width: 300px;
+      color: #000;
+  font-family: "Pretendard Variable";
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 43%;
+    }
+  
+    .position{
+      margin-left: 55px;
+      margin-top: 4%;
+    }
+  
+    .DtBtn{
+      width: 125px;
+      padding: 5px 15px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      border: 2px solid var(--gray-400, #BEC0C6);
+      background: #FFF;
+      color: var(--gray-600, #808389);
+  font-family: "Pretendard Variable";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+    }
+  
+    .OdBtn{
+      width: 125px;
+      padding: 5px 15px;
+      justify-content: center;
+      align-items: center;  
+      border-radius: 10px;
+  border: 2px solid var(--primary-primary, #496AF3);
+  background: #FFF;
+  color: var(--primary-primary, #496AF3);
+  font-family: "Pretendard Variable";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 15px;
+  margin-left: 30px;
+    }
+  
+    .svgs{
+        width: 15px;
+        height: 15px;
+    }
+  
+
   }

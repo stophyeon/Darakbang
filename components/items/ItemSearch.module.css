@@ -4,10 +4,11 @@
     align-items: center;
     justify-content: center;
     height: 48px;
+    width: 80%;
 }
 
 .inputSch{
-    width: 880px;
+    width: 60%;
     height: 48px;
     border: 1px solid #ccc;
     border-radius: 10px;

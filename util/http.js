@@ -74,7 +74,7 @@ export async function fetchItemsByUser(nick_name) {
 
 export async function fetchUserProfile(accesstoken) {
   try {
-    const response = await fetch(`http://localhost:8888/member/profile`, {
+    const response = await fetch('http://localhost:8888/member/profile', {
       headers: {
         'Authorization': `${accesstoken}`
       }
@@ -145,3 +145,34 @@ export async function followUser(accessToken, email) {
     throw error;
   }
 }
+
+// followList 가져오기
+export async function fetchFollowUser(accessToken) {
+  try {
+    const response = await fetch('http://localhost:8888/follow/follower', {
+      headers: {
+        'Authorization': `${accessToken}`
+      }
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+};
+// following List
+export async function fetchFollowingUser(accessToken) {
+  try {
+    const response = await fetch('http://localhost:8888/follow/following', {
+      headers: {
+        'Authorization': `${accessToken}`
+      }
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+};

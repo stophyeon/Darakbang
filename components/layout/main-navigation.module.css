@@ -19,7 +19,7 @@
     line-height: normal;
     width: auto;
     height: 64px;
-    margin-left: 144px;
+    margin-left: 10%;
     border: none;
     display: flex;
     align-items: center; 
@@ -29,6 +29,13 @@
     align-items: center;
     justify-content: center;
     flex: 1; 
+  }
+
+  .navItem3 {
+    font-size: 0.5rem;
+    margin-top: 0px;
+    margin-left: 90%;
+    position: absolute;
   }
 
   .navLink {

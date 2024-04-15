@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import Image from 'next/image';
-import { fetchUserProfile } from '@compoents/util/http';
+import { fetchUserProfile, fetchFollowUser, fetchFollowingUser } from '@compoents/util/http';
 import LoadingIndicator from '../UI/LoadingIndicator';
 import { useRouter } from 'next/navigation';
 
@@ -16,9 +16,9 @@ export default function UserProfile() {
   const [List, setList] = useState();
 
   const router = useRouter();
-  
+
   const defaultImage = "/kakaoImg.jpg";
-  
+
   useEffect(() => {
     // API 호출 -> 사용자 정보 받아오기
     async function fetchUserProfileData() {
@@ -26,6 +26,7 @@ export default function UserProfile() {
         const accesstoken = localStorage.getItem('Authorization');
         const data = await fetchUserProfile(accesstoken);
         setuserInfo(data);
+        console.log(data);
       } catch (error) {
         console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
       }
@@ -33,9 +34,42 @@ export default function UserProfile() {
     fetchUserProfileData();
   }, []);
 
+  useEffect(() => {
+    // 모달이 열릴 때 팔로워 리스트 가져오기
+    async function fetchFollowerData() {
+      try {
+        const accessToken = localStorage.getItem('Authorization');
+        const data = await fetchFollowUser(accessToken);
+        setFollowerList(data);
+      } catch (error) {
+        console.error('팔로워 리스트를 가져오는 중 오류가 발생했습니다.', error);
+      }
+    }
+    if (isFollowerModalOpen) {
+      fetchFollowerData();
+    }
+  }, [isFollowerModalOpen]);
+
+  useEffect(() => {
+    async function fetchFollowingData() {
+      try {
+        const accessToken = localStorage.getItem('Authorization');
+        const data = await fetchFollowingUser(accessToken);
+        setFollowingList(data);
+        console.log(data);
+      } catch (error) {
+        console.error('팔로잉 리스트를 가져오는 중 오류가 발생했습니다.', error);
+      }
+    }
+
+    if (isFollowingModalOpen) {
+      fetchFollowingData();
+    }
+  }, [isFollowingModalOpen]);
+
   const openFollowingModal = () => {
     setIsFollowingModalOpen(true);
-    
+
   };
 
   const closeFollowingModal = () => {
@@ -44,7 +78,7 @@ export default function UserProfile() {
 
   const openFollowerModal = () => {
     setIsFollowerModalOpen(true);
-    
+
   };
 
   const closeFollowerModal = () => {
@@ -52,62 +86,73 @@ export default function UserProfile() {
   };
 
   function handleEditProfileClick() {
-    
+
     router.push('/myedit');
   }
 
   return (
-    
+
     <div className={styles.profileContainer}>
-    {userInfo ? (
-      <>
-      <div className={styles.profileInfo}>
-        <div>
-          <Image //img , `file://C:/Profile_img/${userInfo.image}}`
-            src={userInfo.image || defaultImage}  
-            alt="이미지"
-            width={200}
-            height={200}
-            className={styles.profileImg}
-          />
-        </div>
-        <div className={styles.userInfo}>
-        <div className={styles.profileNickName}>
-          {userInfo.nick_name}
-        </div>
-        
-        </div>
-        <div className={styles.Followes}>
-          <div>
-          <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {userInfo.following}</button>
-          {isFollowingModalOpen && (
-            <div className={styles.modal}>
-              <button className={styles.closeButton} onClick={closeFollowingModal}>닫기</button>
+      {userInfo ? (
+        <>
+          <div className={styles.profileInfo}>
+            <div>
+              <Image //img , `file://C:/Profile_img/${userInfo.image}}`
+                src={userInfo.image || defaultImage}
+                alt="이미지"
+                width={200}
+                height={200}
+                className={styles.profileImg}
+                priority
+              />
             </div>
-          )}
-          <p className={styles.profileName}>{userInfo.name}</p>
-          <p className={styles.profileEmail}>{userInfo.email}</p>
+            <div className={styles.userInfo}>
+              <div className={styles.profileNickName}>
+                {userInfo.nick_name}
+              </div>
+
+            </div>
+            <div className={styles.Followes}>
+              <div>
+                <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {userInfo.following}</button>
+                {isFollowingModalOpen && (
+                  <div className={styles.modal}>
+                    <ul>
+                      {followingList.map((following) => (
+                        <li key={following.member_id}>{following.name}</li>
+                      ))}
+                    </ul>
+                    <button className={styles.closeButton} onClick={closeFollowingModal}>닫기</button>
+                  </div>
+                )}
+                <p className={styles.profileName}>{userInfo.name}</p>
+                <p className={styles.profileEmail}>{userInfo.email}</p>
+                <p className={styles.profilePoint}>보유 포인트: {userInfo.point}원</p>
+              </div>
+              <button className={styles.followButton2} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
+              {isFollowerModalOpen && (
+                <div className={styles.modal}>
+                  <ul>
+                    {followerList.map((follower) => (
+                      <li key={follower.member_id}>{follower.name}</li>
+                    ))}
+                  </ul>
+                  <button className={styles.closeButton} onClick={closeFollowerModal}>닫기</button>
+                </div>
+              )}
+              <button className={styles.EditBtn} onClick={handleEditProfileClick} >프로필 수정</button>
+            </div>
           </div>
-          <button className={styles.followButton2} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
-          {isFollowerModalOpen && (
-            <div className={styles.modal}>
-              {/* 팔로워 리스트 표시 */}
-              <button className={styles.closeButton} onClick={closeFollowerModal}>닫기</button>
-            </div>
-          )}
-          <button className={styles.EditBtn} onClick={handleEditProfileClick} >프로필 수정</button>
-        </div>
-      </div>
-      
-      
-      <button className={styles.Button1}>판매 물품</button>
-      <button className={styles.Button2}>좋아요 목록</button>
-      
-      <div className={styles.verticalLine}></div>
-      </>
-    ) : (
-      <div className={styles.Loading}><LoadingIndicator /></div>
-    )}
-  </div>
+
+
+          <button className={styles.Button1}>판매 물품</button>
+          <button className={styles.Button2}>좋아요 목록</button>
+
+          <div className={styles.verticalLine}></div>
+        </>
+      ) : (
+        <div className={styles.Loading}><LoadingIndicator /></div>
+      )}
+    </div>
   );
 };

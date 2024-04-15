@@ -57,14 +57,14 @@ export async function getPostsFiles(page, accessToken) {
     return data;
   }
 
-  export async function PutPostData(productid, formData, accessToken) {
+  export async function PutPostData(productid, productData, accessToken) {
     const response = await fetch(`http://localhost:8888/product/${productid}`, {
       cache: 'no-store',
       method: 'PUT',
       headers: {
         'Authorization': `${accessToken}`
       },
-      body: formData, // formData
+      body: JSON.stringify({ productData }), // formData
       cache: 'no-store'
     });
   }
@@ -130,9 +130,9 @@ export async function getPostsFiles(page, accessToken) {
     }
   }
 
-  export async function DeleteLike(accessToken) {
+  export async function DeleteLike(accessToken, productid) {
     try {
-      const response = await fetch('http://localhost:8888/product/like', {   // 본문에 이메일 넣어서?
+      const response = await fetch(`http://localhost:8888/product/like/${productid}`, {   // 본문에 이메일 넣어서?
       method: 'DELETE',  
       headers: {
           'Content-Type': 'application/json',

@@ -38,6 +38,7 @@ export default function SmallProfile() {
                     width={83}
                     height={83}
                     className={styles.profileImage}
+                    priority
                 />
             </PopoverTrigger>
             <PopoverContent className={styles.modalContent}>
@@ -47,6 +48,14 @@ export default function SmallProfile() {
                             프로필
                         </Button>
                     </Link>
+                </div>
+                <div className={styles.verticalLine}></div>
+                <div onClick={(e) => e.stopPropagation()}>
+                    <div style={{ textDecoration: "none" }}>
+                        <Button className={styles.contents}>
+                            보유 포인트 : {userInfo.point}원
+                        </Button>
+                    </div>
                 </div>
                 <div className={styles.verticalLine}></div>
                 <div onClick={(e) => e.stopPropagation()}>

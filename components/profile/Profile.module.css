@@ -144,6 +144,16 @@ margin-left: 40px;
     margin-top: 40%;
   }
   
+  .profilePoint{
+    color: var(--gray-600, #808389);
+font-family: "Pretendard Variable";
+font-size: 26px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-left: 50px;
+margin-top: 40px;
+  }
 
 
 
@@ -250,6 +260,16 @@ height: 30px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+  .profilePoint{
+    color: var(--gray-600, #808389);
+font-family: "Pretendard Variable";
+font-size: 10px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-top: 15px;
+margin-left: 20px;
   }
   
   .modal {
