@@ -7,7 +7,7 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.entity.Product;
+import org.example.entity.Product;
 import org.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -52,9 +52,9 @@ public class StorageService {
     }
 
     public void productImageDelete(Long productId) throws IOException {
-        Optional<Product> product = productRepository.findByProductId(productId);
+        Product product = productRepository.findByProductId(productId);
 
-        String imgProduct = product.get().getImageProduct().substring(44);
+        String imgProduct = product.getImageProduct().substring(44);
         log.info(imgProduct);
 
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
@@ -71,9 +71,9 @@ public class StorageService {
 
     }
     public void realImageDelete(Long productId) throws IOException {
-        Optional<Product> product = productRepository.findByProductId(productId);
+        Product product = productRepository.findByProductId(productId);
 
-        String imgReal = product.get().getImageReal().substring(44);
+        String imgReal = product.getImageReal().substring(44);
         log.info(imgReal);
 
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();

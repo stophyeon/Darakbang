@@ -5,7 +5,7 @@ package org.example.service;
 import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
-import org.example.controller.entity.Product;
+import org.example.entity.Product;
 import org.example.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,15 +62,16 @@ public class ProductService {
 
     @Transactional
     public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email) throws IOException {
-        Optional<Product> product = productRepository.findByProductId(productId);
-        if (product.isPresent()){
-            if (product.get().getUserEmail().equals(email)){
+        Product product = productRepository.findByProductId(productId);
+        if(product.getState()==-1 ||product.getState()==0) {
+            if (product.getUserEmail().equals(email)) {
                 storageService.realImageDelete(productId);
                 storageService.productImageDelete(productId);
-                productRepository.delete(product.get());
-                return ResponseEntity.ok(new SuccessRes(product.get().getProductName(),"삭제 성공"));
+                productRepository.delete(product);
+                return ResponseEntity.ok(new SuccessRes(product.getProductName(), "삭제 성공"));
+            } else {
+                return ResponseEntity.ok(new SuccessRes(product.getProductName(), "등록한 이메일과 일치하지 않습니다."));
             }
-            else {return ResponseEntity.ok(new SuccessRes(product.get().getProductName(),"등록한 이메일과 일치하지 않습니다."));}
         }
         else {
             return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));
@@ -80,11 +81,11 @@ public class ProductService {
     @Transactional
     public ResponseEntity<ProductDetailRes> findProductDetail(Long productId)
     {
-        Optional<Product> selectedProduct = productRepository.findByProductId(productId);
+        Product selectedProduct = productRepository.findByProductId(productId);
         // 해당 상품 상세를 확인합니다.
-        if (selectedProduct.isEmpty()){return ResponseEntity.noContent().build();}
+        if (selectedProduct.getState()==-1||selectedProduct.getState()==0){return ResponseEntity.noContent().build();}
         else {
-            String keywords = selectedProduct.get().getProductName();
+            String keywords = selectedProduct.getProductName();
             // 해당 상품의 명을 확인합니다.
 
             Map<Product, Integer> resultMap = new HashMap<>();
@@ -112,13 +113,13 @@ public class ProductService {
 
             List<Product> topProducts = productList.subList(0, Math.min(productList.size(), 9));
             if (topProducts.isEmpty()) {
-                List<Product> samecategoryproductlist = productRepository.findByProductCategory(selectedProduct.get().getCategoryId(), productId) ;
+                List<Product> samecategoryproductlist = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId) ;
                 topProducts = samecategoryproductlist.subList(0,Math.min(samecategoryproductlist.size(), 9)) ;
             } //검색이 하나도 안된다면.. 카테고리 위주로 검색한 결과를 return합니다.
             //9개보다 모자라면, 일단 있는걸 다 list로 return합니다.
 
             ProductDetailRes productDetailRes = new ProductDetailRes();
-            productDetailRes.setProduct(selectedProduct.get());
+            productDetailRes.setProduct(selectedProduct);
             productDetailRes.setProductList(topProducts);
             return ResponseEntity.ok(productDetailRes);
         }
@@ -127,10 +128,10 @@ public class ProductService {
 
     @Transactional
     public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email,MultipartFile imageProduct,MultipartFile imageReal) throws IOException {
-        Optional<Product> product=productRepository.findByProductId(productId);
-        if (product.isEmpty()){return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));}
+        Product product=productRepository.findByProductId(productId);
+        if (product.getState()==-1 ||product.getState()==0){return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));}
         else {
-            if (product.get().getUserEmail().equals(email)){
+            if (product.getUserEmail().equals(email)){
                 if (!imageProduct.isEmpty()){
                     storageService.productImageDelete(productId);
                     String fileNameProduct = storageService.imageUpload(imageProduct);
@@ -144,12 +145,17 @@ public class ProductService {
                 productRepository.updateProduct(productId,productDto.getProduct_name(),productDto.getPrice(),
                         productDto.getImage_product(), productDto.getImage_real(),
                         productDto.getCategory_id(), productDto.getExpire_at());
-                return ResponseEntity.ok(new SuccessRes(product.get().getProductName(),"수정 성공"));
+                return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));
             }
-            else {return ResponseEntity.ok(new SuccessRes(product.get().getProductName(),"등록한 이메일과 일치하지않습니다."));}
+            else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지않습니다."));}
         }
     }
-
+    @Transactional
+    public void changeState(List<Long> productIds){
+        for (Long productId : productIds){
+            productRepository.updateState(-1, productId);
+        }
+    }
 
 
 

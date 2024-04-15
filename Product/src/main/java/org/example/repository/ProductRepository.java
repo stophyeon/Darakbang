@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.controller.entity.Product;
+import org.example.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Optional<Product> findByProductId(Long id);
+    Product findByProductId(Long id);
 
     @Modifying
     @Query("update Product p set p.productName = :productname, " +
