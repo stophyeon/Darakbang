@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  compiler: {
-    styledComponents: true,
-  },
   images: {
     domains: ['k.kakaocdn.net', 't1.kakaocdn.net', 't1','storage.googleapis.com'],
   },

@@ -1,4 +1,4 @@
-import StyledComponentsRegistry from "../lib/registry";
+
 import Providers from "./providers";
 
 
@@ -15,9 +15,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Providers>
-        <StyledComponentsRegistry>
           {children}
-        </StyledComponentsRegistry>
         </Providers>
       </body>
     </html>
