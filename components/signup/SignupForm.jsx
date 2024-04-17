@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import styles from './SignupForm.module.css';
 
+import { signup, checkNickname } from "@compoents/util/http";
+
 
 export default function SignupForm() {
-  const formData = new FormData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,7 +14,7 @@ export default function SignupForm() {
   const [name, setName] = useState("");
   const [nick_name, setNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(null);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState();
   const [showimage, setShowimage] = useState('/defaultImg.jpg');
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
@@ -24,7 +25,6 @@ export default function SignupForm() {
   const showpsw = '/View.svg'
 
   const validatePassword = (password) => {
-    // 비밀번호 검사 로직
     const logic =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
     return logic.test(password);
@@ -32,11 +32,10 @@ export default function SignupForm() {
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    const imageUrl = (selectedImage);
-    setImage(imageUrl);
+    setImage(selectedImage);
     const imageUrls = URL.createObjectURL(selectedImage);
     setShowimage(imageUrls);
-    console.log(imageUrl);
+    console.log(selectedImage);
   };
 
 
@@ -45,24 +44,20 @@ export default function SignupForm() {
     setShowPassword(!showPassword);
   };
 
-  // 중복이면 True 중복아니면 false
   async function handleCheckDuplicate(e) {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8888/nick_name?nick_name=${nick_name}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    const data = await response.json();
-    if (data === true) {
-      // 중복이면
-      setIsDuplicate(true);
-      alert("닉네임을 변경해 주시길 바랍니다.");
-    } else {
-      setIsDuplicate(false);
+    try {
+      const data = await checkNickname(nick_name);
+      if (data === true) {
+        setIsDuplicate(true);
+        alert("닉네임을 변경해 주시길 바랍니다.");
+      } else {
+        setIsDuplicate(false);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  };
+  }
 
 
   const handleSignup = async (e) => {
@@ -107,15 +102,6 @@ export default function SignupForm() {
       return;
     }
 
-
-    // JSON.stringify({
-    //   "email": email,
-    //   "password": password,
-    //   "name": name,
-    //   "nick_name": nick_name,
-    //   "image": image,
-    // }),
-
     const formData = new FormData();
     let req = {
       "email": email,
@@ -130,30 +116,20 @@ export default function SignupForm() {
       console.log(pair);
     }
 
-    // 회원가입 API 요청 보내기
-    const response = await fetch("http://localhost:8888/member/signup", {
-      method: "POST",
-      body: formData
-    });
-
-    if (response.ok) {
-      const responseData = await response.json();
+    try {
+      const responseData = await signup(formData);
       if (responseData.state === "처리 성공") {
-        // 회원가입 성공 시 메인 페이지로 리다이렉션
         window.location.href = "/user/login";
       } else if (responseData.state === "중복된 이메일") {
-        // 중복된 이메일일 경우 알림창 표시
         alert(responseData.message);
         alert("이메일을 변경해주세요.")
       }
-    } else {
-      console.error(response.status);
+    } catch (error) {
+      console.error(error);
     }
-
   };
 
   function handleFocus(e) {
-    // 입력 필드의 id를 기반으로 조건부 스타일 적용
     const field = e.target.id;
     if (field === "email") {
       document.getElementById("email").style.borderColor = "#496AF3";

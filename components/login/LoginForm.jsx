@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import styles from "@compoents/components/login/LoginForm.module.css";
+import { Loginfetch } from "@compoents/util/Client";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -17,37 +18,14 @@ export default function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:8888/member/login", {
-        cache: 'no-store',
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        const { accessToken, refreshToken } = data.jwtDto;
-        // accessToken을 localStorage에 저장
-        localStorage.setItem("Authorization", `Bearer ${accessToken}`);
-
-        // // accessToken cookie에 저장
-        // document.cookie = `Authorization = Bearer ${accessToken}; Expires=${expiration.toUTCString()};`;
-        
-
-        // // refreshToken을 cookie에 저장 HttpOnly와 Secure 사용하여 보안 강화
-        document.cookie = `refreshToken=${refreshToken};`;
-        //         response.cookies.set('Authorization', `Bearer ${accessToken}`, { httpOnly: true, path: '/' });
-        // response.cookies.set('refreshToken', refreshToken, { httpOnly: true, path: '/' });
-        const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
-        window.location.href = redirectUrl;
-      }
-      else if (response.status === 403) {
-        setRequestError(403);
-      }
+      await Loginfetch(email, password);
     }
     catch (error) {
-      console.error(error);
+      console.error(error.message);
+      setRequestError(403);
     }
+    const redirectUrl = "http://localhost:3000";
+    window.location.href = redirectUrl;
   };
 
   useEffect(() => {

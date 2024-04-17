@@ -13,7 +13,6 @@ export default function UserProfile() {
   const [followerList, setFollowerList] = useState([]);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
-  const [List, setList] = useState();
 
   const router = useRouter();
 

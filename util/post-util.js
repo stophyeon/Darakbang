@@ -1,3 +1,4 @@
+'use server';
 
 export async function sendProductData(formData, accessToken) {
   try {

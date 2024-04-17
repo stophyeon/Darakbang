@@ -1,35 +1,52 @@
-import { QueryClient } from '@tanstack/react-query';
-
-export const queryClient = new QueryClient();
+'use server';
 
 
-export async function createNewEvent(eventData) {
-  const response = await fetch(`http://localhost:8888/member/signup`, {
-    method: 'POST',
-    body: JSON.stringify(eventData),
+// 회원가입 fetch
+export async function signup(formData) {
+  const response = await fetch("http://localhost:8888/member/signup", {
+    method: "POST",
+    body: formData
+  });
+
+  if (response.ok) {
+    const responseData = await response.json();
+    return responseData;
+  } else {
+    console.error(response.status);
+    throw new Error('API 요청에 실패했습니다.');
+  }
+}
+
+// 닉네임 중복 체크
+export async function checkNickname(nickname) {
+  const response = await fetch(`http://localhost:8888/nick_name?nick_name=${nickname}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
-
-  if (response.ok) {
-    // 회원가입 성공 시 메인 페이지로 리다이렉션
-    //window.location.href = "/login";
-  } else {
-    throw new Error(data.message || "Something went wrong!");
-  }
-
-  if (!response.ok) {
-    const error = new Error('An error');
-    error.code = response.status;
-    error.info = await response.json();
-    throw error;
-  }
-
   const data = await response.json();
   return data;
 }
 
+
+export async function EditProfile(formData, accessToken) {
+  const response = await fetch("http://localhost:8888/member/profile", {
+    method: "PUT",
+    headers: {
+      'Authorization': `${accessToken}`
+    },
+    body: formData
+  });
+
+  if (response.ok) {
+    const responseData = await response.json();
+    return responseData;
+  } else {
+    console.error(response.status);
+    throw new Error('API 요청에 실패했습니다.');
+  }
+}
 
 
 
@@ -75,6 +92,7 @@ export async function fetchItemsByUser(nick_name) {
 export async function fetchUserProfile(accesstoken) {
   try {
     const response = await fetch('http://localhost:8888/member/profile', {
+      cache: 'no-store',
       headers: {
         'Authorization': `${accesstoken}`
       }
@@ -91,6 +109,7 @@ export async function fetchUserProfile(accesstoken) {
 export async function PUTUserProfile(accesstoken, formData) {
   try {
     const response = await fetch(`http://localhost:8888/member/profile`, {
+      cache: 'no-store',
       method: 'PUT',
       headers: {
         'Authorization': `${accesstoken}`
@@ -150,6 +169,7 @@ export async function followUser(accessToken, email) {
 export async function fetchFollowUser(accessToken) {
   try {
     const response = await fetch('http://localhost:8888/follow/follower', {
+      cache: 'no-store',
       headers: {
         'Authorization': `${accessToken}`
       }
@@ -165,6 +185,7 @@ export async function fetchFollowUser(accessToken) {
 export async function fetchFollowingUser(accessToken) {
   try {
     const response = await fetch('http://localhost:8888/follow/following', {
+      cache: 'no-store',
       headers: {
         'Authorization': `${accessToken}`
       }
