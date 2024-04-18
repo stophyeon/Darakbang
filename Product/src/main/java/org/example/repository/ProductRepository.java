@@ -28,13 +28,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     void updateProduct(@Param("productid") Long productid,
                        @Param("productname") String productName,
                        @Param("price") int price,
-                       @Param("imageproduct") String imageProduct,
-                       @Param("imagereal") String imageReal,
                        @Param("categoryid") int categoryId,
                        @Param("expireat") LocalDate expireAt);
 
-    Page<Product> findAll(Pageable pageable) ;
-
+    Page<Product> findAll(Pageable pageable);
+    Page<Product> findAllByNickName(Pageable pageable,String nickName) ;
     //@Lock(LockModeType.PESSIMISTIC_READ)
     @Query("SELECT p FROM Product p WHERE p.productName Like %:keyword% and p.productId != :product_id")
     List<Product> findByProductNameKeyword(@Param("keyword") String keyword,@Param("product_id") Long productId);
@@ -49,8 +47,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("UPDATE Product p SET p.state = :state WHERE p.productId = :productid")
     void updateState(@Param("state") int state, @Param("productid") Long productId) ;
 
-    public List<Product> findByProductIdIn(List<Long> productIds);
-    public void deleteByProductIdIn(List<Long> productIds);
+    List<Product> findByProductIdIn(List<Long> productIds);
+
+    void deleteByProductIdIn(List<Long> productIds);
+
+    @Query("SELECT p FROM Product p WHERE p.productName LIKE %:productName% AND p.state = 1 ORDER BY p.createAt DESC")
+    Page<Product> findByProductNameAndStateOrderByCreateAtDesc(@Param("productName") String productName, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.productName LIKE %:productName%")
+    List<Product> findByProductName(@Param("productName") String productName);
+
+
 
 
 

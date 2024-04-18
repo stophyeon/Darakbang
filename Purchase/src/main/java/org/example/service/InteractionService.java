@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class InteractionService {
 
-//    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
-    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://darakbang-member-service-1:8080/member").build() ;
+    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
+    //private final WebClient webClientforMember = WebClient.builder().baseUrl("http://darakbang-member-service-1:8080/member").build() ;
     public Mono<PaymentsRes> changePointMember(ValidationRequest validationRequest, String email)
     {
         PurchaseDto purchaseDto = new PurchaseDto();
