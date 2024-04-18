@@ -1,10 +1,10 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.dto.PaymentsRes;
-import org.example.dto.Payments;
-import org.example.dto.PointChangeRequest;
-import org.example.dto.ProductInfo;
+
+import org.example.dto.PurchaseDto;
 import org.example.dto.ValidationRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -17,29 +17,27 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InteractionService {
 
-    //private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
-    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://darakbang-member-service-1:8080/member").build() ;
+    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
+    //private final WebClient webClientforMember = WebClient.builder().baseUrl("http://darakbang-member-service-1:8080/member").build() ;
     public Mono<PaymentsRes> changePointMember(ValidationRequest validationRequest, String email)
     {
-        List<ProductInfo> productInfoList = validationRequest.getProductInfoList() ;
+        PurchaseDto purchaseDto = new PurchaseDto();
+        purchaseDto.setEmail(email); // 구매자 이메일 설정
+        purchaseDto.setTotal_point(validationRequest.getTotal_point());
+        purchaseDto.setPayments_list(validationRequest.getPayments_list());
+
+        log.info("{}", validationRequest.getPayments_list().get(0).getProduct_id());
+        //여기까지 잘 온다.
 
 
-        List<Payments> paymentsList =
-                productInfoList.stream()
-                        .map(Payments::ToPointChangeProductInfo)
-                        .collect(Collectors.toList());
-
-        PointChangeRequest pointChangeRequest = PointChangeRequest.builder()
-                .consumer(email)
-                .paymentsList(paymentsList)
-                .build() ;
 
         Mono<PaymentsRes> responsemono = webClientforMember.post()
                 .uri("/payments")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(pointChangeRequest))
+                .body(BodyInserters.fromValue(purchaseDto))
                 .retrieve()
                 .bodyToMono(PaymentsRes.class);
 

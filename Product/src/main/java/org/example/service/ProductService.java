@@ -61,6 +61,14 @@ public class ProductService {
     }
 
     @Transactional
+    public ResponseEntity<Page<ProductDto>> findMyProductPage (String nickName,int page){
+        Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
+        Page<Product> productPage = productRepository.findAllByNickName(pageable,nickName);
+        Page<ProductDto> products = productPage.map(ProductDto::ToDto);
+        return ResponseEntity.ok(products);
+    }
+
+    @Transactional
     public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email) throws IOException {
         Product product = productRepository.findByProductId(productId);
         if(product.getState()==-1 ||product.getState()==0) {
@@ -127,23 +135,12 @@ public class ProductService {
     }
 
     @Transactional
-    public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email,MultipartFile imageProduct,MultipartFile imageReal) throws IOException {
+    public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email) throws IOException {
         Product product=productRepository.findByProductId(productId);
         if (product.getState()==-1 ||product.getState()==0){return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));}
         else {
             if (product.getUserEmail().equals(email)){
-                if (!imageProduct.isEmpty()){
-                    storageService.productImageDelete(productId);
-                    String fileNameProduct = storageService.imageUpload(imageProduct);
-                    productDto.setImage_product(googleURL+fileNameProduct);
-                }
-                if (!imageReal.isEmpty()){
-                    storageService.realImageDelete(productId);
-                    String fileNameReal = storageService.imageUpload(imageReal);
-                    productDto.setImage_real(googleURL+fileNameReal);
-                }
                 productRepository.updateProduct(productId,productDto.getProduct_name(),productDto.getPrice(),
-                        productDto.getImage_product(), productDto.getImage_real(),
                         productDto.getCategory_id(), productDto.getExpire_at());
                 return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));
             }

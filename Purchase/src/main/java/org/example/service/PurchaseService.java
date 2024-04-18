@@ -27,7 +27,7 @@ public class PurchaseService {
 
 
 
-    public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, Long frontpayamount, String useremail) {
+    public Mono<ResponseEntity<PurChaseCheck>> validateandsave(PurChaseCheck purchasecheckbyportone, String paymentid, int frontpayamount, String useremail) {
 
         //프론트에서 전달한 결제 정보가 일치한지, portone에서 실제로 했던 결제 금액이 일치한지 확인
         if (purchasecheckbyportone.getAmount().getTotal() == frontpayamount) {
@@ -36,7 +36,7 @@ public class PurchaseService {
                         purchasecheckbyportone.getStatus(),
                         purchasecheckbyportone.getRequestedAt(),
                         purchasecheckbyportone.getOrderName(),
-                        Math.toIntExact(frontpayamount),
+                        frontpayamount,
                         useremail
                 ).map(response -> {
                                 return ResponseEntity.ok(purchasecheckbyportone);

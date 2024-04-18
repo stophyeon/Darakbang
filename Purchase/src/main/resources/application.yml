@@ -3,6 +3,7 @@ spring:
     name: purchase
   profiles:
     active: local
+
   config:
     import: #optional:configserver:http://darakbang-config-service-1:8071
       optional:configserver:http://localhost:8071
