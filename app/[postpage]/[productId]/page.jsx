@@ -6,6 +6,7 @@ import styles from './page.module.css'
 import Image from 'next/image';
 import Link from 'next/link';
 import LoadingIndicator from "@compoents/components/UI/LoadingIndicator";
+import { memberPay, completePay } from "@compoents/util/payment-util";
 
 import { useState, useEffect } from 'react';
 import PutDetailbutton from '@compoents/components/posts/Edit-button';
@@ -51,35 +52,28 @@ export default function PostDetailPage({ params }) {
       return;
     }
 
-    const responses = await fetch("http://localhost:8888/member/payments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `${accessToken}`
-      },
-      body: JSON.stringify({      // 리스트로 담아서
-        total_point: post.price, // 총 금액 구하는 로직 + 총 금액은 리스트 밖에다 보내기
-        payments_list : [
-          {
-        product_name: post.productName,
-        product_id: parseInt(params.productId), // 상품 분류 아이디
-        product_point: post.price, // product_id 마다 상품 금액
-        seller: post.userEmail,// product_id마다 판매자 닉네임
-        purchase_at: createdAt
-        },
-        ]
-      })
-    });
-    const data = await responses.json();
-    setPurchase(data);
-    console.log(data);
-    if (data.charge === true) { // 구매 실패 시
-      const confirmPurchase = window.confirm(`${data.message} ${data.point} 만큼 충전하시겠습니까?`);
+    const paymentData = {
+      total_point: post.price,
+      payments_list: [
+        {
+          product_name: post.productName,
+          product_id: parseInt(params.productId),
+          product_point: post.price,
+          seller: post.userEmail,
+          purchase_at: createdAt
+        }
+      ]
+    };
+    const response = await memberPay(accessToken, paymentData);
+    setPurchase(response);
+    console.log(response);
+    if (response.charge === true) { // 구매 실패 시
+      const confirmPurchase = window.confirm(`${response.message} ${response.point} 만큼 충전하시겠습니까?`);
       if (confirmPurchase) {
         handleSetPoint(); 
       }
   } else { // 구매 성공시 false로 와서 구매 성공 메시지 창 띄움
-    alert(data.message)
+    alert(response.message)
   }
 
   };
@@ -108,28 +102,21 @@ export default function PostDetailPage({ params }) {
     
     
 
-    const validation = await fetch("http://localhost:8888/payments/complete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `${accessToken}`
-      },
-      body: JSON.stringify({
-        payment_id: response.paymentId,
-        total_point: purchases.point, // 부족한 금액
-        created_at: createdAt,// 지금 시간
-        payments_list : [
-          {
-          product_id: parseInt(params.productId), // 여기부터 판매자 이메일 까지 리스트로 
+    const validationData = {
+      payment_id: response.paymentId,
+      total_point: purchases.point,
+      created_at: createdAt,
+      payments_list: [
+        {
+          product_id: parseInt(params.productId),
           product_point: post.price,
-          seller: post.userEmail,// 판매자 이메일
-          purchase_at: createdAt,
-      },
-    ]
-      })
-    });
+          seller: post.userEmail,
+          purchase_at: createdAt
+        }
+      ]
+    };
+    const Endresponse = await completePay(accessToken, validationData);
 
-    const Endresponse = await validation.json();
     console.log(Endresponse);
     if (Endresponse.charge == true) {
       alert(Endresponse.message);
