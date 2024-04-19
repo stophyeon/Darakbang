@@ -1,9 +1,11 @@
 package org.example.repository;
 
+import jakarta.persistence.LockModeType;
 import org.example.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,21 +17,24 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Product findByProductId(Long id);
 
     @Modifying
-    @Query("update Product p set p.productName = :productname, " +
+    @Query("update Product p set p.productName = :product_name, " +
             "p.price = :price, " +
-            "p.ImageProduct = :imageproduct, p.ImageReal = :imagereal, " +
-            "p.categoryId = :categoryid, " +
-            "p.expireAt = :expireat " +
-            "where p.productId = :productid")
-    //@Lock(LockModeType.PESSIMISTIC_WRITE)
-    void updateProduct(@Param("productid") Long productid,
-                       @Param("productname") String productName,
+            "p.ImageProduct = :image_product, p.ImageReal = :image_real, " +
+            "p.categoryId = :category_id, " +
+            "p.expireAt = :expire_at " +
+            "where p.productId = :product_id")
+
+    void updateProduct(@Param("product_id") Long productId,
+                       @Param("product_name") String productName,
                        @Param("price") int price,
-                       @Param("categoryid") int categoryId,
-                       @Param("expireat") LocalDate expireAt);
+                       @Param("category_id") int categoryId,
+                       @Param("expire_at") LocalDate expireAt,
+                       @Param("image_product") String imageProduct,
+                       @Param("image_real") String imageReal);
 
     Page<Product> findAll(Pageable pageable);
     Page<Product> findAllByNickName(Pageable pageable,String nickName) ;

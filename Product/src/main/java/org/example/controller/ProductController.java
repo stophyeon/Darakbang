@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.entity.Product;
 import org.example.service.SearchService;
 import org.example.service.WishListService;
 import org.example.service.ProductService;
@@ -45,7 +44,7 @@ public class ProductController {
                                                   @RequestPart("img_product") MultipartFile img_product,
                                                   @RequestPart("img_real") MultipartFile img_real) throws IOException {
         log.info("상품 등록");
-        return productService.addProduct(productDto,email,img_product,img_real);
+        return ResponseEntity.ok(productService.addProduct(productDto,email,img_product,img_real));
     }
     @Operation(summary = "상품 게시글 삭제")
     @ApiResponses(value = {
@@ -56,8 +55,8 @@ public class ProductController {
     })
 
     @DeleteMapping("/{product_id}/{email}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId) throws IOException {
-        return productService.deleteProduct(productId,email);
+    public ResponseEntity<SuccessRes> deleteProduct(@PathVariable("email") String email, @PathVariable("product_id") Long productId) throws IOException {
+        return ResponseEntity.ok(productService.deleteProduct(productId,email));
     }
 
     // 게시글 수정 , email 필요, email 활용 검증 필요
@@ -72,10 +71,10 @@ public class ProductController {
             @Parameter(name = "상품 객체", description = "state,product_id,image 제외한 나머지 속성들")
     )
     @PutMapping("/{product_id}/{email}")
-    public ResponseEntity<?> changeProduct(@PathVariable("email") String email,
+    public ResponseEntity<SuccessRes> changeProduct(@PathVariable("email") String email,
                                            @PathVariable("product_id") Long productId,
                                            @RequestBody ProductDto productDto) throws IOException {
-        return productService.updateProduct(productId,productDto,email) ;
+        return ResponseEntity.ok(productService.updateProduct(productId,productDto,email));
     }
     // 페이징 형태로 변경
     @Operation(summary = "페이지 별 조회")
@@ -86,7 +85,7 @@ public class ProductController {
 
     @GetMapping("/page")
     public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page) {
-        return productService.findProductPage(page-1) ;
+        return ResponseEntity.ok(productService.findProductPage(page-1));
     }
 
     @Operation(summary = "사용자 상세 페이지 등록 상품 조회")
@@ -100,7 +99,7 @@ public class ProductController {
     })
     @GetMapping("/mypage")
     public ResponseEntity<Page<ProductDto>> getMyProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page,@RequestParam("nick_name") String nickName) {
-        return productService.findMyProductPage(nickName,page-1);
+        return ResponseEntity.ok(productService.findMyProductPage(nickName,page-1));
     }
     //게시글 1개 검색
     @Operation(summary = "상품 게시글 상세 조회")
@@ -112,7 +111,7 @@ public class ProductController {
 
     @GetMapping("/detail")
     public ResponseEntity<ProductDetailRes> getProduct(@RequestParam("product_id") Long productId) {
-        return productService.findProductDetail(productId);
+        return ResponseEntity.ok(productService.findProductDetail(productId));
     }
     @Operation(
             operationId = "like",

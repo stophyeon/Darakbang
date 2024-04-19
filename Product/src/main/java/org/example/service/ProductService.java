@@ -2,6 +2,7 @@ package org.example.service;
 
 
 
+import jakarta.persistence.LockModeType;
 import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,7 @@ public class ProductService {
     private final String googleURL = "https://storage.googleapis.com/darakban-img/";
 
 
-    public ResponseEntity<SuccessRes> addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
+    public SuccessRes addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
         String nickName= memberFeign.getNickName(email);
         String profile = memberFeign.getProfile(email);
         productDto.setNick_name(nickName);
@@ -49,49 +51,47 @@ public class ProductService {
         productDto.setImage_real(googleURL+real_file_name);
         Product product = Product.ToEntity(productDto,email);
         productRepository.save(product);
-        return ResponseEntity.ok(new SuccessRes(product.getProductName(),"success"));
+        return new SuccessRes(product.getProductName(),"success");
     }
 
     @Transactional
-    public ResponseEntity<Page<ProductDto>> findProductPage (int page){
+    public Page<ProductDto> findProductPage (int page){
         Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
         Page<Product> productPage = productRepository.findAll(pageable);
         Page<ProductDto> products = productPage.map(ProductDto::ToDto);
-        return ResponseEntity.ok(products);
+        return products;
     }
 
     @Transactional
-    public ResponseEntity<Page<ProductDto>> findMyProductPage (String nickName,int page){
+    public Page<ProductDto> findMyProductPage (String nickName,int page){
         Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
         Page<Product> productPage = productRepository.findAllByNickName(pageable,nickName);
-        Page<ProductDto> products = productPage.map(ProductDto::ToDto);
-        return ResponseEntity.ok(products);
+        return productPage.map(ProductDto::ToDto);
     }
 
     @Transactional
-    public ResponseEntity<SuccessRes> deleteProduct(Long productId, String email) throws IOException {
-        Product product = productRepository.findByProductId(productId);
-        if(product.getState()==-1 ||product.getState()==0) {
+    public SuccessRes deleteProduct(Long productId, String email) throws IOException {
+
+            Product product = productRepository.findByProductId(productId);
+
             if (product.getUserEmail().equals(email)) {
                 storageService.realImageDelete(productId);
                 storageService.productImageDelete(productId);
                 productRepository.delete(product);
-                return ResponseEntity.ok(new SuccessRes(product.getProductName(), "삭제 성공"));
+                return new SuccessRes(product.getProductName(), "삭제 성공");
             } else {
-                return ResponseEntity.ok(new SuccessRes(product.getProductName(), "등록한 이메일과 일치하지 않습니다."));
+                return new SuccessRes(product.getProductName(), "등록한 이메일과 일치하지 않습니다.");
             }
-        }
-        else {
-            return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));
-        }
+
+
     }
 
     @Transactional
-    public ResponseEntity<ProductDetailRes> findProductDetail(Long productId)
+    public ProductDetailRes findProductDetail(Long productId)
     {
         Product selectedProduct = productRepository.findByProductId(productId);
         // 해당 상품 상세를 확인합니다.
-        if (selectedProduct.getState()==-1||selectedProduct.getState()==0){return ResponseEntity.noContent().build();}
+        if (selectedProduct.getState()==-1||selectedProduct.getState()==0){return null;}
         else {
             String keywords = selectedProduct.getProductName();
             // 해당 상품의 명을 확인합니다.
@@ -129,22 +129,23 @@ public class ProductService {
             ProductDetailRes productDetailRes = new ProductDetailRes();
             productDetailRes.setProduct(selectedProduct);
             productDetailRes.setProductList(topProducts);
-            return ResponseEntity.ok(productDetailRes);
+            return productDetailRes;
         }
 
     }
 
     @Transactional
-    public ResponseEntity<SuccessRes> updateProduct(Long productId, ProductDto productDto,String email) throws IOException {
+
+    public SuccessRes updateProduct(Long productId, ProductDto productDto,String email) throws IOException {
         Product product=productRepository.findByProductId(productId);
-        if (product.getState()==-1 ||product.getState()==0){return ResponseEntity.ok(new SuccessRes("","해당 상품이 없습니다"));}
+        if (product.getState()==-1 ||product.getState()==0){return new SuccessRes("","해당 상품이 없습니다");}
         else {
             if (product.getUserEmail().equals(email)){
                 productRepository.updateProduct(productId,productDto.getProduct_name(),productDto.getPrice(),
-                        productDto.getCategory_id(), productDto.getExpire_at());
-                return ResponseEntity.ok(new SuccessRes(product.getProductName(),"수정 성공"));
+                        productDto.getCategory_id(), productDto.getExpire_at(), product.getImageProduct(), product.getImageReal());
+                return new SuccessRes(product.getProductName(),"수정 성공");
             }
-            else {return ResponseEntity.ok(new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지않습니다."));}
+            else {return new SuccessRes(product.getProductName(),"등록한 이메일과 일치하지않습니다.");}
         }
     }
     @Transactional
