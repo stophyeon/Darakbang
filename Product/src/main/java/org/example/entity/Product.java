@@ -55,7 +55,8 @@ public class Product {
 
 
     @Builder
-    public Product(String productName, int price, String imageProduct, String imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName,String userProfile, String userEmail,int state) {
+    public Product(Long productId,String productName, int price, String imageProduct, String imageReal, LocalDate createAt, int categoryId, LocalDate expireAt, String nickName,String userProfile, String userEmail,int state) {
+        this.productId=productId;
         this.productName = productName;
         this.price = price;
         this.ImageProduct = imageProduct;
