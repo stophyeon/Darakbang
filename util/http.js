@@ -50,15 +50,20 @@ export async function EditProfile(formData, accessToken) {
 
 
 
-// 상품 검색 API 연결 함수
-export async function fetchItemsByProductName(product_name, page) {
+// 상품 검색 
+export async function fetchProductName(product_name) {
 
-  const response = await fetch(`http://localhost:8888/product/by-product-name?product_name=${product_name}&page=${page}`);
-
+  const response = await fetch(`http://localhost:8888/product/search`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      product_name: product_name,
+    }),
+  });
   if (!response.ok) {
     const error = new Error('연결 오류');
-    error.code = response.status;
-    error.info = await response.json();
     throw error;
   }
 
@@ -66,25 +71,6 @@ export async function fetchItemsByProductName(product_name, page) {
 
   return search;
 }
-
-// 사용자 프로필 게시물 API 연결 함수
-export async function fetchItemsByUser(nick_name) {
-  let url = `http://localhost:8888/product/by-user?nick_name=${nick_name}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    const error = new Error('연결 오류');
-    error.code = response.status;
-    error.info = await response.json();
-    throw error;
-  }
-
-  const { search } = await response.json();
-
-  return search;
-}
-
 
 
 // 멤버 프로필 api

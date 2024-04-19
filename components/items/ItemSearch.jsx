@@ -3,7 +3,6 @@ import React, { useState, useRef, useCallback } from 'react';
 import { IoSearch } from "react-icons/io5";
 import styles from './ItemSearch.module.css';
 import { debounce } from 'lodash';
-// import { fetchAutoCompleteResults } from './api';
 import { useRouter } from 'next/navigation';
 
 const FindEventSection = () => {
@@ -12,19 +11,34 @@ const FindEventSection = () => {
   const [autoCompleteResults, setAutoCompleteResults] = useState([]);
   const searchElement = useRef();
 
-  const debouncedSearch = useCallback(
-    debounce((term) => {
-      fetchAutoCompleteResults(term).then((results) => {
-        setAutoCompleteResults(results);
-      });
-    }, 500),
+  const AutoSearch = useCallback(
+    debounce(async (term) => {
+      try {
+        const accessToken = localStorage.getItem('Authorization');
+        const response = await fetch('http://localhost:8888/product/search/word', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${accessToken}`
+          },
+          body: JSON.stringify({ word : term }),
+        });
+        if (!response.ok) {
+          throw new Error('Fetch 에러');
+        }
+        const data = await response.json();
+        setAutoCompleteResults(data);
+      } catch (error) {
+        console.error('자동검색 에러', error);
+      }
+    }, 1000), // 1초 간격
     []
   );
 
   const handleInputChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
-    debouncedSearch(value);
+    AutoSearch(value);
   };
 
   const handleSubmit = (event) => {
@@ -41,7 +55,7 @@ const FindEventSection = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} id="search-form" className={styles.SearchForm}>
+    <form  id="search-form" className={styles.SearchForm}>
       <header className={styles.headerd}>
         <input
           type="search"
@@ -50,8 +64,8 @@ const FindEventSection = () => {
           value={searchTerm}
           onChange={handleInputChange}
         />
-        <button type="submit" className={styles.SchBtn}>
-          <IoSearch />
+        <button type="submit" className={styles.SchBtn} onClick={handleSubmit}>
+          <IoSearch  />
         </button>
       </header>
 

@@ -2,12 +2,10 @@
 
 
 import Items from "@compoents/components/items/Items"
-import LoadingIndicator from "@compoents/components/UI/LoadingIndicator"
-import ErrorBlock from "@compoents/components/UI/ErrorBlock"
-import { fetchitems } from "@compoents/util/http";
+import { fetchProductName } from "@compoents/util/http";
 
 export default async function SearchPage({ params }) {
-    const searchTerm = fetchitems(params.searchTerm)
+    const searchTerm = fetchProductName(params.searchTerm)
   
     const [ searchTerms ] = await Promise.all([searchTerm]);
 

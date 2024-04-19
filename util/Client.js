@@ -16,6 +16,7 @@ export async function Loginfetch(email, password) {
       if (response.ok) {
         const { accessToken, refreshToken } = data.jwtDto;
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
+        document.cookie = `accessToken=${accessToken}; path=/; HttpOnly`;
         document.cookie = `refreshToken=${refreshToken};`;
         
       }

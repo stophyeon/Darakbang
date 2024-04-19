@@ -13,7 +13,7 @@ export default function UserProfile() {
   const [followerList, setFollowerList] = useState([]);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
-
+  const [currentView, setCurrentView] = useState('products');
   const router = useRouter();
 
   const defaultImage = "/kakaoImg.jpg";
@@ -25,7 +25,6 @@ export default function UserProfile() {
         const accesstoken = localStorage.getItem('Authorization');
         const data = await fetchUserProfile(accesstoken);
         setuserInfo(data);
-        console.log(data);
       } catch (error) {
         console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
       }
@@ -85,9 +84,16 @@ export default function UserProfile() {
   };
 
   function handleEditProfileClick() {
-
     router.push('/myedit');
   }
+  const showProducts = () => {
+    setCurrentView('products');
+  };
+  
+  const showLikes = () => {
+    setCurrentView('likes');
+  };
+  
 
   return (
 
@@ -144,10 +150,11 @@ export default function UserProfile() {
           </div>
 
 
-          <button className={styles.Button1}>판매 물품</button>
-          <button className={styles.Button2}>좋아요 목록</button>
-
-          <div className={styles.verticalLine}></div>
+          <button onClick={showProducts} className={styles.Button1}>판매 물품</button>
+          <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
+          <div  className={styles.verticalLine}></div>
+          {/* {currentView === 'products' && <ProductsComponent />}
+          {currentView === 'likes' && <LikesComponent />} 수정 중 */} 
         </>
       ) : (
         <div className={styles.Loading}><LoadingIndicator /></div>

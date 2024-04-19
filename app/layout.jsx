@@ -5,6 +5,9 @@ import Providers from "./providers";
 export const metadata = {
   title: "다락방",
   description: "당신의 숨겨진 물건을 찾으세요!",
+  icons: {
+		icon: "/logo.jpg",
+	},
 };
 
 export default function RootLayout({ children }) {

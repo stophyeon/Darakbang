@@ -14,9 +14,9 @@ import CommuPosts from '@compoents/components/posts/commu-post';
 export default function Home() {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const PAGE_GROUP_SIZE = 3;
   
   useEffect(() => {
