@@ -30,34 +30,36 @@ class ProductServiceTest {
     CountDownLatch latch = new CountDownLatch(2);
     @BeforeEach
     void setUp() {
-        productRepository.save(Product.builder().productName("커피").userEmail("j6778@naver.com").build());
+        productRepository.save(Product.builder().productName("커피").userEmail("j6778@naver.com").price(3000).build());
     }
     @Test
-
     void MultiThread() throws IOException, InterruptedException {
         SuccessRes result1 = new SuccessRes();
         AtomicBoolean result2 = new AtomicBoolean();
 
-        ProductDto dto = ProductDto.builder()
-                .product_name("딸기")
+        ProductDto dto1 = ProductDto.builder()
+                .product_name("커피")
+                .price(2500)
                 .build();
         executorService.execute(()->{
             try {
-                productService.updateProduct(1L,dto,"j6778@naver.com");
+                System.out.println("수정 쿼리 시작");
+                productService.updateProduct(1L,dto1,"j6778@naver.com");
+                System.out.println("수정 쿼리 끝");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             latch.countDown();
         });
-
         executorService.execute(()->{
-            result2.set(productService.findProductDetail(1L).getProduct().getProductName().equals("딸기"));
+            System.out.println("조회 쿼리 시작");
+            int price = productService.findProductDetail(1L).getProduct().getPrice();
+            System.out.println("조회 가격 = " + price);
+            result2.set(price==2500);
+            System.out.println("조회 쿼리 끝");
             latch.countDown();
         });
         latch.await();
         System.out.println(result2.get());
-
     }
-
-
 }

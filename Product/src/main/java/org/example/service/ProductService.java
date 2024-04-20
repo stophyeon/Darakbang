@@ -89,6 +89,7 @@ public class ProductService {
     @Transactional
     public ProductDetailRes findProductDetail(Long productId)
     {
+
         Product selectedProduct = productRepository.findByProductId(productId);
         // 해당 상품 상세를 확인합니다.
         if (selectedProduct.getState()==-1||selectedProduct.getState()==0){return null;}

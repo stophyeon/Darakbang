@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Product findByProductId(Long id);
 
@@ -37,17 +38,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                        @Param("image_real") String imageReal);
 
     Page<Product> findAll(Pageable pageable);
+
     Page<Product> findAllByNickName(Pageable pageable,String nickName) ;
-    //@Lock(LockModeType.PESSIMISTIC_READ)
+
     @Query("SELECT p FROM Product p WHERE p.productName Like %:keyword% and p.productId != :product_id")
     List<Product> findByProductNameKeyword(@Param("keyword") String keyword,@Param("product_id") Long productId);
     //제목과 유사한 키워드에 따라서 검색하는 쿼리입니다.
 
-    //@Lock(LockModeType.PESSIMISTIC_READ)
+
     @Query("SELECT p FROM Product p WHERE p.categoryId = :category_id and p.productId != :product_id")
     List<Product> findByProductCategory(@Param("category_id") int categoryId,@Param("product_id") Long productId);
 
-    //@Lock(LockModeType.PESSIMISTIC_WRITE)
+
     @Modifying
     @Query("UPDATE Product p SET p.state = :state WHERE p.productId = :productid")
     void updateState(@Param("state") int state, @Param("productid") Long productId) ;
