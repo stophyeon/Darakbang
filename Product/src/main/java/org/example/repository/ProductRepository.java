@@ -28,7 +28,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.categoryId = :category_id, " +
             "p.expireAt = :expire_at " +
             "where p.productId = :product_id")
-
     void updateProduct(@Param("product_id") Long productId,
                        @Param("product_name") String productName,
                        @Param("price") int price,
