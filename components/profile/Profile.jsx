@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { fetchUserProfile, fetchFollowUser, fetchFollowingUser } from '@compoents/util/http';
 import LoadingIndicator from '../UI/LoadingIndicator';
 import { useRouter } from 'next/navigation';
+import LikeListComponent from '../bucket/LikeLists';
 
 
 export default function UserProfile() {
@@ -16,7 +17,7 @@ export default function UserProfile() {
   const [currentView, setCurrentView] = useState('products');
   const router = useRouter();
 
-  const defaultImage = "/kakaoImg.jpg";
+  const defaultImage = "/images/kakaoImg.jpg";
 
   useEffect(() => {
     // API 호출 -> 사용자 정보 받아오기
@@ -154,7 +155,7 @@ export default function UserProfile() {
           <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
           <div  className={styles.verticalLine}></div>
           {/* {currentView === 'products' && <ProductsComponent />}
-          {currentView === 'likes' && <LikesComponent />} 수정 중 */} 
+          {currentView === 'likes' && <LikeListComponent />} 수정 중 */} 
         </>
       ) : (
         <div className={styles.Loading}><LoadingIndicator /></div>

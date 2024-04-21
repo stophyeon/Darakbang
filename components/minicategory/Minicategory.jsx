@@ -5,7 +5,6 @@ import styles from './Minicategory.module.css';
 export default function MiniCategoryComponents({ selectedCategory, onCategoryChange }) {
   const handleCategoryChange = (categoryId) => {
     onCategoryChange(categoryId);
-    console.log(categoryId)
   };
 
   return (

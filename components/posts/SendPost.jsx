@@ -18,10 +18,10 @@ export default function ProductForm() {
 
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [images1, setImages1] = useState('/SendDfImg.png');
-  const [showimages1, setShowImages1] = useState('/SendDfImg.png');
-  const [images2, setImages2] = useState('/bkimg.png');
-  const [showimages2, setShowImages2] = useState('/bkimg.png');
+  const [images1, setImages1] = useState('/images/SendDfImg.png');
+  const [showimages1, setShowImages1] = useState('/images/SendDfImg.png');
+  const [images2, setImages2] = useState('/images/bkimg.png');
+  const [showimages2, setShowImages2] = useState('/images/bkimg.png');
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
   const [categoryId, setCategoryId] = useState('음료');

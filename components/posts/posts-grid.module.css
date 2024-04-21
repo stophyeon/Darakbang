@@ -9,7 +9,8 @@
     .postsGrid {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
-      grid-gap: 10px;
+      grid-gap: 50px;
+      width: 95%;
     }
   
   }

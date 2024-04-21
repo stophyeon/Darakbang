@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { fetchUserProfile } from '@compoents/util/http';
 
 export default function SmallProfile() {
-    const defaultImage = "/kakaoImg.jpg";
+    const defaultImage = "/images/kakaoImg.jpg";
     const [userInfo, setuserInfo] = useState('')
 
     function logoutHandler() {

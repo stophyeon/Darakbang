@@ -1,7 +1,8 @@
 'use client';
 import * as PortOne from "@portone/browser-sdk/v2";
 import React, { useState, useEffect } from "react";
-import { LikeList, DeleteLike } from "@compoents/util/post-util"; // LikeList 함수를 가져옴
+import { LikeList, DeleteLike } from "@compoents/util/post-util";
+import { memberPay, completePay } from "@compoents/util/payment-util";
 import styles from "./BucketForm.module.css";
 import Image from "next/image";
 
@@ -82,27 +83,16 @@ export default function BucketForm() {
         console.log(selectedAmount);
 
         const accessToken = localStorage.getItem('Authorization');
-        const responses = await fetch("http://localhost:8888/member/payments", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `${accessToken}`
-            },
-            body: JSON.stringify({      // 리스트로 담아서
-                total_point: selectedAmount, // 총 금액 구하는 로직 + 총 금액은 리스트 밖에다 보내기
-                payments_list: selectedProducts,
-            })
-        });
-        const data = await responses.json();
-        setPurchase(data);
-        console.log(data);
-        if (data.charge == true) { // 구매 실패 시
-            const confirmPurchase = window.confirm(`${data.message} ${data.point} 만큼 충전하시겠습니까?`);
+        const response = await memberPay(accessToken, selectedAmount, selectedProducts);
+        setPurchase(response);
+        console.log(response);
+        if (response.charge == true) { // 구매 실패 시
+            const confirmPurchase = window.confirm(`${response.message} ${response.point} 만큼 충전하시겠습니까?`);
             if (confirmPurchase) {
                 handleSetPoint();
             }
         } else { // 구매 성공시 false로 와서 구매 성공 메시지 창 띄움
-            alert(data.message)
+            alert(response.message)
         }
 
     };
@@ -119,7 +109,7 @@ export default function BucketForm() {
             channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",
             paymentId: `${crypto.randomUUID()}`, //결제 건을 구분하는 문자열로, 결제 요청 및 조회에 필요합니다. 같은 paymentId에 대해 여러 번의 결제 시도가 가능하나, 최종적으로 결제에 성공하는 것은 단 한 번만 가능합니다. (중복 결제 방지)
             orderName: "point 충전", // 총 금액
-            totalAmount: Number(purchases.point), // 총 금액
+            totalAmount: purchases.point, // 총 금액
             currency: "CURRENCY_KRW",
             payMethod: "EASY_PAY",
         });
@@ -127,26 +117,11 @@ export default function BucketForm() {
             return alert(response.message);
         }
 
-
-
-        const validation = await fetch("http://localhost:8888/payments/complete", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `${accessToken}`
-            },
-            body: JSON.stringify({
-                payment_id: response.paymentId,
-                total_point: selectedAmount, // 총 금액 구하는 로직 + 총 금액은 리스트 밖에다 보내기
-                create_at: createdAt,
-                payments_list: selectedProducts,
-            })
-        });
-        const Endresponse = await validation.json();
-        if (Endresponse.charge == true) {
-            alert(Endresponse.message);
+        const validation = await completePay(accessToken, selectedAmount, selectedProducts);
+        if (validation.charge == true) {
+            alert(validation.message);
         } else {
-            alert(Endresponse.message);
+            alert(validation.message);
         }
     };
 
@@ -190,8 +165,8 @@ export default function BucketForm() {
                                 <Image src={like.imageProduct} alt="상품 사진" width={150} height={150} className={styles.IpImg} />
                                 <div className={styles.PrdName}>{like.productName}</div>
                                 <div className={styles.position}>
-                                <button className={styles.DtBtn} onClick={() => handleDeleteLike(like)}>삭제하기 <Image src={'/Close_round.svg'} width={24} height={24} alt="" className={styles.svgs} /></button>
-                                <button className={styles.OdBtn}>구매하기 <Image src={'/Box_alt_fill.svg'} width={24} height={24} alt="" className={styles.svgs}/></button>
+                                <button className={styles.DtBtn} onClick={() => handleDeleteLike(like)}>삭제하기 <Image src={'/svgs/Close_round.svg'} width={24} height={24} alt="" className={styles.svgs} /></button>
+                                <button className={styles.OdBtn}>구매하기 <Image src={'/svgs/Box_alt_fill.svg'} width={24} height={24} alt="" className={styles.svgs}/></button>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +176,6 @@ export default function BucketForm() {
                 <button className={styles.SelectBtn} onClick={handlePurchase} style={{ display: selectedProducts.length > 0 ? 'block' : 'none' }}>
                 선택 상품 구매하기
                 </button>
-
             </section>
         </>
     );

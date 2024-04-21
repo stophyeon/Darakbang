@@ -15,14 +15,14 @@ export default function MyEditComponents() {
     const [nick_name, setNickname] = useState("");
     const [isDuplicate, setIsDuplicate] = useState(null);
     const [image, setImage] = useState('');
-    const [showimage, setShowimage] = useState('/defaultImg.jpg');
+    const [showimage, setShowimage] = useState('/images/defaultImg.jpg');
     const [passwordError, setPasswordError] = useState("");
     const [nameError, setNameError] = useState("");
     const [emailError, setemailError] = useState("");
     const [nicknameError, setnicknameError] = useState("");
     const [requestError, setRequestError] = useState(false);
-    const smile = '/ellipse-87.svg'
-    const showpsw = '/View.svg'
+    const smile = '/svgs/ellipse-87.svg'
+    const showpsw = '/svgs/View.svg'
 
     const validatePassword = (password) => {
         const logic =
@@ -208,14 +208,14 @@ export default function MyEditComponents() {
                         <button className={styles.nickBtn} onClick={handleCheckDuplicate}>중복 확인</button>
                         {isDuplicate === true &&
                             <div>
-                                <Image className={styles.vector} alt="벡터" src={'/Ellipse-168.svg'} width={14} height={14} />
-                                <Image className={styles.vector2} alt="벡터2" src={'/Vector340.svg'} width={12} height={10} />
+                                <Image className={styles.vector} alt="벡터" src={'/svgs/Ellipse-168.svg'} width={14} height={14} />
+                                <Image className={styles.vector2} alt="벡터2" src={'/svgs/Vector340.svg'} width={12} height={10} />
                                 <p className={styles.nickFalse}>   사용 불가능한 닉네임입니다.</p>
                             </div>
                         }
                         {isDuplicate === false &&
                             <div className={styles.nickTrue}>
-                                <Image src={'/Ellipse-169.svg'} alt="스마일2" width={14} height={14} className={styles.Vector3} />
+                                <Image src={'/svgs/Ellipse-169.svg'} alt="스마일2" width={14} height={14} className={styles.Vector3} />
                                 사용 가능한 닉네임입니다.
                             </div>
                         }

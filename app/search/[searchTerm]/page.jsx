@@ -2,7 +2,7 @@
 
 
 import Items from "@compoents/components/items/Items"
-import { fetchProductName } from "@compoents/util/http";
+import { fetchProductName } from "@compoents/util/search-util";
 
 export default async function SearchPage({ params }) {
     const searchTerm = fetchProductName(params.searchTerm)

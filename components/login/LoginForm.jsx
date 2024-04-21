@@ -11,9 +11,9 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [requestError, setRequestError] = useState(false);
   const router = useRouter();
-  const NaverLogo = '/naver.jpg'
-  const KakaoLogo = '/kakaotalk_sharing_btn_medium.jpg'
-  const smile = '/ellipse-87.svg'
+  const NaverLogo = '/images/naver.jpg'
+  const KakaoLogo = '/images/kakaotalk_sharing_btn_medium.jpg'
+  const smile = '/svgs/ellipse-87.svg'
 
   const handleSubmit = async (event) => {
     event.preventDefault();

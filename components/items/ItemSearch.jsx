@@ -21,7 +21,9 @@ const FindEventSection = () => {
             'Content-Type': 'application/json',
             'Authorization': `${accessToken}`
           },
-          body: JSON.stringify({ word : term }),
+          body: JSON.stringify({ 
+            word: term 
+          }),
         });
         if (!response.ok) {
           throw new Error('Fetch 에러');
