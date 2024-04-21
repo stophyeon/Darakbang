@@ -96,7 +96,6 @@ public class ProductService {
         else {
             String keywords = selectedProduct.getProductName();
             // 해당 상품의 명을 확인합니다.
-
             Map<Product, Integer> resultMap = new HashMap<>();
             String[] words = StringUtils.tokenizeToStringArray(keywords, " ");
             // 해당 상품명을 띄어쓰기 기준 분할합니다.
@@ -109,35 +108,31 @@ public class ProductService {
                     resultMap.put(product, count + 1);
                 }
             }
-            // 복잡도가 조금 고민이 되지만.. 가장 많이 나오는 키워드의 상품을 hashmap에 append합니다.
 
             List<Map.Entry<Product, Integer>> sortedEntries = new ArrayList<>(resultMap.entrySet());
-            sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder())); // value대로 정렬했습니다.
-            //comparator에서 오류가 나서, (product가 comparotor 불가) 변경했습니다.
+            sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
             List<Product> productList = new ArrayList<>();
             for (Map.Entry<Product, Integer> entry : sortedEntries) {
                 productList.add(entry.getKey());
-            } //한번이라도 검색되는 product들을 list로 변경했습니다.
+            }
 
             List<Product> topProducts = productList.subList(0, Math.min(productList.size(), 9));
             if (topProducts.isEmpty()) {
                 List<Product> samecategoryproductlist = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId) ;
                 topProducts = samecategoryproductlist.subList(0,Math.min(samecategoryproductlist.size(), 9)) ;
-            } //검색이 하나도 안된다면.. 카테고리 위주로 검색한 결과를 return합니다.
-            //9개보다 모자라면, 일단 있는걸 다 list로 return합니다.
+            }
 
             ProductDetailRes productDetailRes = new ProductDetailRes();
             productDetailRes.setProduct(selectedProduct);
             productDetailRes.setProductList(topProducts);
             return productDetailRes;
         }
-
     }
 
     @Transactional
-
     public SuccessRes updateProduct(Long productId, ProductDto productDto,String email) throws IOException {
+
         Product product=productRepository.findByProductId(productId);
         if (product.getState()==-1 ||product.getState()==0){return new SuccessRes("","해당 상품이 없습니다");}
         else {
