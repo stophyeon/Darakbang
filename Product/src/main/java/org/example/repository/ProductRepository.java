@@ -46,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
     @Query("SELECT p FROM Product p WHERE p.categoryId = :category_id and p.productId != :product_id")
-    List<Product> findByProductCategory(@Param("category_id") int categoryId,@Param("product_id") Long productId);
+    List<Product> findByProductCategory(@Param("category_id") int categoryId,@Param("product_id") Long productId,Pageable pageable);
 
 
     @Modifying
