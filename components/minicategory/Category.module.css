@@ -1,0 +1,142 @@
+
+
+
+.cateSticky{
+    position: sticky;
+    top: 150px;
+    z-index: 1;
+  }
+
+  .categoryTitle{
+    position: absolute;
+    width: 175px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 10px 10px 0px 0px;
+    border: 1px solid var(--gray-400, #BEC0C6);
+    background: var(--gray-200, #F4F5F9);
+    margin-left: 153px;
+    
+  }
+  .categoryText{
+    color: var(--black, #191A1C);
+    font-family: "Pretendard Variable";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 20px;
+    margin-top: 18px;
+  }
+
+  .categoryForm{
+    position: absolute;
+    width: 175px;
+    height: 338px;
+    flex-shrink: 0;
+    margin-top: 60px;
+    margin-left: 153px;
+    border: 1px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+  }
+
+  .Checkboxes{
+    width: 22px;
+    height: 22px;
+flex-shrink: 0;
+border: 1px solid var(--gray-400, #BEC0C6);
+margin-top: 18px;
+margin-left: 20px;
+  }
+ 
+
+  .cateMg{
+    display: flex;
+    
+  }
+
+  .cateTexts{
+    color: var(--gray-800, #737A8D);
+font-family: "Pretendard Variable";
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-left: 8px;
+  }
+
+
+  @media screen and (max-width: 786px) { 
+    .categorySlider {
+        transform: translateX(-100%); /* 왼쪽으로 이동하여 숨깁니다. */
+      }
+      
+
+      .cateSticky{
+        position: sticky;
+        top: 70px;
+        z-index: 1;
+      }
+    
+      .categoryTitle{
+        display: none;
+        position: absolute;
+        width: 175px;
+        height: 60px;
+        flex-shrink: 0;
+        border-radius: 10px 10px 0px 0px;
+        border: 1px solid var(--gray-400, #BEC0C6);
+        background: var(--gray-200, #F4F5F9);
+        margin-left: 153px;
+        
+      }
+      .categoryText{
+        display: none;
+        color: var(--black, #191A1C);
+        font-family: "Pretendard Variable";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        margin-left: 20px;
+        margin-top: 18px;
+      }
+    
+      .categoryForm{
+        display: none;
+        position: absolute;
+        width: 175px;
+        height: 338px;
+        flex-shrink: 0;
+        margin-top: 60px;
+        margin-left: 153px;
+        border: 1px solid var(--gray-400, #BEC0C6);
+        background: #FFF;
+      }
+    
+      .Checkboxes{
+        width: 22px;
+        height: 22px;
+    flex-shrink: 0;
+    border: 1px solid var(--gray-400, #BEC0C6);
+    margin-top: 18px;
+    margin-left: 20px;
+      }
+     
+    
+      .cateMg{
+        display: flex;
+        
+      }
+    
+      .cateTexts{
+        color: var(--gray-800, #737A8D);
+    font-family: "Pretendard Variable";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 8px;
+      }
+
+  }

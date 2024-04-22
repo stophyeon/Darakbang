@@ -3,6 +3,7 @@
 export async function fetchProductName(product_name) {
 
     const response = await fetch(`http://localhost:8888/product/search`, {
+      cache: 'no-store',
       method: "POST",
       headers: {
         "Content-Type": "application/json",

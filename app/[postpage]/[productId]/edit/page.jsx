@@ -1,4 +1,4 @@
-import EditProductForm from "@compoents/components/posts/Edit-page";
+import EditProductForm from "@compoents/components/posts/Interaction/Edit-page";
 import { getPostData } from "@compoents/util/post-util";
 
 

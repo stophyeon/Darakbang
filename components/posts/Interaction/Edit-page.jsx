@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import { PutPostData } from '@compoents/util/post-util';
 import styles from './Edit-page.module.css';
-import LoadingIndicator from '../UI/LoadingIndicator';
+import LoadingIndicator from '../../UI/LoadingIndicator';
 
 export default function EditProductForm({ productId, post }) {
     const posts = post.product;

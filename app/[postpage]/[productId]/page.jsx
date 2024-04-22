@@ -1,6 +1,6 @@
 'use client';
 import * as PortOne from "@portone/browser-sdk/v2";
-import DeletePostButton from '@compoents/components/posts/Delete-button';
+import DeletePostButton from '@compoents/components/posts/Interaction/Delete-button';
 import { getPostData } from '@compoents/util/post-util';
 import styles from './page.module.css'
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import LoadingIndicator from "@compoents/components/UI/LoadingIndicator";
 import { memberPay, completePay } from "@compoents/util/payment-util";
 
 import { useState, useEffect } from 'react';
-import PutDetailbutton from '@compoents/components/posts/Edit-button';
+import PutDetailbutton from '@compoents/components/posts/Interaction/Edit-button';
 
 
 export default function PostDetailPage({ params }) {
@@ -25,9 +25,7 @@ export default function PostDetailPage({ params }) {
     if (accessTokenFromLocalStorage) {
       setAccessToken(accessTokenFromLocalStorage);
     }
-    const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-    // // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
-    // const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
+    const currentDate = new Date().toISOString().split('T')[0];
     setCreatedAt(currentDate);
     const fetchPosts = async () => {
       const postdata = await getPostData(params.productId, accessToken);
@@ -44,8 +42,10 @@ export default function PostDetailPage({ params }) {
   }, [accessToken]);
 
 
-  const handlePurchase = async () => {
+  
 
+  const handlePurchase = async () => {
+    
     if (!accessToken) {
       alert("로그인이 필요합니다. 로그인 창으로 이동합니다.");
       window.location.href = "/user/login";
@@ -66,32 +66,36 @@ export default function PostDetailPage({ params }) {
     };
     const response = await memberPay(accessToken, paymentData);
     setPurchase(response);
+    const point = response.point;
     console.log(response);
-    if (response.charge === true) { // 구매 실패 시
+    if (response.charge === true) { 
       const confirmPurchase = window.confirm(`${response.message} ${response.point} 만큼 충전하시겠습니까?`);
       if (confirmPurchase) {
-        handleSetPoint(); 
+        setPurchase(prevPurchase => {
+          if (prevPurchase.point !== '') {
+            handleSetPoint(point); 
+          }
+          return prevPurchase;
+        });
       }
-  } else { // 구매 성공시 false로 와서 구매 성공 메시지 창 띄움
+  } else { 
     alert(response.message)
   }
 
   };
 
-  const handleSetPoint = async () => {
-
-    const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-    // // const currentTime = new Date().toISOString().split('T')[1].split('.')[0]; // 현재 시간
-    // const currentDateTime = `${currentDate}`; // 현재 날짜와 시간을 합침시간 : ${currentTime}
+  const handleSetPoint = async (point) => {
+    setPurchase();
+    const currentDate = new Date().toISOString().split('T')[0]; 
     setCreatedAt(currentDate);
     console.log(currentDate)
 
     const response = await PortOne.requestPayment({
       storeId: "store-8c143d19-2e6c-41e0-899d-8c3d02118d41",
       channelKey: "channel-key-0c38a3bf-acf3-4b38-bf89-61fbbbecc8a8",
-      paymentId: `${crypto.randomUUID()}`, //결제 건을 구분하는 문자열로, 결제 요청 및 조회에 필요합니다. 같은 paymentId에 대해 여러 번의 결제 시도가 가능하나, 최종적으로 결제에 성공하는 것은 단 한 번만 가능합니다. (중복 결제 방지)
-      orderName: 'point 충전', // 주문 내용을 나타내는 문자열입니다. 특정한 형식이 있지는 않지만, 결제 처리에 필요하므로 필수적으로 전달해 주셔야 합니다.
-      totalAmount: Number(purchases.point), //selectedAmount currency는 결제 금액과 결제 화폐를 지정합니다.
+      paymentId: `${crypto.randomUUID()}`, 
+      orderName: 'point 충전', 
+      totalAmount: point, 
       currency: "CURRENCY_KRW",
       payMethod: "EASY_PAY",
       redirectUrl: `http://localhost:3000`,
@@ -104,7 +108,7 @@ export default function PostDetailPage({ params }) {
 
     const validationData = {
       payment_id: response.paymentId,
-      total_point: purchases.point,
+      total_point: point,
       created_at: createdAt,
       payments_list: [
         {
@@ -124,12 +128,11 @@ export default function PostDetailPage({ params }) {
       alert(Endresponse.message);
     }
     
-    // state==false, message="구매 성공"
   }
 
   return (
     <>
-      {loading ? ( // 로딩 중인 경우에만 로딩 스피너를 표시
+      {loading ? (
         <LoadingIndicator />
       ) : (
         <>
