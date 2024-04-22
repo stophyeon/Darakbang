@@ -2,7 +2,8 @@ package org.example.service;
 
 
 
-import jakarta.persistence.LockModeType;
+
+import org.example.annotation.TimeCheck;
 import org.example.dto.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.ProductDto;
@@ -16,12 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,9 +69,7 @@ public class ProductService {
 
     @Transactional
     public SuccessRes deleteProduct(Long productId, String email) throws IOException {
-
             Product product = productRepository.findByProductId(productId);
-
             if (product.getUserEmail().equals(email)) {
                 storageService.realImageDelete(productId);
                 storageService.productImageDelete(productId);
@@ -85,48 +81,34 @@ public class ProductService {
 
 
     }
-
+    @TimeCheck
     @Transactional
     public ProductDetailRes findProductDetail(Long productId)
     {
-
         Product selectedProduct = productRepository.findByProductId(productId);
-        // 해당 상품 상세를 확인합니다.
-        if (selectedProduct.getState()==-1||selectedProduct.getState()==0){return null;}
+        // 아래 null 값 반환을 빈 객체로 변경
+        if (selectedProduct.getState()==-1||selectedProduct.getState()==0){return new ProductDetailRes();}
         else {
             String keywords = selectedProduct.getProductName();
             // 해당 상품의 명을 확인합니다.
             Map<Product, Integer> resultMap = new HashMap<>();
-            String[] words = StringUtils.tokenizeToStringArray(keywords, " ");
+            String[] words = keywords.split(" ");
             // 해당 상품명을 띄어쓰기 기준 분할합니다.
-
             for (String word : words) {
                 List<Product> similarProducts = productRepository.findByProductNameKeyword(word,productId);
-
-                for (Product product : similarProducts) {
-                    int count = resultMap.getOrDefault(product, 0);
-                    resultMap.put(product, count + 1);
-                }
+                similarProducts.forEach(p->resultMap.put(p,resultMap.getOrDefault(p,0)+1));
             }
+            List<Product> productList = new ArrayList<>(resultMap.keySet());
+            productList.sort((o1,o2)->resultMap.get(o2).compareTo(resultMap.get(o1)));
 
-            List<Map.Entry<Product, Integer>> sortedEntries = new ArrayList<>(resultMap.entrySet());
-            sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
-            List<Product> productList = new ArrayList<>();
-            for (Map.Entry<Product, Integer> entry : sortedEntries) {
-                productList.add(entry.getKey());
-            }
-
-            List<Product> topProducts = productList.subList(0, Math.min(productList.size(), 9));
+            List<Product> topProducts = productList.stream().limit(Math.min(productList.size(),9)).toList();
             if (topProducts.isEmpty()) {
-                List<Product> samecategoryproductlist = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId) ;
-                topProducts = samecategoryproductlist.subList(0,Math.min(samecategoryproductlist.size(), 9)) ;
+                List<Product> categoryProductList = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId,PageRequest.of(0,9)) ;
+                return ProductDetailRes.builder().product(selectedProduct).productList(categoryProductList).build();
             }
+            else { return ProductDetailRes.builder().product(selectedProduct).productList(topProducts).build();}
+            // builder 패턴으로 객체 생성 코드 변경
 
-            ProductDetailRes productDetailRes = new ProductDetailRes();
-            productDetailRes.setProduct(selectedProduct);
-            productDetailRes.setProductList(topProducts);
-            return productDetailRes;
         }
     }
 
