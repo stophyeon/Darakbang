@@ -1,0 +1,39 @@
+
+
+.pagination {
+    margin-left: 45%;
+    margin-top: 50px;
+}
+.pagebtn{
+  color: var(--gray-400, #BEC0C6);
+font-family: "Pretendard Variable";
+font-size: 40px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+background-color: #F3F5FA;
+border: 0;
+padding-left: 30px;
+cursor: pointer;
+}
+
+
+@media screen and (max-width: 786px) {
+
+    .pagination {
+        margin-left: 40%;
+        margin-top: 50px;
+    }
+    .pagebtn{
+      color: var(--gray-400, #BEC0C6);
+    font-family: "Pretendard Variable";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background-color: #F3F5FA;
+    border: 0;
+    padding-left: 30px;
+    cursor: pointer;
+    }
+}

@@ -1,26 +1,15 @@
 
-
-
-import Items from "@compoents/components/items/Items"
+import SearchContainer from "@compoents/containers/SearchContainer";
 import { fetchProductName } from "@compoents/util/search-util";
 
 export default async function SearchPage({ params }) {
-    const searchTerm = fetchProductName(params.searchTerm)
-  
-    const [ searchTerms ] = await Promise.all([searchTerm]);
+    const searchTerm = await fetchProductName(params.searchTerm)
 
-
+    const [searchTerms] = await Promise.all([searchTerm]);
 
     return (
         <>
-            <h1>검색 페이지</h1>
-                <ul>
-                    {searchTerms.map((searchTerm) => (
-                        <li key={searchTerm.productId}>
-                            <Items searchTerm={searchTerms} />
-                        </li>
-                    ))}
-                </ul>
+            <SearchContainer searchTerm={searchTerms}/>
         </>
     )
 }

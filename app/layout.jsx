@@ -1,6 +1,6 @@
 
 import Providers from "./providers";
-
+import './globals.css';
 
 export const metadata = {
   title: "다락방",

@@ -1,31 +1,16 @@
-'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 
 import styles from './post-item.module.css';
 import { LikeProduct } from '@compoents/util/post-util';
 
-function PostItem(props) {
-  const [profile, setProfile] = useState('');
+export default function PostItem(props) {
   const { product_name, price, product_id, nick_name, image_product } = props.post;
   const { pageNumber } = props.posts.pageable;
 
  
   const linkPath = `/${pageNumber}/${product_id}`;
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const accessToken = localStorage.getItem('Authorization');
-        const data = await fetchOtherUserProfile(nick_name, accessToken);
-        setProfile(data);
-      } catch (error) {
-        console.error('프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
-      }
-      fetchProfile();
-    };
-  }, [nick_name]);
 
 
   const handleLikeClick = async () => {
@@ -46,7 +31,7 @@ function PostItem(props) {
         <div className={styles.postItem}>
         <Link href={linkPath} style={{ textDecoration: "none" }} className={styles.PostLinks}>
           <div className={styles.profile}>
-          <Image src={profile.image || '/images/kakaoImg.jpg'} alt="프로필 이미지" width={49} height={49} className={styles.profileImage} priority />
+          <Image src={'/images/kakaoImg.jpg'} alt="프로필 이미지" width={49} height={49} className={styles.profileImage} priority />
           <h2 className={styles.nickName}>{nick_name}</h2>
           </div>
           <h3>{product_name}</h3>
@@ -64,5 +49,3 @@ function PostItem(props) {
     </>
   );
 }
-
-export default PostItem;
