@@ -1,9 +1,9 @@
-'use client';
+'use client'
 import React, { useState, useRef, useCallback } from 'react';
 import { IoSearch } from "react-icons/io5";
 import styles from './ItemSearch.module.css';
-import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
+import { debounce } from 'lodash';
 
 const FindEventSection = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const FindEventSection = () => {
       } catch (error) {
         console.error('자동검색 에러', error);
       }
-    }, 1000), // 1초 간격
+    }, 500),
     []
   );
 
@@ -57,7 +57,7 @@ const FindEventSection = () => {
   };
 
   return (
-    <form  id="search-form" className={styles.SearchForm}>
+    <form id="search-form" className={styles.SearchForm}>
       <header className={styles.headerd}>
         <input
           type="search"
@@ -67,15 +67,15 @@ const FindEventSection = () => {
           onChange={handleInputChange}
         />
         <button type="submit" className={styles.SchBtn} onClick={handleSubmit}>
-          <IoSearch  />
+          <IoSearch />
         </button>
       </header>
 
       {autoCompleteResults.length > 0 && (
         <ul className={styles.autoCompleteDropdown}>
-          {autoCompleteResults.map((item) => (
+          {autoCompleteResults.map((item, index) => (
             <li
-              key={item}
+              key={index}
               className={styles.autoCompleteItem}
               onClick={() => handleItemSelect(item)}
             >
@@ -89,3 +89,4 @@ const FindEventSection = () => {
 };
 
 export default FindEventSection;
+

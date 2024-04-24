@@ -20,11 +20,11 @@ background: rgba(69, 106, 226, 0.8);
 width: 120px;
 }
 .categoryForm{
-    overflow-y: auto;
-    max-height: 300px;
+    max-height: 500px;
 }
 .categoryContainer{
 position: relative;
+height: 80%;
 }
 
 .Checkboxes{
@@ -32,8 +32,9 @@ position: relative;
     height: 12px;
 flex-shrink: 0;
 border: 1px solid var(--gray-400, #a3a7b0);
-margin-top: 10px;
+margin-top: 15px;
 margin-left: 10px;
+margin-bottom: 10px;
   }
  
 
@@ -42,14 +43,14 @@ margin-left: 10px;
   }
 
   .cateTexts{
-    color: var(--gray-400, #4f5462);
+    color: var(--gray-700, #4f5462);
 font-family: "Pretendard Variable";
 font-size: 12px;
 font-style: normal;
 font-weight: 500;
 line-height: normal;
 margin-left: 8px;
-margin-top: 8px;
+margin-top: 12px;
 height: 15px;
   }
 

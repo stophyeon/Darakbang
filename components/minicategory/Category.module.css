@@ -45,7 +45,7 @@
     height: 22px;
 flex-shrink: 0;
 border: 1px solid var(--gray-400, #BEC0C6);
-margin-top: 18px;
+margin-top: 30px;
 margin-left: 20px;
   }
  
@@ -63,6 +63,7 @@ font-style: normal;
 font-weight: 500;
 line-height: normal;
 margin-left: 8px;
+margin-top: 29px;
   }
 
 

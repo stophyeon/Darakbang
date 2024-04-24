@@ -1,6 +1,6 @@
 
 // 상품 검색 
-export async function fetchProductName(product_name) {
+export async function fetchProductName(searchTerm) {
 
     const response = await fetch(`http://localhost:8888/product/search`, {
       cache: 'no-store',
@@ -9,7 +9,7 @@ export async function fetchProductName(product_name) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        product_name: product_name,
+        product_name: searchTerm,
       }),
     });
     if (!response.ok) {
@@ -17,8 +17,7 @@ export async function fetchProductName(product_name) {
       throw error;
     }
   
-    const { search } = await response.json();
-  
+    const search = await response.json();
     return search;
   }
   

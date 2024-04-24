@@ -81,6 +81,7 @@ margin-bottom: 0px;
 }
 
 .productImg{
+  margin-top: 8px;
   margin-left: 37px;
 }
 .buttons{
@@ -132,7 +133,7 @@ cursor: pointer;
     box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
     width: 90%;
     height: 580px;
-  
+    margin-left: 8%;
   }
   
   .profile{
