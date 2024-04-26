@@ -47,6 +47,17 @@
     padding-left: 10px;
   }
 
+  .inputFielded {
+    display: flex;
+    width: 840px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 30px;
+    padding-left: 10px;
+  }
+
   .selectField {
     margin: 10px;
     width: 20%;
@@ -94,6 +105,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin-left: 20%;
       }
       
       .imglabel {
@@ -133,13 +145,14 @@
       
       .inputField {
         display: flex;
-        width: 240px;
+        width: 170%;
         height: 30px;
         border-radius: 10px;
         border: 1.5px solid var(--gray-400, #BEC0C6);
         background: #FFF;
         margin-top: 10px;
         padding-left: 10px;
+        font-size: 60%;
       }
     
       .selectField {
@@ -172,7 +185,7 @@
       }
       .inputFields {
         display: flex;
-        width: 200px;
+        width: 140%;
         height: 30px;
         border-radius: 10px;
         border: 1.5px solid var(--gray-400, #BEC0C6);
@@ -181,6 +194,19 @@
         padding-left: 50px;
       }
     
+      .inputFielded{
+        display: flex;
+        width: 100%;
+        height: 30px;
+        border-radius: 10px;
+        border: 1.5px solid var(--gray-400, #BEC0C6);
+        background: #FFF;
+        margin-top: 10px;
+        padding-left: 10px;
+        font-size: 60%;
+      }
 
-
+      .Warning{
+        font-size: 50%;
+      }
   }

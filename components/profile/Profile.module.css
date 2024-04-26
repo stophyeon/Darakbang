@@ -85,7 +85,7 @@ margin-left: 40px;
   .profileEmail {
     position: absolute;
     margin-left: 50px;  
-    margin-top: -20px;
+    margin-top: 0px;
     color: var(--gray-400, #BEC0C6);
     font-family: "Pretendard Variable";
     font-size: 20px;
@@ -156,6 +156,11 @@ margin-left: 50px;
 margin-top: 40px;
   }
 
+  .Lists{
+    margin-left: -200px;
+    margin-top: 300px;
+  }
+
 
 
 
@@ -219,7 +224,7 @@ margin-top: 40px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
-margin-left: 15px;
+margin-left: 20px;
 height: 30px;
   }
   
@@ -235,7 +240,6 @@ height: 30px;
     font-weight: 400;
     line-height: normal;
     height: 30px;
-    margin-left: 20px;
   }
 
   .profileName {
@@ -253,7 +257,7 @@ height: 30px;
   
   .profileEmail {
     position: absolute;
-    margin-top: -10px;
+    margin-top: 0px;
     margin-left: 20px;
     color: var(--gray-400, #BEC0C6);
     font-family: "Pretendard Variable";
@@ -283,7 +287,7 @@ margin-left: 20px;
   .Button1{
     color: var(--primary-primary, #496AF3);
     font-family: "Pretendard Variable";
-    font-size: 18px;
+    font-size: 100%;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -296,7 +300,7 @@ margin-left: 20px;
   .Button2 {
     color: var(--gray-400, #BEC0C6);
     font-family: "Pretendard Variable";
-    font-size: 18px;
+    font-size: 100%;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -313,7 +317,7 @@ margin-left: 20px;
     width: 85%;
     height: 2px;
     margin-top: 80px;
-    margin-left: 30px;
+    margin-left: 10%;
     padding: 0%;
   }
 
@@ -321,6 +325,10 @@ margin-left: 20px;
     margin-left: 40%;
     margin-top: 40%;
   }
-  
+  .Lists{
+    margin-left: 0;
+    margin-top: 40%;
+  }
+
 
   }

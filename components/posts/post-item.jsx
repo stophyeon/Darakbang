@@ -6,7 +6,7 @@ import styles from './post-item.module.css';
 import { LikeProduct } from '@compoents/util/post-util';
 
 export default function PostItem(props) {
-  const { product_name, price, product_id, nick_name, image_product } = props.post;
+  const { product_name, price, product_id, nick_name, image_product, userProfile } = props.post;
   const { pageNumber } = props.posts.pageable;
 
  
@@ -31,11 +31,11 @@ export default function PostItem(props) {
         <div className={styles.postItem}>
         <Link href={linkPath} style={{ textDecoration: "none" }} className={styles.PostLinks}>
           <div className={styles.profile}>
-          <Image src={'/images/kakaoImg.jpg'} alt="프로필 이미지" width={49} height={49} className={styles.profileImage} priority />
+          <Image src={userProfile} alt="프로필 이미지" width={49} height={49} className={styles.profileImage} priority />
           <h2 className={styles.nickName}>{nick_name}</h2>
           </div>
           <h3>{product_name}</h3>
-          <Image src={image_product || '/images/kakaoImg.jpg'} width={210} height={230} alt="상품 이미지"className={styles.productImg} priority/>
+          <Image src={image_product} width={210} height={230} alt="상품 이미지" className={styles.productImg} priority/>
           <h1>가격</h1>
           <h4>{price}원</h4>
           </Link>

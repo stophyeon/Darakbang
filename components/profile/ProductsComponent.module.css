@@ -1,0 +1,15 @@
+
+
+.section{
+
+}
+
+@media screen and (max-width: 786px) {
+    
+    .section {
+        margin-top: -150px;
+        margin-left: 0;
+    }
+
+
+    }

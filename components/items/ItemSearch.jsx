@@ -14,6 +14,10 @@ const FindEventSection = () => {
   const AutoSearch = useCallback(
     debounce(async (term) => {
       try {
+        if (term.trim() === '') {
+          setAutoCompleteResults([]); 
+          return; 
+        }
         const accessToken = localStorage.getItem('Authorization');
         const response = await fetch('http://localhost:8888/product/search/word', {
           method: 'POST',
@@ -55,6 +59,7 @@ const FindEventSection = () => {
     searchElement.current.value = item;
     setAutoCompleteResults([]);
   };
+  
 
   return (
     <form id="search-form" className={styles.SearchForm}>

@@ -51,11 +51,11 @@
     cursor: pointer;
     color: var(--gray-800, #737A8D);
     font-family: "Pretendard Variable";
-    font-size: 32px;
+    font-size: 150%;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-left: 40px;
+    margin-left: 50px;
     }
     .followButton2{
       background-color: #FFFFFF;
@@ -64,12 +64,13 @@
     cursor: pointer;
     color: var(--gray-800, #737A8D);
     font-family: "Pretendard Variable";
-    font-size: 32px;
+    font-size: 150%;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    height: 45px;
+    height: 40px;
     margin-left: 0px;
+    margin-top: -4px;
     }
     
     .profileName {
@@ -85,7 +86,7 @@
     
     .profileEmail {
       margin-left: 50px;  
-      margin-top: -20px;
+      margin-top: 0px;
       color: var(--gray-400, #BEC0C6);
       font-family: "Pretendard Variable";
       font-size: 20px;
@@ -145,6 +146,12 @@
       margin-top: 40%;
     }
 
+    .Lists{
+      margin-left: -200px;
+      margin-top: 300px;
+    }
+
+
     @media screen and (max-width: 786px) {
       .profileInfo {
         display: flex;
@@ -201,7 +208,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-left: 10px;
+    margin-left: 20px;
     height: 30px;
       }
       
@@ -234,7 +241,7 @@
       
       .profileEmail {
         position: absolute;
-        margin-top: -10px;
+        margin-top: 0px;
         margin-left: 20px;
         color: var(--gray-400, #BEC0C6);
         font-family: "Pretendard Variable";
@@ -295,5 +302,10 @@
         margin-left: 40%;
         margin-top: 40%;
       }
-    
+      
+      .Lists{
+        margin-left: 0;
+        margin-top: 40%;
+      }
+
       }

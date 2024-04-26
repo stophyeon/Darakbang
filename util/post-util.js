@@ -1,4 +1,3 @@
-'use server';
 
 export async function sendProductData(formData, accessToken) {
   try {
@@ -63,10 +62,12 @@ export async function getPostsFiles(page, accessToken) {
       cache: 'no-store',
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `${accessToken}`
       },
-      body: JSON.stringify({ productData }), // formData
-      cache: 'no-store'
+      body: JSON.stringify( 
+        productData 
+      ), 
     });
   }
 

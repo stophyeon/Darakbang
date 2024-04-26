@@ -117,7 +117,7 @@
   .label{
     color: var(--black, #191A1C);
     font-family: "Pretendard Variable";
-    font-size: 12px;
+    font-size: 100%;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -137,13 +137,14 @@
   
   .inputField {
     display: flex;
-    width: 240px;
+    width: 170%;
     height: 30px;
     border-radius: 10px;
     border: 1.5px solid var(--gray-400, #BEC0C6);
     background: #FFF;
     margin-top: 10px;
     padding-left: 10px;
+    font-size: 60%;
   }
 
   .selectField {
@@ -161,7 +162,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 340px;
+    width: 120%;
     height: 40px;
     margin-left: -40px;
   }
@@ -169,20 +170,37 @@
   .bkImg{
     display: flex;
     position: absolute;
-    margin-top: 17px;
+    margin-top: 15.5px;
     margin-left: 10px;
-    width: 200px;
-    height: 30px;
+    width: 30%;
+    height: 2.5%;
   }
   .inputFields {
     display: flex;
-    width: 200px;
+    width: 140%;
     height: 30px;
     border-radius: 10px;
     border: 1.5px solid var(--gray-400, #BEC0C6);
     background: #FFF;
     margin-top: 15px;
     padding-left: 50px;
+  }
+
+  .inputFielded{
+    display: flex;
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-400, #BEC0C6);
+    background: #FFF;
+    margin-top: 10px;
+    padding-left: 10px;
+    font-size: 60%;
+  }
+
+  .options{
+    height: auto;
+    
   }
 
   }

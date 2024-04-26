@@ -1,7 +1,7 @@
 .SearchForm {
     position: relative;
     width: 65%;
-    margin: 0 auto;
+    margin-left: 10%;
   }
   
   .headerd {
@@ -48,8 +48,13 @@
     .searchWrapper {
       position: relative;
       width: 80%;
-      margin: 0 auto;
     }
+
+    .SearchForm {
+        position: relative;
+        width: 65%;
+        margin-left: 5%;
+      }
   
     .headerd {
       position: relative;

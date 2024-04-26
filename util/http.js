@@ -135,6 +135,7 @@ export async function fetchFollowUser(accessToken) {
     const response = await fetch('http://localhost:8888/follow/follower', {
       cache: 'no-store',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `${accessToken}`
       }
     });
@@ -151,6 +152,7 @@ export async function fetchFollowingUser(accessToken) {
     const response = await fetch('http://localhost:8888/follow/following', {
       cache: 'no-store',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `${accessToken}`
       }
     });
@@ -158,6 +160,23 @@ export async function fetchFollowingUser(accessToken) {
     return data;
   } catch (error) {
     console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
+    throw error;
+  }
+};
+
+// mypage
+export async function getSelling(nick_name) {
+  try {
+    const response = await fetch(`http://localhost:8888/product/mypage?nick_name=${nick_name}`, {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('사용자 판매 물품 error', error);
     throw error;
   }
 };

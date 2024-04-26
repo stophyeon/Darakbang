@@ -37,6 +37,10 @@ export default function ProductForm() {
   ];
 
   useEffect(() => {
+    const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
+    setCreatedAt(currentDate);
+    console.log(currentDate)
+
     const AccessTokens = localStorage.getItem('Authorization');
     if (AccessTokens) {
       setAccessToken(AccessTokens);
@@ -66,23 +70,10 @@ export default function ProductForm() {
 
   async function sendProductHandler(event) {
 
-    const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
-    setCreatedAt(currentDate);
-    console.log(currentDate)
+    
 
     event.preventDefault();
     try {
-      // const productDetails = {
-      //   product_name: productName,
-      //   price: parseInt(price),
-      //   // image_product: images1, // 이미지 하나 더 추가 , base64
-      //   // image_real: images2,
-      //   // create_at: createdAt,
-      //   // expire_at: expireAt, // 만료 일자 추가
-      //   category_id: parseInt(categoryId),
-      // };
-      // console.log(productDetails);
-
       const formData = new FormData();
       let req = {
         "product_name": productName,
@@ -94,19 +85,8 @@ export default function ProductForm() {
       formData.append('req', new Blob([JSON.stringify(req)], { type: "application/json" }));
       formData.append('img_product', images1);
       formData.append('img_real', images2);
-      for (var pair of formData.values()) {
-        console.log(pair);
-      }
-
-
-      await sendProductData(formData, accessToken); //productDetails
-      // setProductName('');
-      // setPrice('');
-      // setCategoryId('');
-      // setImages1();
-      // setImages2();
-      // setCreatedAt('');
-      const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+      await sendProductData(formData, accessToken); 
+      const redirectUrl = "http://localhost:3000"; 
       window.location.href = redirectUrl;
     }
     catch (error) {
@@ -137,13 +117,13 @@ export default function ProductForm() {
           <div className={styles.margins}>
             <label className={styles.label}>카테고리</label>
             <select
-              className={styles.inputField}
+              className={styles.inputFielded}
               id='categoryId'
               value={categoryId} // option value 값이 담기게
               onChange={handleSelect}
             >
               {selectList.map((item) => (
-                <option value={item.value} key={item.value}>
+                <option className={styles.options} value={item.value} key={item.value}>
                   {item.name}
                 </option>
               ))}

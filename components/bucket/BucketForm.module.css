@@ -207,8 +207,8 @@ margin-left: 30px;
         background: #FFF;
         box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
         width: 90%;
-        height: 500px;
-        margin-left: 5px;
+        height: 400px;
+        margin-left: 5%;
     }
     .flexes{
         display: table;
@@ -241,19 +241,19 @@ margin-left: 30px;
     }
   
     .IpImg{
-        margin-top: 10%;
-      margin-left: 40%;
+      margin-top: 10%;
+      margin-left: 50%;
     }
   
     .PrdName{
       width: 300px;
       color: #000;
-  font-family: "Pretendard Variable";
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-left: 43%;
+      font-family: "Pretendard Variable";
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      margin-left: 43%;
     }
   
     .position{
@@ -270,11 +270,11 @@ margin-left: 30px;
       border: 2px solid var(--gray-400, #BEC0C6);
       background: #FFF;
       color: var(--gray-600, #808389);
-  font-family: "Pretendard Variable";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+      font-family: "Pretendard Variable";
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
     }
   
     .OdBtn{

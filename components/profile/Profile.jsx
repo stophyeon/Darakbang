@@ -6,6 +6,7 @@ import { fetchUserProfile, fetchFollowUser, fetchFollowingUser } from '@compoent
 import LoadingIndicator from '../UI/LoadingIndicator';
 import { useRouter } from 'next/navigation';
 import LikeListComponent from '../bucket/LikeLists';
+import ProductsComponent from './ProductsComponent';
 
 
 export default function UserProfile() {
@@ -19,11 +20,15 @@ export default function UserProfile() {
 
   const defaultImage = "/images/kakaoImg.jpg";
 
+
   useEffect(() => {
     // API 호출 -> 사용자 정보 받아오기
     async function fetchUserProfileData() {
       try {
         const accesstoken = localStorage.getItem('Authorization');
+        if (!accesstoken) {
+          throw new Error('로그인이 필요합니다.');
+        }
         const data = await fetchUserProfile(accesstoken);
         setuserInfo(data);
       } catch (error) {
@@ -154,8 +159,10 @@ export default function UserProfile() {
           <button onClick={showProducts} className={styles.Button1}>판매 물품</button>
           <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
           <div  className={styles.verticalLine}></div>
-          {/* {currentView === 'products' && <ProductsComponent />}
-          {currentView === 'likes' && <LikeListComponent />} 수정 중 */} 
+          <div className={styles.Lists}>
+          {currentView === 'products' && <ProductsComponent nick_name={userInfo.nick_name} />} 
+          {currentView === 'likes' && <LikeListComponent  />} 
+          </div>
         </>
       ) : (
         <div className={styles.Loading}><LoadingIndicator /></div>

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { fetchOtherUserProfile, followUser } from "@compoents/util/http";
 import LoadingIndicator from "../UI/LoadingIndicator";
 import styles from './OtherProfileform.module.css'
+import ProductsComponent from "./ProductsComponent";
+import LikeListComponent from "../bucket/LikeLists";
 
 export default function OtherProfileform({ nick_name }) {
   const [userInfo, setuserInfo] = useState('');
@@ -11,6 +13,7 @@ export default function OtherProfileform({ nick_name }) {
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [accessToken, setAccessToken] = useState('');
+  const [currentView, setCurrentView] = useState('products');
 
 
   useEffect(() => {
@@ -59,6 +62,15 @@ export default function OtherProfileform({ nick_name }) {
     setIsFollowerModalOpen(false);
   };
 
+  const showProducts = () => {
+    setCurrentView('products');
+  };
+  
+  const showLikes = () => {
+    setCurrentView('likes');
+  };
+  
+
 
   return (
     <div className={styles.profileContainer}>
@@ -101,10 +113,14 @@ export default function OtherProfileform({ nick_name }) {
             </button>
           </div>
         </div>
-        <button className={styles.Button1}>판매 물품</button>
-        <button className={styles.Button2}>좋아요 목록</button>
-
+        <button onClick={showProducts} className={styles.Button1}>판매 물품</button>
+        <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
         <div className={styles.verticalLine}></div>
+        <div className={styles.Lists}>
+          {currentView === 'products' && <ProductsComponent nick_name={userInfo.nick_name} />} 
+          {currentView === 'likes' && <LikeListComponent />} 
+          </div>
+        
         </>
       ) : (
         <div className={styles.Loading}><LoadingIndicator /></div>

@@ -22,6 +22,9 @@ export default function EditProductForm({ productId, post }) {
 
     useEffect(() => {
         console.log(post)
+        const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
+    setCreatedAt(currentDate);
+    console.log(currentDate)
         const storedAccessToken = localStorage.getItem('Authorization');
         if (storedAccessToken) {
             setAccessToken(storedAccessToken);
@@ -35,8 +38,8 @@ export default function EditProductForm({ productId, post }) {
             setShowImages2(posts.imageReal);
             setCategoryId(posts.categoryId);
             setexpireAt(posts.expireAt);
-            setCreatedAt(posts.createAt);
             setLoading(false);
+            console.log(posts);
         }
     }, [posts]);
 
@@ -68,10 +71,10 @@ export default function EditProductForm({ productId, post }) {
         event.preventDefault();
 
         try {
-            const productData = {                   // 아직 formData 형식으로 푸시안됨
+            const productData = {                   
                 product_name: productName,
                 price: parseInt(price),
-                image_product: images1, // 이미지 하나 더 추가 , base64
+                image_product: images1, 
                 image_real: images2,
                 create_at: createAt,
                 expire_at: expireAt,
@@ -80,7 +83,7 @@ export default function EditProductForm({ productId, post }) {
             console.log(productData);
 
             await handleSubmit(productData); 
-            const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+            const redirectUrl = "http://localhost:3000"; 
             window.location.href = redirectUrl;
         } catch (error) {
             console.error('에러 발생:', error);
@@ -98,11 +101,11 @@ export default function EditProductForm({ productId, post }) {
                 <>
                     <section className={styles.formContainer}>
                         <form onSubmit={sendProductHandler}>
-                            <div>이미지 수정은 상품 수정에서 불가능합니다. 삭제 후 다시 등록해주세요.</div>
+                            <div className={styles.Warning}>이미지 수정은 상품 수정에서 불가능합니다. 삭제 후 다시 등록해주세요.</div>
                             <div className={styles.margins}>
                                 <label htmlFor='categoryId' className={styles.label}>카테고리</label>
                                 <select
-                                    className={styles.inputField}
+                                    className={styles.inputFielded}
                                     id='categoryId'
                                     required
                                     value={categoryId}

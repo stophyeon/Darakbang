@@ -29,18 +29,23 @@ export default function LikeListComponent() {
   return (
     <>
       <section className={styles.section1}>
-        <h1 className={styles.bktitle}>좋아요 목록</h1>
       </section>
       <section className={styles.section2}>
         <ul className={styles.postsGrid}>
           {userLikes.map((like) => (
             <div key={like.productId} className={styles.postItem}>
+              <div className={styles.profile}>
+              <Image src={like.userProfile} alt="프로필 이미지" width={49} height={49} className={styles.profileImage} priority />
+              <h2 className={styles.nickName}>{like.nickName}</h2>
+              </div>
               <div className={styles.flexes}>
-                <Image src={like.imageProduct} alt="상품 사진" width={150} height={150} className={styles.IpImg} />
-                <div className={styles.PrdName}>{like.productName}</div>
-                <div className={styles.position}>
-                  <button className={styles.DtBtn} onClick={() => handleDeleteLike(like)}>삭제하기 <Image src={'/svgs/Close_round.svg'} width={24} height={24} alt="" className={styles.svgs} /></button>
-                  <button className={styles.OdBtn}>구매하기 <Image src={'/svgs/Box_alt_fill.svg'} width={24} height={24} alt="" className={styles.svgs} /></button>
+              <h3>{like.productName}</h3>
+                <Image src={like.imageProduct} alt="상품 사진" width={150} height={150} className={styles.productImg} />
+                <h1>가격</h1>
+                <h4>{like.price}원</h4>
+                <div className={styles.buttons}>
+                <button className={styles.like}>좋아요 ♡</button> 
+                <button className={styles.buy}>구매하기</button>
                 </div>
               </div>
             </div>

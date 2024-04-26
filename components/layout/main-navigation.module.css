@@ -29,7 +29,8 @@
     align-items: center;
     justify-content: center;
     flex: 1; 
-    margin-left: -10%;
+    width: 50%;
+    margin-left: 0px;
   }
 
   .navItem3 {
@@ -64,6 +65,13 @@
     .logo {
       margin-left: 30px;
       font-size: 1rem;
+    }
+
+    .navItem {
+      align-items: center;
+      justify-content: center;
+      margin-left: 0;
+      width: 100%;
     }
  
     .navItem3 {
