@@ -46,6 +46,7 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
                         log.info(req.getRequest().getURI().toString());
                         return chain.filter(req); // 유효성 검사 통과후 성공 로직
                     }
+
                 } catch (TokenExpiredException e) {
                     log.error("Token validation error: {}", e.getMessage());
                 }

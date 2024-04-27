@@ -22,7 +22,7 @@ public class WishListService {
     private final WishListRepository wishListRepository;
     private final ProductRepository productRepository;
 
-
+    @Transactional
     public SuccessRes likeRegistration(String email, Long productId){
         Product product = productRepository.findByProductId(productId);
         if (product.getState()==-1 ||product.getState()==0){return SuccessRes.builder().message("해당 상품이 없습니다").build();}

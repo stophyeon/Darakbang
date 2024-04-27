@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 public class JwtProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;//30분
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;//일주일
     private final Key key;
 
 
@@ -59,7 +59,6 @@ public class JwtProvider {
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS512)
-
                 .compact();
 
         return JwtDto.builder()
@@ -101,5 +100,16 @@ public class JwtProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+    public String recreateToken(String email){
+        long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+
+        return Jwts.builder()
+                .setSubject(email)       // payload "sub": "name"
+                .claim(AUTHORITIES_KEY, "ROLE_USER")        // payload "auth": "ROLE_USER"
+                .setExpiration(accessTokenExpiresIn)        // payload "exp": 만료기간
+                .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"-사용한 암호화 알고리즘
+                .compact();
     }
 }

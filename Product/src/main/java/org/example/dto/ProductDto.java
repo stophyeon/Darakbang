@@ -19,6 +19,7 @@ public class ProductDto {
 
     private String image_product;
     private String image_real;
+    float f = 0.2f;
 
     private int state;
 

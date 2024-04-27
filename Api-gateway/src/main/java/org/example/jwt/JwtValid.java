@@ -42,6 +42,7 @@ public class JwtValid implements InitializingBean{
             throw new IllegalArgumentException(e);
         }
     }
+
     public TokenUser decode(String token){
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String[] chunks = token.split("\\.");
