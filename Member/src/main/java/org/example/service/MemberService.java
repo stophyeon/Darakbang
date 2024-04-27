@@ -5,10 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.LoginSuccessDto;
 import org.example.dto.MemberDto;
+import org.example.dto.RefreshDto;
 import org.example.dto.ResponseCustom;
 import org.example.entity.Member;
+import org.example.entity.Token;
+import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
 import org.example.repository.member.MemberRepository;
+import org.example.repository.token.TokenRepository;
 import org.example.service.storage.StorageService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +33,7 @@ public class MemberService {
     private final AuthenticationProvider authenticationProvider;
     private final StorageService storageService;
     private final JwtProvider jwtProvider;
+    private final TokenRepository tokenRepository;
 
     private final String googleURL = "https://storage.googleapis.com/darakban-img/";
 
@@ -67,9 +72,11 @@ public class MemberService {
         if (memberRepository.findByEmail(memberDto.getEmail()).isPresent()){
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberDto.getEmail(),memberDto.getPassword());
             Authentication auth = authenticationProvider.authenticate(token);
+            JwtDto jwtDto = jwtProvider.createToken(auth);
+            tokenRepository.save(Token.builder().email(memberDto.getEmail()).refreshToken(jwtDto.getRefreshToken()).build());
             return LoginSuccessDto.builder()
                     .message("로그인 성공")
-                    .jwtDto(jwtProvider.createToken(auth)).
+                    .jwtDto(jwtDto).
                     build();
         }
         else {
@@ -78,6 +85,15 @@ public class MemberService {
                     .build();
         }
     }
+
+    public RefreshDto refreshToken(String refreshToken){
+        log.info(refreshToken);
+        Token token = tokenRepository.findByRefreshToken(refreshToken);
+
+
+        return RefreshDto.builder().access_token(jwtProvider.recreateToken(token.getEmail())).build();
+    }
+
     public MemberDto myProfile(String email){
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()){

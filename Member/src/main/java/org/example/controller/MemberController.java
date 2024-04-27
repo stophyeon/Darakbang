@@ -5,7 +5,6 @@ package org.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -100,5 +99,10 @@ public class MemberController {
     @PostMapping("/payments")
     public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PurchaseDto purchaseDto){
         return ResponseEntity.ok(paymentsService.purchaseSuccess(purchaseDto));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshDto> refreshAccessToken(@RequestBody RefreshDto refreshToken){
+        return ResponseEntity.ok(memberService.refreshToken(refreshToken.getRefresh_token()));
     }
 }

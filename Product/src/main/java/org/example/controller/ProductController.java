@@ -163,5 +163,4 @@ public class ProductController {
         return ResponseEntity.ok(searchService.searchProduct(searchDto.getProduct_name(), page-1));
     }
 
-
 }
