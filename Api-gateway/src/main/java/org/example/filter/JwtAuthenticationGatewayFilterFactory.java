@@ -2,6 +2,7 @@ package org.example.filter;
 
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +24,11 @@ import java.net.URI;
 
 public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtAuthenticationGatewayFilterFactory.Config> {
     private final JwtValid jwtValid;
-    public JwtAuthenticationGatewayFilterFactory(JwtValid jwtValid) {
+    private final GlobalExceptionHandler globalExceptionHandler;
+    public JwtAuthenticationGatewayFilterFactory(JwtValid jwtValid, GlobalExceptionHandler globalExceptionHandler) {
         super(Config.class);
         this.jwtValid = jwtValid;
+        this.globalExceptionHandler = globalExceptionHandler;
     }
     @Override
     public GatewayFilter apply(Config config) {
@@ -42,13 +45,16 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
                         ServerWebExchange req= exchange.mutate()
                                 .request(addAuthorization(exchange.getRequest(), user))
                                 .build();
-
                         log.info(req.getRequest().getURI().toString());
                         return chain.filter(req); // 유효성 검사 통과후 성공 로직
                     }
 
-                } catch (TokenExpiredException e) {
+                }catch (TokenExpiredException e) {
                     log.error("Token validation error: {}", e.getMessage());
+                    return globalExceptionHandler.handle(exchange,e);
+                }catch (ExpiredJwtException e) {
+                    log.info("토큰 만료");
+                    return globalExceptionHandler.handle(exchange,e);
                 }
             }
             return onError(exchange); // 유효성 검사 실패 반환
