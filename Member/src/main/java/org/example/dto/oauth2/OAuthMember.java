@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dto.oauth2;
 
 import lombok.Data;
 

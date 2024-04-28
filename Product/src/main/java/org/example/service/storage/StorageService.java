@@ -33,6 +33,7 @@ public class StorageService {
     private final ProductRepository productRepository;
     private final String accessToken = "ya29.a0Ad52N39fGurrd7QrjzW4f15Sn4NSkKIAxV1uP5mfU4ePGLpWQB5l-GoBNkL27iExJny5sU40RxFtwuSvi9u1gH2Dq27u-x1mJ5_gHPC2OnH-2Y8fqvlEqFSnNoaBRubvSGE-hMiyK34mvTbz8XsWQpoU6O4W0jTnAg8vaCgYKAX0SARASFQHGX2MiZCa9Y32_ctcgpZ2tQ1Cofw0171";
     private final String refreshToken = "1//04U1sIiKq0e1nCgYIARAAGAQSNwF-L9Iredc3sG3SaLFDdVwn90YGf7lYSJI0vdn0DPlEu1gKftVp_G3jgZrSzO7Xi0pA5Uv1tIU";
+
     public String imageUpload(MultipartFile img_product) throws IOException {
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
         String product_origin_name =img_product.getOriginalFilename();

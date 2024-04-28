@@ -1,7 +1,7 @@
 package org.example.service.purchase;
 
-import org.example.dto.ProductFeignReq;
-import org.example.dto.ProductFeignRes;
+import org.example.dto.purchase.ProductFeignReq;
+import org.example.dto.purchase.ProductFeignRes;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

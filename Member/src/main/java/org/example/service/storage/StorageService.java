@@ -55,16 +55,14 @@ public class StorageService {
     }
     public void imageDelete(String email) throws IOException {
         Optional<Member> member = memberRepository.findByEmail(email);
-        if (member.isPresent()){
-            String img = member.get().getImage().substring(44);
-            InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
-            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-            Blob blob = storage.get(bucketName, img);
-            if (blob==null){return;}
-            else{Storage.BlobSourceOption precondition =
-                    Storage.BlobSourceOption.generationMatch(blob.getGeneration());
-                storage.delete(bucketName, img, precondition);}
-
-        }
+        member.orElseThrow();
+        String img = member.get().getImage().substring(44);
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+        Blob blob = storage.get(bucketName, img);
+        if (blob==null){return;}
+        else{Storage.BlobSourceOption precondition =
+                Storage.BlobSourceOption.generationMatch(blob.getGeneration());
+            storage.delete(bucketName, img, precondition);}
     }
 }

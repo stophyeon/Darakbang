@@ -39,7 +39,6 @@ public class FollowService {
                 .build();
         //follow 관계 저장
         em.persist(follow);
-        //followRepository.save(follow);
         //member의 follower수 수정
         memberRepository.updateFollower(following_member);
         //member의 following수 수정
@@ -53,6 +52,7 @@ public class FollowService {
         Optional<Member> member = memberRepository.findByEmail(email);
         return followRepository.findFollower(member.get());
     }
+
     @TimeCheck
     public List<Member> getFollowing(String email){
         Optional<Member> member = memberRepository.findByEmail(email);

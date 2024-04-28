@@ -1,6 +1,6 @@
 package org.example.entity;
 
-import org.example.dto.ProductDto;
+import org.example.dto.product.ProductDto;
 import jakarta.persistence.*;
 import lombok.*;
 

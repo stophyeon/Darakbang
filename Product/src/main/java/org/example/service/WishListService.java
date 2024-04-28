@@ -3,7 +3,7 @@ package org.example.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.WishListDto;
+import org.example.dto.wish_list.WishListDto;
 import org.example.dto.SuccessRes;
 import org.example.entity.WishList;
 import org.example.entity.Product;
@@ -40,14 +40,12 @@ public class WishListService {
     }
     public WishListDto showLikeProduct(String email){
         Optional<List<WishList>> likeProducts = wishListRepository.findAllByEmail(email);
-        if (likeProducts.isEmpty()){return WishListDto.builder().message("좋아요 등록한 물품이 없습니다.").build();}
-        else {
-            List<Product> products = likeProducts.get().stream().map(WishList::getProduct).toList();
-            return WishListDto.builder()
-                    .message("등록 상품 조회")
-                    .likeProducts(products)
-                    .build();
-        }
+        likeProducts.orElseThrow();
+        List<Product> products = likeProducts.get().stream().map(WishList::getProduct).toList();
+        return WishListDto.builder()
+                .message("등록 상품 조회")
+                .likeProducts(products)
+                .build();
     }
 
     @Transactional
@@ -56,21 +54,15 @@ public class WishListService {
         if (product.getState()==-1 ||product.getState()==0){
             return SuccessRes.builder()
                     .productName(product.getProductName())
-                    .message("")
+                    .message("판매완료, 기간 만료된 상품")
                     .build();
         }
-        try{
-            wishListRepository.deleteByEmailAndProduct(email,product);
-            return SuccessRes.builder()
-                    .productName(product.getProductName())
-                    .message("좋아요 등록 상품 삭제 성공")
-                    .build();
-        } catch (NoSuchElementException | NullPointerException exception){
-            return SuccessRes.builder()
-                    .productName(product.getProductName())
-                    .message("해당 상품은 좋아요 등록한 상품이 아닙니다.")
-                    .build();
-        }
+        wishListRepository.deleteByEmailAndProduct(email,product);
+        return SuccessRes.builder()
+                .productName(product.getProductName())
+                .message("좋아요 등록 상품 삭제 성공")
+                .build();
+
     }
 
     @Transactional

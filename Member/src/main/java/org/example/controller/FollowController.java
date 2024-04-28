@@ -3,7 +3,7 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.dto.FollowDto;
+import org.example.dto.follow.FollowDto;
 import org.example.entity.Member;
 import org.example.service.FollowService;
 import org.springframework.web.bind.annotation.*;

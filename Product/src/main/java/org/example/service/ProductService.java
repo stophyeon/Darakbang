@@ -4,9 +4,9 @@ package org.example.service;
 
 
 import org.example.annotation.TimeCheck;
-import org.example.dto.ProductDetailRes;
+import org.example.dto.product.ProductDetailRes;
 import org.example.dto.SuccessRes;
-import org.example.dto.ProductDto;
+import org.example.dto.product.ProductDto;
 import org.example.entity.Product;
 import org.example.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +28,11 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
+
     private final ProductRepository productRepository ;
     private final MemberFeign memberFeign;
     private final StorageService storageService;
     private final String googleURL = "https://storage.googleapis.com/darakban-img/";
-
 
     public SuccessRes addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
         String nickName= memberFeign.getNickName(email);
@@ -56,8 +56,7 @@ public class ProductService {
     public Page<ProductDto> findProductPage (int page){
         Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
         Page<Product> productPage = productRepository.findAll(pageable);
-        Page<ProductDto> products = productPage.map(ProductDto::ToDto);
-        return products;
+        return productPage.map(ProductDto::ToDto);
     }
 
     @Transactional

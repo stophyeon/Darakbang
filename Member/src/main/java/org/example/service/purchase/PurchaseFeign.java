@@ -1,6 +1,6 @@
 package org.example.service.purchase;
 
-import org.example.dto.PaymentsReq;
+import org.example.dto.purchase.PaymentsReq;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

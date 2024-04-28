@@ -1,6 +1,4 @@
-package org.example.dto;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+package org.example.dto.oauth2;
 
 import java.util.Arrays;
 import java.util.Map;

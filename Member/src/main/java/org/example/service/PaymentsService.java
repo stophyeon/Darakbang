@@ -1,10 +1,8 @@
 package org.example.service;
 
-
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.*;
+import org.example.dto.purchase.*;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
 import org.example.service.purchase.ProductFeign;
@@ -27,13 +25,12 @@ public class PaymentsService {
     private final PurchaseFeign purchaseFeign;
 
 
-
     @Transactional
     public PaymentsRes purchase(PurchaseDto purchaseDto, String email){
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(email);
-        if (consumer.isEmpty()){return PaymentsRes.builder().charge(null).message("등록되지 않은 이메일입니다").build();}
+        consumer.orElseThrow();
 
         int consumerPoint=consumer.get().getPoint() - purchaseDto.getTotal_point();
         log.info(String.valueOf(consumerPoint));
@@ -76,7 +73,7 @@ public class PaymentsService {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(purchaseDto.getEmail());
-        if (consumer.isEmpty()){return PaymentsRes.builder().charge(null).message("등록되지 않은 이메일입니다").build();}
+        consumer.orElseThrow();
         memberRepository.updatePoint(0,purchaseDto.getEmail());
         for (PaymentsReq req : purchaseDto.getPayments_list()){
             req.setConsumer(purchaseDto.getEmail());
