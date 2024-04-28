@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dto.purchase;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

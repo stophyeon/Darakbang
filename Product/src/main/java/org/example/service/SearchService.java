@@ -3,14 +3,13 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.annotation.TimeCheck;
-import org.example.dto.ProductDto;
+import org.example.dto.product.ProductDto;
 import org.example.entity.Product;
 import org.example.repository.ProductRepository;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

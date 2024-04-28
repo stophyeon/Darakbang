@@ -11,6 +11,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.example.dto.*;
 
+import org.example.dto.exception.ExceptionResponse;
+import org.example.dto.login.LoginSuccessDto;
+import org.example.dto.purchase.PaymentsRes;
+import org.example.dto.purchase.PurchaseDto;
+import org.example.dto.signup.SignUpRes;
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
 import org.springframework.http.MediaType;
@@ -34,7 +39,7 @@ public class MemberController {
             summary = "회원가입"
     )
     @PostMapping(value = "/signup",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseCustom> signup(@RequestPart(name = "req") @Parameter MemberDto memberDto, @RequestPart(name = "img",required = false) @Parameter MultipartFile img) throws IOException {
+    public ResponseEntity<SignUpRes> signup(@RequestPart(name = "req") @Parameter MemberDto memberDto, @RequestPart(name = "img",required = false) @Parameter MultipartFile img) throws IOException {
 
         return ResponseEntity.ok(memberService.join(memberDto,img));
     }
@@ -79,9 +84,9 @@ public class MemberController {
             summary = "프로필 업데이트"
     )
     @PutMapping(path = "/profile/{email}",consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseCustom> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
-                                                        @RequestPart(name = "img",required = false) @Parameter MultipartFile img,
-                                                        @PathVariable("email") String email) throws IOException {
+    public ResponseEntity<ExceptionResponse> changeProfile(@RequestPart(name = "req",required = false) @Parameter MemberDto memberDto,
+                                                           @RequestPart(name = "img",required = false) @Parameter MultipartFile img,
+                                                           @PathVariable("email") String email) throws IOException {
         return ResponseEntity.ok(memberService.updateProfile(img,memberDto,email));
     }
 
@@ -92,7 +97,7 @@ public class MemberController {
     )
 
     @PostMapping("/payments/{email}")
-    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto,@PathVariable("email") String email) {
+    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto, @PathVariable("email") String email) {
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 

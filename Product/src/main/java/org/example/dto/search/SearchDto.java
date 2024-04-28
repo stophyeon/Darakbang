@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dto.search;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

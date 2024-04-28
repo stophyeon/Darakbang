@@ -1,5 +1,5 @@
 package org.example.service;
-import org.example.dto.ProductDto;
+import org.example.dto.product.ProductDto;
 import org.example.dto.SuccessRes;
 import org.example.repository.ProductRepository;
 import org.junit.jupiter.api.Test;

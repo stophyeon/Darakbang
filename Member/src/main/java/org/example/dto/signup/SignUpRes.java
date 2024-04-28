@@ -1,15 +1,15 @@
-package org.example.dto;
+package org.example.dto.signup;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class ResponseCustom {
+public class SignUpRes {
     private String state;
     private String message;
 
     @Builder
-    public ResponseCustom(String state,String message){
+    public SignUpRes(String state, String message){
         this.state=state;
         this.message=message;
     }
