@@ -89,9 +89,12 @@ public class MemberService {
     public RefreshDto refreshToken(String refreshToken){
         log.info(refreshToken);
         Token token = tokenRepository.findByRefreshToken(refreshToken);
-
-
         return RefreshDto.builder().access_token(jwtProvider.recreateToken(token.getEmail())).build();
+    }
+
+    @Transactional
+    public void deleteRefresh(String email){
+        tokenRepository.deleteByEmail(email);
     }
 
     public MemberDto myProfile(String email){
