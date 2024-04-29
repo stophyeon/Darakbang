@@ -7,8 +7,9 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
-    margin-left: 400px;
+    margin-left: 349px;
     margin-bottom: 10%;
+    width: 70%;
 }
 
 .parent {
@@ -20,7 +21,7 @@
     border-radius: 10px;
     background: #FFF;
     box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
-    width: 279px;
+    width: 100%;
     height: 110%;
   }
   .profile{
@@ -31,7 +32,7 @@
     background: lightgray 50% / cover no-repeat;
   box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);
   border-radius: 50%;
-  margin-left: 25px;
+  margin-left: 20%;
   margin-top: 31px;
   }
   
@@ -51,7 +52,7 @@
 
   .postItem h3 {
     width: 235px;
-  height: 21px;
+  height: 25px;
   flex-shrink: 0;
   overflow: hidden;
   color: var(--black, #191A1C);
@@ -63,7 +64,7 @@
   font-weight: 500;
   line-height: normal;
   margin-top: 9px;
-  margin-left: 41px;
+  margin-left: 20%;
   }
   
   .postItem h1 {
@@ -73,7 +74,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: 37px;
+  margin-left: 21%;
   margin-top: 5px;
   margin-bottom: 0px;
   padding: 0%;
@@ -87,15 +88,13 @@
   font-weight: 600;
   line-height: normal;
   margin-top: 0px;
-  margin-left: 34px;
+  margin-left: 21%;
   margin-bottom: 0px;
   }
   
   .productImg{
     margin-top: 8px;
-    margin-left: 37px;
-  }
-  .buttons{
+    margin-left: 23%;
   }
   
   .like {
@@ -110,7 +109,7 @@
   font-weight: 600;
   line-height: normal;
   border: 0;
-  margin-left: 27px;
+  margin-left: 21%;
   cursor: pointer;
   }
   

@@ -117,7 +117,7 @@ export default function OtherProfileform({ nick_name }) {
         <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
         <div className={styles.verticalLine}></div>
         <div className={styles.Lists}>
-          {currentView === 'products' && <ProductsComponent nick_name={userInfo.nick_name} />} 
+          {currentView === 'products' && <ProductsComponent nick_name={nick_name} />} 
           {currentView === 'likes' && <LikeListComponent />} 
           </div>
         

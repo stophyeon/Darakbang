@@ -40,7 +40,7 @@ export default function LikeListComponent() {
               </div>
               <div className={styles.flexes}>
               <h3>{like.productName}</h3>
-                <Image src={like.imageProduct} alt="상품 사진" width={150} height={150} className={styles.productImg} />
+                <Image src={like.imageProduct} alt="상품 사진" width={240} height={260} className={styles.productImg} />
                 <h1>가격</h1>
                 <h4>{like.price}원</h4>
                 <div className={styles.buttons}>

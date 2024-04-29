@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import LikeListComponent from '../bucket/LikeLists';
 import ProductsComponent from './ProductsComponent';
 
+import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
 export default function UserProfile() {
   const [userInfo, setuserInfo] = useState('');
@@ -125,32 +126,51 @@ export default function UserProfile() {
             </div>
             <div className={styles.Followes}>
               <div>
-                <button className={styles.followButton} onClick={openFollowingModal}>팔로잉 {userInfo.following}</button>
+              <Popover showArrow={true} placement="bottom">
+                <PopoverTrigger className={styles.followButton} onClick={openFollowingModal}>
+                  <Button className={styles.Followingbtn}>팔로잉 {userInfo.following}</Button>
+                  </PopoverTrigger>
                 {isFollowingModalOpen && (
-                  <div className={styles.modal}>
+                  <PopoverContent className={styles.modal}>
                     <ul>
                       {followingList.map((following) => (
-                        <li key={following.member_id}>{following.name}</li>
+                        <li key={following.member_id}>
+                            <div className={styles.flex}>
+                              <Image src={following.image} alt="프로필 사진" width={15} height={15} priority className={styles.followImg}/>
+                              <p className={styles.names}>{following.name}</p>
+                            </div>
+                            
+                        </li>
                       ))}
                     </ul>
-                    <button className={styles.closeButton} onClick={closeFollowingModal}>닫기</button>
-                  </div>
+                  </PopoverContent> 
                 )}
+                </Popover>
                 <p className={styles.profileName}>{userInfo.name}</p>
                 <p className={styles.profileEmail}>{userInfo.email}</p>
                 <p className={styles.profilePoint}>보유 포인트: {userInfo.point}원</p>
               </div>
-              <button className={styles.followButton2} onClick={openFollowerModal}>팔로워 {userInfo.follower}</button>
+              <Popover showArrow={true} placement="bottom">
+              <PopoverTrigger className={styles.followButton2} onClick={openFollowerModal}>
+              <Button className={styles.Followingbtn}>
+                팔로워 {userInfo.follower}
+                </Button>
+              </PopoverTrigger>
               {isFollowerModalOpen && (
-                <div className={styles.modal}>
+                <PopoverContent className={styles.modal}>
                   <ul>
                     {followerList.map((follower) => (
-                      <li key={follower.member_id}>{follower.name}</li>
+                      <li key={follower.member_id}>
+                        <div className={styles.flex}>
+                              <Image src={follower.image} alt="프로필 사진" width={15} height={15} priority className={styles.followImg} />
+                              <p className={styles.names}>{follower.name}</p>
+                        </div>
+                        </li>
                     ))}
                   </ul>
-                  <button className={styles.closeButton} onClick={closeFollowerModal}>닫기</button>
-                </div>
+                </PopoverContent>
               )}
+              </Popover>
               <button className={styles.EditBtn} onClick={handleEditProfileClick} >프로필 수정</button>
             </div>
           </div>

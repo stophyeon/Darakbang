@@ -35,7 +35,7 @@ export default function PostItem(props) {
           <h2 className={styles.nickName}>{nick_name}</h2>
           </div>
           <h3>{product_name}</h3>
-          <Image src={image_product} width={210} height={230} alt="상품 이미지" className={styles.productImg} priority/>
+          <Image src={image_product} width={240} height={260} alt="상품 이미지" className={styles.productImg} priority/>
           <h1>가격</h1>
           <h4>{price}원</h4>
           </Link>
