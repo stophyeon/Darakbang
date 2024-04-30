@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MdPostAdd } from "react-icons/md";
 
-import { getPostsFiles } from '@compoents/util/post-util';
 import MiniCategoryComponents from '@compoents/components/minicategory/Minicategory';
 import CommuPosts from '@compoents/components/posts/commu-post';
 import Pagination from '@compoents/components/pagination/Paginations';
@@ -14,33 +13,12 @@ import styles from './NextPageContainers.module.css';
 
 
 
-export default function NextPageContainer({ postPage }) {
+export default function NextPageContainer({  postdata }) {
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
-  const [posts, setPosts] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const PAGE_GROUP_SIZE = 2;
+  const PAGE_GROUP_SIZE = 3;
 
-  useEffect(() => {
-    const accessTokenFromLocalStorage = localStorage.getItem('accessToken');
-    if (accessTokenFromLocalStorage) {
-      setAccessToken(accessTokenFromLocalStorage);
-    }
-
-    const fetchPosts = async () => {
-      const postdata = await getPostsFiles(postPage, accessToken);
-      if (postdata) {
-        console.log(postdata);
-        setPosts(postdata);
-        setCurrentPage(postdata.pageable.pageNumber);
-      }
-      else {
-        alert('게시물안받아옴')
-      }
-    }
-    fetchPosts()
-  }, [accessToken]);
 
   const handlePageChange = (page) => {
     if (page == 1) {
@@ -79,10 +57,10 @@ export default function NextPageContainer({ postPage }) {
           <CategoryComponents handleCategoryChange={handleCategoryChange} />
           <MiniCategoryComponents className={styles.cateminibtn} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
         </div>
-        <CommuPosts posts={posts} selectedCategory={selectedCategory}/>
+        <CommuPosts posts={postdata} selectedCategory={selectedCategory}/>
         <Pagination
           currentPage={currentPage}
-          posts={posts}
+          posts={postdata}
           PAGE_GROUP_SIZE={PAGE_GROUP_SIZE}
           handlePageChange={handlePageChange}
           goToPreviousPageGroup={goToPreviousPageGroup}

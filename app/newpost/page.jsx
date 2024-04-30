@@ -1,12 +1,14 @@
+'use server';
 import ProductForm from "@compoents/components/posts/Interaction/SendPost";
+import { cookies } from "next/headers";
 
-
-export default function ProductPage() {
-  
-
+export default async function ProductPage() {
+  const cookieStore = cookies()
+  const Authorization = cookieStore.get('Authorization')
+  console.log(Authorization.value);
   return (
     <>
-      <ProductForm />
+      <ProductForm accessToken={Authorization.value} />
     </>
   );
 }

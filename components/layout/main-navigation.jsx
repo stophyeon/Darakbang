@@ -3,6 +3,7 @@ import Link from "next/link";
 import FindEventSection from "../items/ItemSearch";
 import { useState, useEffect } from "react";
 
+
 import styles from './main-navigation.module.css'; 
 import SmallProfile from "../profile/SmallProfile";
 

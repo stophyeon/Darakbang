@@ -1,6 +1,5 @@
 
 
-
 // 로그인 fetch
 
 export async function Loginfetch(email, password) {
@@ -14,10 +13,8 @@ export async function Loginfetch(email, password) {
       const data = await response.json();
   
       if (response.ok) {
-        const { accessToken, refreshToken } = data.jwtDto;
+        const { accessToken } = data.jwtDto;
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
-        document.cookie = `accessToken=${accessToken}; path=/; HttpOnly`;
-        document.cookie = `refreshToken=${refreshToken};`;
         
       }
       else if (response.status === 403) {
@@ -29,3 +26,6 @@ export async function Loginfetch(email, password) {
       throw new Error('로그인 요청에 실패했습니다.');
     }
   }
+
+
+  

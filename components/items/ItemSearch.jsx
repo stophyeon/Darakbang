@@ -79,6 +79,7 @@ const FindEventSection = () => {
       {autoCompleteResults.length > 0 && (
         <ul className={styles.autoCompleteDropdown}>
           {autoCompleteResults.map((item, index) => (
+            <>
             <li
               key={index}
               className={styles.autoCompleteItem}
@@ -86,6 +87,8 @@ const FindEventSection = () => {
             >
               {item}
             </li>
+            <div className={styles.verticalLine}></div>
+            </>
           ))}
         </ul>
       )}

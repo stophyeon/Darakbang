@@ -39,7 +39,7 @@ export default function PostDetailPage({ params }) {
       }
     }
     fetchPosts()
-  }, [accessToken]);
+  }, [accessToken, params.productId]);
 
 
   

@@ -1,5 +1,4 @@
 'use client';
-import { getPostsFile } from '@compoents/util/post-util';
 import MainNavigation from "@compoents/components/layout/main-navigation";
 import { MdPostAdd } from "react-icons/md";
 import Link from "next/link";
@@ -9,35 +8,16 @@ import Pagination from '@compoents/components/pagination/Paginations';
 
 import styles from "./MainContainers.module.css";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CommuPosts from '@compoents/components/posts/commu-post';
 
-export default function MainContainers() {
+export default function MainContainers({ postdata }) {
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState('');
-  const [posts, setPosts] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_GROUP_SIZE = 3;
   
-  useEffect(() => {
-    const accessTokenFromLocalStorage = localStorage.getItem('Authorization');
-    if (accessTokenFromLocalStorage) {
-      setAccessToken(accessTokenFromLocalStorage);
-    }
-  
-    const fetchPosts = async () => {
-      const postdata = await getPostsFile(accessToken);
-      if (postdata && postdata.pageable && postdata.pageable.pageNumber !== undefined) {
-        setPosts(postdata);
-        setCurrentPage(postdata.pageable.pageNumber + 1);
-      } else {
-        setPosts(null); 
-      }
-    }
-    fetchPosts()
-  }, [accessToken]);
 
   
   const handlePageChange = (page) => {
@@ -71,10 +51,10 @@ export default function MainContainers() {
             <CategoryComponents handleCategoryChange={handleCategoryChange} />
             <MiniCategoryComponents className={styles.cateminibtn} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange}/>
           </div>
-          <CommuPosts posts={posts} selectedCategory={selectedCategory} />
+          <CommuPosts posts={postdata} selectedCategory={selectedCategory} />
           <Pagination 
             currentPage={currentPage}
-            posts={posts}
+            posts={postdata}
             PAGE_GROUP_SIZE={PAGE_GROUP_SIZE}
             handlePageChange={handlePageChange}
             goToPreviousPageGroup={goToPreviousPageGroup}

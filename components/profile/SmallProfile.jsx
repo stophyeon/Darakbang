@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 import { useState, useEffect } from 'react';
-import { fetchUserProfile } from '@compoents/util/http';
+import { RefreshAccessToken, fetchUserProfile } from '@compoents/util/http';
 
 export default function SmallProfile() {
     const defaultImage = "/images/kakaoImg.jpg";
@@ -12,7 +12,8 @@ export default function SmallProfile() {
 
     function logoutHandler() {
         localStorage.removeItem('Authorization');
-        localStorage.removeItem("expiration");
+        document.cookie = 'Authorization' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + "; path=/";
+        document.cookie = 'refreshToken' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + "; path=/";
         window.location.href = "http://localhost:3000"
     }
     useEffect(() => {
@@ -21,7 +22,14 @@ export default function SmallProfile() {
           try {
             const accesstoken = localStorage.getItem('Authorization');
             const data = await fetchUserProfile(accesstoken);
-            setuserInfo(data);
+            if (data.state == false) {
+                const NewaccessToken = await RefreshAccessToken();
+                const Newdata = await fetchUserProfile(NewaccessToken);
+                setuserInfo(Newdata);
+            } else {
+                setuserInfo(data);
+            }
+            
           } catch (error) {
             console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
           }

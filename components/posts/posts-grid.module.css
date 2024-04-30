@@ -1,8 +1,9 @@
 .postsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
+    grid-gap: 30px;
     margin-bottom: 10%;
+    margin-left: 10%;
   }
 
   @media screen and (max-width: 786px){

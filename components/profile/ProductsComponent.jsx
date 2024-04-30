@@ -23,7 +23,7 @@ export default function ProductsComponent({nick_name}){
         };
 
         fetchUserProducts();
-    }, []);
+    }, [nick_name]);
 
     return (
         <>

@@ -13,7 +13,7 @@ import { fetchUserProfile } from '@compoents/util/http';
 // }
 
 
-export default function ProductForm() {
+export default function ProductForm({ accessToken }) {
   const router = useRouter()
 
   const [productName, setProductName] = useState('');
@@ -25,7 +25,7 @@ export default function ProductForm() {
   const [createdAt, setCreatedAt] = useState('');
   const [expireAt, setexpireAt] = useState('');
   const [categoryId, setCategoryId] = useState('음료');
-  const [accessToken, setAccessToken] = useState('');
+  // const [accessToken, setAccessToken] = useState('');
 
   const selectList = [
     { value: "3001", name: "음료" },
@@ -39,12 +39,11 @@ export default function ProductForm() {
   useEffect(() => {
     const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
     setCreatedAt(currentDate);
-    console.log(currentDate)
 
-    const AccessTokens = localStorage.getItem('Authorization');
-    if (AccessTokens) {
-      setAccessToken(AccessTokens);
-    }
+    // const AccessTokens = localStorage.getItem('Authorization');
+    // if (AccessTokens) {
+    //   setAccessToken(AccessTokens);
+    // }
   }, []);
 
   const handleImageChange = (e) => {
@@ -69,9 +68,6 @@ export default function ProductForm() {
 
 
   async function sendProductHandler(event) {
-
-    
-
     event.preventDefault();
     try {
       const formData = new FormData();

@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import styles from "@compoents/components/login/LoginForm.module.css";
 import { Loginfetch } from "@compoents/util/Client";
+import { Loginfetchs } from '@compoents/util/http';
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ export default function LoginForm() {
     event.preventDefault();
     try {
       await Loginfetch(email, password);
+      await Loginfetchs(email, password);
     }
     catch (error) {
       console.error(error.message);

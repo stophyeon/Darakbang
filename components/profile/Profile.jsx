@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import Image from 'next/image';
-import { fetchUserProfile, fetchFollowUser, fetchFollowingUser } from '@compoents/util/http';
+import { fetchFollowUser, fetchFollowingUser } from '@compoents/util/http';
 import LoadingIndicator from '../UI/LoadingIndicator';
 import { useRouter } from 'next/navigation';
 import LikeListComponent from '../bucket/LikeLists';
@@ -10,8 +10,7 @@ import ProductsComponent from './ProductsComponent';
 
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
-export default function UserProfile() {
-  const [userInfo, setuserInfo] = useState('');
+export default function UserProfile({userInfo}) {
   const [followingList, setFollowingList] = useState([]);
   const [followerList, setFollowerList] = useState([]);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
@@ -21,23 +20,6 @@ export default function UserProfile() {
 
   const defaultImage = "/images/kakaoImg.jpg";
 
-
-  useEffect(() => {
-    // API 호출 -> 사용자 정보 받아오기
-    async function fetchUserProfileData() {
-      try {
-        const accesstoken = localStorage.getItem('Authorization');
-        if (!accesstoken) {
-          throw new Error('로그인이 필요합니다.');
-        }
-        const data = await fetchUserProfile(accesstoken);
-        setuserInfo(data);
-      } catch (error) {
-        console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);
-      }
-    };
-    fetchUserProfileData();
-  }, []);
 
   useEffect(() => {
     // 모달이 열릴 때 팔로워 리스트 가져오기
@@ -109,7 +91,7 @@ export default function UserProfile() {
         <>
           <div className={styles.profileInfo}>
             <div>
-              <Image //img , `file://C:/Profile_img/${userInfo.image}}`
+              <Image
                 src={userInfo.image || defaultImage}
                 alt="이미지"
                 width={200}

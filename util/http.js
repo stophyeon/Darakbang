@@ -1,6 +1,61 @@
 'use server';
 
 
+import { cookies } from "next/headers";
+
+
+export async function Loginfetchs(email, password) {
+  try {
+    const response = await fetch("http://localhost:8888/member/login", {
+      cache: 'no-store',
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      const { accessToken, refreshToken } = data.jwtDto;
+      cookies().set("Authorization", `Bearer ${accessToken}`, {path: '/'});
+      cookies().set('refreshToken',`${refreshToken}`);;
+      
+    }
+    else if (response.status === 403) {
+      throw new Error('로그인 실패: 아이디 혹은 비밀번호를 다시 확인해주세요.');
+    }
+  }
+  catch (error) {
+    console.error(error);
+    throw new Error('로그인 요청에 실패했습니다.');
+  }
+}
+
+
+
+export async function RefreshAccessToken() { //refreshToken
+  const cookieStore = cookies()
+  const refreshToken = cookieStore.get('refreshToken')
+  try {
+    const response = await fetch("http://localhost:8888/member/refresh", {
+      cache: 'no-store',
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to refresh access token");
+    }
+    const data = await response.json();
+    const newAccessToken = data.access_token;
+    return newAccessToken;
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+    throw error;
+  }
+}
+
+
 // 회원가입 fetch
 export async function signup(formData) {
   const response = await fetch("http://localhost:8888/member/signup", {

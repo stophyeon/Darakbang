@@ -21,7 +21,6 @@ export default function EditProductForm({ productId, post }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log(post)
         const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
     setCreatedAt(currentDate);
     console.log(currentDate)
