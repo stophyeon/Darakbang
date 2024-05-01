@@ -32,7 +32,7 @@ public class StorageService {
     private String projectId;
 
     public String imageUpload(MultipartFile profileImg) throws IOException {
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
         String origin_name =profileImg.getOriginalFilename();
         String file_name=changedImageName(origin_name);
         String ext = profileImg.getContentType();
@@ -57,7 +57,7 @@ public class StorageService {
         Optional<Member> member = memberRepository.findByEmail(email);
         member.orElseThrow();
         String img = member.get().getImage().substring(44);
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
         Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
         Blob blob = storage.get(bucketName, img);
         if (blob==null){return;}

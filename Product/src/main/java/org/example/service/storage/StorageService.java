@@ -35,7 +35,7 @@ public class StorageService {
     private final String refreshToken = "1//04U1sIiKq0e1nCgYIARAAGAQSNwF-L9Iredc3sG3SaLFDdVwn90YGf7lYSJI0vdn0DPlEu1gKftVp_G3jgZrSzO7Xi0pA5Uv1tIU";
 
     public String imageUpload(MultipartFile img_product) throws IOException {
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
         String product_origin_name =img_product.getOriginalFilename();
         String product_file_name=changedImageName(product_origin_name);
         String product_ext = img_product.getContentType();
@@ -59,7 +59,7 @@ public class StorageService {
         String imgProduct = product.getImageProduct().substring(44);
         log.info(imgProduct);
 
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
             Storage storage = StorageOptions.newBuilder()
                     .setCredentials(GoogleCredentials.fromStream(keyFile))
                     .build()
@@ -78,7 +78,7 @@ public class StorageService {
         String imgReal = product.getImageReal().substring(44);
         log.info(imgReal);
 
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
         Storage storage = StorageOptions.newBuilder()
                 .setCredentials(GoogleCredentials.fromStream(keyFile))
                 .build()
