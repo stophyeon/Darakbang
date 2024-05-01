@@ -40,7 +40,7 @@ public class ProductService {
         productDto.setNick_name(nickName);
         productDto.setUserProfile(profile);
         // 이미지 구글 클라우드 저장
-        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-3b7415068a92.json" ).openStream();
+        InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
 
         String product_file_name= storageService.imageUpload(img_product);
         String real_file_name= storageService.imageUpload(img_real);
