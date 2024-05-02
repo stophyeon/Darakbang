@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import styles from './SignupForm.module.css';
 
-import { signup, checkNickname } from "@compoents/util/http";
+import { signup, checkNickname } from "@compoents/util/Client";
 
 
 export default function SignupForm() {

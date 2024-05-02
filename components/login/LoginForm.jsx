@@ -26,8 +26,12 @@ export default function LoginForm() {
       console.error(error.message);
       setRequestError(403);
     }
-    const redirectUrl = "http://localhost:3000";
-    window.location.href = redirectUrl;
+    const existingAccessToken = localStorage.getItem("Authorization");
+    if (existingAccessToken) {
+      const redirectUrl = "http://localhost:3000"; // 리다이렉트할 URL을 원하는 경로로 수정해주세요.
+      window.location.href = redirectUrl;
+      return;
+    }
   };
 
   useEffect(() => {

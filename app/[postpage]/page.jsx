@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 export default async function CommuPostsPage({params}) {
   const cookieStore = cookies()
   const Authorization = cookieStore.get('Authorization')
-  const postdata = await getPostsFiles(params.postpage, Authorization.value);
+  const postdata = await getPostsFiles(params.postpage, Authorization);
   return (
     <NextPageContainer postdata={postdata} postPage={params.postpage} />
   )

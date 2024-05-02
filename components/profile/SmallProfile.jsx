@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 import { useState, useEffect } from 'react';
-import { RefreshAccessToken, fetchUserProfile } from '@compoents/util/http';
+import { RefreshAccessToken } from '@compoents/util/http';
+import { fetchUserProfile } from '@compoents/util/Client';
 
 export default function SmallProfile() {
     const defaultImage = "/images/kakaoImg.jpg";
@@ -22,10 +23,13 @@ export default function SmallProfile() {
           try {
             const accesstoken = localStorage.getItem('Authorization');
             const data = await fetchUserProfile(accesstoken);
-            if (data.state == false) {
+            if (data.state == "Jwt Expired") {
+                localStorage.removeItem('Authorization');
+                document.cookie = 'Authorization' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + "; path=/";
                 const NewaccessToken = await RefreshAccessToken();
                 const Newdata = await fetchUserProfile(NewaccessToken);
                 setuserInfo(Newdata);
+                console.log(Newdata);
             } else {
                 setuserInfo(data);
             }

@@ -1,7 +1,8 @@
 
 // 상품 검색 
 export async function fetchProductName(searchTerm) {
-    const response = await fetch('http://localhost:8888/product/search', {
+  const response = await fetch('http://darakbang-apigateway-service-1:8888/product/search', {  
+  //  const response = await fetch('http://localhost:8888/product/search', {
       cache: 'no-store',
       method: "POST",
       headers: {

@@ -1,7 +1,8 @@
 
 export async function sendProductData(formData, accessToken) {
   try {
-    const response = await fetch('http://localhost:8888/product', {
+    const response = await fetch('http://darakbang-apigateway-service-1:8888/product', {
+    //const response = await fetch('http://localhost:8888/product', {
       cache: 'no-store',
       method: 'POST',
       headers: {
@@ -22,7 +23,8 @@ export async function sendProductData(formData, accessToken) {
 }
 
 export async function getPostsFile(accessToken) {
-  const response = await fetch('http://localhost:8888/product/page', {
+  const response = await fetch('http://darakbang-apigateway-service-1:8888/product/page', {
+ // const response = await fetch('http://localhost:8888/product/page', {
     cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
@@ -30,11 +32,17 @@ export async function getPostsFile(accessToken) {
     },
   });
   const data = await response.json();
-  return data;
+  if (data === null) {
+    const api = [];
+    return api;
+  } else {
+    return data;
+  }
 }
 
 export async function getPostsFiles(page, accessToken) {
-    const response = await fetch(`http://localhost:8888/product/page?page=${page}`, {
+  const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/page?page=${page}`, {
+  //  const response = await fetch(`http://localhost:8888/product/page?page=${page}`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -42,11 +50,18 @@ export async function getPostsFiles(page, accessToken) {
       },
     });
     const data = await response.json();
-    return data;
+    if (data === null) {
+      const api = [];
+      return api;
+    } else {
+      return data;
+    }
+    
   }
   
   export async function getPostData(productid, accessToken) {
-    const response = await fetch(`http://localhost:8888/product/detail?product_id=${productid}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/detail?product_id=${productid}`, {
+   // const response = await fetch(`http://localhost:8888/product/detail?product_id=${productid}`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +73,8 @@ export async function getPostsFiles(page, accessToken) {
   }
 
   export async function PutPostData(productid, productData, accessToken) {
-    const response = await fetch(`http://localhost:8888/product/${productid}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/${productid}`, {
+  //  const response = await fetch(`http://localhost:8888/product/${productid}`, {
       cache: 'no-store',
       method: 'PUT',
       headers: {
@@ -72,7 +88,8 @@ export async function getPostsFiles(page, accessToken) {
   }
 
   export async function DeletePost(productid, accessToken) {
-    const response = await fetch(`http://localhost:8888/product/${productid}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/${productid}`, {
+   // const response = await fetch(`http://localhost:8888/product/${productid}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +110,8 @@ export async function getPostsFiles(page, accessToken) {
 
   export async function LikeProduct(accessToken, product_id) {
     try {
-      const response = await fetch(`http://localhost:8888/product/like/${product_id}`, {   // 본문에 이메일 넣어서?
+      const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/like/${product_id}`, {
+    //  const response = await fetch(`http://localhost:8888/product/like/${product_id}`, {   
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +123,7 @@ export async function getPostsFiles(page, accessToken) {
     } else {
       console.log("좋아요 성공");
     }
-    return response.json(); // 서버에서 JSON 형식의 응답을 반환하는 경우
+    return response.json();
 } catch (error) {
     console.error('좋아요 요청을 보내는 중 오류가 발생했습니다.', error);
     throw error;
@@ -115,7 +133,8 @@ export async function getPostsFiles(page, accessToken) {
   // 사용자 좋아요 목록
   export async function LikeList(accessToken) {
     try {
-      const response = await fetch('http://localhost:8888/product/like', {   // 본문에 이메일 넣어서?
+      const response = await fetch('http://darakbang-apigateway-service-1:8888/product/like', {
+    //  const response = await fetch('http://localhost:8888/product/like', { 
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${accessToken}`
@@ -134,7 +153,8 @@ export async function getPostsFiles(page, accessToken) {
 
   export async function DeleteLike(accessToken, productid) {
     try {
-      const response = await fetch(`http://localhost:8888/product/like/${productid}`, {   // 본문에 이메일 넣어서?
+      const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/like/${productid}`, {
+    //  const response = await fetch(`http://localhost:8888/product/like/${productid}`, { 
       method: 'DELETE',  
       headers: {
           'Content-Type': 'application/json',

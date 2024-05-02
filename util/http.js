@@ -6,7 +6,8 @@ import { cookies } from "next/headers";
 
 export async function Loginfetchs(email, password) {
   try {
-    const response = await fetch("http://localhost:8888/member/login", {
+   const response = await fetch("darakbang-apigateway-service-1:8888/member/login", { 
+  //  const response = await fetch("http://localhost:8888/member/login", {
       cache: 'no-store',
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -36,7 +37,8 @@ export async function RefreshAccessToken() { //refreshToken
   const cookieStore = cookies()
   const refreshToken = cookieStore.get('refreshToken')
   try {
-    const response = await fetch("http://localhost:8888/member/refresh", {
+    const response = await fetch("http://darakbang-apigateway-service-1:8888/member/refresh", {
+  //  const response = await fetch("http://localhost:8888/member/refresh", {
       cache: 'no-store',
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,37 +58,12 @@ export async function RefreshAccessToken() { //refreshToken
 }
 
 
-// 회원가입 fetch
-export async function signup(formData) {
-  const response = await fetch("http://localhost:8888/member/signup", {
-    method: "POST",
-    body: formData
-  });
 
-  if (response.ok) {
-    const responseData = await response.json();
-    return responseData;
-  } else {
-    console.error(response.status);
-    throw new Error('API 요청에 실패했습니다.');
-  }
-}
-
-// 닉네임 중복 체크
-export async function checkNickname(nickname) {
-  const response = await fetch(`http://localhost:8888/nick_name?nick_name=${nickname}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const data = await response.json();
-  return data;
-}
 
 
 export async function EditProfile(formData, accessToken) {
-  const response = await fetch("http://localhost:8888/member/profile", {
+  const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {
+//  const response = await fetch("http://localhost:8888/member/profile", {
     method: "PUT",
     headers: {
       'Authorization': `${accessToken}`
@@ -110,7 +87,8 @@ export async function EditProfile(formData, accessToken) {
 
 export async function fetchUserProfile(accesstoken) {
   try {
-    const response = await fetch('http://localhost:8888/member/profile', {
+    const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {
+  //  const response = await fetch('http://localhost:8888/member/profile', {
       cache: 'no-store',
       headers: {
         'Authorization': `${accesstoken}`
@@ -127,7 +105,8 @@ export async function fetchUserProfile(accesstoken) {
 // 멤버 프로필 수정 api
 export async function PUTUserProfile(accesstoken, formData) {
   try {
-    const response = await fetch(`http://localhost:8888/member/profile`, {
+    const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {  
+  //  const response = await fetch(`http://localhost:8888/member/profile`, {
       cache: 'no-store',
       method: 'PUT',
       headers: {
@@ -147,7 +126,8 @@ export async function PUTUserProfile(accesstoken, formData) {
 
 export async function fetchOtherUserProfile(nick_name, accessToken){
   try {
-    const response = await fetch(`http://localhost:8888/member/profile/${nick_name}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/member/profile/${nick_name}`, {
+  //  const response = await fetch(`http://localhost:8888/member/profile/${nick_name}`, {
       cache: 'no-store',
       method: 'POST',
       headers: {
@@ -167,7 +147,8 @@ export async function fetchOtherUserProfile(nick_name, accessToken){
 
 export async function followUser(accessToken, email) {
   try {
-    const response = await fetch('http://localhost:8888/follow', {   // 본문에 이메일 넣어서?
+    const response = await fetch("http://darakbang-apigateway-service-1:8888/follow", {
+  //  const response = await fetch('http://localhost:8888/follow', {   // 본문에 이메일 넣어서?
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -187,7 +168,8 @@ export async function followUser(accessToken, email) {
 // followList 가져오기
 export async function fetchFollowUser(accessToken) {
   try {
-    const response = await fetch('http://localhost:8888/follow/follower', {
+    const response = await fetch("http://darakbang-apigateway-service-1:8888/follow/follower", {
+  //  const response = await fetch('http://localhost:8888/follow/follower', {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -204,7 +186,8 @@ export async function fetchFollowUser(accessToken) {
 // following List
 export async function fetchFollowingUser(accessToken) {
   try {
-    const response = await fetch('http://localhost:8888/follow/following', {
+    const response = await fetch("http://darakbang-apigateway-service-1:8888/follow/following", {
+  //  const response = await fetch('http://localhost:8888/follow/following', {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -222,7 +205,8 @@ export async function fetchFollowingUser(accessToken) {
 // mypage
 export async function getSelling(nick_name) {
   try {
-    const response = await fetch(`http://localhost:8888/product/mypage?nick_name=${nick_name}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/mypage?nick_name=${nick_name}`, {
+  //  const response = await fetch(`http://localhost:8888/product/mypage?nick_name=${nick_name}`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',

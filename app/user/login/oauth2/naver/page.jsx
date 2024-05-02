@@ -7,7 +7,8 @@ export default function KakaoLogin() {
     const kakaoLogin = async () => {
       try {
         const code = new URL(window.location.href).searchParams.get("code");
-        const response = await fetch(`http://localhost:8080/oauth2/naver?code=${code}`, {
+        const response = await fetch(`http://darakbang-member-service-1/oauth2/naver?code=${code}`, {
+      //  const response = await fetch(`http://localhost:8080/oauth2/naver?code=${code}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json;charset=utf-8",

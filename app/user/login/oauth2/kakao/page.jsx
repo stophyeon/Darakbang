@@ -7,7 +7,8 @@ export default function KakaoLogin() {
     const kakaoLogin = async () => {
       const code = new URL(window.location.href).searchParams.get("code");
       if (code) {
-        const response = await fetch(`http://localhost:8888/oauth2/kakao?code=${code}`, {
+        const response = await fetch(`http://darakbang-member-service-1/oauth2/kakao?code=${code}`, {
+       // const response = await fetch(`http://localhost:8888/oauth2/kakao?code=${code}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -21,8 +22,8 @@ export default function KakaoLogin() {
 
         const { accessToken, refreshToken } = data;
         localStorage.setItem("Authorization", `Bearer ${accessToken}`);
-        const expiration = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
-        document.cookie = `refreshToken=${refreshToken}; Expires=${expiration.toUTCString()}; Secure; HttpOnly`;
+        document.cookie = `Authorization=Bearer ${accessToken}; path=/`;
+        document.cookie = `refreshToken=${refreshToken}; path=/;`;
 
         const existingAccessToken = localStorage.getItem("Authorization");
         if (existingAccessToken) {

@@ -19,7 +19,8 @@ const FindEventSection = () => {
           return; 
         }
         const accessToken = localStorage.getItem('Authorization');
-        const response = await fetch('http://localhost:8888/product/search/word', {
+        const response = await fetch('http://darakbang-apigateway-service-1:8888/product/search/word', {  
+       // const response = await fetch('http://localhost:8888/product/search/word', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
