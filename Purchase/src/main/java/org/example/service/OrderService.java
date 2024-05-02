@@ -1,15 +1,14 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.OrderSaveRequest;
-import org.example.dto.PaymentsRes;
+import org.example.dto.forbackend.OrderSaveRequest;
+import org.example.dto.forbackend.PaymentsRes;
 import org.example.entity.Order;
 import org.example.repository.OrderRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ListIterator;
 
 @Service
 @RequiredArgsConstructor
@@ -20,10 +19,9 @@ public class OrderService {
 
 
     //금액이 있어서 저장만 해주면 될때
-    public ResponseEntity<PaymentsRes> saveOrderInteract (List<OrderSaveRequest> orderSaveRequestlist)
+    public ResponseEntity<PaymentsRes> saveOrderRequstByMember(List<OrderSaveRequest> orderSaveRequestlist)
     {
 
-        //정방향 출력
         for (OrderSaveRequest orderSaveRequest : orderSaveRequestlist) {
 
             Order order = Order.builder()
