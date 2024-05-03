@@ -79,4 +79,10 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return query.selectFrom(member).where(member.member_id.in(ids)).fetch();
     }
 
+    @Override
+    public List<String> findMemberKeyWord(String word) {
+        QMember member = QMember.member;
+        return query.select(member.nickName).from(member).where(member.nickName.contains(word)).fetch();
+    }
+
 }

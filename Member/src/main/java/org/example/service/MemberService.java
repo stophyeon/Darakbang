@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,7 @@ public class MemberService {
     private final JwtProvider jwtProvider;
     private final TokenRepository tokenRepository;
 
-    private final String googleURL = "https://storage.googleapis.com/darakban-img/";
+    private final String googleURL = "https://storage.googleapis.com/darakbang-img/";
 
 
 
@@ -125,4 +126,7 @@ public class MemberService {
                 .build();
         }
 
+        public List<String> autoComplete(String word){
+            return memberRepository.findMemberKeyWord(word);
+        }
 }

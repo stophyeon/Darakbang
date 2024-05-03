@@ -15,4 +15,5 @@ public interface MemberRepositoryCustom {
     Long findId(String email);
     void updatePoint(int point,String email);
     List<Member> findAllById(List<Long> ids);
+    List<String> findMemberKeyWord(String word);
 }
