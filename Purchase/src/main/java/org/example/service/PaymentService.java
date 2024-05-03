@@ -4,6 +4,7 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.byfrontend.ValidationRequest;
+import org.example.dto.exception.AlreadySoldOutException;
 import org.example.dto.exception.MemberContainerException;
 import org.example.dto.exception.PaymentClaimAmountMismatchException;
 import org.example.dto.forbackend.PaymentsRes;
@@ -20,7 +21,10 @@ import reactor.core.publisher.Mono;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -107,36 +111,16 @@ public class PaymentService {
                     .totalamount(frontPaymentClaim)
                     .build();
 
-            paymentRepository.save(payment) ; //저장.
+            paymentRepository.save(payment) ; // 검증 정보가 문제 없을시, 결제 완료된걸 저장.
 
             return Mono.just(Boolean.FALSE); //문제없음
 
-
-
         } else {
-            log.info("결제 정보가 일치하지 않습니다. 취소 요청을 보냅니다.") ;
-            CancelRequest cancelRequest = new CancelRequest("결제 금액과 DB 확인 결과 맞지 않습니다");
-            Mono<CancelResponse> cancelResponseMono = portOneWebClient
-                    .post()
-                    .uri("/payments/{paymentId}/cancel", paymentId)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromValue(cancelRequest))
-                    .retrieve()
-                    .bodyToMono(CancelResponse.class);
+            OffsetDateTime currentDateTime = OffsetDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");//결제 취소시간
 
-            // 악의적 공격으로 가정, 결제 취소 후 해당 정보 저장.
-            Timestamp purchaseAt = changeDateFormat(portOnePaymentRecords.getRequestedAt()) ;
-
-            Payment payment = Payment.builder()
-                    .paymentid(paymentId)
-                    .status("DENIED")
-                    .purchaseat(purchaseAt)
-                    .ordername(portOnePaymentRecords.getOrderName())
-                    .totalamount(frontPaymentClaim)
-                    .build();
-
-            paymentRepository.save(payment);
-
+            cancelPayment(paymentId,currentDateTime.format(formatter), portOnePaymentRecords.getOrderName(),
+                    frontPaymentClaim, "결제 금액과 DB 확인 결과 맞지 않습니다", "DENIED") ;
             //결제 취소 완료. 이후 exception 유발 필요-
             throw new PaymentClaimAmountMismatchException();
 
@@ -151,46 +135,68 @@ public class PaymentService {
         purchaseDto.setEmail(email); // 구매자 이메일 설정
         purchaseDto.setTotal_point(validationRequest.getTotal_point());
         purchaseDto.setPayments_list(validationRequest.getPayments_list());
-//
+
 //        log.info("포인트 교환, 상품 삭제, 상태 변경 등의 요청을 전송합니다.");
-
-
         return webClientforMember.post()
                 .uri("/payments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(purchaseDto))
                 .retrieve()
                 .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> {
-                    WebClient cancelwebClient = WebClient.builder().baseUrl("https://api.portone.io").build();
-                    CancelRequest cancelRequest = new CancelRequest("결제를 위한 통신 도중 Member 서버에서 문제 발생") ;
+                    OffsetDateTime currentDateTime = OffsetDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"); //결제 취소시간
 
-                    //member server 에서 문제가 발생 하면, 결제를 또 취소해 주어야 합니다.
-
-                    Mono<CancelResponse> cancelResponseMono = cancelwebClient
-                            .post()
-                            .uri("/payments/{paymentId}/cancel", validationRequest.getPayment_id())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(BodyInserters.fromValue(cancelRequest))
-                            .retrieve()
-                            .bodyToMono(CancelResponse.class);
-
-                    Timestamp purchaseAt = changeDateFormat(requestedAt) ;
-
-                    Payment cancelpayment = Payment.builder()
-                            .paymentid(validationRequest.getPayment_id())
-                            .status("CANCELLED")
-                            .purchaseat(purchaseAt)
-                            .ordername(orderName)
-                            .totalamount(validationRequest.getTotal_point())
-                            .build();
-
-                    paymentRepository.save(cancelpayment);
-
+                    cancelPayment(validationRequest.getPayment_id(),currentDateTime.format(formatter),orderName, validationRequest.getTotal_point(),
+                            "member-container와 통신중 문제 발생", "CANCELLED") ;
                     throw new MemberContainerException();
                 })
-                .bodyToMono(PaymentsRes.class);
+                .bodyToMono(PaymentsRes.class) //이 RES값 받아서, 상태가 불능이면 바로 취소 해야되고 취소는 메소드 분리.
+                .flatMap(paymentsRes -> {
+                    if ("구매하려는 상품중 판매된 상품이 있습니다.".equals(paymentsRes.getMessage())) {
+                        OffsetDateTime currentDateTime = OffsetDateTime.now();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+                        cancelPayment(validationRequest.getPayment_id(), currentDateTime.format(formatter), orderName, validationRequest.getTotal_point(),
+                                "이미 구매 완료된 상품입니다.", "CANCELLED");
+                        return Mono.error(new AlreadySoldOutException());
+                    } else {
+                        return Mono.just(paymentsRes);
+                    }
+
+                }) ;
+
 
     }
+
+    //결제 취소 PORTONE에게 요청하는 METHOD
+    public Mono<Void> cancelPayment (String paymentId,String requestedAt, String orderName, int totalAmount, String cancelReason, String paymentStatus )
+    {
+        WebClient cancelwebClient = WebClient.builder().baseUrl("https://api.portone.io").build();
+        CancelRequest cancelRequest = new CancelRequest(cancelReason) ;
+
+        Mono<CancelResponse> cancelResponseMono = cancelwebClient
+                .post()
+                .uri("/payments/{paymentId}/cancel", paymentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(cancelRequest))
+                .retrieve()
+                .bodyToMono(CancelResponse.class);
+
+        Timestamp purchaseAt = changeDateFormat(requestedAt) ;
+
+        Payment cancelpayment = Payment.builder()
+                .paymentid(paymentId)
+                .status(paymentStatus)
+                .purchaseat(purchaseAt)
+                .ordername(orderName)
+                .totalamount(totalAmount)
+                .build();
+
+        paymentRepository.save(cancelpayment);
+        return null;
+
+    }
+
 
 
 }

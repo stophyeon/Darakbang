@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.exception.AlreadySoldOutException;
 import org.example.dto.exception.ExceptionRes;
 import org.example.dto.exception.PaymentClaimAmountMismatchException;
 import org.example.dto.exception.MemberContainerException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.net.ConnectException;
+import java.rmi.AlreadyBoundException;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
@@ -49,6 +51,11 @@ public class GlobalExceptionController {
         return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE) ;
     }
 
+    @ExceptionHandler(AlreadySoldOutException.class)
+    public ResponseEntity<ExceptionRes> AlreadySoldOutException(AlreadySoldOutException se){
+        ExceptionRes response = new ExceptionRes("이미 판매 완료된 상품입니다. ", se.getMessage()) ;
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT) ;
+    }
 
     //보안 관련
     @ExceptionHandler(PaymentClaimAmountMismatchException.class)
