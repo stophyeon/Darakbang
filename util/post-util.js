@@ -1,8 +1,8 @@
 
 export async function sendProductData(formData, accessToken) {
   try {
-    const response = await fetch('http://darakbang-apigateway-service-1:8888/product', {
-    //const response = await fetch('http://localhost:8888/product', {
+    //const response = await fetch('http://darakbang-apigateway-service-1:8888/product', {
+    const response = await fetch('http://localhost:8888/product', {
       cache: 'no-store',
       method: 'POST',
       headers: {
@@ -73,8 +73,8 @@ export async function getPostsFiles(page, accessToken) {
   }
 
   export async function PutPostData(productid, productData, accessToken) {
-    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/${productid}`, {
-  //  const response = await fetch(`http://localhost:8888/product/${productid}`, {
+    // const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/${productid}`, {
+      const response = await fetch(`http://localhost:8888/product/${productid}`, {
       cache: 'no-store',
       method: 'PUT',
       headers: {
@@ -88,8 +88,8 @@ export async function getPostsFiles(page, accessToken) {
   }
 
   export async function DeletePost(productid, accessToken) {
-    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/${productid}`, {
-   // const response = await fetch(`http://localhost:8888/product/${productid}`, {
+    // const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/${productid}`, {
+    const response = await fetch(`http://localhost:8888/product/${productid}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -110,8 +110,8 @@ export async function getPostsFiles(page, accessToken) {
 
   export async function LikeProduct(accessToken, product_id) {
     try {
-      const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/like/${product_id}`, {
-    //  const response = await fetch(`http://localhost:8888/product/like/${product_id}`, {   
+    //  const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/like/${product_id}`, {
+       const response = await fetch(`http://localhost:8888/product/like/${product_id}`, {   
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,8 +133,8 @@ export async function getPostsFiles(page, accessToken) {
   // 사용자 좋아요 목록
   export async function LikeList(accessToken) {
     try {
-      const response = await fetch('http://darakbang-apigateway-service-1:8888/product/like', {
-    //  const response = await fetch('http://localhost:8888/product/like', { 
+    //  const response = await fetch('http://darakbang-apigateway-service-1:8888/product/like', {
+      const response = await fetch('http://localhost:8888/product/like', { 
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${accessToken}`
@@ -153,8 +153,8 @@ export async function getPostsFiles(page, accessToken) {
 
   export async function DeleteLike(accessToken, productid) {
     try {
-      const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/like/${productid}`, {
-    //  const response = await fetch(`http://localhost:8888/product/like/${productid}`, { 
+    //  const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/like/${productid}`, {
+      const response = await fetch(`http://localhost:8888/product/like/${productid}`, { 
       method: 'DELETE',  
       headers: {
           'Content-Type': 'application/json',

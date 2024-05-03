@@ -4,8 +4,8 @@
 
 export async function Loginfetch(email, password) {
   try {
-    const response = await fetch("http://darakbang-apigateway-service-1:8888/member/login", {
-    //const response = await fetch("http://localhost:8888/member/login", {
+    // const response = await fetch("http://darakbang-apigateway-service-1:8888/member/login", {
+    const response = await fetch("http://localhost:8888/member/login", {
       cache: 'no-store',
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,8 +30,8 @@ export async function Loginfetch(email, password) {
 
 // 회원가입 fetch
 export async function signup(formData) {
-  const response = await fetch("http://darakbang-apigateway-service-1:8888/member/signup", {
-  // const response = await fetch("http://localhost:8888/member/signup", {
+  // const response = await fetch("http://darakbang-apigateway-service-1:8888/member/signup", {
+  const response = await fetch("http://localhost:8888/member/signup", {
     method: "POST",
     body: formData
   });
@@ -47,8 +47,8 @@ export async function signup(formData) {
 
 // 닉네임 중복 체크
 export async function checkNickname(nickname) {
-  const response = await fetch(`http://darakbang-member-service-1:8080/nick_name?nick_name=${nickname}`, {
-  //const response = await fetch(`http://localhost:8888/nick_name?nick_name=${nickname}`, {
+  // const response = await fetch(`http://darakbang-member-service-1:8080/nick_name?nick_name=${nickname}`, {
+  const response = await fetch(`http://localhost:8080/nick_name?nick_name=${nickname}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -62,8 +62,8 @@ export async function checkNickname(nickname) {
 
 export async function fetchUserProfile(accesstoken) {
   try {
-   const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {  
-  //  const response = await fetch('http://localhost:8888/member/profile', {
+   // const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {  
+   const response = await fetch('http://localhost:8888/member/profile', {
       cache: 'no-store',
       headers: {
         'Authorization': `${accesstoken}`

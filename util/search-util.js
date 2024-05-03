@@ -18,7 +18,6 @@ export async function fetchProductName(searchTerm) {
     }
     
     const search = await response.json();
-    console.log(search);
     return search;
   }
   

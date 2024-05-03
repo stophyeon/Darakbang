@@ -6,7 +6,7 @@ import styles from './post-item.module.css';
 import { LikeProduct } from '@compoents/util/post-util';
 
 export default function PostItem(props) {
-  const { product_name, price, product_id, nick_name, image_product, userProfile } = props.post;
+  const { product_name, price, product_id, nick_name, image_product, userProfile, state } = props.post;
   const { pageNumber } = props.posts.pageable;
 
  
@@ -25,9 +25,11 @@ export default function PostItem(props) {
   }
 };
 
+if (state !== 1) {
+  return null;
+}
+
   return (
-    <>
-      
         <div className={styles.postItem}>
         <Link href={linkPath} style={{ textDecoration: "none" }} className={styles.PostLinks}>
           <div className={styles.profile}>
@@ -44,8 +46,5 @@ export default function PostItem(props) {
         <button className={styles.buy}>구매하기</button>
         </div>
         </div>
-      
-      
-    </>
   );
 }

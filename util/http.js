@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 export async function Loginfetchs(email, password) {
   try {
-   const response = await fetch("darakbang-apigateway-service-1:8888/member/login", { 
+   const response = await fetch("http://darakbang-apigateway-service-1:8888/member/login", { 
   //  const response = await fetch("http://localhost:8888/member/login", {
       cache: 'no-store',
       method: "POST",
@@ -42,7 +42,7 @@ export async function RefreshAccessToken() { //refreshToken
       cache: 'no-store',
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: refreshToken }),
+      body: JSON.stringify({ refresh_token: refreshToken.value }),
     });
 
     if (!response.ok) {
@@ -62,8 +62,8 @@ export async function RefreshAccessToken() { //refreshToken
 
 
 export async function EditProfile(formData, accessToken) {
-  const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {
-//  const response = await fetch("http://localhost:8888/member/profile", {
+//  const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {
+  const response = await fetch("http://localhost:8888/member/profile", {
     method: "PUT",
     headers: {
       'Authorization': `${accessToken}`
@@ -105,8 +105,8 @@ export async function fetchUserProfile(accesstoken) {
 // 멤버 프로필 수정 api
 export async function PUTUserProfile(accesstoken, formData) {
   try {
-    const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {  
-  //  const response = await fetch(`http://localhost:8888/member/profile`, {
+  //  const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {  
+    const response = await fetch(`http://localhost:8888/member/profile`, {
       cache: 'no-store',
       method: 'PUT',
       headers: {
@@ -163,7 +163,7 @@ export async function followUser(accessToken, email) {
     console.error('팔로우 요청을 보내는 중 오류가 발생했습니다.', error);
     throw error;
   }
-}
+}  
 
 // followList 가져오기
 export async function fetchFollowUser(accessToken) {
@@ -213,7 +213,12 @@ export async function getSelling(nick_name) {
       }
     });
     const data = await response.json();
-    return data;
+    if (data === null) {
+      const api = [];
+      return api;
+    } else {
+      return data;
+    }
   } catch (error) {
     console.error('사용자 판매 물품 error', error);
     throw error;

@@ -1,155 +1,198 @@
 
-    
-    .profileInfo {
-      display: flex;
-    }
-    .profileImg{
-      margin-left: 326px;
-      border-radius: 90%;
-      cursor: pointer;
-    }
-    .profileNickName{
-      position: absolute;
-    color: var(--black, #191A1C);
-    font-family: "Pretendard Variable";
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    margin-left: 50px;
-    margin-top: 0px;
-    }
-    
-    .profileBtn{
-      position: absolute;
-      margin-left: 220px;
-      margin-top: -60px;
-      width: 113px;
-      height: 50px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      background: var(--gray-200, #F4F5F9);
-      color: var(--gray-400, #BEC0C6);
-      font-family: "Pretendard Variable";
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      border: 0;
-    }
-  
-    .Followes{
-      display: flex;
-      margin-top: 60px;
-    }
-  
-    
-    .followButton {
-    background-color: #FFFFFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: var(--gray-800, #737A8D);
-    font-family: "Pretendard Variable";
-    font-size: 150%;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin-left: 50px;
-    }
-    .followButton2{
-      background-color: #FFFFFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: var(--gray-800, #737A8D);
-    font-family: "Pretendard Variable";
-    font-size: 150%;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    height: 40px;
-    margin-left: 0px;
-    margin-top: -4px;
-    }
-    
-    .profileName {
-      margin-left: 50px;
-      margin-top: 10px;
-      color: var(--gray-400, #BEC0C6);
-      font-family: "Pretendard Variable";
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-    
-    .profileEmail {
-      margin-left: 50px;  
-      margin-top: 0px;
-      color: var(--gray-400, #BEC0C6);
-      font-family: "Pretendard Variable";
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-    
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-    }
-  
-    .Button1{
-      position: absolute;
-      color: var(--primary-primary, #496AF3);
-      font-family: "Pretendard Variable";
-      font-size: 35px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      background-color: #FFFFFF;
-      border: 0;
-      margin-left: 205px;
-      margin-top: 169px;
-    }
-  
-    .Button2 {
-      position: absolute;
-      color: var(--gray-400, #BEC0C6);
-      font-family: "Pretendard Variable";
-      font-size: 35px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      background-color: #FFFFFF;
-      border: 0;
-      margin-left: 455px;
-      margin-top: 169px;
-    }
-  
-  
-    .verticalLine {
-      position: absolute;
-      border-top: 1px solid #E2E5EF;
-      width: 80%;
-      height: 1px;
-      margin-top: 247px;
-      margin-left: 144px;
-      padding: 0%;
-    }
-  
-    .Loading{
-      margin-left: 40%;
-      margin-top: 40%;
-    }
+.profileInfo {
+  display: flex;
+}
+.profileImg{
+  margin-left: 326px;
+  border-radius: 90%;
+  cursor: pointer;
+}
+.profileNickName{
+  position: absolute;
+  color: var(--black, #191A1C);
+  font-family: "Pretendard Variable";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 50px;
+}
 
-    .Lists{
-      margin-left: -200px;
-      margin-top: 300px;
-    }
+.EditBtn{
+  position: absolute;
+  cursor: pointer;
+  margin-left: 220px;
+  margin-top: -60px;
+  width: 113px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--gray-200, #F4F5F9);
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 0;
+}
+
+.Followes{
+  display: flex;
+  margin-top: 60px;
+}
+
+.flex{
+  display: flex;
+}
+
+.followButton {
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--gray-800, #737A8D);
+  font-family: "Pretendard Variable";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-left: 45px;
+  height: 45px;
+}
+
+.followButton2{
+  background-color: #FFFFFF;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--gray-800, #737A8D);
+  font-family: "Pretendard Variable";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  height: 45px;
+  margin-left: 25px;
+}
+
+.followImg{
+  margin-left: 5px;
+  margin-top: 3px;
+  margin-right: 15px;
+}
+
+.profileName {
+  margin-left: 50px;
+  margin-top: 10px;
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.profileEmail {
+  position: absolute;
+  margin-left: 50px;  
+  margin-top: 0px;
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.modal {
+  background-color: #FFFFFF;
+  z-index: 1000;
+  flex-shrink: 0;
+  padding: 10px;
+  border-radius: 8px;
+  filter: drop-shadow(10px 10px 50px rgba(0, 0, 0, 0.20));
+  text-align: center;
+  color: var(--gray-600, #808389);
+  font-family: "Pretendard Variable";
+}
+
+.Button1{
+  position: absolute;
+  color: var(--primary-primary, #496AF3);
+  font-family: "Pretendard Variable";
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  background-color: #FFFFFF;
+  border: 0;
+  margin-left: 205px;
+  margin-top: 169px;
+}
+
+.Button2 {
+  position: absolute;
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  background-color: #FFFFFF;
+  border: 0;
+  margin-left: 455px;
+  margin-top: 169px;
+}
+
+
+.verticalLine {
+  position: absolute;
+  border-top: 1px solid #E2E5EF;
+  width: 80%;
+  height: 1px;
+  margin-top: 247px;
+  margin-left: 144px;
+  padding: 0%;
+}
+
+.Loading{
+  margin-left: 40%;
+  margin-top: 40%;
+}
+
+.profilePoint{
+  color: var(--gray-600, #808389);
+font-family: "Pretendard Variable";
+font-size: 26px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-left: 50px;
+margin-top: 40px;
+}
+
+.Lists{
+  margin-left: -200px;
+  margin-top: 300px;
+}
+
+.profileBtn{
+  margin-left: 0px;
+  margin-top: -60px;
+  width: 113px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--gray-200, #F4F5F9);
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 0;
+}
 
 
     @media screen and (max-width: 786px) {
