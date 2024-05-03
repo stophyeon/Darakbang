@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,8 +30,6 @@ public class StorageService {
     private String projectId;
 
     private final ProductRepository productRepository;
-    private final String accessToken = "ya29.a0Ad52N39fGurrd7QrjzW4f15Sn4NSkKIAxV1uP5mfU4ePGLpWQB5l-GoBNkL27iExJny5sU40RxFtwuSvi9u1gH2Dq27u-x1mJ5_gHPC2OnH-2Y8fqvlEqFSnNoaBRubvSGE-hMiyK34mvTbz8XsWQpoU6O4W0jTnAg8vaCgYKAX0SARASFQHGX2MiZCa9Y32_ctcgpZ2tQ1Cofw0171";
-    private final String refreshToken = "1//04U1sIiKq0e1nCgYIARAAGAQSNwF-L9Iredc3sG3SaLFDdVwn90YGf7lYSJI0vdn0DPlEu1gKftVp_G3jgZrSzO7Xi0pA5Uv1tIU";
 
     public String imageUpload(MultipartFile img_product) throws IOException {
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
@@ -56,7 +53,7 @@ public class StorageService {
     public void productImageDelete(Long productId) throws IOException {
         Product product = productRepository.findByProductId(productId);
 
-        String imgProduct = product.getImageProduct().substring(44);
+        String imgProduct = product.getImageProduct().substring(45);
         log.info(imgProduct);
 
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();
@@ -75,7 +72,7 @@ public class StorageService {
     public void realImageDelete(Long productId) throws IOException {
         Product product = productRepository.findByProductId(productId);
 
-        String imgReal = product.getImageReal().substring(44);
+        String imgReal = product.getImageReal().substring(45);
         log.info(imgReal);
 
         InputStream keyFile = ResourceUtils.getURL("classpath:darakbang-422004-c04b80b50e78.json" ).openStream();

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,8 +27,9 @@ class MemberServiceTest {
         System.out.println(member.getName());
     }
     @Test
-    void join(){
-
+    void search(){
+        List<String> member_list = memberRepository.findMemberKeyWord("o");
+        member_list.forEach(System.out::println);
     }
 
 }

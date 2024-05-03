@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(name = "storage",url = "https://storage.googleapis.com/storage/v1/b/")
 public interface StorageFeign {
 
-    @DeleteMapping("/darakban-img/o/{object}")
+    @DeleteMapping("/darakbang-img/o/{object}")
     public void delImage(@RequestHeader("Authorization") String token, @PathVariable("object") String obj);
 
 

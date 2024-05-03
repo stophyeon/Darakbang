@@ -24,15 +24,11 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final JwtProvider jwtProvider;
+
     private final MemberDetailService memberDetailService;
-    private final OAuth2Service oAuth2Service;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
-    public SecurityConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, OAuth2Service oAuth2Service, OAuth2SuccessHandler oAuth2SuccessHandler) {
-        this.jwtProvider = jwtProvider;
+    ;
+    public SecurityConfig(MemberDetailService memberDetailService) {
         this.memberDetailService = memberDetailService;
-        this.oAuth2Service = oAuth2Service;
-        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
     }
 
     @Bean
@@ -56,13 +52,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->
                         auth.anyRequest().permitAll())
-                //.addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                    //.oauth2Login(oauth-> oauth
-                            //.successHandler(oAuth2SuccessHandler)
-                      //      .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                        //            .userService(oAuth2Service)))
                 .build();
     }
     @Bean
