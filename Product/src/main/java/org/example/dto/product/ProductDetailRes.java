@@ -12,10 +12,11 @@ import java.util.List;
 public class ProductDetailRes {
     private Product product;
     private List<Product> productList;
-
+    private boolean me;
     @Builder
-    public ProductDetailRes(Product product, List<Product> productList){
+    public ProductDetailRes(Product product, List<Product> productList,boolean me){
         this.product=product;
         this.productList=productList;
+        this.me=me;
     }
 }

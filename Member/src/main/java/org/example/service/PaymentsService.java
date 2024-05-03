@@ -37,7 +37,7 @@ public class PaymentsService {
 
         if (purchaseDto.getTotal_point()>consumer.get().getPoint()){return PaymentsRes.builder().charge(true).point(Math.abs(consumerPoint)).message("포인트 충전 필요").build();}
         else {
-            memberRepository.updatePoint(consumerPoint,email);
+
             for (PaymentsReq req : purchaseDto.getPayments_list()){
                 req.setConsumer(purchaseDto.getEmail());
                 if(!purchaseOne(req,sellers,sellProductId)){return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
@@ -50,6 +50,7 @@ public class PaymentsService {
                     .build());
 
             if (productFeignRes.isSuccess()){
+                memberRepository.updatePoint(consumerPoint,email);
                 for (String sellerEmail : sellers.keySet()){
                     memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
                 }
@@ -103,7 +104,7 @@ public class PaymentsService {
     @Transactional
     public boolean purchaseOne(PaymentsReq req,HashMap<String,Integer> sellers,List<Long> sellProductId){
         Optional<Member> seller = memberRepository.findByEmail(req.getSeller());
-            if (seller.isEmpty()){return false;}
+        if (seller.isEmpty()){return false;}
         if (sellers.containsKey(seller.get().getEmail())){
             int total = sellers.get(seller.get().getEmail())+ req.getProduct_point();
             log.info(String.valueOf(total));

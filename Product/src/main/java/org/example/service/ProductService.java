@@ -32,7 +32,7 @@ public class ProductService {
     private final ProductRepository productRepository ;
     private final MemberFeign memberFeign;
     private final StorageService storageService;
-    private final String googleURL = "https://storage.googleapis.com/darakban-img/";
+    private final String googleURL = "https://storage.googleapis.com/darakbang-img/";
 
     public SuccessRes addProduct(ProductDto productDto, String email, MultipartFile img_product, MultipartFile img_real) throws IOException {
         String nickName= memberFeign.getNickName(email);
@@ -82,7 +82,7 @@ public class ProductService {
     }
     @TimeCheck
     @Transactional
-    public ProductDetailRes findProductDetail(Long productId)
+    public ProductDetailRes findProductDetail(Long productId,String email)
     {
         Product selectedProduct = productRepository.findByProductId(productId);
         // 아래 null 값 반환을 빈 객체로 변경
@@ -99,15 +99,20 @@ public class ProductService {
             }
             List<Product> productList = new ArrayList<>(resultMap.keySet());
             productList.sort((o1,o2)->resultMap.get(o2).compareTo(resultMap.get(o1)));
-
             List<Product> topProducts = productList.stream().limit(Math.min(productList.size(),9)).toList();
+            ProductDetailRes productDetailRes = ProductDetailRes.builder().build();
+            productDetailRes.setMe(selectedProduct.getUserEmail().equals(email));
             if (topProducts.isEmpty()) {
                 List<Product> categoryProductList = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId,PageRequest.of(0,9)) ;
-                return ProductDetailRes.builder().product(selectedProduct).productList(categoryProductList).build();
+                productDetailRes.setProduct(selectedProduct);
+                productDetailRes.setProductList(categoryProductList);
             }
-            else { return ProductDetailRes.builder().product(selectedProduct).productList(topProducts).build();}
+            else {
+                productDetailRes.setProduct(selectedProduct);
+                productDetailRes.setProductList(topProducts);
+            }
+            return productDetailRes;
             // builder 패턴으로 객체 생성 코드 변경
-
         }
     }
 
