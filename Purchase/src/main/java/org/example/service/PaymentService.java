@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.byfrontend.ValidationRequest;
 import org.example.dto.exception.AlreadySoldOutException;
-import org.example.dto.exception.CancelFailException;
 import org.example.dto.exception.MemberContainerException;
 import org.example.dto.exception.PaymentClaimAmountMismatchException;
 import org.example.dto.forbackend.PaymentsRes;
