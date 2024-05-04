@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
@@ -134,43 +135,43 @@ public class PaymentService {
 
         //오류가 없을때
         PurchaseDto purchaseDto = new PurchaseDto();
-        purchaseDto.setEmail(email); // 구매자 이메일 설정
+        purchaseDto.setEmail(email);
         purchaseDto.setTotal_point(validationRequest.getTotal_point());
         purchaseDto.setPayments_list(validationRequest.getPayments_list());
 
-//        log.info("포인트 교환, 상품 삭제, 상태 변경 등의 요청을 전송합니다.");
         return webClientforMember.post()
                 .uri("/payments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(purchaseDto))
                 .retrieve()
-                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> {
+                .bodyToMono(PaymentsRes.class)
+                .onErrorResume(WebClientRequestException.class, ex -> {
                     OffsetDateTime currentDateTime = OffsetDateTime.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"); //결제 취소시간
-
-                    cancelPayment(validationRequest.getPayment_id(),currentDateTime.format(formatter),orderName, validationRequest.getTotal_point(),
-                            "member-container와 통신중 문제 발생", "CANCELLED",portOneToken) ;
-                    throw new MemberContainerException();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                    return cancelPayment(validationRequest.getPayment_id(), currentDateTime.format(formatter), orderName, validationRequest.getTotal_point(), "Failed to send payment request", "CANCELLED", portOneToken)
+                            .then(Mono.error(new MemberContainerException()));
+                    //MSA구조에선, 상대 서버가 안켜져도 결제엔 문제가 없어야 된다고 생각했습니다.
+                    //Member server가 켜지지 않아도. 결제 했던건 취소됩니다.
+                    //++ member 서버에서 에외처리를 해주셔도 통신 과정에선 EXCEPTION으로 처리됩니다.
+                    //이 모든 경우를 잡았습니다.
                 })
-                .bodyToMono(PaymentsRes.class) //이 RES값 받아서, 상태가 불능이면 바로 취소 해야되고 취소는 메소드 분리.
                 .flatMap(paymentsRes -> {
                     if ("구매하려는 상품중 판매된 상품이 있습니다.".equals(paymentsRes.getMessage())) {
                         OffsetDateTime currentDateTime = OffsetDateTime.now();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-                        cancelPayment(validationRequest.getPayment_id(), currentDateTime.format(formatter), orderName, validationRequest.getTotal_point(),
-                                "이미 구매 완료된 상품입니다.", "CANCELLED",portOneToken);
-                        return Mono.error(new AlreadySoldOutException());
+                        return cancelPayment(validationRequest.getPayment_id(), currentDateTime.format(formatter), orderName, validationRequest.getTotal_point(),
+                                "이미 구매 완료된 상품입니다.", "CANCELLED", portOneToken)
+                                .then(Mono.error(new AlreadySoldOutException()));
                     } else {
                         return Mono.just(paymentsRes);
                     }
-
-                }) ;
+                });
 
 
     }
 
-    //결제 취소 PORTONE에게 요청하는 METHOD
+    //결제 취소 PORTONE에게 요청
     public Mono<Void> cancelPayment (String paymentId, String requestedAt, String orderName, int totalAmount, String cancelReason, String paymentStatus, String portOneToken )
     {
         WebClient cancelwebClient = WebClient.builder().baseUrl("https://api.portone.io").build();
