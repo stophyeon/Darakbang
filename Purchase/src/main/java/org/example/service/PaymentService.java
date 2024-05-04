@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.byfrontend.ValidationRequest;
 import org.example.dto.exception.AlreadySoldOutException;
+import org.example.dto.exception.CancelFailException;
 import org.example.dto.exception.MemberContainerException;
 import org.example.dto.exception.PaymentClaimAmountMismatchException;
 import org.example.dto.forbackend.PaymentsRes;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 
@@ -95,7 +97,8 @@ public class PaymentService {
             PortOnePaymentRecords portOnePaymentRecords,
             String paymentId,
             int frontPaymentClaim,
-            String useremail)
+            String useremail,
+            String portOneToken)
     {
         //프론트에서 전달한 결제 정보가 일치한지, portone에서 실제로 했던 결제 금액이 일치한지 확인
         if (portOnePaymentRecords.getAmount().getTotal() == frontPaymentClaim) {
@@ -120,14 +123,14 @@ public class PaymentService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");//결제 취소시간
 
             cancelPayment(paymentId,currentDateTime.format(formatter), portOnePaymentRecords.getOrderName(),
-                    frontPaymentClaim, "결제 금액과 DB 확인 결과 맞지 않습니다", "DENIED") ;
+                    frontPaymentClaim, "결제 금액과 DB 확인 결과 맞지 않습니다", "DENIED",portOneToken) ;
             //결제 취소 완료. 이후 exception 유발 필요-
             throw new PaymentClaimAmountMismatchException();
 
         }
     }
 
-    public Mono<PaymentsRes> sendPaymentSuccessRequestToMember(String orderName, String requestedAt, ValidationRequest validationRequest, String email)
+    public Mono<PaymentsRes> sendPaymentSuccessRequestToMember(String orderName, String requestedAt, ValidationRequest validationRequest, String email, String portOneToken)
     {
 
         //오류가 없을때
@@ -147,7 +150,7 @@ public class PaymentService {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"); //결제 취소시간
 
                     cancelPayment(validationRequest.getPayment_id(),currentDateTime.format(formatter),orderName, validationRequest.getTotal_point(),
-                            "member-container와 통신중 문제 발생", "CANCELLED") ;
+                            "member-container와 통신중 문제 발생", "CANCELLED",portOneToken) ;
                     throw new MemberContainerException();
                 })
                 .bodyToMono(PaymentsRes.class) //이 RES값 받아서, 상태가 불능이면 바로 취소 해야되고 취소는 메소드 분리.
@@ -157,7 +160,7 @@ public class PaymentService {
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
                         cancelPayment(validationRequest.getPayment_id(), currentDateTime.format(formatter), orderName, validationRequest.getTotal_point(),
-                                "이미 구매 완료된 상품입니다.", "CANCELLED");
+                                "이미 구매 완료된 상품입니다.", "CANCELLED",portOneToken);
                         return Mono.error(new AlreadySoldOutException());
                     } else {
                         return Mono.just(paymentsRes);
@@ -169,31 +172,42 @@ public class PaymentService {
     }
 
     //결제 취소 PORTONE에게 요청하는 METHOD
-    public Mono<Void> cancelPayment (String paymentId,String requestedAt, String orderName, int totalAmount, String cancelReason, String paymentStatus )
+    public Mono<Void> cancelPayment (String paymentId, String requestedAt, String orderName, int totalAmount, String cancelReason, String paymentStatus, String portOneToken )
     {
         WebClient cancelwebClient = WebClient.builder().baseUrl("https://api.portone.io").build();
         CancelRequest cancelRequest = new CancelRequest(cancelReason) ;
 
-        Mono<CancelResponse> cancelResponseMono = cancelwebClient
+        cancelwebClient
                 .post()
                 .uri("/payments/{paymentId}/cancel", paymentId)
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + portOneToken)
                 .body(BodyInserters.fromValue(cancelRequest))
                 .retrieve()
-                .bodyToMono(CancelResponse.class);
+                .onStatus(HttpStatusCode::isError, clientResponse -> {
+                    log.error("Failed to cancel payment with paymentId: {}", paymentId);
+                    return Mono.empty();
+                    //결제 취소가 반려되면 해당 정보는 사용자에게 띄우는 것이 아니라 PORTONE측과의 문제입니다.
+                    //그렇기 때문에 로그에 남겨 해당 정보를 인지하고, 해당 PAYMENTID를 직접 취소 요청혹은 PORTONE과 합의해야 된다고 생각했습니다.
+                    //그래서 EXCEPTION처리를 포기하고, ERROR LEVEL LOG로 남겼습니다.
+                })
+                .bodyToMono(CancelResponse.class)
+                .subscribe(
+                        cancelResponse -> {
+                        Timestamp purchaseAt = changeDateFormat(requestedAt) ;
 
-        Timestamp purchaseAt = changeDateFormat(requestedAt) ;
+                        Payment cancelpayment = Payment.builder()
+                                .paymentid(paymentId)
+                                .status(paymentStatus)
+                                .purchaseat(purchaseAt)
+                                .ordername(orderName)
+                                .totalamount(totalAmount)
+                                .build();
 
-        Payment cancelpayment = Payment.builder()
-                .paymentid(paymentId)
-                .status(paymentStatus)
-                .purchaseat(purchaseAt)
-                .ordername(orderName)
-                .totalamount(totalAmount)
-                .build();
+                        paymentRepository.save(cancelpayment);
 
-        paymentRepository.save(cancelpayment);
-        return null;
+                        });
+        return Mono.empty();
 
     }
 

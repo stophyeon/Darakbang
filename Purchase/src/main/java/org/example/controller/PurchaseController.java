@@ -32,9 +32,9 @@ public class PurchaseController {
         return paymentService.getPortOneToken()
                 .flatMap(PortOnetoken -> paymentService.getPaymentRecordsByPortOne(validation.getPayment_id(), PortOnetoken)
                         .flatMap(purchasecheckresponsewebclient ->
-                                paymentService.validateandSave(purchasecheckresponsewebclient,validation.getPayment_id(), validation.getTotal_point(),useremail)
+                                paymentService.validateandSave(purchasecheckresponsewebclient,validation.getPayment_id(), validation.getTotal_point(),useremail,PortOnetoken)
                                 .flatMap(validateresult -> {
-                                    return paymentService.sendPaymentSuccessRequestToMember(purchasecheckresponsewebclient.getOrderName(),purchasecheckresponsewebclient.getRequestedAt(),validation,useremail) ;
+                                    return paymentService.sendPaymentSuccessRequestToMember(purchasecheckresponsewebclient.getOrderName(),purchasecheckresponsewebclient.getRequestedAt(),validation,useremail,PortOnetoken) ;
                                 }))) ;
 
     }

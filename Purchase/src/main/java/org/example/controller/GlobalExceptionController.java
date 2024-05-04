@@ -1,9 +1,7 @@
 package org.example.controller;
 
-import org.example.dto.exception.AlreadySoldOutException;
-import org.example.dto.exception.ExceptionRes;
-import org.example.dto.exception.PaymentClaimAmountMismatchException;
-import org.example.dto.exception.MemberContainerException;
+import lombok.extern.slf4j.Slf4j;
+import org.example.dto.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +13,7 @@ import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionController {
 
     @ExceptionHandler(SQLException.class)
@@ -36,6 +35,7 @@ public class GlobalExceptionController {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ExceptionRes> NoSuchElementException(NoSuchElementException e){
         ExceptionRes response = new ExceptionRes("요청 상품이 존재하지 않음", e.getMessage());
+        log.info("noelementexceptionokay");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
