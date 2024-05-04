@@ -1,21 +1,11 @@
-'use client';
 import Link from "next/link";
 import FindEventSection from "../items/ItemSearch";
-import { useState, useEffect } from "react";
 
 
 import styles from './main-navigation.module.css'; 
 import SmallProfile from "../profile/SmallProfile";
 
-export default function MainNavigation() {
-    const [Authorization, setAccessToken] = useState("");
-
-    useEffect(() => {
-        const AccessToken = localStorage.getItem('Authorization');
-        if (AccessToken) {
-            setAccessToken(AccessToken);
-        }
-    }, []); 
+export default function MainNavigation({ accessToken }) {
 
     return (
         <>
@@ -26,17 +16,16 @@ export default function MainNavigation() {
                 <div className={styles.navItem}>
                     <FindEventSection />
                 </div>
-                {!Authorization && (
+                {!accessToken && (
                     <div className={styles.navItem3}>
                         <Link href="/user/login" passHref>
                             <button className={styles.navLink}>로그인</button>
                         </Link>
                     </div>
                 )}
-
-                {Authorization && (
+                {accessToken && (
                     <div className={styles.navItem3}>
-                        <SmallProfile accessToken={Authorization}/>
+                        <SmallProfile accessToken={accessToken}/>
                     </div>
                 )}
             </header>

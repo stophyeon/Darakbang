@@ -7,8 +7,9 @@ import { getPostsFile } from '@compoents/util/post-util';
 export default async function Home() {
   const cookieStore = cookies()
   const Authorization = cookieStore.get('Authorization');
-  const postdata = await getPostsFile(Authorization);
+  const authorizationValue = Authorization?.value || '';
+  const postdata = await getPostsFile(authorizationValue);
   return (
-    <MainContainers postdata={postdata} accessToken={Authorization} />
+    <MainContainers postdata={postdata} accessToken={authorizationValue} />
   )
 }

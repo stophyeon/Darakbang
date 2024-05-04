@@ -56,12 +56,11 @@ export async function getPostsFiles(page, accessToken) {
     } else {
       return data;
     }
-    
   }
   
   export async function getPostData(productid, accessToken) {
-    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/detail?product_id=${productid}`, {
-   // const response = await fetch(`http://localhost:8888/product/detail?product_id=${productid}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/product/detail/${productid}`, {
+   // const response = await fetch(`http://localhost:8888/product/detail/${productid}`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -69,6 +68,7 @@ export async function getPostsFiles(page, accessToken) {
       },
     });
     const data = await response.json();
+    console.log(data);
     return data;
   }
 

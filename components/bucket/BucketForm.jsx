@@ -6,9 +6,9 @@ import { memberPay, completePay } from "@compoents/util/payment-util";
 import styles from "./BucketForm.module.css";
 import Image from "next/image";
 
-export default function BucketForm() {
+export default function BucketForm({accessToken}) {
     const [userLikes, setUserLikes] = useState([]);
-    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [payments_list, setPays] = useState([]);
     const [selectedAmount, setSelectedAmount] = useState(0);
     const [createdAt, setCreatedAt] = useState('');
     const [purchases, setPurchase] = useState('');
@@ -18,12 +18,8 @@ export default function BucketForm() {
         const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
         setCreatedAt(currentDate);
 
-        const accessToken = localStorage.getItem('Authorization');
         const fetchUserLikeProducts = async () => {
             try {
-                if (!accessToken) {
-                    throw new Error('로그인이 필요합니다.');
-                }
                 const data = await LikeList(accessToken);
                 setUserLikes(data.likeProducts);
                 console.log(data);
@@ -40,7 +36,7 @@ export default function BucketForm() {
         setSelectAll(!selectAll); // 상태를 반전시킴
         if (!selectAll) {
             // 전체 선택
-            setSelectedProducts(userLikes.map(like => ({
+            setPays(userLikes.map(like => ({
                 product_name: like.productName,
                 product_id: like.productId,
                 product_point: like.price,
@@ -50,18 +46,18 @@ export default function BucketForm() {
             setSelectedAmount(userLikes.reduce((total, like) => total + like.price, 0));
         } else {
             // 전체 선택 해제
-            setSelectedProducts([]);
+            setPays([]);
             setSelectedAmount(0);
         }
     };
 
     // 개별 상품의 체크박스 클릭 핸들러
     const handleCheckboxChange = (productId, price) => {
-        const selectedProductIndex = selectedProducts.findIndex(product => product.product_id === productId);
+        const selectedProductIndex = payments_list.findIndex(product => product.product_id === productId);
         if (selectedProductIndex === -1) {
             // 상품이 선택되지 않은 경우, 상품 정보를 추가합니다.
             const product = userLikes.find(like => like.productId === productId);
-            setSelectedProducts([...selectedProducts, {
+            setPays([...payments_list, {
                 product_name: product.productName,
                 product_id: product.productId,
                 product_point: product.price,
@@ -71,19 +67,22 @@ export default function BucketForm() {
             setSelectedAmount(selectedAmount + price);
         } else {
             // 상품이 선택된 경우, 해당 상품 정보를 제거합니다.
-            const updatedSelectedProducts = [...selectedProducts];
-            updatedSelectedProducts.splice(selectedProductIndex, 1);
-            setSelectedProducts(updatedSelectedProducts);
+            const updatedpayments_list = [...payments_list];
+            updatedpayments_list.splice(selectedProductIndex, 1);
+            setPays(updatedpayments_list);
             setSelectedAmount(selectedAmount - price);
         }
     };
 
     const handlePurchase = async () => {
-        console.log(selectedProducts);
-        console.log(selectedAmount);
+        
+        const paymentData = {
+            total_point: selectedAmount,
+            payments_list
+          };
 
-        const accessToken = localStorage.getItem('Authorization');
-        const response = await memberPay(accessToken, selectedAmount, selectedProducts);
+          console.log(paymentData);
+        const response = await memberPay(accessToken, paymentData);
         setPurchase(response);
         const point = response.point;
         console.log(response);
@@ -117,8 +116,14 @@ export default function BucketForm() {
         if (response.code != null) {
             return alert(response.message);
         }
+        const validationData = {
+            payment_id: response.paymentId,
+            total_point: point,
+            created_at: createdAt,
+            payments_list
+          };
 
-        const validation = await completePay(accessToken, selectedAmount, selectedProducts);
+        const validation = await completePay(accessToken, validationData);
         if (validation.charge == true) {
             alert(validation.message);
         } else {
@@ -160,7 +165,7 @@ export default function BucketForm() {
                                 id={like.productId}
                                 className={styles.Checkboxes}
                                 onChange={() => handleCheckboxChange(like.productId, like.price)}
-                                checked={selectedProducts.some(product => product.product_id === like.productId)}
+                                checked={payments_list.some(product => product.product_id === like.productId)}
                             />
                             <div className={styles.flexes}>
                                 <Image src={like.imageProduct} alt="상품 사진" width={150} height={150} className={styles.IpImg} />
@@ -174,7 +179,7 @@ export default function BucketForm() {
                     ))}
                     <div>선택한 상품 금액 : {selectedAmount}</div>
                 </ul>
-                <button className={styles.SelectBtn} onClick={handlePurchase} style={{ display: selectedProducts.length > 0 ? 'block' : 'none' }}>
+                <button className={styles.SelectBtn} onClick={handlePurchase} style={{ display: payments_list.length > 0 ? 'block' : 'none' }}>
                 선택 상품 구매하기
                 </button>
             </section>

@@ -1,13 +1,19 @@
-// 사용자가 좋아요를 누르면 그 사용자의 좋아요 한 상품들이 여기 담겨져서 보여지게
+'use server';
 
-import MainNavigation from "@compoents/components/layout/main-navigation";
 import BucketForm from "@compoents/components/bucket/BucketForm";
+import { cookies } from "next/headers";
+import { redirect } from 'next/navigation';
 
-export default function BucketPage() {
-
+export default async function BucketPage() {
+    const cookieStore = cookies()
+    const Authorization = cookieStore.get('Authorization');
+    if (Authorization && Authorization.value) {
     return (
         <>
-            <BucketForm />
+            <BucketForm accessToken={Authorization.value}/>
         </>
     )
-}
+} else {
+    redirect('/user/login');
+  }
+  }

@@ -10,7 +10,7 @@ export default async function PostDetailPage({ params }) {
   
   const cookieStore = cookies()
   const Authorization = cookieStore.get('Authorization');
-  const postdata = await getPostData(params.productId, Authorization);
+  const postdata = await getPostData(params.productId, Authorization.value);
   return (
     <>
       <PostDetailContainers 

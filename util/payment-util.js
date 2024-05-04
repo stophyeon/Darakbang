@@ -8,7 +8,9 @@ export async function memberPay(accessToken, paymentData) {
         "Content-Type": "application/json",
         'Authorization': `${accessToken}`
       },
-      body: JSON.stringify(paymentData)
+      body: JSON.stringify(
+        paymentData
+      )
     });
     return response.json();
   }

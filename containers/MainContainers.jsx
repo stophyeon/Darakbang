@@ -12,9 +12,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CommuPosts from '@compoents/components/posts/commu-post';
 
-export default function MainContainers({ postdata }) {
+export default function MainContainers({ postdata, accessToken }) {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_GROUP_SIZE = 3;
   
@@ -30,15 +30,24 @@ export default function MainContainers({ postdata }) {
     setCurrentPage((prev) => prev + PAGE_GROUP_SIZE);
   }
 
-    const handleCategoryChange = (e) => {
-      const categoryId = parseInt(e.target.id);
-      setSelectedCategory(prevCategory => prevCategory === categoryId ? null : categoryId);
-    };
+  const handleCategoryChange = (e) => {
+    const categoryId = parseInt(e.target.id);
+    if (Array.isArray(selectedCategory)) {
+      if (selectedCategory.includes(categoryId)) {
+        setSelectedCategory(prevCategories => prevCategories.filter(id => id !== categoryId));
+      } else {
+        setSelectedCategory(prevCategories => [...prevCategories, categoryId]);
+      }
+    } else {
+      setSelectedCategory([categoryId]);
+    }
+  };
+  
   
 
   return (
     <>
-      <MainNavigation />
+    <MainNavigation accessToken={accessToken} />
       <div className={styles.pageContainer}>
         <section className={styles.flexSection1}></section>
         <section className={styles.flexSection2}>
@@ -51,7 +60,7 @@ export default function MainContainers({ postdata }) {
             <CategoryComponents handleCategoryChange={handleCategoryChange} />
             <MiniCategoryComponents className={styles.cateminibtn} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange}/>
           </div>
-          <CommuPosts posts={postdata} selectedCategory={selectedCategory} />
+          <CommuPosts posts={postdata} selectedCategory={selectedCategory} accessToken={accessToken} />
           <Pagination 
             currentPage={currentPage}
             posts={postdata}

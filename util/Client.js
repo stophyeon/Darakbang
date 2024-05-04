@@ -60,16 +60,17 @@ export async function checkNickname(nickname) {
 }
   
 
-export async function fetchUserProfile(accesstoken) {
+export async function fetchUserProfile(accessToken) {
   try {
    // const response = await fetch("http://darakbang-apigateway-service-1:8888/member/profile", {  
    const response = await fetch('http://localhost:8888/member/profile', {
       cache: 'no-store',
       headers: {
-        'Authorization': `${accesstoken}`
+        'Authorization': `${accessToken}`
       }
     });
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);

@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { RefreshAccessToken } from '@compoents/util/http';
 import { fetchUserProfile } from '@compoents/util/Client';
 
-export default function SmallProfile() {
+export default function SmallProfile({ accessToken }) {
     const defaultImage = "/images/kakaoImg.jpg";
     const [userInfo, setuserInfo] = useState('')
 
@@ -21,10 +21,8 @@ export default function SmallProfile() {
         // API 호출 -> 사용자 정보 받아오기
         async function fetchUserProfileData() {
           try {
-            const accesstoken = localStorage.getItem('Authorization');
-            const data = await fetchUserProfile(accesstoken);
+            const data = await fetchUserProfile(accessToken);
             if (data.state == "Jwt Expired") {
-                localStorage.removeItem('Authorization');
                 document.cookie = 'Authorization' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' + "; path=/";
                 const NewaccessToken = await RefreshAccessToken();
                 const Newdata = await fetchUserProfile(NewaccessToken);

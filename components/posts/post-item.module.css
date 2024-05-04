@@ -102,6 +102,22 @@ margin-left: 15%;
 cursor: pointer;
 }
 
+.liked{
+  border-radius: 10px;
+  background: var(--gray-200, #52609b);
+  width: 35%;
+  height: 40px;
+  color: var(--gray-400, #000000);
+  font-family: "Pretendard Variable";
+  font-size: 100%;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 0;
+  margin-left: 15%;
+  cursor: pointer;
+}
+
 .buy {
   width: 35%;
 height: 40px;

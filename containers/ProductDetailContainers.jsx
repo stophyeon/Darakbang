@@ -4,7 +4,6 @@ import DeletePostButton from '@compoents/components/posts/Interaction/Delete-but
 import styles from './ProductDetailContainers.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import LoadingIndicator from "@compoents/components/UI/LoadingIndicator";
 import { memberPay, completePay } from "@compoents/util/payment-util";
 
 import { useState } from 'react';
@@ -15,10 +14,6 @@ export default function PostDetailContainers({ productId, postpage, post, postLi
   
   const [purchases, setPurchase] = useState('');
   const [createdAt, setCreatedAt] = useState('');
-
-
-
-  
 
   const handlePurchase = async () => {
 
@@ -111,7 +106,6 @@ export default function PostDetailContainers({ productId, postpage, post, postLi
 
   return (
     <>
-      
       <DeletePostButton postpage={postpage} productId={productId} />
       <PutDetailbutton postpage={postpage} productId={productId} accessToken={accessToken} />
         <div className={styles.postForm}>
@@ -129,9 +123,11 @@ export default function PostDetailContainers({ productId, postpage, post, postLi
             <button className={styles.like}>좋아요 ♡</button>
             <button className={styles.buy} onClick={handlePurchase} >구매하기</button>
           </div>
+          {postList.productList && postList.productList.length > 0 && (
+            <>
           <div className={styles.anotherLine}></div>
           <div>
-            <p  className={styles.recomePrd}>추천 상품</p>
+            <p className={styles.recomePrd}>추천 상품</p>
             <ul className={styles.postsGrid}>
               {postList && postList.productList.map((posts) => (
                 <div key={posts.productId} className={styles.postItem}>
@@ -143,7 +139,9 @@ export default function PostDetailContainers({ productId, postpage, post, postLi
                 </div>
               ))}
             </ul>
-          </div>
+          </div> 
+          </>
+          )}
         </div>
         
     </>
