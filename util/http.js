@@ -42,14 +42,18 @@ export async function RefreshAccessToken() { //refreshToken
       cache: 'no-store',
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: refreshToken.value }),
+      body: JSON.stringify({ 
+        refresh_token: refreshToken.value
+       }),
     });
 
     if (!response.ok) {
       throw new Error("Failed to refresh access token");
     }
     const data = await response.json();
-    const newAccessToken = data.access_token;
+    const newAccessToken = `Bearer ${data.access_token}`;
+    cookieStore.delete('Authorization');
+    cookies().set("Authorization", `Bearer ${data.access_token}`, {path: '/'});
     return newAccessToken;
   } catch (error) {
     console.error("Error refreshing access token:", error);

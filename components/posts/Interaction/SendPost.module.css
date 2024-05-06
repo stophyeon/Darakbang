@@ -30,7 +30,9 @@
   .selectImg{
     margin-top: 30px;
     border-radius: 10px;
-    margin-left: 40px;
+    margin-left: 15%;
+    width: 60%;
+    height: 60%;
   }
   .margins{
     margin-top: 30px;

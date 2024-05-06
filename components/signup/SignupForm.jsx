@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from './SignupForm.module.css';
 
@@ -14,7 +14,7 @@ export default function SignupForm() {
   const [name, setName] = useState("");
   const [nick_name, setNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(null);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
   const [showimage, setShowimage] = useState('/images/defaultImg.jpg');
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
@@ -23,6 +23,20 @@ export default function SignupForm() {
   const [requestError, setRequestError] = useState(false);
   const smile = '/svgs/ellipse-87.svg'
   const showpsw = '/svgs/View.svg'
+  const dfImg = '/images/kakaoImg.jpg'
+
+  useEffect(() => {
+    if (image === null) {
+      fetch(dfImg)
+        .then((res) => res.blob())
+        .then((blob) => {
+          setImage(blob);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [image, dfImg]);
 
   const validatePassword = (password) => {
     const logic =
@@ -48,7 +62,7 @@ export default function SignupForm() {
     e.preventDefault();
     try {
       const data = await checkNickname(nick_name);
-      if (data === true) {
+      if (data === "true") {
         setIsDuplicate(true);
         alert("닉네임을 변경해 주시길 바랍니다.");
       } else {
@@ -96,12 +110,11 @@ export default function SignupForm() {
       setPasswordError("");
     }
 
-
     if (password !== confirmPassword) {
       setPasswordError("비밀번호가 일치하지 않습니다.");
       return;
     }
-
+   
     const formData = new FormData();
     let req = {
       "email": email,
@@ -148,10 +161,7 @@ export default function SignupForm() {
         document.getElementById("name").style.borderColor = "#496AF3";
       }
     }
-
-
   }
-
   return (
     <>
       <div className={styles.pageContainer}>

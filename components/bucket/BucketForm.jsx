@@ -6,7 +6,7 @@ import { memberPay, completePay } from "@compoents/util/payment-util";
 import styles from "./BucketForm.module.css";
 import Image from "next/image";
 
-export default function BucketForm({accessToken}) {
+export default function BucketForm({ accessToken }) {
     const [userLikes, setUserLikes] = useState([]);
     const [payments_list, setPays] = useState([]);
     const [selectedAmount, setSelectedAmount] = useState(0);

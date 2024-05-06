@@ -7,6 +7,8 @@ import SmallProfile from "../profile/SmallProfile";
 
 export default function MainNavigation({ accessToken }) {
 
+    
+
     return (
         <>
             <header className={styles.headerContainer}>

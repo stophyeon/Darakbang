@@ -9,7 +9,7 @@ import ProductsComponent from './ProductsComponent';
 
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
-export default function UserProfile({ userInfo, followerList, followingList }) {
+export default function UserProfile({ userInfo, followerList, followingList, userproducts, accessToken }) {
   const [currentView, setCurrentView] = useState('products');
   const router = useRouter();
 
@@ -98,7 +98,7 @@ export default function UserProfile({ userInfo, followerList, followingList }) {
           <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
           <div  className={styles.verticalLine}></div>
           <div className={styles.Lists}>
-          {currentView === 'products' && <ProductsComponent nick_name={userInfo.nick_name} />} 
+          {currentView === 'products' && <ProductsComponent userproducts={userproducts} />} 
           {currentView === 'likes' && <LikeListComponent  />} 
           </div>
         </>

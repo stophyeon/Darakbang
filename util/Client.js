@@ -49,11 +49,11 @@ export async function signup(formData) {
 export async function checkNickname(nickname) {
   // const response = await fetch(`http://darakbang-member-service-1:8080/nick_name?nick_name=${nickname}`, {
   const response = await fetch(`http://localhost:8080/nick_name?nick_name=${nickname}`, {
-    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  console.log(response);
   const data = await response.json();
   console.log(data);
   return data;
@@ -70,7 +70,6 @@ export async function fetchUserProfile(accessToken) {
       }
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error('사용자 프로필 정보를 가져오는 중 오류가 발생했습니다.', error);

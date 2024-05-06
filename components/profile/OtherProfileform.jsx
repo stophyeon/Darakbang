@@ -6,10 +6,11 @@ import styles from './OtherProfileform.module.css'
 import ProductsComponent from "./ProductsComponent";
 import LikeListComponent from "../bucket/LikeLists";
 import { followUser } from "@compoents/util/http";
+import { RefreshAccessToken } from "@compoents/util/http";
 
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
-export default function OtherProfileform({ userInfo, nick_name, accessToken, followerList, followingList }) {
+export default function OtherProfileform({ userInfo, nick_name, accessToken, followerList, followingList, userproducts }) {
   const [currentView, setCurrentView] = useState('products');
 
   const handleFollow = async () => {
@@ -100,7 +101,7 @@ export default function OtherProfileform({ userInfo, nick_name, accessToken, fol
         <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
         <div className={styles.verticalLine}></div>
         <div className={styles.Lists}>
-          {currentView === 'products' && <ProductsComponent nick_name={nick_name} />} 
+          {currentView === 'products' && <ProductsComponent userproducts={userproducts} />} 
           {currentView === 'likes' && <LikeListComponent />} 
           </div>
         
