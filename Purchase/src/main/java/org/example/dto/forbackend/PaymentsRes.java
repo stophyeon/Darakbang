@@ -1,8 +1,7 @@
-package org.example.dto;
+package org.example.dto.forbackend;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
 public class PaymentsRes {

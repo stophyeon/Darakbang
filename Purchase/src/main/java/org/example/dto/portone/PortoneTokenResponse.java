@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dto.portone;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PortoneTokenRequest {
+public class PortoneTokenResponse {
 
-    private String apiSecret ;
+    private String accessToken ;
+    private String refreshToken ;
 }

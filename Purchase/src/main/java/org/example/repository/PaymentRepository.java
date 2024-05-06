@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+public interface PaymentRepository extends CreateandDeleteRepository<Payment, Integer> {
 
 }

@@ -1,5 +1,4 @@
-package org.example.dto;
-
+package org.example.dto.portone;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,13 +9,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CancelResponse {
 
+public class PortOnePaymentRecords {
+    //portone에게서 받는 결제 세부 정보
     String status;
-    String id ;
-    String totalAmount ;
-    String taxfreeAmount ;
-    String vatAmount ;
-    String reason;
+
     String requestedAt;
+
+    PaymentAmount amount;
+
+    String orderName;
 }
+
