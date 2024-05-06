@@ -2,10 +2,8 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.dto.OrderSaveRequest;
-import org.springframework.cglib.core.Local;
+import org.example.dto.forbackend.OrderSaveRequest;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 

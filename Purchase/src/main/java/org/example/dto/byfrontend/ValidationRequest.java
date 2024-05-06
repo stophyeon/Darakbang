@@ -1,9 +1,8 @@
-package org.example.dto;
+package org.example.dto.byfrontend;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.forbackend.PaymentsReq;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

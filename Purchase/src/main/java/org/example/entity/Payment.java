@@ -1,15 +1,13 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Table(name = "payment")
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
@@ -41,7 +39,7 @@ public class Payment {
 
 
 
-
+    @Builder
     public Payment(String paymentid, String status, Timestamp purchaseat, String ordername, int totalamount, String useremail) {
         this.paymentId = paymentid;
         this.status = status;
@@ -50,4 +48,5 @@ public class Payment {
         this.totalAmount = totalamount;
         this.userEmail = useremail;
     }
+
 }
