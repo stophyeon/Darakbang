@@ -5,11 +5,10 @@ import { LikeList } from "@compoents/util/post-util";
 
 import { useState, useEffect } from "react";
 
-export default function LikeListComponent() {
+export default function LikeListComponent({accessToken}) {
     const [userLikes, setUserLikes] = useState([]);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem('Authorization');
         const fetchUserLikeProducts = async () => {
             try {
                 if (!accessToken) {

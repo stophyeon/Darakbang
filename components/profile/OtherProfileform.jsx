@@ -6,7 +6,6 @@ import styles from './OtherProfileform.module.css'
 import ProductsComponent from "./ProductsComponent";
 import LikeListComponent from "../bucket/LikeLists";
 import { followUser } from "@compoents/util/http";
-import { RefreshAccessToken } from "@compoents/util/http";
 
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
@@ -101,8 +100,8 @@ export default function OtherProfileform({ userInfo, nick_name, accessToken, fol
         <button onClick={showLikes} className={styles.Button2}>좋아요 목록</button>
         <div className={styles.verticalLine}></div>
         <div className={styles.Lists}>
-          {currentView === 'products' && <ProductsComponent userproducts={userproducts} />} 
-          {currentView === 'likes' && <LikeListComponent />} 
+          {currentView === 'products' && <ProductsComponent userproducts={userproducts} accessToken={accessToken} />} 
+          {currentView === 'likes' && <LikeListComponent />}  {/* 다른 사람 프로필의 좋아요 게시물? */}
           </div>
         
         </>

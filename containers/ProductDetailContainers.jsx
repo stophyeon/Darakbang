@@ -4,14 +4,18 @@ import styles from './ProductDetailContainers.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import Payment from "@compoents/components/payment/payment";
+import { useState } from 'react';
+import { LikeProduct } from '@compoents/util/post-util';
 
 import PutDetailbutton from '@compoents/components/posts/Interaction/Edit-button';
 
 
 export default function PostDetailContainers({ productId, postpage, post, postList, accessToken }) {
+  const [liked, setLiked] = useState(false);
   const handleLikeClick = async () => {
     try {
       const response = await LikeProduct(accessToken, productId);
+      setLiked(true);
       if (response && response.status === 200) {
         console.log(response.message);
       }
@@ -42,7 +46,7 @@ export default function PostDetailContainers({ productId, postpage, post, postLi
         <div className={styles.prdName}>{post.productName}</div>
         <div className={styles.price}>{post.price}원</div>
         <div className={styles.buttons}>
-        <button className={styles.like} onClick={handleLikeClick}>
+        <button className={`${styles.like} ${liked ? styles.liked : ''}`} onClick={handleLikeClick}>
           좋아요 ♡
         </button>
           <Payment

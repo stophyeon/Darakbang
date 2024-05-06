@@ -78,14 +78,15 @@ margin-top: 30px;
 
   .buttons{
     margin-top: 55px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
   }
   
   .like {
     border-radius: 10px;
   background: var(--gray-200, #F4F5F9);
   width: 113px;
-  height: 50px;
+  height: 40px;
   color: var(--gray-400, #BEC0C6);
   font-family: "Pretendard Variable";
   font-size: 18px;
@@ -94,22 +95,23 @@ margin-top: 30px;
   line-height: normal;
   border: 0;
   }
-  
-  .buy {
+
+  .liked{
+    border-radius: 10px;
+    opacity: 0.8;
+    background: var(--primary-primary, #496AF3);
     width: 113px;
-  height: 50px;
-  flex-shrink: 0;
-  background: #496AF3;
-  border-radius: 10px;
-  border: 0;
-  color: #FFFFFF;
-  font-family: "Pretendard Variable";
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-left: 44px;
+    height: 40px;
+    color: var(--primary-primary, #1139d8);
+    font-family: "Pretendard Variable";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border: 0;
+    cursor: pointer;
   }
+  
 
   .anotherLine{
 height: 50px;
@@ -273,22 +275,23 @@ margin-top: 12px;
     font-weight: 600;
     line-height: normal;
     border: 0;
+    cursor: pointer;
     }
     
-    .buy {
+    .liked{
+      border-radius: 10px;
+      opacity: 0.8;
+      background: var(--primary-primary, #496AF3);
       width: 93px;
-    height: 40px;
-    flex-shrink: 0;
-    background: #496AF3;
-    border-radius: 10px;
-    border: 0;
-    color: #FFFFFF;
-    font-family: "Pretendard Variable";
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    margin-left: 44px;
+      height: 40px;
+      color: var(--primary-primary, #1139d8);
+      font-family: "Pretendard Variable";
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      border: 0;
+      cursor: pointer;
     }
   
     .anotherLine{

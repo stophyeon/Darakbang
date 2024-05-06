@@ -19,14 +19,16 @@ export default function PostItem(props) {
   const linkPath = `/${pageNumber}/${product_id}`;
   const linkProfile = `/profile/${nick_name}`;
 
+  // 나중에 좋아요 상태가 추가되면 좋아요 상태에 따라 css를 불러오기
+
   const handleLikeClick = async () => {
     try {
       if (!accessToken || accessToken == '') {
         router.push("/user/login");
       }
       const response = await LikeProduct(accessToken, product_id);
+      setLiked(true);
       if (response && response.status === 200) {
-        setLiked(true);
         console.log(response.message);
       }
     } catch (error) {
@@ -52,7 +54,7 @@ export default function PostItem(props) {
         <h4>{price}원</h4>
       </Link>
       <div className={styles.buttons}>
-        <button className={`${liked ? styles.liked : styles.like}`} onClick={handleLikeClick}>
+        <button className={`${styles.like} ${liked ? styles.liked : ''}`} onClick={handleLikeClick}>
           좋아요 ♡
         </button>
         <Payments
