@@ -1,6 +1,6 @@
 # Skill Stack
 - Spring Boot
-- Spring Data JPA
+- CRUD REPOSITORY
 - WEBFLUX
 - MySQL
 - Docker
