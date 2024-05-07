@@ -7,7 +7,7 @@ spring :
     config:
       server:
         git:
-          uri: https://github.com/jihyuk0414testtest/config-server.git
+          uri: https://github.com/jihyuk0414testtestnov2/config-server.git
 
           default-label: main
 server:
