@@ -115,8 +115,8 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
 
-    @GetMapping("/detail/{email}")
-    public ResponseEntity<ProductDetailRes> getProduct(@RequestParam("product_id") Long productId,@PathVariable("email") String email) {
+    @GetMapping("/detail/{product_id}/{email}")
+    public ResponseEntity<ProductDetailRes> getProduct(@PathVariable("product_id") Long productId,@PathVariable("email") String email) {
         return ResponseEntity.ok(productService.findProductDetail(productId,email));
     }
     @Operation(
@@ -134,9 +134,9 @@ public class ProductController {
             description = "좋아요 상품 조회 요청",
             summary = "좋아요"
     )
-    @GetMapping("/like/{email}")
-    public ResponseEntity<WishListDto> getLikeProduct(@PathVariable("email") String email){
-        return ResponseEntity.ok(wishListService.showLikeProduct(email));
+    @GetMapping("/profile/like/{nick_name}")
+    public ResponseEntity<WishListDto> getLikeProduct(@PathVariable("nick_name") String nickName){
+        return ResponseEntity.ok(wishListService.showLikeProduct(nickName));
     }
 
     @Operation(

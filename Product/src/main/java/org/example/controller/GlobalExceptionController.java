@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.dto.exception.ExceptionRes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionController {
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ExceptionRes> NullPointerException(NullPointerException n) {
+        log.error(n.getMessage());
         ExceptionRes response = new ExceptionRes("잘못된 형식의 요청", n.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

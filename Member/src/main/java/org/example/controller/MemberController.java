@@ -57,19 +57,19 @@ public class MemberController {
 
     @GetMapping("/profile/{email}")
     @Operation(
-            operationId = "other's profile",
-            summary = "다른 사용자의 프로필"
+            operationId = "My profile",
+            summary = "나의 프로필"
     )
     public MemberDto myProfile(@PathVariable("email")String email){
         return memberService.myProfile(email);
     }
-    @PostMapping("/profile/{nick_name}/{email}")
+    @GetMapping("profile/other/{nick_name}/{email}")
     @Operation(
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
     )
-    public MemberDto Profile(@PathVariable(value = "nick_name",required = false) @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email")String email){
-        return memberService.profile(nickName);
+    public ProfileDto Profile(@PathVariable(value = "nick_name") @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email") String email){
+        return memberService.profile(nickName,email);
     }
 
     @GetMapping("/nick_name")
@@ -111,7 +111,6 @@ public class MemberController {
     public ResponseEntity<RefreshDto> refreshAccessToken(@RequestBody RefreshDto refreshToken){
         return ResponseEntity.ok(memberService.refreshToken(refreshToken.getRefresh_token()));
     }
-
     @PostMapping("/logout/{email}")
     public void logOut(@PathVariable("email") String email){
         memberService.deleteRefresh(email);
@@ -121,6 +120,8 @@ public class MemberController {
     public ResponseEntity<List<String>> searchByWord(@RequestBody SearchDto searchDto){
         return ResponseEntity.ok(memberService.autoComplete(searchDto.getWord()));
     }
-
-
+    @GetMapping("/email")
+    public String getEmailByNickname(@RequestParam("nick_name") String nickName){
+        return memberService.getEmail(nickName);
+    }
 }
