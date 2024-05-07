@@ -18,15 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +30,8 @@ public class PaymentService {
     private final WebClient portOneWebClient = WebClient.builder().baseUrl("https://api.portone.io").build();
     //이 portonewebclient는 docker로 올릴떄도 변경하지 않아도 됩니다.
 
-    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
-    //private final WebClient webClientforMember = WebClient.builder().baseUrl("http://darakbang-member-service-1:8080/member").build() ;
+    //private final WebClient webClientforMember = WebClient.builder().baseUrl("http://localhost:8080/member").build() ;
+    private final WebClient webClientforMember = WebClient.builder().baseUrl("http://darakbang-member-service-1:8080/member").build() ;
 
     //이 webclientformember는 docker container화 과정에서 변경해주어야 합니다.
 

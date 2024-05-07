@@ -9,6 +9,7 @@ import org.example.entity.WishList;
 import org.example.entity.Product;
 import org.example.repository.WishListRepository;
 import org.example.repository.ProductRepository;
+import org.example.service.member.MemberFeign;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,7 +22,7 @@ public class WishListService {
 
     private final WishListRepository wishListRepository;
     private final ProductRepository productRepository;
-
+    private final MemberFeign memberFeign;
     @Transactional
     public SuccessRes likeRegistration(String email, Long productId){
         Product product = productRepository.findByProductId(productId);
@@ -38,7 +39,8 @@ public class WishListService {
                     .build();
         }
     }
-    public WishListDto showLikeProduct(String email){
+    public WishListDto showLikeProduct(String nickName){
+        String email = memberFeign.getEmail(nickName);
         Optional<List<WishList>> likeProducts = wishListRepository.findAllByEmail(email);
         likeProducts.orElseThrow();
         List<Product> products = likeProducts.get().stream().map(WishList::getProduct).toList();
