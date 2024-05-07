@@ -130,7 +130,7 @@ export async function PUTUserProfile(accesstoken, formData) {
 
 export async function fetchOtherUserProfile(nick_name, accessToken){
   try {
-    const response = await fetch(`http://darakbang-apigateway-service-1:8888/member/profile/${nick_name}`, {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/member/profile/other/${nick_name}`, {
   //  const response = await fetch(`http://localhost:8888/member/profile/${nick_name}`, {
       cache: 'no-store',
       method: 'POST',
@@ -170,14 +170,13 @@ export async function followUser(accessToken, email) {
 }  
 
 // followList 가져오기
-export async function fetchFollowUser(accessToken) {
+export async function fetchFollowUser(nick_name) {
   try {
-    const response = await fetch("http://darakbang-apigateway-service-1:8888/follow/follower", {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/follow/follower/${nick_name}`, {
   //  const response = await fetch('http://localhost:8888/follow/follower', {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${accessToken}`
       }
     });
     const data = await response.json();
@@ -188,14 +187,13 @@ export async function fetchFollowUser(accessToken) {
   }
 };
 // following List
-export async function fetchFollowingUser(accessToken) {
+export async function fetchFollowingUser(nick_name) {
   try {
-    const response = await fetch("http://darakbang-apigateway-service-1:8888/follow/following", {
+    const response = await fetch(`http://darakbang-apigateway-service-1:8888/follow/following/${nick_name}`, {
   //  const response = await fetch('http://localhost:8888/follow/following', {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${accessToken}`
       }
     });
     const data = await response.json();

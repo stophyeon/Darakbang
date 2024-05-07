@@ -13,8 +13,8 @@ export default async function ProfilePage() {
         const NewaccessToken = await RefreshAccessToken();
         userInfo = await fetchUserProfile(NewaccessToken);
     }
-    const followerList = await fetchFollowUser(Authorization.value);
-    const followingList = await fetchFollowingUser(Authorization.value);
+    const followerList = await fetchFollowUser(userInfo.nick_name, Authorization.value);
+    const followingList = await fetchFollowingUser(userInfo.nick_name, Authorization.value);
     const userproducts = await getSelling(userInfo.nick_name);
     return (
         <>

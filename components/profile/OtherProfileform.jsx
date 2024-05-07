@@ -9,16 +9,22 @@ import { followUser } from "@compoents/util/http";
 
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
-export default function OtherProfileform({ userInfo, nick_name, accessToken, followerList, followingList, userproducts }) {
+export default function OtherProfileform({ userInfo, nick_name, accessToken, followerList, followingList, userproducts, isFollowing }) {
   const [currentView, setCurrentView] = useState('products');
-
+  const [isfollow, setfollowing] = useState(isFollowing);
+ // isfollowing false -> 팔로우 안된거
   const handleFollow = async () => {
+    if (isfollow === 'false'){
     try {
       const response = await followUser(accessToken, userInfo.email);
       console.log('팔로우 요청이 성공했습니다.');
+      setfollowing(true);
     } catch (error) {
       console.error('팔로우 요청 중 오류가 발생했습니다.', error);
     }
+  } else {
+      alert('이미 팔로우 하셨습니다.');
+  }
   };
 
   const showProducts = () => {
@@ -91,8 +97,8 @@ export default function OtherProfileform({ userInfo, nick_name, accessToken, fol
                   </ul>
                 </PopoverContent>
               </Popover>
-            <button onClick={handleFollow} className={styles.profileBtn} >
-              팔로우
+            <button onClick={handleFollow} className={`${styles.profileBtn} ${isFollowing ? styles.profileBtned : ''}`}>
+              팔로우 
             </button>
           </div>
         </div>
@@ -101,7 +107,7 @@ export default function OtherProfileform({ userInfo, nick_name, accessToken, fol
         <div className={styles.verticalLine}></div>
         <div className={styles.Lists}>
           {currentView === 'products' && <ProductsComponent userproducts={userproducts} accessToken={accessToken} />} 
-          {currentView === 'likes' && <LikeListComponent />}  {/* 다른 사람 프로필의 좋아요 게시물? */}
+          {currentView === 'likes' && <LikeListComponent nick_name={nick_name} accessToken={accessToken} />}  {/* 다른 사람 프로필의 좋아요 게시물? */}
           </div>
         
         </>

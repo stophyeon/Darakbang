@@ -194,6 +194,23 @@ margin-top: 40px;
   border: 0;
 }
 
+.profileBtned{
+  margin-left: 0px;
+  margin-top: -60px;
+  width: 113px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--gray-200, #2945b7);
+  color: var(--gray-400, #BEC0C6);
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 0;
+}
+
 
     @media screen and (max-width: 786px) {
       .profileInfo {

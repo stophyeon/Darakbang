@@ -99,7 +99,7 @@ export default function UserProfile({ userInfo, followerList, followingList, use
           <div  className={styles.verticalLine}></div>
           <div className={styles.Lists}>
           {currentView === 'products' && <ProductsComponent userproducts={userproducts} />} 
-          {currentView === 'likes' && <LikeListComponent accessToken={accessToken} />} 
+          {currentView === 'likes' && <LikeListComponent nick_name={userInfo.nick_name} accessToken={accessToken} />} 
           </div>
         </>
       ) : (

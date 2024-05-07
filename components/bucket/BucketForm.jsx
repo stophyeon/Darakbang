@@ -6,7 +6,7 @@ import { memberPay, completePay } from "@compoents/util/payment-util";
 import styles from "./BucketForm.module.css";
 import Image from "next/image";
 
-export default function BucketForm({ accessToken }) {
+export default function BucketForm({ nick_name, accessToken }) {
     const [userLikes, setUserLikes] = useState([]);
     const [payments_list, setPays] = useState([]);
     const [selectedAmount, setSelectedAmount] = useState(0);
@@ -20,7 +20,7 @@ export default function BucketForm({ accessToken }) {
 
         const fetchUserLikeProducts = async () => {
             try {
-                const data = await LikeList(accessToken);
+                const data = await LikeList(nick_name);
                 setUserLikes(data.likeProducts);
                 console.log(data);
             } catch (error) {
@@ -98,7 +98,6 @@ export default function BucketForm({ accessToken }) {
     };
 
     const handleSetPoint = async (point) => {
-        const accessToken = localStorage.getItem('Authorization');
 
         const currentDate = new Date().toISOString().split('T')[0]; // 현재 날짜
         setCreatedAt(currentDate);

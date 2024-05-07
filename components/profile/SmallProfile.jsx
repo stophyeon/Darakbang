@@ -10,6 +10,7 @@ import { fetchUserProfile } from '@compoents/util/Client';
 export default function SmallProfile({ accessToken }) {
     const defaultImage = "/images/kakaoImg.jpg";
     const [userInfo, setuserInfo] = useState('')
+    const linkbucket = `/profile/${userInfo.nick_name}`;
 
     function logoutHandler() {
         localStorage.removeItem('Authorization');
@@ -68,7 +69,7 @@ export default function SmallProfile({ accessToken }) {
                 </div>
                 <div className={styles.verticalLine}></div>
                 <div onClick={(e) => e.stopPropagation()}>
-                    <Link href="/bucket" passHref style={{ textDecoration: "none" }}>
+                    <Link href={linkbucket} passHref style={{ textDecoration: "none" }}>
                         <Button className={styles.contents}>
                             장바구니
                         </Button>

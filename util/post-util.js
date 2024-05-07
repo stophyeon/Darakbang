@@ -131,13 +131,12 @@ export async function getPostsFiles(page, accessToken) {
 }
 
   // 사용자 좋아요 목록
-  export async function LikeList(accessToken) {
+  export async function LikeList(nick_name) {
     try {
     //  const response = await fetch('http://darakbang-apigateway-service-1:8888/product/like', {
-      const response = await fetch('http://localhost:8888/product/like', { 
+      const response = await fetch(`http://localhost:8888/product/like/${nick_name}`, { 
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `${accessToken}`
+          'Content-Type': 'application/json'
         },
       });
       if (!response.ok) {
