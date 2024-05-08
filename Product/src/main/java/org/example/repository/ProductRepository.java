@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -65,18 +66,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
 
-
     @Query("select count(*) from Product p ")
     int countTuple() ; //Product 인스턴스 수 세기
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("UPDATE Product p SET p.state = 0 where expireAt >= :nowtime")
-    void updateProductsStateForExpiredProducts(LocalDate nowtime) ;
-
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Modifying
-    @Query("delete from Product p where p.state in (-1,0)")
-    void deleteProductsExpiredOrSaled(); //현재 DB에 저장된 DATA가 너무 많다면(1000개 기준), 만료, 판매된걸 자동 삭제합니다.
+    @Query("UPDATE Product p SET p.state = 0 where p.expireAt <= CURRENT_DATE")
+    void updateProductsStateForExpiredProducts();
+
+    @Query("Select p FROM Product p WHERE p.state in (-1,0)")
+    List<Product> findProductsExpiredOrSelled();
 
 
 
