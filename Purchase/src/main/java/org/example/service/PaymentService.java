@@ -151,7 +151,7 @@ public class PaymentService {
                     //이 모든 경우를 잡았습니다.
                 })
                 .flatMap(paymentsRes -> {
-                    if ("구매하려는 상품중 판매된 상품이 있습니다.".equals(paymentsRes.getMessage())) {
+                    if ("구매하려는 상품중 판매된 상품이 있습니다.".equals(paymentsRes.getMessage()) || "상품이 없습니다".equals(paymentsRes.getMessage())) {
                         OffsetDateTime currentDateTime = OffsetDateTime.now();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 

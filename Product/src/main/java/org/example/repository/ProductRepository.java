@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +66,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
 
+    @Query("select count(*) from Product p ")
+    int countTuple() ; //Product 인스턴스 수 세기
 
+    @Modifying
+    @Query("UPDATE Product p SET p.state = 0 where p.expireAt <= CURRENT_DATE")
+    void updateProductsStateForExpiredProducts();
+
+    @Query("Select p FROM Product p WHERE p.state in (-1,0)")
+    List<Product> findProductsExpiredOrSelled();
 
 
 
