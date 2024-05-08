@@ -66,6 +66,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
 
+    @Query("select count(*) from Product p ")
+    int countTuple() ; //Product 인스턴스 수 세기
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("UPDATE Product p SET p.state = 0 where expireAt >= :nowtime")
+    void updateProductsStateForExpiredProducts(LocalDate nowtime) ;
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Modifying
+    @Query("delete from Product p where p.state in (-1,0)")
+    void deleteProductsExpiredOrSaled(); //현재 DB에 저장된 DATA가 너무 많다면(1000개 기준), 만료, 판매된걸 자동 삭제합니다.
 
 
 

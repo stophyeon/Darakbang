@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.annotation.TimeCheck;
+import org.example.dto.MemberDto;
 import org.example.entity.Follow;
 import org.example.entity.Member;
 import org.example.repository.follow.FollowRepository;
@@ -38,6 +39,7 @@ public class FollowService {
                 .followerId(follower_member)
                 .build();
         //follow 관계 저장
+
         em.persist(follow);
         //member의 follower수 수정
         memberRepository.updateFollower(following_member);
@@ -48,18 +50,16 @@ public class FollowService {
     }
 
     @TimeCheck
-    public List<Member> getFollower(String email){
-        Optional<Member> member = memberRepository.findByEmail(email);
-        return followRepository.findFollower(member.get());
+    public List<MemberDto> getFollower(String nickName){
+        Optional<Member> member = memberRepository.findByNickName(nickName);
+        return followRepository.findFollower(member.get()).stream().map(Member::toDto).toList();
+
     }
 
     @TimeCheck
-    public List<Member> getFollowing(String email){
-        Optional<Member> member = memberRepository.findByEmail(email);
-        return followRepository.findFollowing(member.get());
-
-
-
+    public List<MemberDto> getFollowing(String nickName){
+        Optional<Member> member = memberRepository.findByNickName(nickName);
+        return followRepository.findFollowing(member.get()).stream().map(Member::toDto).toList();
     }
 
 
