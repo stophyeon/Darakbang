@@ -100,7 +100,7 @@ public class ProductService {
             List<Product> productList = new ArrayList<>(resultMap.keySet());
             productList.sort((o1,o2)->resultMap.get(o2).compareTo(resultMap.get(o1)));
             List<Product> topProducts = productList.stream().limit(Math.min(productList.size(),9)).toList();
-            ProductDetailRes productDetailRes = ProductDetailRes.builder().build();
+            ProductDetailRes productDetailRes = new ProductDetailRes();
             productDetailRes.setMe(selectedProduct.getUserEmail().equals(email));
             if (topProducts.isEmpty()) {
                 List<Product> categoryProductList = productRepository.findByProductCategory(selectedProduct.getCategoryId(), productId,PageRequest.of(0,9)) ;
