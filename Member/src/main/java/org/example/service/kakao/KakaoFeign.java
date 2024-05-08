@@ -1,6 +1,5 @@
 package org.example.service.kakao;
 
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,5 +22,10 @@ public interface KakaoFeign {
     //  -H "Authorization: Bearer ${ACCESS_TOKEN}"
     @GetMapping("/logout")
     public String logOut(@RequestParam("client_id") String client_id,@RequestParam("logout_redirect_uri") String uri);
-
+    @PostMapping("/token")
+    public String updateAccessToken(@RequestHeader("Content-type") String Content,
+                                 @RequestParam("grant_type") String grant,
+                                 @RequestParam("client_id") String client,
+                                 @RequestParam("refresh_token") String refresh_token,
+                                 @RequestParam("client_secret") String secret);
 }

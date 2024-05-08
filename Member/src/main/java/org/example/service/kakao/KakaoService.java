@@ -7,10 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
 import org.example.dto.MemberDto;
 import org.example.entity.Member;
+import org.example.entity.Token;
 import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
 import org.example.jwt.KakaoToken;
 import org.example.repository.member.MemberRepository;
+import org.example.repository.token.TokenRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -33,6 +35,7 @@ public class KakaoService {
     private final MemberRepository memberRepository;
     private final AuthenticationProvider authenticationProvider;
     private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
     private final JwtProvider jwtProvider;
 
     private final String Content_type ="application/x-www-form-urlencoded;charset=utf-8";
@@ -41,11 +44,14 @@ public class KakaoService {
     private final String login_redirect ="http://localhost:3000/user/login/oauth2/kakao";
     private final String logout_redirect ="http://localhost:8080";
     private final String secret ="8VCVTZpYOA21l7wgaKiqQa74q02S6pYI";
+
     public JwtDto GenerateToken(String code) throws ParseException, IOException, org.json.simple.parser.ParseException {
         String email = OAuthSignUp(code);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email,"default1234");
         Authentication authentication = authenticationProvider.authenticate(token);
-        return jwtProvider.createToken(authentication);
+        JwtDto jwtDto = jwtProvider.createToken(authentication);
+        tokenRepository.save(Token.builder().refreshToken(jwtDto.getRefreshToken()).email(email).build());
+        return jwtDto;
     }
 
     public KakaoToken getToken(String code) throws JsonProcessingException {
@@ -55,9 +61,7 @@ public class KakaoService {
         return kakaoToken;
     }
     public String getkakaoInfo(String code) throws ParseException, JsonProcessingException {
-
         return kakaoApi.getUSerInfo("Bearer "+getToken(code).getAccessToken());
-
     }
     @Transactional
     public String OAuthSignUp(String code) throws ParseException, IOException, org.json.simple.parser.ParseException {
