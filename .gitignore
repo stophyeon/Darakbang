@@ -43,3 +43,4 @@ Eureka/
 Member/src/main/resources/application.yml
 Product/src/main/resources/application.yml
 Purchase/src/main/resources/application.yml
+Product/src/main/generated/
