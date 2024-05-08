@@ -90,8 +90,9 @@ public class ProductController {
     })
 
     @GetMapping("/page")
-    public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page) {
-        return ResponseEntity.ok(productService.findProductPage(page-1));
+    public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page,
+                                                           @RequestParam(value = "nick_name",required = false) String nick_name) {
+        return ResponseEntity.ok(productService.findProductPage(page-1,nick_name));
     }
 
     @Operation(summary = "사용자 상세 페이지 등록 상품 조회")
