@@ -8,9 +8,11 @@ import org.example.dto.product.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.product.ProductDto;
 import org.example.entity.Product;
+import org.example.entity.WishList;
 import org.example.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.repository.WishListRepository;
 import org.example.service.member.MemberFeign;
 import org.example.service.storage.StorageService;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ import java.util.*;
 public class ProductService {
 
     private final ProductRepository productRepository ;
+    private final WishListRepository wishListRepository;
     private final MemberFeign memberFeign;
     private final StorageService storageService;
     private final String googleURL = "https://storage.googleapis.com/darakbang-img/";
@@ -53,10 +56,17 @@ public class ProductService {
     }
 
     @Transactional
-    public Page<ProductDto> findProductPage (int page){
+    public Page<ProductDto> findProductPage (int page,String nickName){
         Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Direction.ASC, "productId"));
         Page<Product> productPage = productRepository.findAll(pageable);
-        return productPage.map(ProductDto::ToDto);
+        Page<ProductDto> products=productPage.map(ProductDto::ToDto);
+        if (nickName!=null) {
+            String email = memberFeign.getEmail(nickName);
+            List<ProductDto> wishs = wishListRepository.findAllByEmail(email).get().stream().map(WishList::getProduct).toList()
+                    .stream().map(ProductDto::ToDto).toList();
+            products.forEach(p -> p.setLike(wishs.contains(p)));
+        }
+        return products;
     }
 
     @Transactional
@@ -74,7 +84,8 @@ public class ProductService {
                 storageService.productImageDelete(productId);
                 productRepository.delete(product);
                 return new SuccessRes(product.getProductName(), "삭제 성공");
-            } else {
+            }
+            else {
                 return new SuccessRes(product.getProductName(), "등록한 이메일과 일치하지 않습니다.");
             }
 
