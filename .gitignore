@@ -37,10 +37,5 @@ out/
 .vscode/
 
 
-Config-server/
-Api-gateway/
-Eureka/
-Member/src/main/resources/application.yml
-Product/src/main/resources/application.yml
-Purchase/src/main/resources/application.yml
+Config-server/src/main/resources/bootstrap.yml
 Product/src/main/generated/
