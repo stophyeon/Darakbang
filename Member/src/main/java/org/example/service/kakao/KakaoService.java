@@ -60,9 +60,11 @@ public class KakaoService {
         log.info(kakaoToken.toString());
         return kakaoToken;
     }
+
     public String getkakaoInfo(String code) throws ParseException, JsonProcessingException {
         return kakaoApi.getUSerInfo("Bearer "+getToken(code).getAccessToken());
     }
+
     @Transactional
     public String OAuthSignUp(String code) throws ParseException, IOException, org.json.simple.parser.ParseException {
         String user = getkakaoInfo(code);
