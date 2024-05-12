@@ -51,10 +51,12 @@ public class PaymentsService {
 
             if (productFeignRes.isSuccess()){
                 memberRepository.updatePoint(consumerPoint,email);
-                for (String sellerEmail : sellers.keySet()){
-                    memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
+                for (String sellerEmail : sellers.keySet()) {
+                    memberRepository.updatePoint(sellers.get(sellerEmail), sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+                productFeign.SendEmail(purchaseDto.getPayments_list());//메일 전송 요청->product
+                //이메일 전송부 추가했습니다.
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
             else {
@@ -89,6 +91,8 @@ public class PaymentsService {
                 memberRepository.updatePoint(sellers.get(email),email);
             }
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+            productFeign.SendEmail(purchaseDto.getPayments_list());//메일 전송 요청->product
+            //이메일 전송부 추가했습니다.
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
