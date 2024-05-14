@@ -2,9 +2,11 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.TemplateObject;
 import org.example.dto.purchase.*;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
+import org.example.service.kakao.KakaoService;
 import org.example.service.purchase.ProductFeign;
 import org.example.service.purchase.PurchaseFeign;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class PaymentsService {
     private final MemberRepository memberRepository;
     private final ProductFeign productFeign;
     private final PurchaseFeign purchaseFeign;
-
+    private final KakaoService kakaoService;
 
     @Transactional
     public PaymentsRes purchase(PurchaseDto purchaseDto, String email){
@@ -55,6 +57,9 @@ public class PaymentsService {
                     memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+                for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                    sendMessage(paymentsReq.getProduct_id());
+                }
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
             else {
@@ -88,7 +93,11 @@ public class PaymentsService {
             for (String email : sellers.keySet()){
                 memberRepository.updatePoint(sellers.get(email),email);
             }
+
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+            for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                sendMessage(paymentsReq.getProduct_id());
+            }
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
@@ -115,4 +124,11 @@ public class PaymentsService {
         return true;
     }
 
+    public void sendMessage(Long productId){
+        String image = productFeign.getRealImage(productId);
+        TemplateObject templateObject = TemplateObject.builder()
+                .webUrl(image)
+                .build();
+        kakaoService.sendRealImage(templateObject);
+    }
 }

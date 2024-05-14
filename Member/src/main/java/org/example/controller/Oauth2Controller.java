@@ -27,7 +27,10 @@ public class Oauth2Controller {
     public JwtDto naverToken(@RequestParam("code") String code) throws IOException, ParseException, org.json.simple.parser.ParseException {
         return naverService.GenerateToken(code);
     }
-
+    @PostMapping("/kakao/logout")
+    public void kakaoLogOut(){
+        kakaoService.kakaoLogOut();
+    }
 
 
 

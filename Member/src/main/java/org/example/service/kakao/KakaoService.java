@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
 import org.example.dto.MemberDto;
+import org.example.dto.TemplateObject;
 import org.example.entity.Member;
 import org.example.entity.Token;
 import org.example.jwt.JwtDto;
@@ -42,9 +43,9 @@ public class KakaoService {
     private final String grant_type = "authorization_code";
     private final String client_id = "b9759cba8e0cdd5bcdb9d601f5a10ac1";
     private final String login_redirect ="http://localhost:3000/user/login/oauth2/kakao";
-    private final String logout_redirect ="http://localhost:8080";
+    private final String logout_redirect ="http://localhost:3000";
     private final String secret ="8VCVTZpYOA21l7wgaKiqQa74q02S6pYI";
-
+    private KakaoToken kakaoToken_user;
     public JwtDto GenerateToken(String code) throws ParseException, IOException, org.json.simple.parser.ParseException {
         String email = OAuthSignUp(code);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email,"default1234");
@@ -58,6 +59,7 @@ public class KakaoService {
         ObjectMapper objectMapper = new ObjectMapper();
         KakaoToken kakaoToken=objectMapper.readValue(kakaoFeign.getAccessToken(Content_type,grant_type,client_id,login_redirect,code,secret), KakaoToken.class);
         log.info(kakaoToken.toString());
+        kakaoToken_user=kakaoToken;
         return kakaoToken;
     }
 
@@ -91,5 +93,13 @@ public class KakaoService {
        log.info("User DB 저장");
 
        return memberDto.getEmail();
+    }
+
+    public void sendRealImage(TemplateObject templateObject){
+        log.info(templateObject.toString());
+        kakaoApi.sendImage("Bearer "+ kakaoToken_user.getAccessToken(),"template_object= "+ templateObject);
+    }
+    public void kakaoLogOut(){
+        kakaoFeign.logOut(client_id,logout_redirect);
     }
 }

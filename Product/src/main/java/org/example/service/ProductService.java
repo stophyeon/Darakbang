@@ -147,7 +147,10 @@ public class ProductService {
             productRepository.updateState(-1, productId);
         }
     }
-
+    @Transactional
+    public String realImage(Long productId){
+        return productRepository.findByProductId(productId).getImageReal();
+    }
 
 
 }

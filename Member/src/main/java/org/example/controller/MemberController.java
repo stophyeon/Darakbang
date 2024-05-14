@@ -18,6 +18,8 @@ import org.example.dto.purchase.PurchaseDto;
 import org.example.dto.signup.SignUpRes;
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ import java.util.List;
 @Tag(name = "회원", description = "회원 API")
 @RequestMapping("/member")
 public class MemberController {
+    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
     private final MemberService memberService;
     private final PaymentsService paymentsService;
 
@@ -61,15 +64,18 @@ public class MemberController {
             summary = "나의 프로필"
     )
     public MemberDto myProfile(@PathVariable("email")String email){
+
         return memberService.myProfile(email);
     }
-    @GetMapping("profile/other/{nick_name}/{email}")
+    @GetMapping("/profile/other/{nick_name}/{email}")
     @Operation(
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
     )
     public ProfileDto Profile(@PathVariable(value = "nick_name") @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email") String email){
+
         return memberService.profile(nickName,email);
+
     }
 
     @GetMapping("/nick_name")
@@ -98,7 +104,8 @@ public class MemberController {
     )
 
     @PostMapping("/payments/{email}")
-    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto, @PathVariable("email") String email) {
+    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto,
+                                                @PathVariable("email") String email) {
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 
@@ -114,6 +121,7 @@ public class MemberController {
     @PostMapping("/logout/{email}")
     public void logOut(@PathVariable("email") String email){
         memberService.deleteRefresh(email);
+
     }
 
     @PostMapping("/search/word")
