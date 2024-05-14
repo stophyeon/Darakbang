@@ -3,8 +3,10 @@ package org.example.service.purchase;
 import org.example.dto.purchase.ProductFeignReq;
 import org.example.dto.purchase.ProductFeignRes;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 //@FeignClient(name = "ProductApi",url = "http://localhost:7080/product")
@@ -13,4 +15,6 @@ public interface ProductFeign {
     @PostMapping("/payments/sell")
     public ProductFeignRes SoldOut(@RequestBody ProductFeignReq productFeignReq);
 
+    @GetMapping("/real_image")
+    public String getRealImage(@RequestParam("product_id") Long productId);
 }
