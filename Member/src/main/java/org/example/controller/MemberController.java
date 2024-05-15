@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.dto.*;
 
 import org.example.dto.exception.ExceptionResponse;
@@ -30,6 +31,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "회원", description = "회원 API")
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
     private final PaymentsService paymentsService;
@@ -99,6 +101,7 @@ public class MemberController {
 
     @PostMapping("/payments/{email}")
     public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto, @PathVariable("email") String email) {
+        log.info("hereisconsuercontroller{}", purchaseDto.getPayments_list().get(0).getConsumer());
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 

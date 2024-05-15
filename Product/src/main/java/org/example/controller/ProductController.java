@@ -173,7 +173,7 @@ public class ProductController {
         return ResponseEntity.ok(searchService.searchProduct(searchDto.getProduct_name(), page-1));
     }
 
-    @PostMapping("/email")
+    @PostMapping("/emails")
     public ResponseEntity<String> SendEmail(@RequestBody List<PaymentsReq> paymentsReqList)
     {
         return ResponseEntity.ok(mailService.sendRealImgEmail(paymentsReqList));

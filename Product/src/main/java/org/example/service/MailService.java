@@ -32,7 +32,7 @@ public class MailService {
     private final JavaMailSender javaMailSender;
 
     public String sendRealImgEmail(List<PaymentsReq> paymentsReqList) {
-        //storage service에서, img를 가져오기
+
         for (int i = 0; i < paymentsReqList.size(); i++) {
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -50,6 +50,7 @@ public class MailService {
                 URL url = new URL(realImgUrl);
                 DataSource dataSource = new URLDataSource(url);
                 mimeMessageHelper.addAttachment("image.jpg", dataSource);
+                log.info("{}", url, "urlishere");
 
                 // 이메일 발신자 설정
                 mimeMessageHelper.setFrom(new InternetAddress("dealon2580" + "@naver.com"));
