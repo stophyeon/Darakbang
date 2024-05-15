@@ -31,7 +31,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "회원", description = "회원 API")
 @RequestMapping("/member")
-@Slf4j
 public class MemberController {
     private final MemberService memberService;
     private final PaymentsService paymentsService;
@@ -101,7 +100,6 @@ public class MemberController {
 
     @PostMapping("/payments/{email}")
     public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto, @PathVariable("email") String email) {
-        log.info("hereisconsuercontroller{}", purchaseDto.getPayments_list().get(0).getConsumer());
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 
@@ -123,7 +121,7 @@ public class MemberController {
     public ResponseEntity<List<String>> searchByWord(@RequestBody SearchDto searchDto){
         return ResponseEntity.ok(memberService.autoComplete(searchDto.getWord()));
     }
-    @GetMapping("/email")
+    @GetMapping("/emails")
     public String getEmailByNickname(@RequestParam("nick_name") String nickName){
         return memberService.getEmail(nickName);
     }

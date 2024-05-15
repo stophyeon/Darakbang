@@ -37,16 +37,12 @@ public class PaymentsService {
 
         if (purchaseDto.getTotal_point()>consumer.get().getPoint()){return PaymentsRes.builder().charge(true).point(Math.abs(consumerPoint)).message("포인트 충전 필요").build();}
         else {
-
-            log.info("hereisconsuera{}", purchaseDto.getPayments_list().toString());
             for (PaymentsReq req : purchaseDto.getPayments_list()){
-                req.setConsumer(email);
-                //                req.setConsumer(purchaseDto.getEmail());
+                req.setConsumer(purchaseDto.getEmail());
                 if(!purchaseOne(req,sellers,sellProductId)){return PaymentsRes.builder().charge(false).message("상품이 없습니다").build();}
             }
             log.info(sellProductId.toString());
             log.info(String.valueOf(sellers.size()));
-            log.info("hereisconsuerb{}", purchaseDto.getPayments_list().toString());
             ProductFeignRes productFeignRes = productFeign.SoldOut(ProductFeignReq.builder()
                     .product_id(sellProductId)
                     .email(email)
@@ -58,7 +54,7 @@ public class PaymentsService {
                     memberRepository.updatePoint(sellers.get(sellerEmail), sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-                productFeign.SendEmail(purchaseDto.getPayments_list());//메일 전송 요청->product
+                productFeign.SendEmail(purchaseDto.getPayments_list(),email);//메일 전송 요청->product
                 //이메일 전송부 추가했습니다.
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
@@ -94,7 +90,7 @@ public class PaymentsService {
                 memberRepository.updatePoint(sellers.get(email),email);
             }
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-            productFeign.SendEmail(purchaseDto.getPayments_list());//메일 전송 요청->product
+            productFeign.SendEmail(purchaseDto.getPayments_list(), purchaseDto.getEmail());//메일 전송 요청->product
             //이메일 전송부 추가했습니다.
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }

@@ -173,9 +173,9 @@ public class ProductController {
         return ResponseEntity.ok(searchService.searchProduct(searchDto.getProduct_name(), page-1));
     }
 
-    @PostMapping("/emails")
-    public ResponseEntity<String> SendEmail(@RequestBody List<PaymentsReq> paymentsReqList)
+    @PostMapping("/emails/{consumer_email}")
+    public ResponseEntity<String> SendEmail(@RequestBody List<PaymentsReq> paymentsReqList, @PathVariable("consumer_email") String consumer_email)
     {
-        return ResponseEntity.ok(mailService.sendRealImgEmail(paymentsReqList));
+        return ResponseEntity.ok(mailService.sendRealImgEmail(paymentsReqList,consumer_email));
     }
 }

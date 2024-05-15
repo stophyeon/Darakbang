@@ -4,6 +4,7 @@ import org.example.dto.purchase.PaymentsReq;
 import org.example.dto.purchase.ProductFeignReq;
 import org.example.dto.purchase.ProductFeignRes;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -16,7 +17,7 @@ public interface ProductFeign {
     @PostMapping("/payments/sell")
     public ProductFeignRes SoldOut(@RequestBody ProductFeignReq productFeignReq);
 
-    @PostMapping("/emails")
-    public ProductFeignRes SendEmail(@RequestBody List<PaymentsReq> paymentsReqList);
+    @PostMapping("/emails/{consumer_email}")
+    public String SendEmail(@RequestBody List<PaymentsReq> paymentsReqList, @PathVariable("consumer_email") String consumer_email);
 
 }
