@@ -2,11 +2,11 @@ spring:
   application:
     name: product
   profiles:
-    active: local
+    active: dev
   config:
-    import: #optional:configserver:http://darakbang-config-service-1:8071
-      optional:configserver:http://localhost:8071
-  #이하 부분은 로컬 테스트용입니다.
+    import: optional:configserver:http://darakbang-config-service-1:8071
+      #optional:configserver:http://localhost:8071
+
 management:
   endpoints:
     web:

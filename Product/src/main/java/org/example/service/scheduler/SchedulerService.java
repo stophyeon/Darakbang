@@ -29,7 +29,7 @@ public class SchedulerService {
 
         productRepository.updateProductsStateForExpiredProducts();
 
-        if(counttuple > 1000)
+        if(counttuple > 30)
         {
             List<Product> deleteProductList = productRepository.findProductsExpiredOrSelled();
             for (Product deleteProduct : deleteProductList) {
