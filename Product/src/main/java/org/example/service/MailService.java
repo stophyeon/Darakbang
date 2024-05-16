@@ -9,6 +9,7 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.example.dto.exception.CustomMailException;
 import org.example.dto.purchase.PaymentsReq;
 import org.example.repository.ProductRepository;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -38,41 +40,33 @@ public class MailService {
     private final JavaMailSender javaMailSender;
 
     public String sendRealImgEmail(List<PaymentsReq> paymentsReqList, String consumer_email) {
-
-        for (int i = 0; i < paymentsReqList.size(); i++) {
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            try {
-
+        try {
+            for (PaymentsReq paymentReq : paymentsReqList) {
+                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
                 // 수신자
                 mimeMessageHelper.setTo(consumer_email);
                 // 제목
                 mimeMessageHelper.setSubject("Darakbang 구매내역입니다.");
-
                 // 본문
-                mimeMessageHelper.setText(productRepository.findImageRealByProductId(paymentsReqList.get(i).getProduct_id()));
-//                URL url = new URL(productRepository.findImageRealByProductId(paymentsReqList.get(i).getProduct_id()));
-//
-//                try (InputStream inputStream = url.openStream()) {
-//                    mimeMessageHelper.addAttachment("image.jpg", new InputStreamResource(inputStream));
-//                }//오류.. 재 설정 필요
+                mimeMessageHelper.setText("구매 감사드립니다.");
 
+                // 이미지 ->datasource로 변경.
+                URL imageUrl = new URL(productRepository.findImageRealByProductId(paymentReq.getProduct_id()));
+                byte[] imageData = IOUtils.toByteArray(imageUrl);
+                DataSource dataSource = new ByteArrayDataSource(imageData, "image/jpeg");
+                mimeMessageHelper.addAttachment("darakbang.jpg", dataSource);
 
                 // 이메일 발신자 설정
-                mimeMessageHelper.setFrom(new InternetAddress("dealon2580" + "@naver.com"));
+                mimeMessageHelper.setFrom(new InternetAddress("dealon2580@naver.com"));
 
                 // 이메일 보내기
                 javaMailSender.send(mimeMessage);
-
-            } catch (Exception e) {
-                throw new CustomMailException(); // 모든 예외를 MailException으로 처리했습니다.
             }
-
-
-        }
-
-        return "mail 전송 완료되었습니다.";
-
+            return "메일 전송 완료되었습니다.";
+        } catch (Exception e) {
+            throw new CustomMailException();
         }
     }
+}

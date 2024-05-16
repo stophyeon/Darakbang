@@ -7,19 +7,6 @@ spring:
     import: #optional:configserver:http://darakbang-config-service-1:8071
       optional:configserver:http://localhost:8071
   #이하 부분은 로컬 테스트용입니다.
-  mail:
-    host: smtp.naver.com
-    port: 465
-    username: dealon2580
-    password: asas1212
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-      mail.smtps.checkserveridentity: true
-      mail.smtps.ssl.trust: "*"
-      mail.debug: true
-      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
-
 management:
   endpoints:
     web:

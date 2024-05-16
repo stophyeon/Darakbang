@@ -91,7 +91,7 @@ public class PaymentsService {
             }
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
             productFeign.SendEmail(purchaseDto.getPayments_list(), purchaseDto.getEmail());//메일 전송 요청->product
-            //이메일 전송부 추가했습니다.
+            //이메일 전송부 추가했습니다.   
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
