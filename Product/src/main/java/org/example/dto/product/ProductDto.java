@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class ProductDto {
 
-    private Long product_id ;
+    private Long product_id;
 
     private String product_name;
 

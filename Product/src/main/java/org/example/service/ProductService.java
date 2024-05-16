@@ -7,6 +7,7 @@ import org.example.annotation.TimeCheck;
 import org.example.dto.product.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.product.ProductDto;
+import org.example.dto.product.SendProduct;
 import org.example.entity.Product;
 import org.example.entity.WishList;
 import org.example.repository.ProductRepository;
@@ -148,8 +149,12 @@ public class ProductService {
         }
     }
     @Transactional
-    public String realImage(Long productId){
-        return productRepository.findByProductId(productId).getImageReal();
+    public SendProduct realImage(Long productId){
+        Product product=productRepository.findByProductId(productId);
+        return SendProduct.builder()
+                .productName(product.getProductName())
+                .image_real(product.getImageReal())
+                .build();
     }
 
 

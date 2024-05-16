@@ -1,9 +1,6 @@
 package org.example.service;
 
 import jakarta.activation.DataSource;
-import jakarta.activation.URLDataSource;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
@@ -13,24 +10,12 @@ import org.apache.commons.io.IOUtils;
 import org.example.dto.exception.CustomMailException;
 import org.example.dto.purchase.PaymentsReq;
 import org.example.repository.ProductRepository;
-
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
