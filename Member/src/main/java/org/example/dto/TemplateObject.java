@@ -9,14 +9,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TemplateObject {
     @JsonProperty("object_type")
-    private String objType="text";
-    private String text="구매 내역";
-    @JsonProperty("web_url")
-    private String webUrl;
+    private String objType="feed";
+
+    @JsonProperty("content")
+    private Content content;
 
     @Builder
-    public TemplateObject(String webUrl){
+    public TemplateObject(String title, String image_url, String description, String link){
+        this.content.title=title;
+        this.content.description=description;
+        this.content.image_url=image_url;
+        this.content.link=link;
 
-        this.webUrl=webUrl;
+    }
+    public static class Content{
+        private String title;
+        private String image_url;
+        private String description;
+        private String link;
+
     }
 }

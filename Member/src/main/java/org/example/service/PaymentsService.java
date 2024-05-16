@@ -3,6 +3,9 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.TemplateObject;
+import org.example.dto.product.ProductFeignReq;
+import org.example.dto.product.ProductFeignRes;
+import org.example.dto.product.SendProduct;
 import org.example.dto.purchase.*;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
@@ -125,9 +128,12 @@ public class PaymentsService {
     }
 
     public void sendMessage(Long productId){
-        String image = productFeign.getRealImage(productId);
+        SendProduct product = productFeign.getRealImage(productId);
         TemplateObject templateObject = TemplateObject.builder()
-                .webUrl(image)
+                .title(product.getProductName())
+                .image_url(product.getImage_real())
+                .link(product.getImage_real())
+                .description("다락방에서 구매한 상품입니다.")
                 .build();
         kakaoService.sendRealImage(templateObject);
     }

@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 
-import lombok.extern.slf4j.Slf4j;
 import org.example.dto.*;
 
 import org.example.dto.exception.ExceptionResponse;
@@ -129,7 +128,7 @@ public class MemberController {
     public ResponseEntity<List<String>> searchByWord(@RequestBody SearchDto searchDto){
         return ResponseEntity.ok(memberService.autoComplete(searchDto.getWord()));
     }
-    @GetMapping("/emails")
+    @GetMapping("/email")
     public String getEmailByNickname(@RequestParam("nick_name") String nickName){
         return memberService.getEmail(nickName);
     }
