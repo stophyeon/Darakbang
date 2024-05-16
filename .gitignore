@@ -37,3 +37,5 @@ out/
 .vscode/
 
 Product/src/main/generated/
+
+README.md

@@ -76,6 +76,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("Select p FROM Product p WHERE p.state in (-1,0)")
     List<Product> findProductsExpiredOrSelled();
 
+    @Query("SELECT p.ImageReal FROM Product p WHERE p.productId = :product_id")
+    String findImageRealByProductId(@Param("product_id") Long product_id);
 
 
 

@@ -13,10 +13,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.product.ProductDetailRes;
 import org.example.dto.product.ProductDto;
+import org.example.dto.purchase.PaymentsReq;
 import org.example.dto.purchase.PurchaseDto;
 import org.example.dto.purchase.SellDto;
 import org.example.dto.search.SearchDto;
 import org.example.dto.wish_list.WishListDto;
+import org.example.service.MailService;
 import org.example.service.SearchService;
 import org.example.service.WishListService;
 import org.example.service.ProductService;
@@ -37,6 +39,7 @@ public class ProductController {
     private final ProductService productService;
     private final WishListService wishListService;
     private final SearchService searchService;
+    private final MailService mailService;
     // 게시글 작성 - email 필요
     @Operation(summary = "상품 게시글 작성")
     @ApiResponses(value = {
@@ -172,5 +175,11 @@ public class ProductController {
     @GetMapping("/real_image")
     public String getRealImage(@RequestParam("product_id") Long productId){
         return productService.realImage(productId);
+    }
+
+    @PostMapping("/emails/{consumer_email}")
+    public ResponseEntity<String> SendEmail(@RequestBody List<PaymentsReq> paymentsReqList, @PathVariable("consumer_email") String consumer_email)
+    {
+        return ResponseEntity.ok(mailService.sendRealImgEmail(paymentsReqList,consumer_email));
     }
 }

@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.exception.ExceptionRes;
+import org.example.dto.exception.CustomMailException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,5 +30,11 @@ public class GlobalExceptionController {
     public ResponseEntity<ExceptionRes> NoSuchElementException(NoSuchElementException e){
         ExceptionRes response = new ExceptionRes("요청 상품이 존재하지 않음", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CustomMailException.class)
+    public ResponseEntity<ExceptionRes> MailException(CustomMailException m){
+        ExceptionRes response = new ExceptionRes("메일 전송 과정에서 문제가 발생했습니다", m.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
