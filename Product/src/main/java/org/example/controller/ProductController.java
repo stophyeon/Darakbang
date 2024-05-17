@@ -170,8 +170,8 @@ public class ProductController {
     public ResponseEntity<Page<ProductDto>> searchFullWord(@RequestBody SearchDto searchDto, @RequestParam(name = "page",required = false,defaultValue = "1") int page){
         return ResponseEntity.ok(searchService.searchProduct(searchDto.getProduct_name(), page-1));
     }
-    @GetMapping("/real_image")
-    public SendProduct getRealImage(@RequestParam("product_id") Long productId){
+    @PostMapping("/real_image")
+    public String getRealImage(@RequestParam("product_id") Long productId){
         return productService.realImage(productId);
     }
 }
