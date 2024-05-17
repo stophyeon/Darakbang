@@ -22,7 +22,7 @@ public interface KakaoFeign {
     //  -H "Authorization: Bearer ${ACCESS_TOKEN}"
     @GetMapping("/logout")
     public String logOut(@RequestParam("client_id") String client_id,@RequestParam("logout_redirect_uri") String uri);
-    @PostMapping("/token")
+    @PostMapping("/refresh/token")
     public String updateAccessToken(@RequestHeader("Content-type") String Content,
                                  @RequestParam("grant_type") String grant,
                                  @RequestParam("client_id") String client,

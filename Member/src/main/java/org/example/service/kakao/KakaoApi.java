@@ -1,6 +1,5 @@
 package org.example.service.kakao;
 
-import org.example.dto.TemplateObject;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,7 @@ public interface KakaoApi {
     @GetMapping("/v2/user/me")
     public String getUSerInfo(@RequestHeader("Authorization") String token);
 
-    @PostMapping(value = "/v2/api/talk/memo/default/send", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/v2/api/talk/memo/default/send", consumes = "application/x-www-form-urlencoded",produces = "application/json")
     public String sendImage(@RequestHeader("Authorization") String token,
                             @RequestBody String templateObject);
 

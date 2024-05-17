@@ -149,12 +149,10 @@ public class ProductService {
         }
     }
     @Transactional
-    public SendProduct realImage(Long productId){
+    public String realImage(Long productId){
+        log.info("구매 상품 전송 로직");
         Product product=productRepository.findByProductId(productId);
-        return SendProduct.builder()
-                .productName(product.getProductName())
-                .image_real(product.getImageReal())
-                .build();
+        return product.getImageReal();
     }
 
 

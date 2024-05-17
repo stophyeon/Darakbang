@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
 import org.example.dto.MemberDto;
-import org.example.dto.TemplateObject;
+import org.example.dto.send.TemplateObject;
 import org.example.entity.Member;
 import org.example.entity.Token;
 import org.example.jwt.JwtDto;
@@ -99,7 +99,7 @@ public class KakaoService {
         log.info(templateObject.toString());
         kakaoApi.sendImage("Bearer "+ kakaoToken_user.getAccessToken(),"template_object= "+ templateObject);
     }
-    public void kakaoLogOut(){
-        kakaoFeign.logOut(client_id,logout_redirect);
+    public String kakaoLogOut(){
+        return kakaoFeign.logOut(client_id,logout_redirect);
     }
 }

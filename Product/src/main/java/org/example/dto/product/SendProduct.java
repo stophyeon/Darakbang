@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class SendProduct {
-    private String productName;
+    private String product_name;
     private String image_real;
 
     @Builder
     public SendProduct(String productName,String image_real){
         this.image_real=image_real;
-        this.productName=productName;
+        this.product_name=productName;
     }
 }
