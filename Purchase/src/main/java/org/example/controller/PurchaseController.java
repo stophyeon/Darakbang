@@ -33,7 +33,7 @@ public class PurchaseController {
                                 paymentService.validateandSave(purchasecheckresponsewebclient,validation.getPayment_id(), validation.getTotal_point(),useremail,PortOnetoken)
                                 .flatMap(validateresult -> {
                                     return paymentService.sendPaymentSuccessRequestToMember(purchasecheckresponsewebclient.getOrderName(),purchasecheckresponsewebclient.getRequestedAt(),validation,useremail,PortOnetoken) ;
-                                }))) ;
+                                })));
 
     }
 

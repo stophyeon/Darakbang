@@ -8,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class TemplateObject {
-    @JsonProperty("object_type")
-    private String objType="feed";
 
+    private String object_type="feed";
     @JsonProperty("content")
     private Content content;
 

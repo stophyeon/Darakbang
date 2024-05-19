@@ -95,9 +95,12 @@ public class KakaoService {
        return memberDto.getEmail();
     }
 
-    public void sendRealImage(TemplateObject templateObject){
-        log.info(templateObject.toString());
-        kakaoApi.sendImage("Bearer "+ kakaoToken_user.getAccessToken(),"template_object= "+ templateObject);
+    public void sendRealImage(TemplateObject templateObject) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String template = "template_object="+objectMapper.writeValueAsString(templateObject);;
+        log.info(template);
+        kakaoApi.sendImage("Bearer "+ kakaoToken_user.getAccessToken(),"application/x-www-form-urlencoded",template);
     }
     public String kakaoLogOut(){
         return kakaoFeign.logOut(client_id,logout_redirect);

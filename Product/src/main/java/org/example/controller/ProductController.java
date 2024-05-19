@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.product.ProductDetailRes;
 import org.example.dto.product.ProductDto;
-import org.example.dto.product.SendProduct;
+import org.example.dto.product.ProductForMessage;
 import org.example.dto.purchase.PurchaseDto;
 import org.example.dto.purchase.SellDto;
 import org.example.dto.search.SearchDto;
@@ -171,7 +171,7 @@ public class ProductController {
         return ResponseEntity.ok(searchService.searchProduct(searchDto.getProduct_name(), page-1));
     }
     @PostMapping("/real_image")
-    public String getRealImage(@RequestParam("product_id") Long productId){
+    public ProductForMessage getRealImage(@RequestParam("product_id") Long productId){
         return productService.realImage(productId);
     }
 }
