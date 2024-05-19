@@ -57,6 +57,7 @@ public class PaymentsService {
                     memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+                productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송 부 일단 추가
                 for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
                     sendMessage(paymentsReq.getProduct_id());
                 }
@@ -98,6 +99,7 @@ public class PaymentsService {
             for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
                 sendMessage(paymentsReq.getProduct_id());
             }
+            productFeign.SendEmail(purchaseDto.getPayments_list(),purchaseDto.getEmail());
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
