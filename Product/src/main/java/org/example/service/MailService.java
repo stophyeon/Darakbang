@@ -22,9 +22,10 @@ import java.util.List;
 public class MailService {
 
     private final ProductRepository productRepository;
-    private final JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     public String sendRealImgEmail(List<PaymentsReq> paymentsReqList, String consumer_email) {
+
         try {
             for (PaymentsReq paymentReq : paymentsReqList) {
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();

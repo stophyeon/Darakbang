@@ -1,5 +1,6 @@
 package org.example.dto.product;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class MessageRes {
+    @JsonProperty("product_name")
     private String product_name;
+
+    @JsonProperty("image_real")
     private String image_real;
 
     @Builder

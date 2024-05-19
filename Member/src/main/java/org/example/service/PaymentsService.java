@@ -1,8 +1,10 @@
 package org.example.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.send.Content;
+import org.example.dto.send.Link;
 import org.example.dto.send.TemplateObject;
 import org.example.dto.product.ProductFeignReq;
 import org.example.dto.product.ProductFeignRes;
@@ -32,7 +34,7 @@ public class PaymentsService {
     private final KakaoService kakaoService;
 
     @Transactional
-    public PaymentsRes purchase(PurchaseDto purchaseDto, String email){
+    public PaymentsRes purchase(PurchaseDto purchaseDto, String email) throws JsonProcessingException {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(email);
@@ -79,7 +81,7 @@ public class PaymentsService {
     }
 
     @Transactional
-    public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto){
+    public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto) throws JsonProcessingException {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(purchaseDto.getEmail());
@@ -128,15 +130,15 @@ public class PaymentsService {
         return true;
     }
 
-    public void sendMessage(Long productId){
+    public void sendMessage(Long productId) throws JsonProcessingException {
         log.info("메시지 로직 동작");
         log.info(productId.toString());
-        String realImage= productFeign.getRealImage(productId);
-        log.info(realImage);
+        MessageRes product= productFeign.getRealImage(productId);
+        log.info(product.getProduct_name());
         Content content = Content.builder()
                 .title("test")
-                .image_url(realImage)
-                .link(realImage)
+                .image_url(product.getImage_real())
+                .link(Link.builder().web_url("http://localhost:3000").build())
                 .description("다락방에서 구매한 상품입니다.")
                 .build();
         TemplateObject templateObject = TemplateObject.builder()

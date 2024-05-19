@@ -10,10 +10,10 @@ public class Content{
     private String title;
     private String image_url;
     private String description;
-    private String link;
+    private Link link;
 
     @Builder
-    public Content(String title, String image_url,String description, String link){
+    public Content(String title, String image_url,String description, Link link){
         this.description=description;
         this.image_url=image_url;
         this.title=title;
