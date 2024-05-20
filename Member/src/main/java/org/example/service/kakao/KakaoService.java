@@ -80,6 +80,7 @@ public class KakaoService {
                 .nickName(properties.get("nickname").toString())
                 .name(properties.get("nickname").toString())
                 .password(passwordEncoder.encode("default1234"))
+                .social_type(1)
                 .build();
         log.info(passwordEncoder.encode("default1234"));
         Optional<Member> member = memberRepository.findByEmail(memberDto.getEmail());

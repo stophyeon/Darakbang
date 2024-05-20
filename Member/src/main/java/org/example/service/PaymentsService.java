@@ -63,10 +63,16 @@ public class PaymentsService {
                     memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-                productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송
-//                for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
-//                    sendMessage(paymentsReq.getProduct_id());
-//                }
+                if (consumer.get().getSocial_type() == 1) //카카오 라면
+                {
+                    for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                        sendMessage(paymentsReq.getProduct_id());
+                    }
+                }
+                else if (consumer.get().getSocial_type() == 0 ) //일반 회원가입 유저라면
+                {
+                    productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송
+                }
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
             else {
@@ -102,10 +108,17 @@ public class PaymentsService {
             }
 
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-//            for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
-//                sendMessage(paymentsReq.getProduct_id());
-//            }
-            productFeign.SendEmail(purchaseDto.getPayments_list(),purchaseDto.getEmail()); //이메일 전송
+
+            if (consumer.get().getSocial_type() == 1) //카카오 라면
+            {
+                for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                    sendMessage(paymentsReq.getProduct_id());
+                }
+            }
+            else if (consumer.get().getSocial_type() == 0 ) //일반 회원가입 유저라면
+            {
+                productFeign.SendEmail(purchaseDto.getPayments_list(),purchaseDto.getEmail()); //이메일 전송
+            }
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
