@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.util.List;
 
 @Entity
 @RequiredArgsConstructor

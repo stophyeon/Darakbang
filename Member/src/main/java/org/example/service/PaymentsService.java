@@ -66,11 +66,13 @@ public class PaymentsService {
                 if (consumer.get().getSocial_type() == 1) //카카오 라면
                 {
                     for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                        log.info("카카오 회원");
                         sendMessage(paymentsReq.getProduct_id());
                     }
                 }
                 else if (consumer.get().getSocial_type() == 0 ) //일반 회원가입 유저라면
                 {
+                    log.info("일반 회원");
                     productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송
                 }
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();

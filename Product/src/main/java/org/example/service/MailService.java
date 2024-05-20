@@ -24,8 +24,8 @@ import java.util.List;
 public class MailService {
 
     private final ProductRepository productRepository;
- //   private JavaMailSender javaMailSender; //dev 환경에선 final 제거.
-  private final JavaMailSender javaMailSender; //local 환경에서 사용
+    private final JavaMailSender javaMailSender; //dev 환경에선 final 제거.
+
 
     @Value("${spring.mail.username}")
     private String mailSenderId ;

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.ProfileDto;
 import org.example.dto.login.LoginSuccessDto;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.RefreshDto;
 import org.example.dto.exception.ExceptionResponse;
 import org.example.dto.signup.SignUpRes;
@@ -115,6 +115,10 @@ public class MemberService {
 
     public boolean duplicateNickName(String nickName){
         return memberRepository.findByNickName(nickName).isPresent();
+    }
+
+    public boolean duplicateEmail(String email){
+        return memberRepository.existsByEmail(email);
     }
 
     public String getNickName(String email){

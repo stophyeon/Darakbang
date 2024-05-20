@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @RequiredArgsConstructor

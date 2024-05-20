@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.send.TemplateObject;
 import org.example.entity.Member;
 import org.example.entity.Token;
