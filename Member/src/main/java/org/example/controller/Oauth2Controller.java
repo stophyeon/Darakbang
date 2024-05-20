@@ -28,8 +28,8 @@ public class Oauth2Controller {
         return naverService.GenerateToken(code);
     }
     @PostMapping("/kakao/logout")
-    public void kakaoLogOut(){
-        kakaoService.kakaoLogOut();
+    public String kakaoLogOut(){
+        return kakaoService.kakaoLogOut();
     }
 
 

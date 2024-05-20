@@ -7,6 +7,7 @@ import org.example.annotation.TimeCheck;
 import org.example.dto.product.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.product.ProductDto;
+import org.example.dto.product.ProductForMessage;
 import org.example.entity.Product;
 import org.example.entity.WishList;
 import org.example.repository.ProductRepository;
@@ -148,8 +149,14 @@ public class ProductService {
         }
     }
     @Transactional
-    public String realImage(Long productId){
-        return productRepository.findByProductId(productId).getImageReal();
+    public ProductForMessage realImage(Long productId){
+        log.info("구매 상품 전송 로직");
+        Product product=productRepository.findByProductId(productId);
+        log.info(product.getProductName());
+        return ProductForMessage.builder()
+                .image_real(product.getImageReal())
+                .productName(product.getProductName())
+                .build();
     }
 
 

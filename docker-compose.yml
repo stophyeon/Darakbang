@@ -1,6 +1,12 @@
 version: '3'
 services:
-
+  front:
+    image: minwoooo3396/front_darakbang
+    networks:
+      - test-net
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    ports:
+      - "3000:3000"
   member-db:
     # 사용할 이미지
     image: mysql:8.2.0
@@ -20,6 +26,7 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+
   product-db:
     # 사용할 이미지
     image: mysql:8.2.0
@@ -39,6 +46,7 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+
   purchase-db:
     # 사용할 이미지
     image: mysql:8.2.0
@@ -58,6 +66,7 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+
   config-service:
     image: stophyeon/test:config
     ports:
@@ -118,7 +127,7 @@ services:
         - test-net
       restart: on-failure
   purchase-service:
-    image: stophyeon/test:purchase
+    image: jihyukdocker/purchase:purchase
     ports:
       - "6080:6080"
     environment:

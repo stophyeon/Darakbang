@@ -17,13 +17,15 @@ import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class MailService {
 
     private final ProductRepository productRepository;
-    private final JavaMailSender javaMailSender;
+ //   private JavaMailSender javaMailSender; //dev 환경에선 final 제거.
+  private final JavaMailSender javaMailSender; //local 환경에서 사용
 
     @Value("${spring.mail.username}")
     private String mailSenderId ;

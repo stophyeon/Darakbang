@@ -3,22 +3,26 @@ package org.example.controller;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 
-import lombok.extern.slf4j.Slf4j;
 import org.example.dto.*;
 
 import org.example.dto.exception.ExceptionResponse;
 import org.example.dto.login.LoginSuccessDto;
 import org.example.dto.purchase.PaymentsRes;
 import org.example.dto.purchase.PurchaseDto;
+import org.example.dto.send.Content;
+import org.example.dto.send.Link;
+import org.example.dto.send.TemplateObject;
 import org.example.dto.signup.SignUpRes;
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -106,12 +110,12 @@ public class MemberController {
 
     @PostMapping("/payments/{email}")
     public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto,
-                                                @PathVariable("email") String email) {
+                                                @PathVariable("email") String email) throws JsonProcessingException {
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 
     @PostMapping("/payments")
-    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PurchaseDto purchaseDto){
+    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PurchaseDto purchaseDto) throws JsonProcessingException {
         return ResponseEntity.ok(paymentsService.purchaseSuccess(purchaseDto));
     }
 
@@ -129,8 +133,10 @@ public class MemberController {
     public ResponseEntity<List<String>> searchByWord(@RequestBody SearchDto searchDto){
         return ResponseEntity.ok(memberService.autoComplete(searchDto.getWord()));
     }
-    @GetMapping("/emails")
+    @GetMapping("/email")
     public String getEmailByNickname(@RequestParam("nick_name") String nickName){
         return memberService.getEmail(nickName);
     }
+
+
 }

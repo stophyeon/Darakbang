@@ -1,8 +1,14 @@
 package org.example.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.TemplateObject;
+import org.example.dto.send.Content;
+import org.example.dto.send.Link;
+import org.example.dto.send.TemplateObject;
+import org.example.dto.product.ProductFeignReq;
+import org.example.dto.product.ProductFeignRes;
+import org.example.dto.product.MessageRes;
 import org.example.dto.purchase.*;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
@@ -28,7 +34,7 @@ public class PaymentsService {
     private final KakaoService kakaoService;
 
     @Transactional
-    public PaymentsRes purchase(PurchaseDto purchaseDto, String email){
+    public PaymentsRes purchase(PurchaseDto purchaseDto, String email) throws JsonProcessingException {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(email);
@@ -57,10 +63,10 @@ public class PaymentsService {
                     memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-                productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송 부 일단 추가
-                for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
-                    sendMessage(paymentsReq.getProduct_id());
-                }
+                productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송
+//                for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+//                    sendMessage(paymentsReq.getProduct_id());
+//                }
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
             else {
@@ -76,7 +82,7 @@ public class PaymentsService {
     }
 
     @Transactional
-    public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto){
+    public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto) throws JsonProcessingException {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(purchaseDto.getEmail());
@@ -96,10 +102,10 @@ public class PaymentsService {
             }
 
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
-            for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
-                sendMessage(paymentsReq.getProduct_id());
-            }
-            productFeign.SendEmail(purchaseDto.getPayments_list(),purchaseDto.getEmail());
+//            for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+//                sendMessage(paymentsReq.getProduct_id());
+//            }
+            productFeign.SendEmail(purchaseDto.getPayments_list(),purchaseDto.getEmail()); //이메일 전송
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
@@ -126,10 +132,19 @@ public class PaymentsService {
         return true;
     }
 
-    public void sendMessage(Long productId){
-        String image = productFeign.getRealImage(productId);
+    public void sendMessage(Long productId) throws JsonProcessingException {
+        log.info("메시지 로직 동작");
+        log.info(productId.toString());
+        MessageRes product= productFeign.getRealImage(productId);
+        log.info(product.getProduct_name());
+        Content content = Content.builder()
+                .title("test")
+                .image_url(product.getImage_real())
+                .link(Link.builder().web_url("http://localhost:3000").build())
+                .description("다락방에서 구매한 상품입니다.")
+                .build();
         TemplateObject templateObject = TemplateObject.builder()
-                .webUrl(image)
+                .content(content)
                 .build();
         kakaoService.sendRealImage(templateObject);
     }
