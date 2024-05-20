@@ -98,7 +98,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByNickName(nickName);
         Optional<Member> me = memberRepository.findByEmail(email);
         member.orElseThrow();
-        if (followRepository.existsByFollowingIdAndFollowerId(me.get(),member.get())){
+        if (followRepository.existsByFollowingIdAndFollowerId(member.get(),me.get())){
             return ProfileDto.builder().follow(true).memberDto(Member.toDto(member.get())).build();
         }
         else{return ProfileDto.builder().follow(false).memberDto(Member.toDto(member.get())).build();}

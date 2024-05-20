@@ -78,9 +78,7 @@ public class MemberController {
             summary = "다른 사용자의 프로필"
     )
     public ProfileDto Profile(@PathVariable(value = "nick_name") @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email") String email){
-
         return memberService.profile(nickName,email);
-
     }
 
     @GetMapping("/nick_name")
