@@ -14,15 +14,12 @@ import org.example.dto.*;
 
 import org.example.dto.exception.ExceptionResponse;
 import org.example.dto.login.LoginSuccessDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.purchase.PaymentsRes;
 import org.example.dto.purchase.PurchaseDto;
-import org.example.dto.send.Content;
-import org.example.dto.send.Link;
-import org.example.dto.send.TemplateObject;
 import org.example.dto.signup.SignUpRes;
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -131,10 +128,12 @@ public class MemberController {
     public ResponseEntity<List<String>> searchByWord(@RequestBody SearchDto searchDto){
         return ResponseEntity.ok(memberService.autoComplete(searchDto.getWord()));
     }
+
     @GetMapping("/email")
-    public String getEmailByNickname(@RequestParam("nick_name") String nickName){
-        return memberService.getEmail(nickName);
+    public EmailDto getEmailByNickname(@RequestParam("nick_name") String nickName){
+        return EmailDto.builder().email(memberService.getEmail(nickName)).build();
     }
+
 
 
 }

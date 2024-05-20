@@ -10,9 +10,11 @@ import org.apache.commons.io.IOUtils;
 import org.example.dto.exception.CustomMailException;
 import org.example.dto.purchase.PaymentsReq;
 import org.example.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
 import java.net.URL;
 import java.util.List;
 
@@ -22,11 +24,15 @@ import java.util.List;
 public class MailService {
 
     private final ProductRepository productRepository;
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender; //dev 환경에선 final 제거.
+
+
+    @Value("${spring.mail.username}")
+    private String mailSenderId ;
 
     public String sendRealImgEmail(List<PaymentsReq> paymentsReqList, String consumer_email) {
-
         try {
+
             for (PaymentsReq paymentReq : paymentsReqList) {
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -43,9 +49,8 @@ public class MailService {
                 byte[] imageData = IOUtils.toByteArray(imageUrl);
                 DataSource dataSource = new ByteArrayDataSource(imageData, "image/jpeg");
                 mimeMessageHelper.addAttachment("darakbang.jpg", dataSource);
-
                 // 이메일 발신자 설정
-                mimeMessageHelper.setFrom(new InternetAddress("dealon2580@naver.com"));
+                mimeMessageHelper.setFrom(new InternetAddress(mailSenderId+"@naver.com"));
 
                 // 이메일 보내기
                 javaMailSender.send(mimeMessage);

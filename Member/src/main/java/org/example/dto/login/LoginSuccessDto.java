@@ -10,6 +10,7 @@ import org.example.jwt.JwtDto;
 public class LoginSuccessDto {
     private String message;
     private JwtDto jwtDto;
+
     @Builder
     public LoginSuccessDto(String message,JwtDto jwtDto){
         this.jwtDto=jwtDto;

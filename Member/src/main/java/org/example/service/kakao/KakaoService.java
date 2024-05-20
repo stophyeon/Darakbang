@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.send.TemplateObject;
 import org.example.entity.Member;
 import org.example.entity.Token;
@@ -80,6 +80,7 @@ public class KakaoService {
                 .nickName(properties.get("nickname").toString())
                 .name(properties.get("nickname").toString())
                 .password(passwordEncoder.encode("default1234"))
+                .social_type(1)
                 .build();
         log.info(passwordEncoder.encode("default1234"));
         Optional<Member> member = memberRepository.findByEmail(memberDto.getEmail());

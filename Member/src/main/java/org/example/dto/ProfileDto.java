@@ -3,6 +3,7 @@ package org.example.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.member.MemberDto;
 
 @Data
 @RequiredArgsConstructor

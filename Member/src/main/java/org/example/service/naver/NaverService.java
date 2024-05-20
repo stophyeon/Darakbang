@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.entity.Member;
 import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
@@ -68,15 +68,17 @@ public class NaverService {
         MemberDto memberDto =MemberDto.builder()
                 .email(response.get("email").toString())
                 .image(response.get("profile_image").toString())
-
                 .name(response.get("name").toString())
                 .password(passwordEncoder.encode("default1234"))
+                .social_type(2)
                 .build();
 
         Optional<Member> member = memberRepository.findByEmail(memberDto.getEmail());
         Member member1 = Member.builder()
                 .memberDto(memberDto)
                 .build();
+
+
         if (member.isEmpty()){
             memberRepository.save(member1);
         }

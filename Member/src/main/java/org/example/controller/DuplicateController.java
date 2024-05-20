@@ -17,4 +17,9 @@ public class DuplicateController {
     public boolean checkNickName(@RequestParam("nick_name") String nickName){
         return memberService.duplicateNickName(nickName);
     }
+
+    @GetMapping("/email")
+    public boolean checkEmail(@RequestParam("email") String email){
+        return memberService.duplicateEmail(email);
+    }
 }

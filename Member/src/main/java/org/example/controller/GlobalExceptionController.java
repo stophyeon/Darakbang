@@ -29,4 +29,5 @@ public class GlobalExceptionController {
         ExceptionResponse response = new ExceptionResponse("요청 이메일이나 닉네임이 존재하지 않음", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
 }

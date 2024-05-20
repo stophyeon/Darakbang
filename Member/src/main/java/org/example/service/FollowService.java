@@ -5,17 +5,14 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.annotation.TimeCheck;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.entity.Follow;
 import org.example.entity.Member;
 import org.example.repository.follow.FollowRepository;
 import org.example.repository.member.MemberRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 

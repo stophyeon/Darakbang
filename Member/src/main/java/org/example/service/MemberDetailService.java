@@ -1,7 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.MemberDetails;
+import org.example.dto.member.MemberDetails;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
