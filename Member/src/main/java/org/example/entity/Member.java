@@ -28,6 +28,7 @@ public class Member {
     private int following;
     private int point;
     private final String role="ROLE_USER";
+    private int social_type; //0일반 1카카오 2네이버
 
     @Builder
     public Member(MemberDto memberDto){
@@ -37,6 +38,7 @@ public class Member {
         this.name= memberDto.getName();
         this.image=memberDto.getImage();
         this.point= memberDto.getPoint();
+        this.social_type = memberDto.getSocial_type();
     }
     public static MemberDto toDto(Member member){
         return MemberDto.builder()

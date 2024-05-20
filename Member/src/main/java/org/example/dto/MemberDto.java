@@ -35,9 +35,10 @@ public class MemberDto {
     private int point;
     private int follower;
     private int following;
+    private int social_type;
 
     @Builder
-    public MemberDto(String email, String nickName,String image, String name,String password,int follower,int following,int point){
+    public MemberDto(String email, String nickName,String image, String name,String password,int follower,int following,int point, int social_type){
         this.email=email;
         this.nickName=nickName;
         this.image = image;
@@ -46,6 +47,7 @@ public class MemberDto {
         this.follower=follower;
         this.following=following;
         this.point=point;
+        this.social_type =social_type;
     }
 
 }

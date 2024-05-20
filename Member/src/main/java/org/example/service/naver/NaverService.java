@@ -68,15 +68,17 @@ public class NaverService {
         MemberDto memberDto =MemberDto.builder()
                 .email(response.get("email").toString())
                 .image(response.get("profile_image").toString())
-
                 .name(response.get("name").toString())
                 .password(passwordEncoder.encode("default1234"))
+                .social_type(2)
                 .build();
 
         Optional<Member> member = memberRepository.findByEmail(memberDto.getEmail());
         Member member1 = Member.builder()
                 .memberDto(memberDto)
                 .build();
+
+
         if (member.isEmpty()){
             memberRepository.save(member1);
         }

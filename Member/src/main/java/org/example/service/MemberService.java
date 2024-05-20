@@ -52,6 +52,8 @@ public class MemberService {
             }
             memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
 
+            memberDto.setSocial_type(0);
+
             Member member = Member.builder()
                     .memberDto(memberDto)
                     .build();
