@@ -6,7 +6,18 @@ spring:
   config:
     import: optional:configserver:http://darakbang-config-service-1:8071
       #optional:configserver:http://localhost:8071
-
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: darakbang0414
+    password: asas1212
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtps.checkserveridentity: true
+      mail.smtps.ssl.trust: "*"
+      mail.debug: true
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
 management:
   endpoints:
     web:

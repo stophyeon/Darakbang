@@ -5,14 +5,17 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.example.dto.member.MemberDto;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @RequiredArgsConstructor
 @Getter
+
 public class Member {
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long member_id;
     private String email;

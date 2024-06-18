@@ -23,7 +23,7 @@ public class FollowController {
             summary = "팔로우 요청"
     )
     public String follow(@PathVariable("email") String email ,@RequestBody FollowDto followDto){
-        return  followService.FollowReq(followDto.getEmail(),email).getFollowingId().getName()+" 에게 팔로우 요청 성공";
+        return  followService.FollowReq(followDto.getEmail(),email);
     }
 
     @GetMapping("/follower/{nick_name}")

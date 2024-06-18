@@ -1,11 +1,15 @@
 package org.example.repository.follow;
 
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.member.MemberDto;
 import org.example.entity.Member;
 import org.example.entity.QFollow;
+import org.example.entity.QMember;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -14,18 +18,28 @@ public class FollowRepositoryImpl implements FollowRepositoryCustom {
     private final JPAQueryFactory query;
 
     @Override
-    public List<Member> findFollower(Member member) {
+    public List<Member> findFollower(String nickName) {
         QFollow follow = QFollow.follow;
-        return query.select(follow.followerId)
-                .from(follow)
-                .where(follow.followingId.eq(member)).fetch();
+        QMember member = QMember.member;
+        System.out.println("팔로워 멤버");
+        return query.selectFrom(member)
+                .where(member.member_id.in(
+                        JPAExpressions.select(follow.followerId)
+                                .from(member)
+                                .innerJoin(follow).on(member.nickName.eq(nickName))
+                                .where(follow.followingId.eq(member.member_id)))).fetch();
     }
 
     @Override
-    public List<Member> findFollowing(Member member) {
+    public List<Member> findFollowing(String nickName) {
         QFollow follow = QFollow.follow;
-        return query.select(follow.followingId)
-                .from(follow)
-                .where(follow.followerId.eq(member)).fetch();
+        QMember member = QMember.member;
+        System.out.println("팔로잉 멤버");
+        return query.selectFrom(member)
+                .where(member.member_id.in(
+                        JPAExpressions.select(follow.followingId)
+                                .from(member)
+                                .innerJoin(follow).on(member.nickName.eq(nickName))
+                                .where(follow.followerId.eq(member.member_id)))).fetch();
     }
 }

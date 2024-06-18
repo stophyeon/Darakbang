@@ -13,16 +13,12 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
 
-    @ManyToOne
-    @JoinColumn(name = "follower_id")
-    private Member followerId;
+    private Long followerId;
 
-    @ManyToOne
-    @JoinColumn(name = "following_id")
-    private Member followingId;
+    private Long followingId;
 
     @Builder
-    public Follow(Member followerId,Member followingId){
+    public Follow(Long followerId,Long followingId){
         this.followerId=followerId;
         this.followingId=followingId;
     }
