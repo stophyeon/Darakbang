@@ -3,8 +3,9 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.ProfileDto;
 import org.example.dto.login.LoginSuccessDto;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.RefreshDto;
 import org.example.dto.exception.ExceptionResponse;
 import org.example.dto.signup.SignUpRes;
@@ -12,6 +13,7 @@ import org.example.entity.Member;
 import org.example.entity.Token;
 import org.example.jwt.JwtDto;
 import org.example.jwt.JwtProvider;
+import org.example.repository.follow.FollowRepository;
 import org.example.repository.member.MemberRepository;
 import org.example.repository.token.TokenRepository;
 import org.example.service.storage.StorageService;
@@ -32,6 +34,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FollowRepository followRepository;
     private final AuthenticationProvider authenticationProvider;
     private final StorageService storageService;
     private final JwtProvider jwtProvider;
@@ -48,6 +51,8 @@ public class MemberService {
                 memberDto.setImage(googleURL+file_name);
             }
             memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+
+            memberDto.setSocial_type(0);
 
             Member member = Member.builder()
                     .memberDto(memberDto)
@@ -89,11 +94,16 @@ public class MemberService {
         return Member.toDto(member.get());
     }
 
-    public MemberDto profile(String nickName) {
+    public ProfileDto profile(String nickName, String email) {
         log.info(nickName);
+        log.info(email);
         Optional<Member> member = memberRepository.findByNickName(nickName);
+        Optional<Member> me = memberRepository.findByEmail(email);
         member.orElseThrow();
-            return Member.toDto(member.get());
+        if (followRepository.existsByFollowingIdAndFollowerId(member.get().getMember_id(),me.get().getMember_id())){
+            return ProfileDto.builder().follow(true).memberDto(Member.toDto(member.get())).build();
+        }
+        else{return ProfileDto.builder().follow(false).memberDto(Member.toDto(member.get())).build();}
 
     }
 
@@ -105,6 +115,10 @@ public class MemberService {
 
     public boolean duplicateNickName(String nickName){
         return memberRepository.findByNickName(nickName).isPresent();
+    }
+
+    public boolean duplicateEmail(String email){
+        return memberRepository.existsByEmail(email);
     }
 
     public String getNickName(String email){
@@ -124,9 +138,13 @@ public class MemberService {
                 .state("success")
                 .message("회원 정보 수정에 성공했습니다.")
                 .build();
-        }
+    }
 
-        public List<String> autoComplete(String word){
-            return memberRepository.findMemberKeyWord(word);
-        }
+    public List<String> autoComplete(String word) {
+        return memberRepository.findMemberKeyWord(word);
+    }
+
+    public String getEmail(String nickName){
+        return memberRepository.findEmailByNickName(nickName).getEmail();
+    }
 }

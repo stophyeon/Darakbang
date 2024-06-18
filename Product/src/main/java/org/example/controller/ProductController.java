@@ -13,10 +13,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.product.ProductDetailRes;
 import org.example.dto.product.ProductDto;
+import org.example.dto.product.ProductForMessage;
+import org.example.dto.purchase.PaymentsReq;
 import org.example.dto.purchase.PurchaseDto;
 import org.example.dto.purchase.SellDto;
 import org.example.dto.search.SearchDto;
 import org.example.dto.wish_list.WishListDto;
+import org.example.service.MailService;
 import org.example.service.SearchService;
 import org.example.service.WishListService;
 import org.example.service.ProductService;
@@ -37,6 +40,7 @@ public class ProductController {
     private final ProductService productService;
     private final WishListService wishListService;
     private final SearchService searchService;
+    private final MailService mailService;
     // 게시글 작성 - email 필요
     @Operation(summary = "상품 게시글 작성")
     @ApiResponses(value = {
@@ -90,8 +94,9 @@ public class ProductController {
     })
 
     @GetMapping("/page")
-    public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page) {
-        return ResponseEntity.ok(productService.findProductPage(page-1));
+    public ResponseEntity<Page<ProductDto>> getProductPage(@RequestParam(value = "page",required = false, defaultValue = "1") int page,
+                                                           @RequestParam(value = "nick_name",required = false) String nick_name) {
+        return ResponseEntity.ok(productService.findProductPage(page-1,nick_name));
     }
 
     @Operation(summary = "사용자 상세 페이지 등록 상품 조회")
@@ -115,8 +120,8 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "상품 게시글 조회 중 문제 발생")
     })
 
-    @GetMapping("/detail/{email}")
-    public ResponseEntity<ProductDetailRes> getProduct(@RequestParam("product_id") Long productId,@PathVariable("email") String email) {
+    @GetMapping("/detail/{product_id}/{email}")
+    public ResponseEntity<ProductDetailRes> getProduct(@PathVariable("product_id") Long productId,@PathVariable("email") String email) {
         return ResponseEntity.ok(productService.findProductDetail(productId,email));
     }
     @Operation(
@@ -134,9 +139,9 @@ public class ProductController {
             description = "좋아요 상품 조회 요청",
             summary = "좋아요"
     )
-    @GetMapping("/like/{email}")
-    public ResponseEntity<WishListDto> getLikeProduct(@PathVariable("email") String email){
-        return ResponseEntity.ok(wishListService.showLikeProduct(email));
+    @GetMapping("/profile/like/{nick_name}")
+    public ResponseEntity<WishListDto> getLikeProduct(@PathVariable("nick_name") String nickName){
+        return ResponseEntity.ok(wishListService.showLikeProduct(nickName));
     }
 
     @Operation(
@@ -168,5 +173,14 @@ public class ProductController {
     public ResponseEntity<Page<ProductDto>> searchFullWord(@RequestBody SearchDto searchDto, @RequestParam(name = "page",required = false,defaultValue = "1") int page){
         return ResponseEntity.ok(searchService.searchProduct(searchDto.getProduct_name(), page-1));
     }
+    @PostMapping("/real_image")
+    public ProductForMessage getRealImage(@RequestParam("product_id") Long productId){
+        return productService.realImage(productId);
+    }
 
+    @PostMapping("/emails/{consumer_email}")
+    public ResponseEntity<String> SendEmail(@RequestBody List<PaymentsReq> paymentsReqList, @PathVariable("consumer_email") String consumer_email)
+    {
+        return ResponseEntity.ok(mailService.sendRealImgEmail(paymentsReqList,consumer_email));
+    }
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface FollowRepository extends JpaRepository<Follow,Long>, FollowRepositoryCustom {
 
-
+    boolean existsByFollowingIdAndFollowerId(Long following, Long follower);
 }

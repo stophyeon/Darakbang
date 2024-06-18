@@ -5,16 +5,14 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.annotation.TimeCheck;
+import org.example.dto.member.MemberDto;
 import org.example.entity.Follow;
 import org.example.entity.Member;
 import org.example.repository.follow.FollowRepository;
 import org.example.repository.member.MemberRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,37 +27,36 @@ public class FollowService {
     //Follow 신청 자신이 follower, 상대가 following
     @Transactional
     @TimeCheck
-    public Follow FollowReq(String email,String MyEmail){
+    public String FollowReq(String email,String MyEmail){
 
         Member following_member = memberRepository.findByEmail(email).get();
         Member follower_member = memberRepository.findByEmail(MyEmail).get();
-        Follow follow = Follow.builder()
-                .followingId(following_member)
-                .followerId(follower_member)
-                .build();
-        //follow 관계 저장
-        em.persist(follow);
-        //member의 follower수 수정
-        memberRepository.updateFollower(following_member);
-        //member의 following수 수정
-        memberRepository.updateFollowing(follower_member);
+        if (!followRepository.existsByFollowingIdAndFollowerId(follower_member.getMember_id(),follower_member.getMember_id())){
+            Follow follow = Follow.builder()
+                    .followingId(following_member.getMember_id())
+                    .followerId(follower_member.getMember_id())
+                    .build();
+            //follow 관계 저장
+            em.persist(follow);
+            //member의 follower수 수정
+            memberRepository.updateFollower(following_member);
+            //member의 following수 수정
+            memberRepository.updateFollowing(follower_member);
 
-        return follow;
+            return "팔로우 요청 성공";
+        }
+        return "이미 팔로우한 상태";
     }
 
     @TimeCheck
-    public List<Member> getFollower(String email){
-        Optional<Member> member = memberRepository.findByEmail(email);
-        return followRepository.findFollower(member.get());
+    public List<MemberDto> getFollower(String nickName){
+        return followRepository.findFollower(nickName).stream().map(Member::toDto).toList();
+
     }
 
     @TimeCheck
-    public List<Member> getFollowing(String email){
-        Optional<Member> member = memberRepository.findByEmail(email);
-        return followRepository.findFollowing(member.get());
-
-
-
+    public List<MemberDto> getFollowing(String nickName){
+        return followRepository.findFollowing(nickName).stream().map(Member::toDto).toList();
     }
 
 

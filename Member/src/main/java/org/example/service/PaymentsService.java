@@ -1,10 +1,18 @@
 package org.example.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.send.Content;
+import org.example.dto.send.Link;
+import org.example.dto.send.TemplateObject;
+import org.example.dto.product.ProductFeignReq;
+import org.example.dto.product.ProductFeignRes;
+import org.example.dto.product.MessageRes;
 import org.example.dto.purchase.*;
 import org.example.entity.Member;
 import org.example.repository.member.MemberRepository;
+import org.example.service.kakao.KakaoService;
 import org.example.service.purchase.ProductFeign;
 import org.example.service.purchase.PurchaseFeign;
 import org.springframework.stereotype.Service;
@@ -23,10 +31,10 @@ public class PaymentsService {
     private final MemberRepository memberRepository;
     private final ProductFeign productFeign;
     private final PurchaseFeign purchaseFeign;
-
+    private final KakaoService kakaoService;
 
     @Transactional
-    public PaymentsRes purchase(PurchaseDto purchaseDto, String email){
+    public PaymentsRes purchase(PurchaseDto purchaseDto, String email) throws JsonProcessingException {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(email);
@@ -55,6 +63,18 @@ public class PaymentsService {
                     memberRepository.updatePoint(sellers.get(sellerEmail),sellerEmail);
                 }
                 purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+                if (consumer.get().getSocial_type() == 1) //카카오 라면
+                {
+                    for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                        log.info("카카오 회원");
+                        sendMessage(paymentsReq.getProduct_id());
+                    }
+                }
+                else if (consumer.get().getSocial_type() == 0 ) //일반 회원가입 유저라면
+                {
+                    log.info("일반 회원");
+                    productFeign.SendEmail(purchaseDto.getPayments_list(),email);//이메일 전송
+                }
                 return PaymentsRes.builder().charge(false).message("구매 성공").build();
             }
             else {
@@ -70,7 +90,7 @@ public class PaymentsService {
     }
 
     @Transactional
-    public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto){
+    public PaymentsRes purchaseSuccess(PurchaseDto purchaseDto) throws JsonProcessingException {
         HashMap<String,Integer> sellers = new HashMap<>();
         List<Long> sellProductId = new ArrayList<>();
         Optional<Member> consumer = memberRepository.findByEmail(purchaseDto.getEmail());
@@ -88,7 +108,19 @@ public class PaymentsService {
             for (String email : sellers.keySet()){
                 memberRepository.updatePoint(sellers.get(email),email);
             }
+
             purchaseFeign.saveOrder(purchaseDto.getPayments_list());
+
+            if (consumer.get().getSocial_type() == 1) //카카오 라면
+            {
+                for (PaymentsReq paymentsReq: purchaseDto.getPayments_list()){
+                    sendMessage(paymentsReq.getProduct_id());
+                }
+            }
+            else if (consumer.get().getSocial_type() == 0 ) //일반 회원가입 유저라면
+            {
+                productFeign.SendEmail(purchaseDto.getPayments_list(),purchaseDto.getEmail()); //이메일 전송
+            }
             return PaymentsRes.builder().charge(false).message("구매 성공").build();
         }
         else {
@@ -115,4 +147,20 @@ public class PaymentsService {
         return true;
     }
 
+    public void sendMessage(Long productId) throws JsonProcessingException {
+        log.info("메시지 로직 동작");
+        log.info(productId.toString());
+        MessageRes product= productFeign.getRealImage(productId);
+        log.info(product.getProduct_name());
+        Content content = Content.builder()
+                .title("test")
+                .image_url(product.getImage_real())
+                .link(Link.builder().web_url("http://localhost:3000").build())
+                .description("다락방에서 구매한 상품입니다.")
+                .build();
+        TemplateObject templateObject = TemplateObject.builder()
+                .content(content)
+                .build();
+        kakaoService.sendRealImage(templateObject);
+    }
 }

@@ -16,8 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseController {
     private final PaymentService paymentService;
-
-
     private final OrderService orderService ;
     //paymentservice는 portone의 결제 확인 정보를 포함한 내용을
     //purchase는 결제 확인 정보와 검증을 포함한 내용을 전달해야 합니다.
@@ -35,7 +33,7 @@ public class PurchaseController {
                                 paymentService.validateandSave(purchasecheckresponsewebclient,validation.getPayment_id(), validation.getTotal_point(),useremail,PortOnetoken)
                                 .flatMap(validateresult -> {
                                     return paymentService.sendPaymentSuccessRequestToMember(purchasecheckresponsewebclient.getOrderName(),purchasecheckresponsewebclient.getRequestedAt(),validation,useremail,PortOnetoken) ;
-                                }))) ;
+                                })));
 
     }
 

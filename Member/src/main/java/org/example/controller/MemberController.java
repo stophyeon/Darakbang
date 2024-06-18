@@ -3,6 +3,7 @@ package org.example.controller;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,11 +14,14 @@ import org.example.dto.*;
 
 import org.example.dto.exception.ExceptionResponse;
 import org.example.dto.login.LoginSuccessDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.purchase.PaymentsRes;
 import org.example.dto.purchase.PurchaseDto;
 import org.example.dto.signup.SignUpRes;
 import org.example.service.MemberService;
 import org.example.service.PaymentsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +35,7 @@ import java.util.List;
 @Tag(name = "회원", description = "회원 API")
 @RequestMapping("/member")
 public class MemberController {
+    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
     private final MemberService memberService;
     private final PaymentsService paymentsService;
 
@@ -57,19 +62,20 @@ public class MemberController {
 
     @GetMapping("/profile/{email}")
     @Operation(
-            operationId = "other's profile",
-            summary = "다른 사용자의 프로필"
+            operationId = "My profile",
+            summary = "나의 프로필"
     )
     public MemberDto myProfile(@PathVariable("email")String email){
+
         return memberService.myProfile(email);
     }
-    @PostMapping("/profile/{nick_name}/{email}")
+    @GetMapping("/profile/other/{nick_name}/{email}")
     @Operation(
             operationId = "other's profile",
             summary = "다른 사용자의 프로필"
     )
-    public MemberDto Profile(@PathVariable(value = "nick_name",required = false) @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email")String email){
-        return memberService.profile(nickName);
+    public ProfileDto Profile(@PathVariable(value = "nick_name") @Parameter(name = "닉네임 입력") String nickName, @PathVariable("email") String email){
+        return memberService.profile(nickName,email);
     }
 
     @GetMapping("/nick_name")
@@ -98,12 +104,13 @@ public class MemberController {
     )
 
     @PostMapping("/payments/{email}")
-    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto, @PathVariable("email") String email) {
+    public ResponseEntity<PaymentsRes> payments(@RequestBody @Parameter(name = "total_point, payments_list") PurchaseDto purchaseDto,
+                                                @PathVariable("email") String email) throws JsonProcessingException {
         return ResponseEntity.ok(paymentsService.purchase(purchaseDto,email));
     }
 
     @PostMapping("/payments")
-    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PurchaseDto purchaseDto){
+    public ResponseEntity<PaymentsRes> paymentsSuccess(@RequestBody PurchaseDto purchaseDto) throws JsonProcessingException {
         return ResponseEntity.ok(paymentsService.purchaseSuccess(purchaseDto));
     }
 
@@ -111,16 +118,22 @@ public class MemberController {
     public ResponseEntity<RefreshDto> refreshAccessToken(@RequestBody RefreshDto refreshToken){
         return ResponseEntity.ok(memberService.refreshToken(refreshToken.getRefresh_token()));
     }
-
     @PostMapping("/logout/{email}")
     public void logOut(@PathVariable("email") String email){
         memberService.deleteRefresh(email);
+
     }
 
     @PostMapping("/search/word")
     public ResponseEntity<List<String>> searchByWord(@RequestBody SearchDto searchDto){
         return ResponseEntity.ok(memberService.autoComplete(searchDto.getWord()));
     }
+
+    @GetMapping("/email")
+    public EmailDto getEmailByNickname(@RequestParam("nick_name") String nickName){
+        return EmailDto.builder().email(memberService.getEmail(nickName)).build();
+    }
+
 
 
 }

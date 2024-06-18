@@ -3,7 +3,7 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.MemberDto;
+import org.example.dto.member.MemberDto;
 import org.example.dto.oauth2.OAuthAttributes;
 import org.example.dto.oauth2.OAuthMember;
 import org.example.entity.Member;
