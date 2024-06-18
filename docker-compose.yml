@@ -1,6 +1,11 @@
-version: '3'
-services:
 
+services:
+  darakbang-front:
+    image: minwoooo3396/front_darakbang
+    ports:
+      - 3000:3000
+    networks:
+      - test-net
   member-db:
     # 사용할 이미지
     image: mysql:8.2.0
@@ -118,7 +123,7 @@ services:
         - test-net
       restart: on-failure
   purchase-service:
-    image: stophyeon/test:purchase
+    image: jihyukdocker/purchase:purchase
     ports:
       - "6080:6080"
     environment:
