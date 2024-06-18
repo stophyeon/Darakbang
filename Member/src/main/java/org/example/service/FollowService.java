@@ -27,36 +27,36 @@ public class FollowService {
     //Follow 신청 자신이 follower, 상대가 following
     @Transactional
     @TimeCheck
-    public Follow FollowReq(String email,String MyEmail){
+    public String FollowReq(String email,String MyEmail){
 
         Member following_member = memberRepository.findByEmail(email).get();
         Member follower_member = memberRepository.findByEmail(MyEmail).get();
-        Follow follow = Follow.builder()
-                .followingId(following_member)
-                .followerId(follower_member)
-                .build();
-        //follow 관계 저장
+        if (!followRepository.existsByFollowingIdAndFollowerId(follower_member.getMember_id(),follower_member.getMember_id())){
+            Follow follow = Follow.builder()
+                    .followingId(following_member.getMember_id())
+                    .followerId(follower_member.getMember_id())
+                    .build();
+            //follow 관계 저장
+            em.persist(follow);
+            //member의 follower수 수정
+            memberRepository.updateFollower(following_member);
+            //member의 following수 수정
+            memberRepository.updateFollowing(follower_member);
 
-        em.persist(follow);
-        //member의 follower수 수정
-        memberRepository.updateFollower(following_member);
-        //member의 following수 수정
-        memberRepository.updateFollowing(follower_member);
-
-        return follow;
+            return "팔로우 요청 성공";
+        }
+        return "이미 팔로우한 상태";
     }
 
     @TimeCheck
     public List<MemberDto> getFollower(String nickName){
-        Optional<Member> member = memberRepository.findByNickName(nickName);
-        return followRepository.findFollower(member.get()).stream().map(Member::toDto).toList();
+        return followRepository.findFollower(nickName).stream().map(Member::toDto).toList();
 
     }
 
     @TimeCheck
     public List<MemberDto> getFollowing(String nickName){
-        Optional<Member> member = memberRepository.findByNickName(nickName);
-        return followRepository.findFollowing(member.get()).stream().map(Member::toDto).toList();
+        return followRepository.findFollowing(nickName).stream().map(Member::toDto).toList();
     }
 
 

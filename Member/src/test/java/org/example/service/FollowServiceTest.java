@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-@ContextConfiguration(classes = TestConfig.class)
+@Import(TestConfig.class)
 class FollowServiceTest {
     @Autowired
     MemberRepository memberRepository;
@@ -31,8 +32,8 @@ class FollowServiceTest {
         Member following_member = memberRepository.findByEmail(email).get();
         Member follower_member = memberRepository.findByEmail(MyEmail).get();
         Follow follow = Follow.builder()
-                .followingId(following_member)
-                .followerId(follower_member)
+                .followingId(following_member.getMember_id())
+                .followerId(follower_member.getMember_id())
                 .build();
 
         followRepository.save(follow);
@@ -43,8 +44,8 @@ class FollowServiceTest {
     @Test
     void follower(){
         Optional<Member> member = memberRepository.findByEmail("j6778@naver.com");
-        List<Member> folloingList=followRepository.findFollowing(member.get());
-        folloingList.forEach(s->System.out.println(s.getEmail()));
+        List<Member> folloingList=followRepository.findFollowing(member.get().getNickName());
+        folloingList.forEach(s->System.out.println(s.getName()));
     }
 
 

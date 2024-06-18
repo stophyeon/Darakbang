@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface FollowRepositoryCustom {
-    List<Member> findFollower(Member member);
-    List<Member> findFollowing(Member member);
+    List<Member> findFollower(String nickName);
+    List<Member> findFollowing(String nickName);
 }
