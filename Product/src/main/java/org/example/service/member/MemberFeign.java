@@ -1,5 +1,6 @@
 package org.example.service.member;
 
+import org.example.dto.wish_list.EmailDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,7 @@ public interface MemberFeign {
     @GetMapping("/nick_name")
     public String getNickName(@RequestParam("email") String email);
     @GetMapping("/email")
-    public String getEmail(@RequestParam("nick_name") String nickName);
+    public EmailDto getEmail(@RequestParam("nick_name") String nickName);
     @GetMapping("/user_info")
     public String getProfile(@RequestParam("email") String email);
 }
