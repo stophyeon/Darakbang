@@ -31,10 +31,10 @@ class FollowRepositoryImplTest {
     Member member=Member.builder().memberDto(memberDto).build();
 
     MemberDto memberDto1= MemberDto.builder().name("김민우").nickName("kmw").build();
-    Member member1=Member.builder().memberDto(memberDto).build();
+    Member member1=Member.builder().memberDto(memberDto1).build();
 
     MemberDto memberDto2= MemberDto.builder().name("정재학").nickName("hak").build();
-    Member member2=Member.builder().memberDto(memberDto).build();
+    Member member2=Member.builder().memberDto(memberDto2).build();
 
     Follow follow = Follow.builder()
             .followingId(1L)
@@ -50,21 +50,37 @@ class FollowRepositoryImplTest {
             .build();
     @BeforeEach
     void setup(){
+        member.setMember_id(1L);
+        member1.setMember_id(2L);
+        member2.setMember_id(3L);
+        memberRepository.save(member);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        followRepository.save(follow);
+        followRepository.save(follow1);
+        followRepository.save(follow2);
 
         System.out.println("테스트 시작");
     }
     @Test
     void findFollower() {
+        List<Member> members = memberRepository.findAll();
+        List<Follow> follows = followRepository.findAll();
+        members.forEach(m->System.out.println(m.getNickName()));
+        follows.forEach(f->System.out.println(f.getFollowId()));
 
-        System.out.println(memberRepository.findByNickName("").get().getName());
-        List<Member> list=followRepository.findFollower("hak");
+        List<Member> list=followRepository.findFollower("kmw");
         System.out.println(list.size());
         list.forEach(m->System.out.println(m.getName()));
     }
 
     @Test
     void findFollowing() {
-        List<Member> list=followRepository.findFollowing("jjh");
+        List<Member> members = memberRepository.findAll();
+        List<Follow> follows = followRepository.findAll();
+        members.forEach(m->System.out.println(m.getMember_id()));
+
+        List<Member> list=followRepository.findFollowing("hak");
         System.out.println(list.size());
         list.forEach(m->System.out.println(m.getName()));
     }
