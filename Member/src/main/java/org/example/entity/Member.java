@@ -12,7 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @RequiredArgsConstructor
 @Getter
-
+@Setter
 public class Member {
     @Id
     @Column(name = "member_id")

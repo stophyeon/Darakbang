@@ -3,6 +3,7 @@ package org.example.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.wish_list.EmailDto;
 import org.example.dto.wish_list.WishListDto;
 import org.example.dto.SuccessRes;
 import org.example.entity.WishList;
@@ -40,8 +41,9 @@ public class WishListService {
         }
     }
     public WishListDto showLikeProduct(String nickName){
-        String email = memberFeign.getEmail(nickName);
-        Optional<List<WishList>> likeProducts = wishListRepository.findAllByEmail(email);
+        EmailDto email = memberFeign.getEmail(nickName);
+        log.info(email.getEmail());
+        Optional<List<WishList>> likeProducts = wishListRepository.findAllByEmail(email.getEmail());
         likeProducts.orElseThrow();
         List<Product> products = likeProducts.get().stream().map(WishList::getProduct).toList();
         return WishListDto.builder()

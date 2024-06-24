@@ -8,6 +8,7 @@ import org.example.dto.product.ProductDetailRes;
 import org.example.dto.SuccessRes;
 import org.example.dto.product.ProductDto;
 import org.example.dto.product.ProductForMessage;
+import org.example.dto.wish_list.EmailDto;
 import org.example.entity.Product;
 import org.example.entity.WishList;
 import org.example.repository.ProductRepository;
@@ -62,8 +63,8 @@ public class ProductService {
         Page<Product> productPage = productRepository.findAll(pageable);
         Page<ProductDto> products=productPage.map(ProductDto::ToDto);
         if (nickName!=null) {
-            String email = memberFeign.getEmail(nickName);
-            List<ProductDto> wishs = wishListRepository.findAllByEmail(email).get().stream().map(WishList::getProduct).toList()
+            EmailDto email = memberFeign.getEmail(nickName);
+            List<ProductDto> wishs = wishListRepository.findAllByEmail(email.getEmail()).get().stream().map(WishList::getProduct).toList()
                     .stream().map(ProductDto::ToDto).toList();
             products.forEach(p -> p.setLike(wishs.contains(p)));
         }
